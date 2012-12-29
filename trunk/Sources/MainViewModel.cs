@@ -67,7 +67,7 @@ namespace ScreenCapture
         public string Status { get; private set; }
 
         private Crop crop = new Crop(Rectangle.Empty);
-        private CursorCapture cursorCapture;
+        private CaptureCursor cursorCapture;
 
         public event EventHandler TargetWindowRequested;
 
@@ -119,7 +119,7 @@ namespace ScreenCapture
             }
 
             CurrentRegion = Screen.PrimaryScreen.Bounds;
-            cursorCapture = new CursorCapture();
+            cursorCapture = new CaptureCursor();
 
             int height = CurrentRegion.Height;
             int width = CurrentRegion.Width;
@@ -188,11 +188,11 @@ namespace ScreenCapture
         {
             if (CaptureMouse)
             {
-                using (Graphics g = Graphics.FromImage(image))
-                {
-                    Bitmap cursor = cursorCapture.GetBitmap();
-                    g.DrawImage(cursor, cursorCapture.Position);
-                }
+                Bitmap cursor = cursorCapture.GetBitmap();
+
+                if (cursor != null)
+                    using (Graphics g = Graphics.FromImage(image))
+                        g.DrawImage(cursor, cursorCapture.Position);
             }
 
 
