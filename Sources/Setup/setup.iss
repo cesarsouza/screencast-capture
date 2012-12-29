@@ -45,9 +45,9 @@ Source: "..\..\License.txt";       DestDir: "{app}";           Components: bin
 Source: "..\..\Release notes.txt"; DestDir: "{app}";           Components: bin
 
 [Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+Name: "{group}\{#MyAppName}"; Filename: "{app}\Binaries\{#MyAppExeName}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\Binaries\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\Binaries\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
