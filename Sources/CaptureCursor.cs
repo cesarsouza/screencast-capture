@@ -25,7 +25,7 @@ namespace ScreenCapture
     using System.Drawing;
     using System.Runtime.InteropServices;
 
-    public class CursorCapture : IDisposable
+    public class CaptureCursor : IDisposable
     {
         private Point position;
 
@@ -34,7 +34,7 @@ namespace ScreenCapture
         private IntPtr maskHdc;
         private int cursorInfoSize;
 
-        public CursorCapture()
+        public CaptureCursor()
         {
             desktopGraphics = Graphics.FromHwnd(NativeMethods.GetDesktopWindow());
             desktopHdc = desktopGraphics.GetHdc();
@@ -140,7 +140,7 @@ namespace ScreenCapture
         ///   before the <see cref="Signal"/> is reclaimed by garbage collection.
         /// </summary>
         /// 
-        ~CursorCapture()
+        ~CaptureCursor()
         {
             Dispose(false);
         }

@@ -127,7 +127,7 @@
     <Compile Include="Controls\BindableToolStripStatusLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CursorCapture.cs" />
+    <Compile Include="CaptureCursor.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -212,6 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="capture.ico" />
+    <Content Include="Setup\setup.iss" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
