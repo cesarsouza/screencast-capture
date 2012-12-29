@@ -1,0 +1,31 @@
+
+ Screencast Capture Lite, a managed program for recording desktop screens
+
+ Copyright (c) 2012-2013, César Roberto de Souza <cesarsouza at gmail.com>
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+ This software incorporates libraries from other authors. Their respective
+ licenses are listed below:
+
+  Copyright © AForge.NET, 2006-2012
+  contacts@aforgenet.com
+
+  The framework is provided under LGPL v.3 license, which exact definition
+  may be found in lgpl-3.0.txt file provided with the framework or on the
+  next web page: http://www.gnu.org/licenses/lgpl.html
+
+  This software uses libraries from the FFmpeg project under the LGPL v2.1.
+  FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project.
