@@ -1,5 +1,5 @@
-﻿// Screencast Capture Lite 
-// http://www.crsouza.com
+﻿// Screencast Capture, free screen recorder
+// http://screencast-capture.googlecode.com
 //
 // Copyright © César Souza, 2012-2013
 // cesarsouza at gmail.com
@@ -23,12 +23,24 @@ namespace ScreenCapture.Controls
 {
     using System.Windows.Forms;
 
+    /// <summary>
+    ///   Tool Strip Menu Item with support for data binding.
+    /// </summary>
+    /// 
     public class BindableToolStripMenuItem : ToolStripMenuItem, IBindableComponent
     {
         private ControlBindingsCollection dataBindings;
 
         private BindingContext bindingContext;
 
+        /// <summary>
+        ///   Gets the collection of data-binding objects for this
+        ///   <see cref="T:System.Windows.Forms.IBindableComponent"/>.
+        /// </summary>
+        /// 
+        /// <returns>The <see cref="T:System.Windows.Forms.ControlBindingsCollection"/> 
+        /// for this <see cref="T:System.Windows.Forms.IBindableComponent"/>. </returns>
+        ///   
         public ControlBindingsCollection DataBindings
         {
             get
@@ -39,6 +51,14 @@ namespace ScreenCapture.Controls
             }
         }
 
+        /// <summary>
+        ///   Gets or sets the collection of currency managers for the
+        ///   <see cref="T:System.Windows.Forms.IBindableComponent"/>.
+        /// </summary>
+        /// 
+        /// <returns>The collection of <see cref="T:System.Windows.Forms.BindingManagerBase"/> 
+        /// objects for this <see cref="T:System.Windows.Forms.IBindableComponent"/>.</returns>
+        /// 
         public BindingContext BindingContext
         {
             get

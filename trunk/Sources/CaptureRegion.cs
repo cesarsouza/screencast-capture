@@ -1,5 +1,5 @@
-﻿// Screencast Capture Lite 
-// http://www.crsouza.com
+﻿// Screencast Capture, free screen recorder
+// http://screencast-capture.googlecode.com
 //
 // Copyright © César Souza, 2012-2013
 // cesarsouza at gmail.com
@@ -25,14 +25,41 @@ namespace ScreenCapture
     using System.Drawing;
     using System.Windows.Forms;
 
+    /// <summary>
+    ///   Capture Region Window.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   This is the window which shows up when the user selects the
+    ///   "Capture From a Fixed Region" option. It is an almost fully
+    ///   transparent window, with exceptions for the borders.</para>
+    ///   
+    /// <para>
+    ///   The window can be fixed at the user screen at the start of
+    ///   the recording.</para>
+    /// </remarks>
+    /// 
     public partial class CaptureRegion : Form
     {
 
         MainViewModel viewModel;
 
+        /// <summary>
+        ///   Gets or sets whether the window is currently
+        ///   pinned (fixed) on the user's desktop and can
+        ///   not be moved.
+        /// </summary>
+        /// 
         public bool Pinned { get; set; }
 
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="CaptureRegion"/> class.
+        /// </summary>
+        /// 
+        /// <param name="viewModel">The main view model in the application.</param>
+        /// 
         public CaptureRegion(MainViewModel viewModel)
             : this()
         {
@@ -42,14 +69,45 @@ namespace ScreenCapture
                 value ? Color.Firebrick : Color.Gold);
         }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="CaptureRegion"/>
+        ///   class. Should not be called without passing a view model.
+        /// </summary>
+        /// 
         public CaptureRegion()
         {
             InitializeComponent();
             Pinned = false;
         }
 
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            update();
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            update();
+        }
+
+        protected override void OnLocationChanged(EventArgs e)
+        {
+            base.OnLocationChanged(e);
+            update();
+        }
+
+        /// <summary>
+        ///   The overriding of this method allows for complete control over
+        ///   the window message parsing. By handling and supressing messages
+        ///   related to resizing and moving, the window will stay fixed on
+        ///   screen.
+        /// </summary>
+        /// 
         protected override void WndProc(ref System.Windows.Forms.Message m)
         {
+            // The process implemented here is based on the original 2006 post by Vaibhav Gaikwad
             // http://vaibhavgaikwad.wordpress.com/2006/06/05/creating-a-immovable-windows-form-in-c/
 
             if (m.Msg == NativeMethods.WM_INITMENUPOPUP)
@@ -76,24 +134,11 @@ namespace ScreenCapture
             base.WndProc(ref m);
         }
 
-        protected override void OnVisibleChanged(EventArgs e)
-        {
-            base.OnVisibleChanged(e);
-            update();
-        }
-
-        protected override void OnSizeChanged(EventArgs e)
-        {
-            base.OnSizeChanged(e);
-            update();
-        }
-
-        protected override void OnLocationChanged(EventArgs e)
-        {
-            base.OnLocationChanged(e);
-            update();
-        }
-
+        /// <summary>
+        ///  This method updates the current region registered in the
+        ///  main View-Model based on the window's size and location.
+        /// </summary>
+        /// 
         private void update()
         {
             if (viewModel == null)

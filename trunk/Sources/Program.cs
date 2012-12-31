@@ -1,5 +1,5 @@
-﻿// Screencast Capture Lite 
-// http://www.crsouza.com
+﻿// Screencast Capture, free screen recorder
+// http://screencast-capture.googlecode.com
 //
 // Copyright © César Souza, 2012-2013
 // cesarsouza at gmail.com
@@ -30,7 +30,6 @@ namespace ScreenCapture
         [STAThread]
         static void Main()
         {
-            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());

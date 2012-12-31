@@ -1,5 +1,5 @@
-﻿// Screencast Capture Lite 
-// http://www.crsouza.com
+﻿// Screencast Capture, free screen recorder
+// http://screencast-capture.googlecode.com
 //
 // Copyright © César Souza, 2012-2013
 // cesarsouza at gmail.com
@@ -25,6 +25,10 @@ namespace ScreenCapture
     using System.Drawing;
     using System.Runtime.InteropServices;
 
+    /// <summary>
+    ///   Class to capture the cursor's bitmap.
+    /// </summary>
+    /// 
     public class CaptureCursor : IDisposable
     {
         private Point position;
@@ -34,8 +38,15 @@ namespace ScreenCapture
         private IntPtr maskHdc;
         private int cursorInfoSize;
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="CaptureCursor"/> class.
+        /// </summary>
+        /// 
         public CaptureCursor()
         {
+            // By preallocating those we will prevent extra 
+            // object allocations in middle of processing.
+
             desktopGraphics = Graphics.FromHwnd(NativeMethods.GetDesktopWindow());
             desktopHdc = desktopGraphics.GetHdc();
             maskHdc = NativeMethods.CreateCompatibleDC(desktopHdc);
@@ -43,8 +54,20 @@ namespace ScreenCapture
             cursorInfoSize = Marshal.SizeOf(cursorInfo);
         }
 
+        /// <summary>
+        ///   Gets the current cursor position, adjusted 
+        ///   considering the current cursor's type.
+        /// </summary>
+        /// 
         public Point Position { get { return position; } }
 
+        /// <summary>
+        ///   Gets the current cursor bitmap, supporting
+        ///   transparency and handling monochrome cursors.
+        /// </summary>
+        /// 
+        /// <returns>A <see cref="Bitmap"/> containing the cursor's bitmap image.</returns>
+        /// 
         public Bitmap GetBitmap()
         {
             // Based on answer from Tarsier in SO question "C# - Capturing the Mouse cursor image"
@@ -56,7 +79,7 @@ namespace ScreenCapture
             if (!NativeMethods.GetCursorInfo(out cursorInfo))
                 return null;
 
-            if (cursorInfo.flags != NativeMethods.CURSOR_SHOWING)
+            if (cursorInfo.flags != NativeMethods.CursorState.CURSOR_SHOWING)
                 return null;
 
             IntPtr hicon = NativeMethods.CopyIcon(cursorInfo.hCursor);
@@ -68,8 +91,8 @@ namespace ScreenCapture
             if (!NativeMethods.GetIconInfo(hicon, out iconInfo))
                 return null;
 
-            position.X = cursorInfo.ptScreenPos.x - ((int)iconInfo.xHotspot);
-            position.Y = cursorInfo.ptScreenPos.y - ((int)iconInfo.yHotspot);
+            position.X = cursorInfo.ptScreenPos.X - ((int)iconInfo.xHotspot);
+            position.Y = cursorInfo.ptScreenPos.Y - ((int)iconInfo.yHotspot);
 
             // Note: an alternative way would be to just return 
             //
@@ -83,11 +106,16 @@ namespace ScreenCapture
 
             using (Bitmap maskBitmap = Bitmap.FromHbitmap(iconInfo.hbmMask))
             {
-                // Is this a monochrome cursor?
+                // Here we have to determine if the current cursor is monochrome in order
+                // to do a proper processing. If we just extracted the cursor icon from
+                // the icon handle, monochrome cursors would appear garbled.
+
                 if (maskBitmap.Height == maskBitmap.Width * 2)
                 {
-                    resultBitmap = new Bitmap(maskBitmap.Width, maskBitmap.Width);
+                    // Yes, this is a monochrome cursor. We will have to manually copy
+                    // the bitmap and the bitmak layers of the cursor into the bitmap.
 
+                    resultBitmap = new Bitmap(maskBitmap.Width, maskBitmap.Width);
                     IntPtr maskPtr = NativeMethods.SelectObject(maskHdc, maskBitmap.GetHbitmap());
 
                     using (Graphics resultGraphics = Graphics.FromImage(resultBitmap))
@@ -110,6 +138,7 @@ namespace ScreenCapture
                 }
                 else
                 {
+                    // This isn't a monochrome cursor.
                     using (Icon icon = Icon.FromHandle(hicon))
                         resultBitmap = icon.ToBitmap();
                 }
@@ -137,7 +166,7 @@ namespace ScreenCapture
 
         /// <summary>
         ///   Releases unmanaged resources and performs other cleanup operations 
-        ///   before the <see cref="Signal"/> is reclaimed by garbage collection.
+        ///   before the <see cref="CaptureCursor"/> is reclaimed by garbage collection.
         /// </summary>
         /// 
         ~CaptureCursor()

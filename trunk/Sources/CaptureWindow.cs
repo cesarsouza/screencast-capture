@@ -1,5 +1,5 @@
-﻿// Screencast Capture Lite 
-// http://www.crsouza.com
+﻿// Screencast Capture, free screen recorder
+// http://screencast-capture.googlecode.com
 //
 // Copyright © César Souza, 2012-2013
 // cesarsouza at gmail.com
@@ -25,21 +25,49 @@ namespace ScreenCapture
     using System.Drawing;
     using System.Windows.Forms;
 
+    /// <summary>
+    ///   Capture Window Window.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   This is the (almost) invisible window which follows the mouse
+    ///   when the user selects the "Capture from a Window" option. It
+    ///   is an almost fully transparent window, excepts for the text
+    ///   message which accompanies the mouse cursor and a two pixel
+    ///   wide square which is directly under the mouse cursor.</para>
+    ///   
+    /// <para>
+    ///   This window contains a timer which continuously relocates
+    ///   the window to the cursor's position. When the user clicks,
+    ///   the user actually clicks on a two pixel wide square panel
+    ///   and the click is intercepted.</para>
+    /// </remarks>
+    /// 
     public partial class CaptureWindow : Form
     {
 
         MainViewModel viewModel;
 
+        /// <summary>
+        ///   Gets or sets whether the window 
+        ///   should be following the mouse.
+        /// </summary>
+        /// 
         public bool Following
         {
-            get { return timer1.Enabled; }
+            get { return timer.Enabled; }
             set
             {
-                timer1.Enabled = value;
+                timer.Enabled = value;
                 this.Focus();
             }
         }
 
+        /// <summary>
+        ///   Gets the current window position.
+        /// </summary>
+        /// 
         public Point Position
         {
             get
@@ -50,18 +78,51 @@ namespace ScreenCapture
             }
         }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="CaptureWindow"/> class.
+        /// </summary>
+        /// 
+        /// <param name="viewModel">The main view model.</param>
+        /// 
         public CaptureWindow(MainViewModel viewModel)
             : this()
         {
             this.viewModel = viewModel;
-            this.timer1.Start();
+            this.timer.Start();
         }
 
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="CaptureWindow"/>
+        ///   class. Should not be called without passing a view model.
+        /// </summary>
+        /// 
         public CaptureWindow()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        ///   Triggers when the user clicks the mouse when the window is being shown.
+        /// </summary>
+        /// 
+        private void squarePanel_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (this.timer != null)
+                    this.timer.Stop();
+
+                this.Hide();
+
+                viewModel.GetWindowUnderCursor();
+            }
+        }
+
+        /// <summary>
+        ///   Relocated the window when a timer ticks.
+        /// </summary>
+        /// 
         private void OnTimerTick(object sender, EventArgs e)
         {
             this.Location = Cursor.Position;
@@ -95,21 +156,6 @@ namespace ScreenCapture
 
             base.OnPreviewKeyDown(e);
         }
-
-
-        private void panel1_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                if (this.timer1 != null)
-                    this.timer1.Stop();
-
-                this.Hide();
-
-                viewModel.GetWindowUnderCursor();
-            }
-        }
-
 
     }
 }

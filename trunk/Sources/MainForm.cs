@@ -1,5 +1,5 @@
-﻿// Screencast Capture Lite 
-// http://www.crsouza.com
+﻿// Screencast Capture, free screen recorder
+// http://screencast-capture.googlecode.com
 //
 // Copyright © César Souza, 2012-2013
 // cesarsouza at gmail.com
@@ -25,11 +25,17 @@ namespace ScreenCapture
     using System.Windows.Forms;
     using Microsoft.WindowsAPICodePack.Shell;
 
+    /// <summary>
+    ///   Main window for the Screencast Capture application.
+    /// </summary>
+    /// 
     public partial class MainForm : Form
     {
 
         MainViewModel viewModel;
 
+        // Those are the windows shown when the user selects the
+        // "Capture Region" or "Capture Window" application modes.
         CaptureRegion regionWindow;
         CaptureWindow windowWindow;
 
@@ -50,6 +56,10 @@ namespace ScreenCapture
             explorerBrowser.ContentOptions.ViewMode = Microsoft.WindowsAPICodePack.Controls.ExplorerBrowserViewMode.Details;
             explorerBrowser.NavigationOptions.PaneVisibility.Commands = Microsoft.WindowsAPICodePack.Controls.PaneVisibilityState.Hide;
 
+            //
+            // This section configures all the bindings between 
+            // form controls and properties from the view model.
+            //
             this.Bind("BrowserDirectory", viewModel, "CurrentDirectory");
             btnStartRecording.Bind("Enabled", viewModel, "IsPlaying");
             btnStartRecording.Bind("Visible", viewModel, "IsRecording", (bool value) => !value);
@@ -82,6 +92,7 @@ namespace ScreenCapture
         }
 
 
+        // Video player controls
         private void btnStartPlaying_Click(object sender, EventArgs e)
         {
             viewModel.StartPlaying();
@@ -93,7 +104,7 @@ namespace ScreenCapture
         }
 
 
-
+        // Video recording controls
         private void btnStartRecording_Click(object sender, EventArgs e)
         {
             viewModel.StartRecording();
@@ -105,7 +116,7 @@ namespace ScreenCapture
         }
 
 
-
+        // Current visualization controls
         private void btnStorageFolder_Click(object sender, EventArgs e)
         {
             viewModel.IsPreviewVisible = false;
@@ -117,7 +128,7 @@ namespace ScreenCapture
         }
 
 
-
+        // Capture mode controls
         private void btnCapturePrimaryScreen_Click(object sender, EventArgs e)
         {
             viewModel.CaptureMode = CaptureRegionOption.Primary;
@@ -142,7 +153,21 @@ namespace ScreenCapture
             btnCaptureMode.Image = item.Image;
         }
 
+        
 
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            viewModel.Close();
+        }
+
+
+        /// <summary>
+        ///   Gets or sets the current directory in the embedded
+        ///   Windows Explorer window. This property exists only
+        ///   to provide an automatic binding between the window
+        ///   and the ViewModel.
+        /// </summary>
+        /// 
         public string BrowserDirectory
         {
             get
@@ -152,13 +177,6 @@ namespace ScreenCapture
             }
             set { explorerBrowser.Navigate(ShellFileSystemFolder.FromFolderPath(value)); }
         }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            viewModel.Close();
-        }
-
-
 
     }
 }
