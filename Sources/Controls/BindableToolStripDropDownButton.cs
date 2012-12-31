@@ -69,5 +69,10 @@ namespace ScreenCapture.Controls
             }
             set { bindingContext = value; }
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
     }
 }

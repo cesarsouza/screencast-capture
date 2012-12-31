@@ -87,8 +87,8 @@ namespace ScreenCapture
             regionWindow.Bind("Pinned", viewModel, "IsRecording");
 
             windowWindow.Show();
-            windowWindow.Bind("Following", viewModel, "IsChosingTarget");
-            windowWindow.Bind("Visible", viewModel, "IsChosingTarget");
+            windowWindow.Bind("Following", viewModel, "IsChoosingTarget");
+            windowWindow.Bind("Visible", viewModel, "IsChoosingTarget");
         }
 
 

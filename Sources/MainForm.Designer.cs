@@ -15,6 +15,8 @@
         {
             if (disposing && (components != null))
             {
+                if (viewModel != null)
+                    viewModel.Dispose();
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -137,7 +139,7 @@
             this.btnPausePlaying.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPausePlaying.Name = "btnPausePlaying";
             this.btnPausePlaying.Size = new System.Drawing.Size(36, 36);
-            this.btnPausePlaying.Text = "toolStripButton1";
+            this.btnPausePlaying.Text = "Pause playing";
             this.btnPausePlaying.ToolTipText = "Start playing the capture preview";
             this.btnPausePlaying.Visible = false;
             this.btnPausePlaying.Click += new System.EventHandler(this.btnPausePlaying_Click);
@@ -150,7 +152,7 @@
             this.btnStartPlaying.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnStartPlaying.Name = "btnStartPlaying";
             this.btnStartPlaying.Size = new System.Drawing.Size(36, 36);
-            this.btnStartPlaying.Text = "toolStripButton1";
+            this.btnStartPlaying.Text = "Start playing";
             this.btnStartPlaying.ToolTipText = "Start playing the capture preview";
             this.btnStartPlaying.Click += new System.EventHandler(this.btnStartPlaying_Click);
             // 
