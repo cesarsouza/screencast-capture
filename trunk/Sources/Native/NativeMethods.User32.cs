@@ -19,18 +19,19 @@
 //    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 // 
 
-namespace ScreenCapture
+namespace ScreenCapture.Interop
 {
     using System;
     using System.ComponentModel;
     using System.Drawing;
     using System.Runtime.InteropServices;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     ///   Native Win32 methods.
     /// </summary>
     /// 
-    public static partial class NativeMethods
+    internal static partial class NativeMethods
     {
 
         /// <summary>
@@ -38,21 +39,24 @@ namespace ScreenCapture
         /// </summary>
         /// 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool DestroyIcon(IntPtr hIcon);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool DestroyIcon(IntPtr hIcon);
 
         /// <summary>
         ///   Retrieves the position of the mouse cursor, in screen coordinates.
         /// </summary>
         /// 
         [DllImport("user32.dll")]
-        public static extern bool GetCursorPos(out NativeMethods.POINT lpPoint);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetCursorPos(out Point lpPoint);
 
         /// <summary>
         ///   Retrieves a handle to the window that contains the specified point.
         /// </summary>
         /// 
-        [DllImport("user32.dll")]
-        public static extern IntPtr WindowFromPoint(POINT Point);
+        [DllImport("user32.dll"), SuppressMessage("Microsoft.Portability",
+            "CA1901:PInvokeDeclarationsShouldBePortable", MessageId = "0")]
+        internal static extern IntPtr WindowFromPoint(Point Point);
 
         /// <summary>
         ///   Retrieves the dimensions of the bounding rectangle of the specified
@@ -61,7 +65,8 @@ namespace ScreenCapture
         /// </summary>
         /// 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
 
         /// <summary>
         ///   Retrieves a handle to the desktop window. The desktop window 
@@ -70,7 +75,7 @@ namespace ScreenCapture
         /// </summary>
         /// 
         [DllImport("user32.dll")]
-        public static extern IntPtr GetDesktopWindow();
+        internal static extern IntPtr GetDesktopWindow();
 
         /// <summary>
         ///   Retrieves a handle to a device context (DC) for the client area 
@@ -78,14 +83,14 @@ namespace ScreenCapture
         /// </summary>
         /// 
         [DllImport("user32.dll")]
-        public static extern IntPtr GetDC(IntPtr ptr);
+        internal static extern IntPtr GetDC(IntPtr ptr);
 
         /// <summary>
         ///   Retrieves the specified system metric or system configuration setting.
         /// </summary>
         /// 
         [DllImport("user32.dll")]
-        public static extern int GetSystemMetrics(int abc);
+        internal static extern int GetSystemMetrics(int abc);
 
         /// <summary>
         ///   The GetWindowDC function retrieves the device context (DC) for the entire
@@ -93,7 +98,7 @@ namespace ScreenCapture
         /// </summary>
         /// 
         [DllImport("user32.dll")]
-        public static extern IntPtr GetWindowDC(Int32 ptr);
+        internal static extern IntPtr GetWindowDC(Int32 ptr);
 
         /// <summary>
         ///   Releases a device context (DC), freeing it for use by other applications. The
@@ -102,42 +107,38 @@ namespace ScreenCapture
         /// </summary>
         /// 
         [DllImport("user32.dll")]
-        public static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDc);
+        internal static extern Int32 ReleaseDC(IntPtr hWnd, IntPtr hDc);
 
         /// <summary>
         ///   Retrieves information about the global cursor.
         /// </summary>
         /// 
         [DllImport("user32.dll")]
-        public static extern bool GetCursorInfo(out CURSORINFO pci);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetCursorInfo(out CURSORINFO pci);
 
         /// <summary>
         ///   Copies the specified icon from another module to the current module.
         /// </summary>
         /// 
         [DllImport("user32.dll")]
-        public static extern IntPtr CopyIcon(IntPtr hIcon);
+        internal static extern IntPtr CopyIcon(IntPtr hIcon);
 
         /// <summary>
         ///   Retrieves information about the specified icon or cursor.
         /// </summary>
         /// 
         [DllImport("user32.dll")]
-        public static extern bool GetIconInfo(IntPtr hIcon, out ICONINFO piconinfo);
-
-        /// <summary>
-        ///   Creates a cursor based on data contained in a file.
-        /// </summary>
-        /// 
-        [DllImport("user32.dll")]
-        public static extern IntPtr LoadCursorFromFile(string lpFileName);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetIconInfo(IntPtr hIcon, out ICONINFO piconinfo);
 
         /// <summary>
         ///   Enables, disables, or grays the specified menu item.
         /// </summary>
         /// 
         [DllImport("user32.dll")]
-        public static extern Int32 EnableMenuItem(System.IntPtr hMenu, Int32 uIDEnableItem, Int32 uEnable);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool EnableMenuItem(System.IntPtr hMenu, Int32 uIDEnableItem, Int32 uEnable);
 
         /// <summary>
         ///   Retrieves the dimensions of the bounding rectangle of the specified
@@ -147,7 +148,7 @@ namespace ScreenCapture
         /// 
         public static Rectangle GetWindowRect(IntPtr hwnd)
         {
-            NativeMethods.RECT r;
+            RECT r;
             if (!NativeMethods.GetWindowRect(hwnd, out r))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 

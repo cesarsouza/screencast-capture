@@ -69,7 +69,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "CaptureWindow";
             this.Opacity = 0.5D;
-            this.Text = "CaptureWindow";
+            this.Text = "Capture Window";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Black;
             this.ResumeLayout(false);

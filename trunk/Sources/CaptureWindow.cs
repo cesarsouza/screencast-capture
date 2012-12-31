@@ -44,6 +44,7 @@ namespace ScreenCapture
     ///   and the click is intercepted.</para>
     /// </remarks>
     /// 
+    [System.Security.SecurityCritical]
     public partial class CaptureWindow : Form
     {
 

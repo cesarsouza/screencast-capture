@@ -52,6 +52,8 @@ namespace ScreenCapture
         /// 
         public static void Bind<TSource, TDestination>(this IBindableComponent component, Binding binding, Func<TSource, TDestination> format)
         {
+            if (component == null) throw new ArgumentNullException("component");
+            if (binding == null) throw new ArgumentNullException("binding");
             binding.Format += (sender, e) => e.Value = format((TSource)e.Value);
             component.DataBindings.Add(binding);
         }
@@ -70,6 +72,8 @@ namespace ScreenCapture
         /// 
         public static void Bind<TSource, TDestination>(this IBindableComponent component, Binding binding, Func<TSource, TDestination> format, Func<TDestination, TSource> parse)
         {
+            if (component == null) throw new ArgumentNullException("component");
+            if (binding == null) throw new ArgumentNullException("component");
             binding.Parse += (sender, e) => e.Value = parse((TDestination)e.Value);
             binding.Format += (sender, e) => e.Value = format((TSource)e.Value);
             component.DataBindings.Add(binding);
@@ -92,6 +96,7 @@ namespace ScreenCapture
         public static void Bind<TSource, TDestination>(this IBindableComponent component,
             string propertyName, object dataSource, string dataMember, Func<TSource, TDestination> format)
         {
+            if (component == null) throw new ArgumentNullException("component");
             Bind(component, new Binding(propertyName, dataSource, dataMember), format);
         }
 
@@ -112,6 +117,7 @@ namespace ScreenCapture
         public static void Bind<TSource, TDestination>(this IBindableComponent component,
             string propertyName, object dataSource, string dataMember, Func<TSource, TDestination> format, Func<TDestination, TSource> parse)
         {
+            if (component == null) throw new ArgumentNullException("component");
             Bind(component, new Binding(propertyName, dataSource, dataMember), format, parse);
         }
 
@@ -124,6 +130,7 @@ namespace ScreenCapture
         /// 
         public static void Bind(this IBindableComponent component, Binding binding)
         {
+            if (component == null) throw new ArgumentNullException("component");
             component.DataBindings.Add(binding);
         }
 
@@ -142,6 +149,7 @@ namespace ScreenCapture
         public static void Bind(this IBindableComponent component,
             string propertyName, object dataSource, string dataMember)
         {
+            if (component == null) throw new ArgumentNullException("component");
             Bind(component, new Binding(propertyName, dataSource, dataMember));
         }
     }

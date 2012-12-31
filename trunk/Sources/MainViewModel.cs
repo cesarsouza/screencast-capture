@@ -30,6 +30,7 @@ namespace ScreenCapture
     using AForge.Imaging.Filters;
     using AForge.Video;
     using AForge.Video.FFMPEG;
+    using ScreenCapture.Interop;
 
     /// <summary>
     ///   Region capturing modes.
@@ -41,14 +42,14 @@ namespace ScreenCapture
         ///   Captures from a fixed region on the screen.
         /// </summary>
         /// 
-        Fixed, 
-        
+        Fixed,
+
         /// <summary>
         ///   Captures only from the primary screen.
         /// </summary>
         /// 
         Primary,
-        
+
         /// <summary>
         ///   Captures from the current window.
         /// </summary>
@@ -59,16 +60,16 @@ namespace ScreenCapture
     ///   Main ViewModel to control the application.
     /// </summary>
     /// 
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel : INotifyPropertyChanged, IDisposable
     {
-        
+
         public ScreenCaptureStream ScreenStream { get; private set; }
         public VideoFileWriter VideoWriter { get; private set; }
         public VideoSourcePlayer Player { get; private set; }
 
 
         public string CurrentDirectory { get; set; }
-        public string CurrentFilename { get; set; }
+        public string CurrentFileName { get; set; }
         public Rectangle CurrentRegion { get; set; }
         public IntPtr CurrentWindowHandle { get; set; }
 
@@ -77,7 +78,7 @@ namespace ScreenCapture
         public DateTime RecordingStartTime { get; private set; }
         public TimeSpan RecordingDuration { get; private set; }
 
-        public bool IsChosingTarget { get; private set; }
+        public bool IsChoosingTarget { get; private set; }
         public bool IsRecording { get; private set; }
         public bool IsPlaying { get; private set; }
 
@@ -125,11 +126,11 @@ namespace ScreenCapture
         {
             if (IsPlaying) return;
 
-            if (!IsChosingTarget)
+            if (!IsChoosingTarget)
             {
                 if (CaptureMode == CaptureRegionOption.Window)
                 {
-                    IsChosingTarget = true;
+                    IsChoosingTarget = true;
                     if (TargetWindowRequested != null)
                         TargetWindowRequested(this, EventArgs.Empty);
                     return;
@@ -137,7 +138,7 @@ namespace ScreenCapture
             }
             else
             {
-                IsChosingTarget = false;
+                IsChoosingTarget = false;
             }
 
             CurrentRegion = Screen.PrimaryScreen.Bounds;
@@ -165,8 +166,8 @@ namespace ScreenCapture
             int framerate = 24;
             int bitrate = 10 * 1000 * 1000;
 
-            CurrentFilename = getNewFileName();
-            string path = Path.Combine(CurrentDirectory, CurrentFilename);
+            CurrentFileName = getNewFileName();
+            string path = Path.Combine(CurrentDirectory, CurrentFileName);
 
             RecordingStartTime = DateTime.MinValue;
             VideoWriter = new VideoFileWriter();
@@ -200,7 +201,7 @@ namespace ScreenCapture
         {
             CurrentWindowHandle = NativeMethods.WindowFromPoint(Cursor.Position);
 
-            if (IsChosingTarget)
+            if (IsChoosingTarget)
                 StartPlaying();
         }
 
@@ -264,11 +265,12 @@ namespace ScreenCapture
             return area;
         }
 
-      
+
 
         private string getNewFileName()
         {
-            string date = DateTime.Now.ToString("yyyy-MM-dd-HH'h'mm'm'ss's'");
+            string date = DateTime.Now.ToString("yyyy-MM-dd-HH'h'mm'm'ss's'", 
+                System.Globalization.CultureInfo.CurrentCulture);
 
             string mode = String.Empty;
             if (CaptureMode == CaptureRegionOption.Primary)
@@ -284,14 +286,58 @@ namespace ScreenCapture
         }
 
 
-       
+        #region IDisposable implementation
 
+        /// <summary>
+        ///   Performs application-defined tasks associated with freeing, 
+        ///   releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        ///   Releases unmanaged resources and performs other cleanup operations 
+        ///   before the <see cref="MainViewMode"/> is reclaimed by garbage collection.
+        /// </summary>
+        /// 
+        ~MainViewModel()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
+        ///   Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// 
+        /// <param name="disposing"><c>true</c> to release both managed
+        /// and unmanaged resources; <c>false</c> to release only unmanaged
+        /// resources.</param>
+        ///
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources
+                if (cursorCapture != null)
+                {
+                    cursorCapture.Dispose();
+                    cursorCapture = null;
+                }
+            }
+        }
+        #endregion
 
 
         // The PropertyChanged event doesn't needs to be explicitly raised
         // from this application. The event raising is handled automatically
         // by the NotifyPropertyWeaver VS extension using IL injection.
         //
+        #pragma warning disable 0067
         public event PropertyChangedEventHandler PropertyChanged;
+        #pragma warning restore 0067
     }
 }

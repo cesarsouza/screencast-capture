@@ -24,6 +24,7 @@ namespace ScreenCapture
     using System;
     using System.Drawing;
     using System.Windows.Forms;
+    using ScreenCapture.Interop;
 
     /// <summary>
     ///   Capture Region Window.
@@ -40,6 +41,7 @@ namespace ScreenCapture
     ///   the recording.</para>
     /// </remarks>
     /// 
+    [System.Security.SecurityCritical]
     public partial class CaptureRegion : Form
     {
 

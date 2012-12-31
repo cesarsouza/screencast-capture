@@ -24,11 +24,14 @@ namespace ScreenCapture
     using System;
     using System.Drawing;
     using System.Runtime.InteropServices;
+    using System.Security.Permissions;
+    using ScreenCapture.Interop;
 
     /// <summary>
     ///   Class to capture the cursor's bitmap.
     /// </summary>
     /// 
+    [System.Security.SecurityCritical]
     public class CaptureCursor : IDisposable
     {
         private Point position;
@@ -50,7 +53,7 @@ namespace ScreenCapture
             desktopGraphics = Graphics.FromHwnd(NativeMethods.GetDesktopWindow());
             desktopHdc = desktopGraphics.GetHdc();
             maskHdc = NativeMethods.CreateCompatibleDC(desktopHdc);
-            NativeMethods.CURSORINFO cursorInfo = new NativeMethods.CURSORINFO();
+            CURSORINFO cursorInfo = new CURSORINFO();
             cursorInfoSize = Marshal.SizeOf(cursorInfo);
         }
 
@@ -73,13 +76,13 @@ namespace ScreenCapture
             // Based on answer from Tarsier in SO question "C# - Capturing the Mouse cursor image"
             // http://stackoverflow.com/questions/918990/c-sharp-capturing-the-mouse-cursor-image
 
-            NativeMethods.CURSORINFO cursorInfo;
+            CURSORINFO cursorInfo;
             cursorInfo.cbSize = cursorInfoSize;
 
             if (!NativeMethods.GetCursorInfo(out cursorInfo))
                 return null;
 
-            if (cursorInfo.flags != NativeMethods.CursorState.CURSOR_SHOWING)
+            if (cursorInfo.flags != CursorState.CURSOR_SHOWING)
                 return null;
 
             IntPtr hicon = NativeMethods.CopyIcon(cursorInfo.hCursor);
@@ -87,7 +90,7 @@ namespace ScreenCapture
             if (hicon == IntPtr.Zero)
                 return null;
 
-            NativeMethods.ICONINFO iconInfo;
+            ICONINFO iconInfo;
             if (!NativeMethods.GetIconInfo(hicon, out iconInfo))
                 return null;
 
@@ -102,56 +105,69 @@ namespace ScreenCapture
             // the I-Beam cursor (text cursor). The following takes care
             // of returning the correct bitmap.
 
-            Bitmap resultBitmap;
+            Bitmap resultBitmap = null;
 
-            using (Bitmap maskBitmap = Bitmap.FromHbitmap(iconInfo.hbmMask))
+            try
             {
-                // Here we have to determine if the current cursor is monochrome in order
-                // to do a proper processing. If we just extracted the cursor icon from
-                // the icon handle, monochrome cursors would appear garbled.
-
-                if (maskBitmap.Height == maskBitmap.Width * 2)
+                using (Bitmap maskBitmap = Bitmap.FromHbitmap(iconInfo.hbmMask))
                 {
-                    // Yes, this is a monochrome cursor. We will have to manually copy
-                    // the bitmap and the bitmak layers of the cursor into the bitmap.
+                    // Here we have to determine if the current cursor is monochrome in order
+                    // to do a proper processing. If we just extracted the cursor icon from
+                    // the icon handle, monochrome cursors would appear garbled.
 
-                    resultBitmap = new Bitmap(maskBitmap.Width, maskBitmap.Width);
-                    IntPtr maskPtr = NativeMethods.SelectObject(maskHdc, maskBitmap.GetHbitmap());
-
-                    using (Graphics resultGraphics = Graphics.FromImage(resultBitmap))
+                    if (maskBitmap.Height == maskBitmap.Width * 2)
                     {
-                        IntPtr resultHdc = resultGraphics.GetHdc();
+                        // Yes, this is a monochrome cursor. We will have to manually copy
+                        // the bitmap and the bitmak layers of the cursor into the bitmap.
 
-                        // These two operation will result in a black cursor over a white background. Later
-                        //   in the code, a call to MakeTransparent() will get rid of the white background.
-                        NativeMethods.BitBlt(resultHdc, 0, 0, 32, 32, maskHdc, 0, 32, NativeMethods.TernaryRasterOperations.SRCCOPY);
-                        NativeMethods.BitBlt(resultHdc, 0, 0, 32, 32, maskHdc, 0, 0, NativeMethods.TernaryRasterOperations.SRCINVERT);
+                        resultBitmap = new Bitmap(maskBitmap.Width, maskBitmap.Width);
+                        IntPtr maskPtr = NativeMethods.SelectObject(maskHdc, maskBitmap.GetHbitmap());
 
-                        resultGraphics.ReleaseHdc(resultHdc);
+                        using (Graphics resultGraphics = Graphics.FromImage(resultBitmap))
+                        {
+                            IntPtr resultHdc = resultGraphics.GetHdc();
+
+                            // These two operation will result in a black cursor over a white background. Later
+                            //   in the code, a call to MakeTransparent() will get rid of the white background.
+                            NativeMethods.BitBlt(resultHdc, 0, 0, 32, 32, maskHdc, 0, 32, TernaryRasterOperations.SRCCOPY);
+                            NativeMethods.BitBlt(resultHdc, 0, 0, 32, 32, maskHdc, 0, 0, TernaryRasterOperations.SRCINVERT);
+
+                            resultGraphics.ReleaseHdc(resultHdc);
+                        }
+
+                        NativeMethods.DeleteObject(maskPtr);
+
+                        // Remove the white background from the BitBlt calls,
+                        // resulting in a black cursor over a transparent background.
+                        resultBitmap.MakeTransparent(Color.White);
                     }
-
-                    NativeMethods.DeleteObject(maskPtr);
-
-                    // Remove the white background from the BitBlt calls,
-                    // resulting in a black cursor over a transparent background.
-                    resultBitmap.MakeTransparent(Color.White);
+                    else
+                    {
+                        // This isn't a monochrome cursor.
+                        using (Icon icon = Icon.FromHandle(hicon))
+                            resultBitmap = icon.ToBitmap();
+                    }
                 }
-                else
-                {
-                    // This isn't a monochrome cursor.
-                    using (Icon icon = Icon.FromHandle(hicon))
-                        resultBitmap = icon.ToBitmap();
-                }
+
+                // Clean allocated resources
+                NativeMethods.DeleteObject(iconInfo.hbmColor);
+                NativeMethods.DeleteObject(iconInfo.hbmMask);
+                NativeMethods.DestroyIcon(hicon);
+
+                return resultBitmap;
             }
+            catch
+            {
+                if (resultBitmap != null)
+                    resultBitmap.Dispose();
 
-            // Clean allocated resources
-            NativeMethods.DeleteObject(iconInfo.hbmColor);
-            NativeMethods.DeleteObject(iconInfo.hbmMask);
-            NativeMethods.DestroyIcon(hicon);
-
-            return resultBitmap;
+                throw;
+            }
         }
 
+
+
+        #region IDisposable implementation
 
         /// <summary>
         ///   Performs application-defined tasks associated with freeing, 
@@ -195,5 +211,7 @@ namespace ScreenCapture
                 desktopGraphics = null;
             }
         }
+        #endregion
+
     }
 }
