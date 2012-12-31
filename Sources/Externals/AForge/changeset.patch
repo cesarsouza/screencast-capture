@@ -581,6 +581,34 @@ Index: Sources/Controls/VideoSourcePlayer.cs
          }
      }
  }
+Index: Sources/Video.FFMPEG/AssemblyInfo.cpp
+===================================================================
+--- Sources/Video.FFMPEG/AssemblyInfo.cpp	(revision 1699)
++++ Sources/Video.FFMPEG/AssemblyInfo.cpp	(working copy)
+@@ -39,3 +39,5 @@
+ [assembly:CLSCompliantAttribute(true)];
+ 
+ [assembly:SecurityPermission(SecurityAction::RequestMinimum, UnmanagedCode = true)];
++[assembly:AssemblyKeyFileAttribute("AForge.Video.FFMPEG.snk")];
++[assembly:AssemblyDelaySignAttribute(true)];
+Index: Sources/Video.FFMPEG/Video.FFMPEG.vcxproj
+===================================================================
+--- Sources/Video.FFMPEG/Video.FFMPEG.vcxproj	(revision 1699)
++++ Sources/Video.FFMPEG/Video.FFMPEG.vcxproj	(working copy)
+@@ -22,11 +22,13 @@
+     <CharacterSet>Unicode</CharacterSet>
+     <CLRSupport>true</CLRSupport>
+     <WholeProgramOptimization>true</WholeProgramOptimization>
++    <PlatformToolset>v100</PlatformToolset>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+     <ConfigurationType>DynamicLibrary</ConfigurationType>
+     <CharacterSet>Unicode</CharacterSet>
+     <CLRSupport>true</CLRSupport>
++    <PlatformToolset>v100</PlatformToolset>
+   </PropertyGroup>
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+   <ImportGroup Label="ExtensionSettings">
 Index: Sources/Video.FFMPEG/VideoCodec.cpp
 ===================================================================
 --- Sources/Video.FFMPEG/VideoCodec.cpp	(revision 1699)
