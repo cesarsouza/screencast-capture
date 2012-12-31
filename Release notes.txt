@@ -1,0 +1,9 @@
+
+ Screen Capture Lite Release Notes History
+ =========================================
+
+
+ 29.12.2012, version 1.1
+ -----------------------
+
+ First version released!

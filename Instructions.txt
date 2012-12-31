@@ -1,0 +1,6 @@
+
+ To execute the application, just go to the
+ Binaries folder and run ScreenCapture.exe.
+
+ If you need further help in using the application, please take a look
+ on the project's website at https://screencast-capture.googlecode.com
