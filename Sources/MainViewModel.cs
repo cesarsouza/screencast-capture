@@ -1,5 +1,5 @@
-﻿// Screencast Capture Lite 
-// http://www.crsouza.com
+﻿// Screencast Capture, free screen recorder
+// http://screencast-capture.googlecode.com
 //
 // Copyright © César Souza, 2012-2013
 // cesarsouza at gmail.com
@@ -31,15 +31,37 @@ namespace ScreenCapture
     using AForge.Video;
     using AForge.Video.FFMPEG;
 
+    /// <summary>
+    ///   Region capturing modes.
+    /// </summary>
+    /// 
     public enum CaptureRegionOption
     {
-        Fixed, Primary, Window
+        /// <summary>
+        ///   Captures from a fixed region on the screen.
+        /// </summary>
+        /// 
+        Fixed, 
+        
+        /// <summary>
+        ///   Captures only from the primary screen.
+        /// </summary>
+        /// 
+        Primary,
+        
+        /// <summary>
+        ///   Captures from the current window.
+        /// </summary>
+        Window
     }
 
+    /// <summary>
+    ///   Main ViewModel to control the application.
+    /// </summary>
+    /// 
     public class MainViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        
         public ScreenCaptureStream ScreenStream { get; private set; }
         public VideoFileWriter VideoWriter { get; private set; }
         public VideoSourcePlayer Player { get; private set; }
@@ -132,16 +154,6 @@ namespace ScreenCapture
             IsPlaying = true;
         }
 
-        public void GetWindowUnderCursor()
-        {
-            CurrentWindowHandle = NativeMethods.WindowFromPoint(Cursor.Position);
-
-            if (IsChosingTarget)
-                StartPlaying();
-        }
-
-
-
         public void StartRecording()
         {
             if (IsRecording || !IsPlaying) return;
@@ -182,6 +194,25 @@ namespace ScreenCapture
 
             IsRecording = false;
         }
+
+
+        public void GetWindowUnderCursor()
+        {
+            CurrentWindowHandle = NativeMethods.WindowFromPoint(Cursor.Position);
+
+            if (IsChosingTarget)
+                StartPlaying();
+        }
+
+        public void Close()
+        {
+            Player.SignalToStop();
+            Player.WaitForStop();
+
+            if (VideoWriter != null && VideoWriter.IsOpen)
+                VideoWriter.Close();
+        }
+
 
 
         private void Player_NewFrame(object sender, ref Bitmap image)
@@ -233,7 +264,7 @@ namespace ScreenCapture
             return area;
         }
 
-
+      
 
         private string getNewFileName()
         {
@@ -253,13 +284,14 @@ namespace ScreenCapture
         }
 
 
-        public void Close()
-        {
-            Player.SignalToStop();
-            Player.WaitForStop();
+       
 
-            if (VideoWriter != null && VideoWriter.IsOpen)
-                VideoWriter.Close();
-        }
+
+
+        // The PropertyChanged event doesn't needs to be explicitly raised
+        // from this application. The event raising is handled automatically
+        // by the NotifyPropertyWeaver VS extension using IL injection.
+        //
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

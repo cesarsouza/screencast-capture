@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
@@ -46,7 +46,7 @@
             // 
             // timer1
             // 
-            this.timer1.Tick += new System.EventHandler(this.OnTimerTick);
+            this.timer.Tick += new System.EventHandler(this.OnTimerTick);
             // 
             // panel1
             // 
@@ -55,7 +55,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(2, 2);
             this.panel1.TabIndex = 1;
-            this.panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseClick);
+            this.panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.squarePanel_MouseClick);
             // 
             // CaptureWindow
             // 
@@ -79,7 +79,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.Panel panel1;
     }
 }

@@ -1,5 +1,5 @@
-﻿// Screencast Capture Lite 
-// http://www.crsouza.com
+﻿// Screencast Capture, free screen recorder
+// http://screencast-capture.googlecode.com
 //
 // Copyright © César Souza, 2012-2013
 // cesarsouza at gmail.com
@@ -24,26 +24,121 @@ namespace ScreenCapture
     using System;
     using System.Windows.Forms;
 
+    /// <summary>
+    ///   Extension methods for binding.
+    /// </summary>
+    /// 
+    /// <remarks>
+    ///   The methods available in this class provide an easier way to configure windows forms
+    ///   databindings using lambda functions. It is possible to direct configure the binding
+    ///   (such as format and parsing options for two-way binding) in a single, one-line call
+    ///   at the time of the binding.
+    /// </remarks>
+    /// 
     public static class BindingExtensions
     {
-        public static void Bind<T, U>(this IBindableComponent component, Binding binding, Func<T, U> transform)
+
+
+        /// <summary>
+        ///   Attaches a binding to a component, using the given format transformation.
+        /// </summary>
+        /// 
+        /// <typeparam name="TSource">The type of the source property.</typeparam>
+        /// <typeparam name="TDestination">The type of the destination.</typeparam>
+        /// 
+        /// <param name="component">The component to which the binding applies (such as a control in the form).</param>
+        /// <param name="binding">The binding object which defines the property being bound (such as a ViewModel property).</param>
+        /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
+        /// 
+        public static void Bind<TSource, TDestination>(this IBindableComponent component, Binding binding, Func<TSource, TDestination> format)
         {
-            binding.Parse += (sender, e) => e.Value = transform((T)e.Value);
-            binding.Format += (sender, e) => e.Value = transform((T)e.Value);
+            binding.Format += (sender, e) => e.Value = format((TSource)e.Value);
             component.DataBindings.Add(binding);
         }
 
+        /// <summary>
+        ///   Attaches a binding to a component, using the given format transformation.
+        /// </summary>
+        /// 
+        /// <typeparam name="TSource">The type of the source property.</typeparam>
+        /// <typeparam name="TDestination">The type of the destination.</typeparam>
+        /// 
+        /// <param name="component">The component to which the binding applies (such as a control in the form).</param>
+        /// <param name="binding">The binding object which defines the property being bound (such as a ViewModel property).</param>
+        /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
+        /// <param name="parse">The parse transformation which transforms the control's value into the model's property.</param>
+        /// 
+        public static void Bind<TSource, TDestination>(this IBindableComponent component, Binding binding, Func<TSource, TDestination> format, Func<TDestination, TSource> parse)
+        {
+            binding.Parse += (sender, e) => e.Value = parse((TDestination)e.Value);
+            binding.Format += (sender, e) => e.Value = format((TSource)e.Value);
+            component.DataBindings.Add(binding);
+        }
+
+        /// <summary>
+        ///   Attaches a binding to a component, using the given format transformation.
+        /// </summary>
+        /// 
+        /// <typeparam name="TSource">The type of the source property.</typeparam>
+        /// <typeparam name="TDestination">The type of the destination.</typeparam>
+        /// 
+        /// <param name="component">The component to which the binding applies (such as a control in the form).</param>
+        /// <param name="propertyName">The name of the control property to bind.</param>
+        /// <param name="dataSource">An object that represents the data source.</param>
+        /// <param name="dataMember">The property or list to bind to.</param>
+        /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
+        /// <param name="parse">The parse transformation which transforms the control's value into the model's property.</param>
+        /// 
+        public static void Bind<TSource, TDestination>(this IBindableComponent component,
+            string propertyName, object dataSource, string dataMember, Func<TSource, TDestination> format)
+        {
+            Bind(component, new Binding(propertyName, dataSource, dataMember), format);
+        }
+
+        /// <summary>
+        ///   Attaches a binding to a component, using the given format transformation.
+        /// </summary>
+        /// 
+        /// <typeparam name="TSource">The type of the source property.</typeparam>
+        /// <typeparam name="TDestination">The type of the destination.</typeparam>
+        /// 
+        /// <param name="component">The component to which the binding applies (such as a control in the form).</param>
+        /// <param name="propertyName">The name of the control property to bind.</param>
+        /// <param name="dataSource">An object that represents the data source.</param>
+        /// <param name="dataMember">The property or list to bind to.</param>
+        /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
+        /// <param name="parse">The parse transformation which transforms the control's value into the model's property.</param>
+        /// 
+        public static void Bind<TSource, TDestination>(this IBindableComponent component,
+            string propertyName, object dataSource, string dataMember, Func<TSource, TDestination> format, Func<TDestination, TSource> parse)
+        {
+            Bind(component, new Binding(propertyName, dataSource, dataMember), format, parse);
+        }
+
+        /// <summary>
+        ///   Attaches a binding to a component, using the given format transformation.
+        /// </summary>
+        /// 
+        /// <param name="component">The component to which the binding applies (such as a control in the form).</param>
+        /// <param name="binding">The binding object which defines the property being bound (such as a ViewModel property).</param>
+        /// 
         public static void Bind(this IBindableComponent component, Binding binding)
         {
             component.DataBindings.Add(binding);
         }
 
-        public static void Bind<T, U>(this IBindableComponent component,
-            string propertyName, object dataSource, string dataMember, Func<T, U> transform)
-        {
-            Bind(component, new Binding(propertyName, dataSource, dataMember), transform);
-        }
-
+        /// <summary>
+        ///   Attaches a binding to a component, using the given format transformation.
+        /// </summary>
+        /// 
+        /// <typeparam name="TSource">The type of the source property.</typeparam>
+        /// <typeparam name="TDestination">The type of the destination.</typeparam>
+        /// 
+        /// <param name="component">The component to which the binding applies (such as a control in the form).</param>
+        /// <param name="propertyName">The name of the control property to bind.</param>
+        /// <param name="dataSource">An object that represents the data source.</param>
+        /// <param name="dataMember">The property or list to bind to.</param>
+        /// 
         public static void Bind(this IBindableComponent component,
             string propertyName, object dataSource, string dataMember)
         {
