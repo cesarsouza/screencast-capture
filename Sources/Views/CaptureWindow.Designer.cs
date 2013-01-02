@@ -1,4 +1,4 @@
-﻿namespace ScreenCapture
+﻿namespace ScreenCapture.Views
 {
     partial class CaptureWindow
     {
@@ -72,7 +72,6 @@
             this.Text = "Capture Window";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Black;
-            this.Load += new System.EventHandler(this.CaptureWindow_Load);
             this.ResumeLayout(false);
 
         }

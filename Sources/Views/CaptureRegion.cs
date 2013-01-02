@@ -19,12 +19,13 @@
 //    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 // 
 
-namespace ScreenCapture
+namespace ScreenCapture.Views
 {
     using System;
     using System.Drawing;
     using System.Windows.Forms;
     using ScreenCapture.Native;
+    using ScreenCapture.ViewModels;
 
     /// <summary>
     ///   Capture Region Window.
@@ -66,7 +67,14 @@ namespace ScreenCapture
             : this()
         {
             this.viewModel = viewModel;
+
+            // Call CreateControl, otherwise 
+            // binding to Visible won't work.
+
+            this.ForceCreateControl();
         }
+
+       
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="CaptureRegion"/>
@@ -77,13 +85,6 @@ namespace ScreenCapture
         {
             InitializeComponent();
             Pinned = false;
-        }
-
-        private void CaptureRegion_Load(object sender, EventArgs e)
-        {
-            this.Bind("BackColor", viewModel, "IsRecording", (bool value) => value ? Color.Firebrick : Color.Gold);
-            this.Bind("Visible", viewModel, "IsFramesVisible");
-            this.Bind("Pinned", viewModel, "IsRecording");
         }
 
 
@@ -168,9 +169,16 @@ namespace ScreenCapture
             }
         }
 
-        public void Initialize()
+
+        protected override void OnCreateControl()
         {
-            Show(); Hide();
+            base.OnCreateControl();
+
+            this.Bind(b => b.BackColor, viewModel, m => m.IsRecording,
+                value => value ? Color.Firebrick : Color.Gold);
+            this.Bind(b => b.Visible, viewModel, m => m.IsFramesVisible);
+            this.Bind(b => b.Pinned, viewModel, m => m.IsRecording);
         }
+
     }
 }

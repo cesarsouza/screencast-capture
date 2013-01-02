@@ -36,6 +36,37 @@ namespace ScreenCapture
     ///   at the time of the binding.
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>
+    ///   The simplest usage scenario is:
+    /// </para>
+    /// <code>
+    ///   myButton.Bind("Visible", viewModel, "SomeModelViewProperty");
+    /// </code>
+    /// 
+    /// <para>
+    ///   If you wish to have control over the binding, you can apply a transformation
+    ///   (similar to what WPF converters do). Supposing you have a boolean property,
+    ///   you can use:</para>
+    /// <code>
+    ///   myButton.Bind("Visible", viewModel, "SomeModelViewProperty", (bool value) => !value);
+    /// </code>
+    /// 
+    /// <para>
+    ///   In case you desire type-safety or are using obfuscation, you can use:
+    /// </para>
+    /// <code>
+    ///   myButton.Bind(b => b.Enabled, viewModel, m => m.SomeViewModelProperty);
+    /// </code>
+    /// 
+    /// <para>
+    ///   And again you can fine control the behavior of the binding by using:
+    /// </para>
+    /// <code>
+    ///   myButton.Bind(b => b.Enabled, viewModel, m => m.SomeViewModelProperty, value => !value);
+    /// </code>
+    /// </example>
+    /// 
     public static class BindingExtensions
     {
 
@@ -119,7 +150,7 @@ namespace ScreenCapture
             Func<TSource, TDestination> format, Func<TDestination, TSource> parse)
         {
             if (component == null) throw new ArgumentNullException("component");
-            Bind(component, new Binding(propertyName, dataSource, dataMember), format, parse);
+            Bind(component, new Binding(propertyName, dataSource, dataMember, true), format, parse);
         }
 
         /// <summary>
@@ -160,14 +191,18 @@ namespace ScreenCapture
         /// <param name="dataSource">An object that represents the data source.</param>
         /// <param name="dataMember">The property or list to bind to.</param>
         /// 
-        public static void Bind<TControl, TSource>(this IBindableComponent component,
-            Expression<Func<TControl, object>> propertyName, TSource dataSource,
-            Expression<Func<TSource, object>> dataMember)
+        public static void Bind<TControl, TModel, TSource>(this TControl component,
+            Expression<Func<TControl, object>> propertyName, TModel dataSource,
+            Expression<Func<TModel, TSource>> dataMember)
+            where TControl : IBindableComponent
         {
-            string propertyNameStr, dataMemberStr;
-            getNames(propertyName, dataMember, out propertyNameStr, out dataMemberStr);
+            string nameString, dataString;
+            getNames(propertyName, dataMember, out nameString, out dataString);
 
-            Bind(component, propertyNameStr, dataSource, dataMemberStr);
+            if (nameString == null) throw new ArgumentException("Unexpected expression.", "propertyName");
+            if (dataString == null) throw new ArgumentException("Unexpected expression.", "dataMember");
+
+            Bind(component, nameString, dataSource, dataString);
         }
 
         /// <summary>
@@ -180,14 +215,18 @@ namespace ScreenCapture
         /// <param name="dataMember">The property or list to bind to.</param>
         /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
         /// 
-        public static void Bind<TControl, TModel, TSource, TDestination>(this IBindableComponent component,
-           Expression<Func<TControl, TDestination>> propertyName, TSource dataSource,
+        public static void Bind<TControl, TModel, TSource, TDestination>(this TControl component,
+           Expression<Func<TControl, TDestination>> propertyName, TModel dataSource,
            Expression<Func<TModel, TSource>> dataMember, Func<TSource, TDestination> format)
+            where TControl : IBindableComponent
         {
-            string propertyNameStr, dataMemberStr;
-            getNames(propertyName, dataMember, out propertyNameStr, out dataMemberStr);
+            string nameString, dataString;
+            getNames(propertyName, dataMember, out nameString, out dataString);
 
-            Bind(component, propertyNameStr, dataSource, dataMemberStr, format);
+            if (nameString == null) throw new ArgumentException("Unexpected expression.", "propertyName");
+            if (dataString == null) throw new ArgumentException("Unexpected expression.", "dataMember");
+
+            Bind(component, nameString, dataSource, dataString, format);
         }
 
         /// <summary>
@@ -201,50 +240,51 @@ namespace ScreenCapture
         /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
         /// <param name="parse">The parse transformation which transforms the control's value into the model's property.</param>
         /// 
-        public static void Bind<TControl, TModel, TSource, TDestination>(this IBindableComponent component,
-          Expression<Func<TControl, TDestination>> propertyName, TSource dataSource,
-          Expression<Func<TModel, TSource>> dataMember, Func<TSource, TDestination> format,
+        public static void Bind<TControl, TModel, TSource, TDestination>(this TControl component,
+           Expression<Func<TControl, TDestination>> propertyName, TModel dataSource,
+           Expression<Func<TModel, TSource>> dataMember, Func<TSource, TDestination> format,
             Func<TDestination, TSource> parse)
+            where TControl : IBindableComponent
         {
-            string propertyNameStr, dataMemberStr;
-            getNames(propertyName, dataMember, out propertyNameStr, out dataMemberStr);
+            string nameString, dataString;
+            getNames(propertyName, dataMember, out nameString, out dataString);
 
-            Bind(component, propertyNameStr, dataSource, dataMemberStr, format, parse);
+            if (nameString == null) throw new ArgumentException("Unexpected expression.", "propertyName");
+            if (dataString == null) throw new ArgumentException("Unexpected expression.", "dataMember");
+
+            Bind(component, nameString, dataSource, dataString, format, parse);
         }
 
 
 
-        private static void getNames<TControl, TModel, TSource, TDestination>(Expression<Func<TControl, TDestination>> propertyName, Expression<Func<TModel, TSource>> dataMember, out string propertyNameStr, out string dataMemberStr)
+        private static void getNames<TControl, TModel, TSource, TDestination>(
+            Expression<Func<TControl, TDestination>> propertyNameExpression,
+            Expression<Func<TModel, TSource>> dataMemberExpression,
+            out string propertyName, out string dataMember)
         {
-            MemberExpression exp1 = memberInfo(propertyName);
+            propertyName = null;
+            dataMember = null;
 
-            if (exp1 == null)
-                throw new ArgumentException("Lambda expression for PropertyName is not correct.");
+            MemberExpression exp1 = memberInfo(propertyNameExpression);
 
-            propertyNameStr = exp1.Member.Name;
+            if (exp1 == null) return;
+            propertyName = exp1.Member.Name;
 
-            MemberExpression exp2 = memberInfo(dataMember);
+            MemberExpression exp2 = memberInfo(dataMemberExpression);
 
-            if (exp2 == null)
-                throw new ArgumentException("Lambda expression for DataMember is not correct.");
-
-            dataMemberStr = exp2.Member.Name;
+            if (exp2 == null) return;
+            dataMember = exp2.Member.Name;
         }
 
-        private static MemberExpression memberInfo(Expression exp)
+        private static MemberExpression memberInfo(LambdaExpression exp)
         {
-            LambdaExpression lambdaExp = exp as LambdaExpression;
-
-            if (lambdaExp == null)
-                throw new ArgumentNullException("Lambda expression syntax is not correct");
-
             MemberExpression memberExp = null;
 
-            if (lambdaExp.Body.NodeType == ExpressionType.MemberAccess)
-                memberExp = lambdaExp.Body as MemberExpression;
+            if (exp.Body.NodeType == ExpressionType.MemberAccess)
+                memberExp = exp.Body as MemberExpression;
 
-            else if (lambdaExp.Body.NodeType == ExpressionType.Convert)
-                memberExp = ((UnaryExpression)lambdaExp.Body).Operand as MemberExpression;
+            else if (exp.Body.NodeType == ExpressionType.Convert)
+                memberExp = ((UnaryExpression)exp.Body).Operand as MemberExpression;
 
             return memberExp;
         }

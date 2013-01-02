@@ -1,4 +1,4 @@
-﻿namespace ScreenCapture
+﻿namespace ScreenCapture.Views
 {
     partial class MainForm
     {
