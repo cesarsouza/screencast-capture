@@ -664,6 +664,15 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
 ===================================================================
 --- Sources/Video.FFMPEG/VideoFileWriter.cpp	(revision 1699)
 +++ Sources/Video.FFMPEG/VideoFileWriter.cpp	(working copy)
+@@ -119,7 +119,7 @@
+ 
+ 	try
+ 	{
+-		// gues about destination file format from its file name
++		// guess about destination file format from its file name
+ 		libffmpeg::AVOutputFormat* outputFormat = libffmpeg::av_guess_format( NULL, nativeFileName, NULL );
+ 
+ 		if ( !outputFormat )
 @@ -143,9 +143,9 @@
  		data->FormatContext->oformat = outputFormat;
  
@@ -677,7 +686,83 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  
  		// set the output parameters (must be done even if no parameters)
  		if ( libffmpeg::av_set_parameters( data->FormatContext, NULL ) < 0 )
-@@ -383,47 +383,76 @@
+@@ -185,6 +185,8 @@
+ {
+ 	if ( data != nullptr )
+ 	{
++		Flush( );
++
+ 		if ( data->FormatContext )
+ 		{
+ 			if ( data->FormatContext->pb != NULL )
+@@ -239,6 +241,58 @@
+ 	m_height = 0;
+ }
+ 
++// Flushes delayed frames to disk
++void VideoFileWriter::Flush( )
++{
++	// This function goes by the data->VideoOutputBuffer extracting
++	// and saving to disk one frame at time, using mostly the same
++	// code which can be found on write_video_frame.
++
++	if ( data != nullptr )
++	{
++		int out_size, ret = 0;
++
++		libffmpeg::AVCodecContext* codecContext = data->VideoStream->codec;
++		
++		while ( 1 ) // while there are still delayed frames
++		{
++			libffmpeg::AVPacket packet;
++		    libffmpeg::av_init_packet(&packet);
++
++			// attempt to extract a single delayed frame from the buffer
++			out_size = libffmpeg::avcodec_encode_video(codecContext, data->VideoOutputBuffer, data->VideoOutputBufferSize, NULL);
++
++			if (out_size <= 0)
++				break; // there are no more frames to be written
++
++			// TODO: consider refactoring with write_video_frame?
++			if ( codecContext->coded_frame->pts != AV_NOPTS_VALUE )
++			{
++				packet.pts = libffmpeg::av_rescale_q( codecContext->coded_frame->pts, codecContext->time_base, data->VideoStream->time_base );
++			}
++
++			if ( codecContext->coded_frame->key_frame )
++			{
++				packet.flags |= AV_PKT_FLAG_KEY;
++			}
++
++			packet.stream_index = data->VideoStream->index;
++			packet.data = data->VideoOutputBuffer;
++			packet.size = out_size;
++
++			// write the compressed frame to the media file
++			ret = libffmpeg::av_interleaved_write_frame( data->FormatContext, &packet );
++
++			if ( ret != 0 )
++			{
++				throw gcnew VideoException( "Error while writing video frame." );
++			}
++		}
++
++		libffmpeg::avcodec_flush_buffers(data->VideoStream->codec);
++	}
++}
++
+ // Writes new video frame to the opened video file
+ void VideoFileWriter::WriteVideoFrame( Bitmap^ frame )
+ {
+@@ -301,6 +355,7 @@
+ 	write_video_frame( data );
+ }
+ 
++
+ #pragma region Private methods
+ // Writes video frame to opened video file
+ void write_video_frame( WriterPrivateData^ data )
+@@ -383,47 +438,76 @@
  void add_video_stream( WriterPrivateData^ data,  int width, int height, int frameRate, int bitRate,
  					  enum libffmpeg::CodecID codecId, enum libffmpeg::PixelFormat pixelFormat )
  {
@@ -788,3 +873,16 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  }
  
  // Open video codec and prepare out buffer and picture
+Index: Sources/Video.FFMPEG/VideoFileWriter.h
+===================================================================
+--- Sources/Video.FFMPEG/VideoFileWriter.h	(revision 1699)
++++ Sources/Video.FFMPEG/VideoFileWriter.h	(working copy)
+@@ -294,6 +294,8 @@
+         /// 
+ 		void WriteVideoFrame( Bitmap^ frame, TimeSpan timestamp );
+ 
++		void Flush( );
++
+         /// <summary>
+         /// Close currently opened video file if any.
+         /// </summary>
