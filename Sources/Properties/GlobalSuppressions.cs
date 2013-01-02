@@ -20,3 +20,4 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope = "member", Target = "ScreenCapture.Interop.NativeMethods.#GetSystemMetrics(System.Int32)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope = "member", Target = "ScreenCapture.Interop.NativeMethods.#GetWindowDC(System.Int32)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope = "member", Target = "ScreenCapture.Interop.NativeMethods.#ReleaseDC(System.IntPtr,System.IntPtr)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Scope = "member", Target = "ScreenCapture.Controls.BindableNotifyIcon.#BindingContext")]
