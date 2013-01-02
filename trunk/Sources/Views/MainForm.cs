@@ -26,6 +26,7 @@ namespace ScreenCapture.Views
     using Microsoft.WindowsAPICodePack.Shell;
     using ScreenCapture.Properties;
     using ScreenCapture.ViewModels;
+    using Microsoft.WindowsAPICodePack.Controls;
 
     /// <summary>
     ///   Main window for the Screencast Capture application.
@@ -55,9 +56,17 @@ namespace ScreenCapture.Views
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            explorerBrowser.ContentOptions.ViewMode = Microsoft.WindowsAPICodePack.Controls.ExplorerBrowserViewMode.Details;
-            explorerBrowser.NavigationOptions.PaneVisibility.Commands = Microsoft.WindowsAPICodePack.Controls.PaneVisibilityState.Hide;
-
+            
+            explorerBrowser.ContentOptions.ViewMode = ExplorerBrowserViewMode.Details;
+            explorerBrowser.NavigationOptions.PaneVisibility.Query = PaneVisibilityState.Hide;
+            explorerBrowser.NavigationOptions.PaneVisibility.Preview = PaneVisibilityState.Hide;
+            explorerBrowser.NavigationOptions.PaneVisibility.AdvancedQuery = PaneVisibilityState.Hide;
+            explorerBrowser.NavigationOptions.PaneVisibility.CommandsOrganize = PaneVisibilityState.Hide;
+            explorerBrowser.NavigationOptions.PaneVisibility.Details = PaneVisibilityState.Hide;
+            explorerBrowser.NavigationOptions.PaneVisibility.CommandsView = PaneVisibilityState.Show;
+            explorerBrowser.NavigationOptions.PaneVisibility.Commands = PaneVisibilityState.Show;
+            explorerBrowser.NavigationOptions.PaneVisibility.Navigation = PaneVisibilityState.Show;
+            
             //
             // This section configures all the bindings between 
             // form controls and properties from the view model.
@@ -210,6 +219,11 @@ namespace ScreenCapture.Views
             if (viewModel.IsRecording)
                 viewModel.StopRecording();
             else viewModel.StartRecording();
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            new OptionForm().ShowDialog(this);
         }
 
 
