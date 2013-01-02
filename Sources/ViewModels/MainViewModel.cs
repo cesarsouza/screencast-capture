@@ -21,16 +21,16 @@
 
 namespace ScreenCapture.ViewModels
 {
-    using System;
-    using System.ComponentModel;
-    using System.Drawing;
-    using System.IO;
-    using System.Windows.Forms;
     using AForge.Controls;
     using AForge.Imaging.Filters;
     using AForge.Video;
     using AForge.Video.FFMPEG;
     using ScreenCapture.Native;
+    using System;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.IO;
+    using System.Windows.Forms;
 
     /// <summary>
     ///   Region capturing modes.
@@ -71,7 +71,7 @@ namespace ScreenCapture.ViewModels
 
 
         public string CurrentDirectory { get; set; }
-        public string CurrentFileName { get; set; }
+        public string CurrentFileName { get; private set; }
         public Rectangle CurrentRegion { get; set; }
         public IntPtr CurrentWindowHandle { get; set; }
 

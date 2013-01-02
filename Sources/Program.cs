@@ -24,6 +24,7 @@ namespace ScreenCapture
     using System;
     using System.Windows.Forms;
     using ScreenCapture.Views;
+    using ScreenCapture.Properties;
 
     static class Program
     {
@@ -31,9 +32,17 @@ namespace ScreenCapture
         [STAThread]
         static void Main()
         {
+            if (String.IsNullOrWhiteSpace(Settings.Default.DefaultFolder))
+            {
+                Settings.Default.DefaultFolder = Environment
+                    .GetFolderPath(Environment.SpecialFolder.MyVideos);
+            }
+
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
+
 
             Properties.Settings.Default.Save();
         }

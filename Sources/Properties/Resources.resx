@@ -121,14 +121,29 @@
   <data name="kpersonalizer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\kpersonalizer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="player_eject" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_eject.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_record_overlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_record_overlay.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_stop_overlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_stop_overlay.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="folder_video" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\folder_video.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="icon_pause_overlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_pause_overlay.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="screencast" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\screencast.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="screencast_128" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon\screencast-128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="player_fwd" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\player_fwd.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="player_end" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\player_end.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="player_rew" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\player_rew.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -142,8 +157,14 @@
   <data name="player_stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\player_stop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="icon_play_overlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_play_overlay.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="player_play" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\player_play.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="mix_record" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mix_record.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="player_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\player_pause.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -154,25 +175,10 @@
   <data name="camera" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\camera.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="player_eject" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\player_eject.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="player_end" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\player_end.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="mix_record" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\mix_record.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="icon_pause_overlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon_pause_overlay.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="icon_play_overlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon_play_overlay.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="icon_record_overlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon_record_overlay.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="icon_stop_overlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon_stop_overlay.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="screencast" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\screencast.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="advancedsettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\advancedsettings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
