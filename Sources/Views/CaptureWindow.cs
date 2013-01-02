@@ -127,7 +127,7 @@ namespace ScreenCapture.Views
         }
 
         /// <summary>
-        ///   Relocated the window when a timer ticks.
+        ///   Relocates the window when a timer ticks.
         /// </summary>
         /// 
         private void OnTimerTick(object sender, EventArgs e)
@@ -136,24 +136,40 @@ namespace ScreenCapture.Views
             this.Focus();
         }
 
+        /// <summary>
+        ///   Raises the <see cref="E:System.Windows.Forms.Control.MouseLeave"/> event.
+        /// </summary>
+        ///
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
             this.Location = Cursor.Position;
         }
 
+        /// <summary>
+        ///   Raises the <see cref="E:System.Windows.Forms.Control.MouseMove"/> event.
+        /// </summary>
+        ///
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
             this.Location = Cursor.Position;
         }
 
+        /// <summary>
+        ///   Raises the <see cref="E:System.Windows.Forms.Form.Load"/> event.
+        /// </summary>
+        ///
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
             this.Location = Cursor.Position;
         }
 
+        /// <summary>
+        ///   Raises the <see cref="E:System.Windows.Forms.Control.PreviewKeyDown"/> event.
+        /// </summary>
+        ///
         protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
@@ -162,6 +178,10 @@ namespace ScreenCapture.Views
             base.OnPreviewKeyDown(e);
         }
 
+        /// <summary>
+        ///   Raises the CreateControl event.
+        /// </summary>
+        /// 
         protected override void OnCreateControl()
         {
             base.OnCreateControl();

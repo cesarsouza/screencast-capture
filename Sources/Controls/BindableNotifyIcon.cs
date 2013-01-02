@@ -213,41 +213,87 @@ namespace ScreenCapture.Controls
             remove { notifyIcon.MouseDoubleClick -= value; }
         }
 
+        /// <summary>
+        ///   Occurs when the user presses the mouse button while
+        ///   the pointer is over the icon in the notification area
+        ///   of the taskbar.
+        /// </summary>
+        /// 
         public event MouseEventHandler MouseDown
         {
             add { notifyIcon.MouseDown += value; }
             remove { notifyIcon.MouseDown -= value; }
         }
 
+        /// <summary>
+        ///   Occurs when the user moves the mouse while
+        ///   the pointer is over the icon in the notification area
+        ///   of the taskbar.
+        /// </summary>
+        /// 
         public event MouseEventHandler MouseMove
         {
             add { notifyIcon.MouseMove += value; }
             remove { notifyIcon.MouseMove -= value; }
         }
 
+        /// <summary>
+        ///   Occurs when the user releases the mouse button while
+        ///   the pointer is over the icon in the notification area
+        ///   of the taskbar.
+        /// </summary>
+        /// 
         public event MouseEventHandler MouseUp
         {
             add { notifyIcon.MouseUp += value; }
             remove { notifyIcon.MouseUp -= value; }
         }
 
+        /// <summary>
+        ///   Gets or sets the <see cref="ISite"/> of the <see cref="Component"/>.
+        /// </summary>
+        /// 
         public ISite Site
         {
             get { return notifyIcon.Site; }
             set { notifyIcon.Site = value; }
         }
 
+        /// <summary>
+        ///   Gets or sets an object that contains data 
+        ///   about the <see cref="BindableNotifyIcon"/>
+        /// </summary>
+        /// 
         public object Tag
         {
             get { return notifyIcon.Tag; }
             set { notifyIcon.Tag = value; }
         }
 
+        /// <summary>
+        ///   Displays a balloon tip in the taskbar 
+        ///   for the specified time period.
+        /// </summary>
+        /// 
+        /// <param name="timeout">
+        ///   The time period, in milliseconds, the balloon tip should display.</param>
+        /// 
         public void ShowBalloonTip(int timeout)
         {
             notifyIcon.ShowBalloonTip(timeout);
         }
 
+        /// <summary>
+        ///   Displays a balloon tip with the specified title, text, 
+        ///   and icon in the taskbar for the specified time period.
+        /// </summary>
+        /// 
+        /// <param name="timeout">
+        ///   The time period, in milliseconds, the balloon tip should display.</param>
+        /// <param name="tipIcon">One of the <see cref="ToolTipIcon"/> values.</param>
+        /// <param name="tipText">The text to display on the balloon tip.</param>
+        /// <param name="tipTitle">The title to display on the balloon tip.</param>
+        ///  
         public void ShowBalloonTip(int timeout, string tipTitle, string tipText, ToolTipIcon tipIcon)
         {
             notifyIcon.ShowBalloonTip(timeout, tipTitle, tipText, tipIcon);
