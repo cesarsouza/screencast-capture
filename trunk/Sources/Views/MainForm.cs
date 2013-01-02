@@ -91,7 +91,11 @@ namespace ScreenCapture.Views
 
 
             if (Settings.Default.FirstRun)
+            {
+                Settings.Default.FirstRun = false;
+
                 showGreetings();
+            }
         }
 
 
@@ -104,7 +108,7 @@ namespace ScreenCapture.Views
                 + " you enable always-visible notification icons for it. Please click"
                 + " the wench button above and enable them if you wish!";
 
-            iconPlayPause.ShowBalloonTip(5000);
+            iconPlayPause.ShowBalloonTip(15000);
         }
 
 
