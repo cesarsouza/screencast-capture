@@ -124,12 +124,6 @@
   <data name="folder_video" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\folder_video.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="player_end1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\player_end1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="player_end2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\player-end.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="player_fwd" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\player_fwd.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -151,9 +145,6 @@
   <data name="player_play" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\player_play.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="player_start" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\player_start.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="player_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\player_pause.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -168,5 +159,20 @@
   </data>
   <data name="mix_record" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\mix_record.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_pause_overlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_pause_overlay.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_play_overlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_play_overlay.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_record_overlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_record_overlay.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_stop_overlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icon_stop_overlay.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="screencast" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\screencast.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
