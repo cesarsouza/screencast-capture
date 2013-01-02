@@ -19,11 +19,12 @@
 //    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 // 
 
-namespace ScreenCapture
+namespace ScreenCapture.Views
 {
     using System;
     using System.Drawing;
     using System.Windows.Forms;
+    using ScreenCapture.ViewModels;
 
     /// <summary>
     ///   Capture Window Window.
@@ -89,6 +90,11 @@ namespace ScreenCapture
             : this()
         {
             this.viewModel = viewModel;
+
+            // Call CreateControl, otherwise 
+            // binding to Visible won't work.
+
+            this.ForceCreateControl();
         }
 
 
@@ -102,14 +108,6 @@ namespace ScreenCapture
             InitializeComponent();
         }
 
-        private void CaptureWindow_Load(object sender, EventArgs e)
-        {
-            timer.Start();
-            this.Bind("Following", viewModel, "IsChoosingTarget");
-            this.Bind("Visible", viewModel, "IsChoosingTarget");
-        }
-
-        
 
         /// <summary>
         ///   Triggers when the user clicks the mouse when the window is being shown.
@@ -159,16 +157,17 @@ namespace ScreenCapture
         protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
-            {
                 this.Close();
-            }
 
             base.OnPreviewKeyDown(e);
         }
 
-        public void Initialize()
+        protected override void OnCreateControl()
         {
-            Show(); Hide();
+            base.OnCreateControl();
+
+            this.Bind(b => b.Following, viewModel, m => m.IsChoosingTarget);
+            this.Bind(b => b.Visible, viewModel, m => m.IsChoosingTarget);
         }
 
     }

@@ -113,16 +113,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bindings.cs" />
-    <Compile Include="CaptureRegion.cs">
+    <Compile Include="Views\CaptureRegion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CaptureRegion.Designer.cs">
+    <Compile Include="Views\CaptureRegion.Designer.cs">
       <DependentUpon>CaptureRegion.cs</DependentUpon>
     </Compile>
-    <Compile Include="CaptureWindow.cs">
+    <Compile Include="Views\CaptureWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CaptureWindow.Designer.cs">
+    <Compile Include="Views\CaptureWindow.Designer.cs">
       <DependentUpon>CaptureWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\BindableNotifyIcon.cs" />
@@ -142,27 +142,28 @@
     <Compile Include="Controls\HotKey.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="IconViewModel.cs" />
+    <Compile Include="ViewModels\IconViewModel.cs" />
     <Compile Include="Native\SafeNativeMethods.cs" />
     <Compile Include="Properties\GlobalSuppressions.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Views\Extensions.cs" />
+    <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Views\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Native\NativeMethods.Gdi32.cs" />
     <Compile Include="Native\NativeMethods.User32.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CaptureRegion.resx">
+    <EmbeddedResource Include="Views\CaptureRegion.resx">
       <DependentUpon>CaptureRegion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CaptureWindow.resx">
+    <EmbeddedResource Include="Views\CaptureWindow.resx">
       <DependentUpon>CaptureWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -228,7 +229,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="capture.ico" />
     <None Include="Resources\icon_pause_overlay.png" />
     <None Include="Resources\icon_play_overlay.png" />
     <None Include="Resources\icon_record_overlay.png" />
@@ -245,8 +245,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\masters\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">

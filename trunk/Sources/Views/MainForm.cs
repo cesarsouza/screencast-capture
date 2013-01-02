@@ -19,12 +19,13 @@
 //    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 // 
 
-namespace ScreenCapture
+namespace ScreenCapture.Views
 {
     using System;
     using System.Windows.Forms;
     using Microsoft.WindowsAPICodePack.Shell;
     using ScreenCapture.Properties;
+    using ScreenCapture.ViewModels;
 
     /// <summary>
     ///   Main window for the Screencast Capture application.
@@ -63,34 +64,31 @@ namespace ScreenCapture
             //
             this.Bind("BrowserDirectory", viewModel, "CurrentDirectory");
 
-            btnStartRecording.Bind("Enabled", viewModel, "IsPlaying");
-            btnStartRecording.Bind("Visible", viewModel, "IsRecording", (bool value) => !value);
-            btnStopRecording.Bind("Visible", viewModel, "IsRecording");
-            btnStartPlaying.Bind("Visible", viewModel, "IsPlaying", (bool value) => !value);
-            btnPausePlaying.Bind("Visible", viewModel, "IsPlaying");
+            btnStartRecording.Bind(b => b.Enabled, viewModel, m => m.IsPlaying);
+            btnStartRecording.Bind(b => b.Visible, viewModel, m => m.IsRecording, value => !value);
+            btnStopRecording.Bind(b => b.Visible, viewModel, m => m.IsRecording);
+            btnStartPlaying.Bind(b => b.Visible, viewModel, m => m.IsPlaying, value => !value);
+            btnPausePlaying.Bind(b => b.Visible, viewModel, m => m.IsPlaying);
 
-            videoSourcePlayer1.Bind("Visible", viewModel, "IsPreviewVisible");
-            explorerBrowser.Bind("Visible", viewModel, "IsPreviewVisible", (bool value) => !value);
-            btnScreenPreview.Bind("Visible", viewModel, "IsPreviewVisible", (bool value) => !value);
-            btnStorageFolder.Bind("Visible", viewModel, "IsPreviewVisible");
+            videoSourcePlayer1.Bind(v => v.Visible, viewModel, m => m.IsPreviewVisible);
+            explorerBrowser.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible, value => !value);
+            btnScreenPreview.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible, value => !value);
+            btnStorageFolder.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible);
 
-            btnCapturePrimaryScreen.Bind("Checked", viewModel, "CaptureMode",
-                (CaptureRegionOption value) => value == CaptureRegionOption.Primary);
-            btnCaptureRegion.Bind("Checked", viewModel, "CaptureMode",
-                (CaptureRegionOption value) => value == CaptureRegionOption.Fixed);
-            btnCaptureWindow.Bind("Checked", viewModel, "CaptureMode",
-                (CaptureRegionOption value) => value == CaptureRegionOption.Window);
+            btnCapturePrimaryScreen.Bind(b => b.Checked, viewModel, m => m.CaptureMode,
+                value => value == CaptureRegionOption.Primary);
+            btnCaptureRegion.Bind(b => b.Checked, viewModel, m => m.CaptureMode,
+                value => value == CaptureRegionOption.Fixed);
+            btnCaptureWindow.Bind(b => b.Checked, viewModel, m => m.CaptureMode,
+                value => value == CaptureRegionOption.Window);
 
-            lbStatusRecording.Bind("Visible", viewModel, "IsRecording");
-            lbStatusReady.Bind("Visible", viewModel, "IsRecording", (bool value) => !value);
-            btnCaptureMode.Bind("Enabled", viewModel, "IsRecording", (bool value) => !value);
+            lbStatusRecording.Bind(b => b.Visible, viewModel, m => m.IsRecording);
+            lbStatusReady.Bind(b => b.Visible, viewModel, m => m.IsRecording, value => !value);
+            btnCaptureMode.Bind(b => b.Enabled, viewModel, m => m.IsRecording, value => !value);
 
-            iconPlayPause.Bind("Text", viewModel.Icons, "CurrentText");
-            iconPlayPause.Bind("Icon", viewModel.Icons, "CurrentIcon");
-            iconPlayPause.Visible = true;
+            iconPlayPause.Bind(b => b.Text, viewModel.Icons, m => m.CurrentText);
+            iconPlayPause.Bind(b => b.Icon, viewModel.Icons, m => m.CurrentIcon);
 
-            regionWindow.Initialize();
-            windowWindow.Initialize();
 
             if (Settings.Default.FirstRun)
                 showGreetings();

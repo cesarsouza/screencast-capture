@@ -23,6 +23,7 @@ namespace ScreenCapture
 {
     using System;
     using System.Windows.Forms;
+    using ScreenCapture.Views;
 
     static class Program
     {
