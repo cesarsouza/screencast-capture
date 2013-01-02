@@ -54,6 +54,7 @@
             this.Text = "Capture Region";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Fuchsia;
+            this.Load += new System.EventHandler(this.CaptureRegion_Load);
             this.ResumeLayout(false);
 
         }

@@ -44,7 +44,7 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Please click on the window you would like to capture";
             // 
-            // timer1
+            // timer
             // 
             this.timer.Tick += new System.EventHandler(this.OnTimerTick);
             // 
@@ -72,6 +72,7 @@
             this.Text = "Capture Window";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Black;
+            this.Load += new System.EventHandler(this.CaptureWindow_Load);
             this.ResumeLayout(false);
 
         }

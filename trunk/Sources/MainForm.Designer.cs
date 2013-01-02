@@ -30,8 +30,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.btnCaptureMode = new ScreenCapture.Controls.BindableToolStripDropDownButton();
             this.btnCapturePrimaryScreen = new ScreenCapture.Controls.BindableToolStripMenuItem();
             this.btnCaptureWindow = new ScreenCapture.Controls.BindableToolStripMenuItem();
@@ -44,20 +45,23 @@
             this.btnScreenPreview = new ScreenCapture.Controls.BindableToolStripButton();
             this.btnStorageFolder = new ScreenCapture.Controls.BindableToolStripButton();
             this.explorerBrowser = new Microsoft.WindowsAPICodePack.Controls.WindowsForms.ExplorerBrowser();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lbStatusRecording = new ScreenCapture.Controls.BindableToolStripStatusLabel();
             this.lbStatusReady = new ScreenCapture.Controls.BindableToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
-            this.toolStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
+            this.iconPlayPause = new ScreenCapture.Controls.BindableNotifyIcon(this.components);
+            this.keyPlayPause = new ScreenCapture.Controls.HotKey(this.components);
+            this.keyStartStop = new ScreenCapture.Controls.HotKey(this.components);
+            this.toolStrip.SuspendLayout();
+            this.statusStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // toolStrip1
+            // toolStrip
             // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnCaptureMode,
             this.btnStartRecording,
             this.btnStopRecording,
@@ -66,11 +70,10 @@
             this.toolStripSeparator1,
             this.btnScreenPreview,
             this.btnStorageFolder});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(656, 39);
-            this.toolStrip1.TabIndex = 2;
-            this.toolStrip1.Text = "toolStrip1";
+            this.toolStrip.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Size = new System.Drawing.Size(656, 39);
+            this.toolStrip.TabIndex = 2;
             // 
             // btnCaptureMode
             // 
@@ -192,16 +195,15 @@
             this.explorerBrowser.Size = new System.Drawing.Size(656, 342);
             this.explorerBrowser.TabIndex = 0;
             // 
-            // statusStrip1
+            // statusStrip
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbStatusRecording,
             this.lbStatusReady});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 381);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(656, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
+            this.statusStrip.Location = new System.Drawing.Point(0, 381);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(656, 22);
+            this.statusStrip.TabIndex = 1;
             // 
             // lbStatusRecording
             // 
@@ -239,23 +241,49 @@
             this.videoSourcePlayer1.Text = "videoSourcePlayer1";
             this.videoSourcePlayer1.VideoSource = null;
             // 
+            // iconPlayPause
+            // 
+            this.iconPlayPause.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.None;
+            this.iconPlayPause.BalloonTipText = "";
+            this.iconPlayPause.BalloonTipTitle = "";
+            this.iconPlayPause.ContextMenu = null;
+            this.iconPlayPause.ContextMenuStrip = null;
+            this.iconPlayPause.Icon = null;
+            this.iconPlayPause.Tag = null;
+            this.iconPlayPause.Text = "";
+            this.iconPlayPause.Visible = true;
+            // 
+            // keyPlayPause
+            // 
+            this.keyPlayPause.Enabled = true;
+            this.keyPlayPause.Key = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.F9)));
+            this.keyPlayPause.Pressed += new System.ComponentModel.HandledEventHandler(this.hotkeyPlayPause_Pressed);
+            // 
+            // keyStartStop
+            // 
+            this.keyStartStop.Enabled = true;
+            this.keyStartStop.Key = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.F10)));
+            this.keyStartStop.Pressed += new System.ComponentModel.HandledEventHandler(this.hotkeyStop_Pressed);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(656, 403);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.toolStrip);
+            this.Controls.Add(this.statusStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "Screencast Capture Lite";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
+            this.toolStrip.ResumeLayout(false);
+            this.toolStrip.PerformLayout();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -265,9 +293,9 @@
         #endregion
 
         private Microsoft.WindowsAPICodePack.Controls.WindowsForms.ExplorerBrowser explorerBrowser;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip toolStrip;
         private ScreenCapture.Controls.BindableToolStripButton btnStartRecording;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.StatusStrip statusStrip;
         private ScreenCapture.Controls.BindableToolStripStatusLabel lbStatusRecording;
         private ScreenCapture.Controls.BindableToolStripStatusLabel lbStatusReady;
         private ScreenCapture.Controls.BindableToolStripButton btnStopRecording;
@@ -282,6 +310,9 @@
         private System.Windows.Forms.Panel panel1;
         private AForge.Controls.VideoSourcePlayer videoSourcePlayer1;
         private ScreenCapture.Controls.BindableToolStripButton btnPausePlaying;
+        private Controls.HotKey keyPlayPause;
+        private Controls.HotKey keyStartStop;
+        internal Controls.BindableNotifyIcon iconPlayPause;
     }
 }
 

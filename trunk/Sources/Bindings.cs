@@ -23,6 +23,7 @@ namespace ScreenCapture
 {
     using System;
     using System.Windows.Forms;
+    using System.Linq.Expressions;
 
     /// <summary>
     ///   Extension methods for binding.
@@ -91,7 +92,6 @@ namespace ScreenCapture
         /// <param name="dataSource">An object that represents the data source.</param>
         /// <param name="dataMember">The property or list to bind to.</param>
         /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
-        /// <param name="parse">The parse transformation which transforms the control's value into the model's property.</param>
         /// 
         public static void Bind<TSource, TDestination>(this IBindableComponent component,
             string propertyName, object dataSource, string dataMember, Func<TSource, TDestination> format)
@@ -115,7 +115,8 @@ namespace ScreenCapture
         /// <param name="parse">The parse transformation which transforms the control's value into the model's property.</param>
         /// 
         public static void Bind<TSource, TDestination>(this IBindableComponent component,
-            string propertyName, object dataSource, string dataMember, Func<TSource, TDestination> format, Func<TDestination, TSource> parse)
+            string propertyName, object dataSource, string dataMember,
+            Func<TSource, TDestination> format, Func<TDestination, TSource> parse)
         {
             if (component == null) throw new ArgumentNullException("component");
             Bind(component, new Binding(propertyName, dataSource, dataMember), format, parse);
@@ -138,9 +139,6 @@ namespace ScreenCapture
         ///   Attaches a binding to a component, using the given format transformation.
         /// </summary>
         /// 
-        /// <typeparam name="TSource">The type of the source property.</typeparam>
-        /// <typeparam name="TDestination">The type of the destination.</typeparam>
-        /// 
         /// <param name="component">The component to which the binding applies (such as a control in the form).</param>
         /// <param name="propertyName">The name of the control property to bind.</param>
         /// <param name="dataSource">An object that represents the data source.</param>
@@ -152,5 +150,104 @@ namespace ScreenCapture
             if (component == null) throw new ArgumentNullException("component");
             Bind(component, new Binding(propertyName, dataSource, dataMember));
         }
+
+        /// <summary>
+        ///   Attaches a binding to a component.
+        /// </summary>
+        /// 
+        /// <param name="component">The component to which the binding applies (such as a control in the form).</param>
+        /// <param name="propertyName">The name of the control property to bind.</param>
+        /// <param name="dataSource">An object that represents the data source.</param>
+        /// <param name="dataMember">The property or list to bind to.</param>
+        /// 
+        public static void Bind<TControl, TSource>(this IBindableComponent component,
+            Expression<Func<TControl, object>> propertyName, TSource dataSource,
+            Expression<Func<TSource, object>> dataMember)
+        {
+            string propertyNameStr, dataMemberStr;
+            getNames(propertyName, dataMember, out propertyNameStr, out dataMemberStr);
+
+            Bind(component, propertyNameStr, dataSource, dataMemberStr);
+        }
+
+        /// <summary>
+        ///   Attaches a binding to a component, using the given format transformation.
+        /// </summary>
+        /// 
+        /// <param name="component">The component to which the binding applies (such as a control in the form).</param>
+        /// <param name="propertyName">The name of the control property to bind.</param>
+        /// <param name="dataSource">An object that represents the data source.</param>
+        /// <param name="dataMember">The property or list to bind to.</param>
+        /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
+        /// 
+        public static void Bind<TControl, TModel, TSource, TDestination>(this IBindableComponent component,
+           Expression<Func<TControl, TDestination>> propertyName, TSource dataSource,
+           Expression<Func<TModel, TSource>> dataMember, Func<TSource, TDestination> format)
+        {
+            string propertyNameStr, dataMemberStr;
+            getNames(propertyName, dataMember, out propertyNameStr, out dataMemberStr);
+
+            Bind(component, propertyNameStr, dataSource, dataMemberStr, format);
+        }
+
+        /// <summary>
+        ///   Attaches a binding to a component, using the given format transformation.
+        /// </summary>
+        /// 
+        /// <param name="component">The component to which the binding applies (such as a control in the form).</param>
+        /// <param name="propertyName">The name of the control property to bind.</param>
+        /// <param name="dataSource">An object that represents the data source.</param>
+        /// <param name="dataMember">The property or list to bind to.</param>
+        /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
+        /// <param name="parse">The parse transformation which transforms the control's value into the model's property.</param>
+        /// 
+        public static void Bind<TControl, TModel, TSource, TDestination>(this IBindableComponent component,
+          Expression<Func<TControl, TDestination>> propertyName, TSource dataSource,
+          Expression<Func<TModel, TSource>> dataMember, Func<TSource, TDestination> format,
+            Func<TDestination, TSource> parse)
+        {
+            string propertyNameStr, dataMemberStr;
+            getNames(propertyName, dataMember, out propertyNameStr, out dataMemberStr);
+
+            Bind(component, propertyNameStr, dataSource, dataMemberStr, format, parse);
+        }
+
+
+
+        private static void getNames<TControl, TModel, TSource, TDestination>(Expression<Func<TControl, TDestination>> propertyName, Expression<Func<TModel, TSource>> dataMember, out string propertyNameStr, out string dataMemberStr)
+        {
+            MemberExpression exp1 = memberInfo(propertyName);
+
+            if (exp1 == null)
+                throw new ArgumentException("Lambda expression for PropertyName is not correct.");
+
+            propertyNameStr = exp1.Member.Name;
+
+            MemberExpression exp2 = memberInfo(dataMember);
+
+            if (exp2 == null)
+                throw new ArgumentException("Lambda expression for DataMember is not correct.");
+
+            dataMemberStr = exp2.Member.Name;
+        }
+
+        private static MemberExpression memberInfo(Expression exp)
+        {
+            LambdaExpression lambdaExp = exp as LambdaExpression;
+
+            if (lambdaExp == null)
+                throw new ArgumentNullException("Lambda expression syntax is not correct");
+
+            MemberExpression memberExp = null;
+
+            if (lambdaExp.Body.NodeType == ExpressionType.MemberAccess)
+                memberExp = lambdaExp.Body as MemberExpression;
+
+            else if (lambdaExp.Body.NodeType == ExpressionType.Convert)
+                memberExp = ((UnaryExpression)lambdaExp.Body).Operand as MemberExpression;
+
+            return memberExp;
+        }
+
     }
 }
