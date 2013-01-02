@@ -25,7 +25,7 @@ namespace ScreenCapture
     using System.Drawing;
     using System.Runtime.InteropServices;
     using System.Security.Permissions;
-    using ScreenCapture.Interop;
+    using ScreenCapture.Native;
 
     /// <summary>
     ///   Class to capture the cursor's bitmap.
@@ -201,8 +201,18 @@ namespace ScreenCapture
         protected virtual void Dispose(bool disposing)
         {
             // free native resources
-            desktopGraphics.ReleaseHdc(desktopHdc);
-            NativeMethods.DeleteDC(maskHdc);
+            if (maskHdc != IntPtr.Zero)
+            {
+                NativeMethods.DeleteDC(maskHdc);
+                maskHdc = IntPtr.Zero;
+            }
+
+            if (desktopGraphics!= null && 
+                desktopHdc != IntPtr.Zero)
+            {
+                desktopGraphics.ReleaseHdc(desktopHdc);
+                desktopHdc = IntPtr.Zero;
+            }
 
             if (disposing)
             {
