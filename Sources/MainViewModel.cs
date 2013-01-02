@@ -30,7 +30,7 @@ namespace ScreenCapture
     using AForge.Imaging.Filters;
     using AForge.Video;
     using AForge.Video.FFMPEG;
-    using ScreenCapture.Interop;
+    using ScreenCapture.Native;
 
     /// <summary>
     ///   Region capturing modes.
@@ -67,6 +67,8 @@ namespace ScreenCapture
         public VideoFileWriter VideoWriter { get; private set; }
         public VideoSourcePlayer Player { get; private set; }
 
+        public IconViewModel Icons { get; private set; }
+
 
         public string CurrentDirectory { get; set; }
         public string CurrentFileName { get; set; }
@@ -94,6 +96,8 @@ namespace ScreenCapture
 
         public event EventHandler TargetWindowRequested;
 
+        private object syncObj = new object();
+
 
         public MainViewModel(VideoSourcePlayer player)
         {
@@ -110,8 +114,11 @@ namespace ScreenCapture
             IsRecording = false;
             IsFramesVisible = false;
 
-
+            cursorCapture = new CaptureCursor();
+            
             CurrentRegion = new Rectangle(0, 0, 640, 480);
+            Icons = new IconViewModel(this);
+
             Status = "Ready";
         }
 
@@ -142,7 +149,6 @@ namespace ScreenCapture
             }
 
             CurrentRegion = Screen.PrimaryScreen.Bounds;
-            cursorCapture = new CaptureCursor();
 
             int height = CurrentRegion.Height;
             int width = CurrentRegion.Width;
@@ -160,13 +166,13 @@ namespace ScreenCapture
             if (IsRecording || !IsPlaying) return;
 
             Rectangle area = CurrentRegion;
+            CurrentFileName = newFileName();
 
             int height = area.Height;
             int width = area.Width;
             int framerate = 24;
             int bitrate = 10 * 1000 * 1000;
 
-            CurrentFileName = getNewFileName();
             string path = Path.Combine(CurrentDirectory, CurrentFileName);
 
             RecordingStartTime = DateTime.MinValue;
@@ -190,10 +196,13 @@ namespace ScreenCapture
             if (!IsRecording)
                 return;
 
-            if (VideoWriter != null)
-                VideoWriter.Close();
+            lock (syncObj)
+            {
+                if (VideoWriter != null && VideoWriter.IsOpen)
+                    VideoWriter.Close();
 
-            IsRecording = false;
+                IsRecording = false;
+            }
         }
 
 
@@ -223,8 +232,10 @@ namespace ScreenCapture
                 Bitmap cursor = cursorCapture.GetBitmap();
 
                 if (cursor != null)
+                {
                     using (Graphics g = Graphics.FromImage(image))
                         g.DrawImage(cursor, cursorCapture.Position);
+                }
             }
 
 
@@ -238,13 +249,16 @@ namespace ScreenCapture
             }
 
 
-            if (IsRecording)
+            lock (syncObj)
             {
-                if (RecordingStartTime == DateTime.MinValue)
-                    RecordingStartTime = DateTime.Now;
+                if (IsRecording)
+                {
+                    if (RecordingStartTime == DateTime.MinValue)
+                        RecordingStartTime = DateTime.Now;
 
-                RecordingDuration = DateTime.Now - RecordingStartTime;
-                VideoWriter.WriteVideoFrame(image, RecordingDuration);
+                    RecordingDuration = DateTime.Now - RecordingStartTime;
+                    VideoWriter.WriteVideoFrame(image, RecordingDuration);
+                }
             }
         }
 
@@ -267,9 +281,9 @@ namespace ScreenCapture
 
 
 
-        private string getNewFileName()
+        private string newFileName()
         {
-            string date = DateTime.Now.ToString("yyyy-MM-dd-HH'h'mm'm'ss's'", 
+            string date = DateTime.Now.ToString("yyyy-MM-dd-HH'h'mm'm'ss's'",
                 System.Globalization.CultureInfo.CurrentCulture);
 
             string mode = String.Empty;
@@ -301,7 +315,7 @@ namespace ScreenCapture
 
         /// <summary>
         ///   Releases unmanaged resources and performs other cleanup operations 
-        ///   before the <see cref="MainViewMode"/> is reclaimed by garbage collection.
+        ///   before the <see cref="MainViewModel"/> is reclaimed by garbage collection.
         /// </summary>
         /// 
         ~MainViewModel()
@@ -336,8 +350,8 @@ namespace ScreenCapture
         // from this application. The event raising is handled automatically
         // by the NotifyPropertyWeaver VS extension using IL injection.
         //
-        #pragma warning disable 0067
+#pragma warning disable 0067
         public event PropertyChangedEventHandler PropertyChanged;
-        #pragma warning restore 0067
+#pragma warning restore 0067
     }
 }
