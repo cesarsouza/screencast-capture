@@ -19,12 +19,12 @@
 //    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 // 
 
-namespace ScreenCapture.Interop
+namespace ScreenCapture.Native
 {
     using System;
+    using System.CodeDom.Compiler;
     using System.Drawing;
     using System.Runtime.InteropServices;
-using System.CodeDom.Compiler;
 
     /// <summary>
     ///   Native Win32 methods.
@@ -32,6 +32,7 @@ using System.CodeDom.Compiler;
     /// 
     internal static partial class NativeMethods
     {
+        public static IntPtr HWND_MESSAGE = new IntPtr(-3);
 
         /// <summary>
         ///   Deletes a logical pen, brush, font, bitmap, region, or palette,

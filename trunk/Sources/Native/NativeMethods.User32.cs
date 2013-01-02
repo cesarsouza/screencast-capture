@@ -19,13 +19,14 @@
 //    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 // 
 
-namespace ScreenCapture.Interop
+namespace ScreenCapture.Native
 {
     using System;
     using System.ComponentModel;
     using System.Drawing;
     using System.Runtime.InteropServices;
     using System.Diagnostics.CodeAnalysis;
+    using System.Windows.Forms;
 
     /// <summary>
     ///   Native Win32 methods.
@@ -34,6 +35,22 @@ namespace ScreenCapture.Interop
     internal static partial class NativeMethods
     {
 
+        public static int MOD_ALT = 0x1;
+        public static int MOD_CONTROL = 0x2;
+        public static int MOD_SHIFT = 0x4;
+        public static int WM_HOTKEY = 0x312;
+
+        public const uint ERROR_HOTKEY_ALREADY_REGISTERED = 1409;
+
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool RegisterHotKey(IntPtr hwnd, int id, uint fsModifiers, uint vk);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
         /// <summary>
         ///   Destroys an icon and frees any memory the icon occupied.
         /// </summary>
@@ -41,14 +58,6 @@ namespace ScreenCapture.Interop
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool DestroyIcon(IntPtr hIcon);
-
-        /// <summary>
-        ///   Retrieves the position of the mouse cursor, in screen coordinates.
-        /// </summary>
-        /// 
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool GetCursorPos(out Point lpPoint);
 
         /// <summary>
         ///   Retrieves a handle to the window that contains the specified point.
@@ -76,38 +85,6 @@ namespace ScreenCapture.Interop
         /// 
         [DllImport("user32.dll")]
         internal static extern IntPtr GetDesktopWindow();
-
-        /// <summary>
-        ///   Retrieves a handle to a device context (DC) for the client area 
-        ///   of a specified window or for the entire screen.
-        /// </summary>
-        /// 
-        [DllImport("user32.dll")]
-        internal static extern IntPtr GetDC(IntPtr ptr);
-
-        /// <summary>
-        ///   Retrieves the specified system metric or system configuration setting.
-        /// </summary>
-        /// 
-        [DllImport("user32.dll")]
-        internal static extern int GetSystemMetrics(int abc);
-
-        /// <summary>
-        ///   The GetWindowDC function retrieves the device context (DC) for the entire
-        ///   window, including title bar, menus, and scroll bars.
-        /// </summary>
-        /// 
-        [DllImport("user32.dll")]
-        internal static extern IntPtr GetWindowDC(Int32 ptr);
-
-        /// <summary>
-        ///   Releases a device context (DC), freeing it for use by other applications. The
-        ///   effect of the ReleaseDC function depends on the type of DC. It frees only common
-        ///   and window DCs. It has no effect on class or private DCs.
-        /// </summary>
-        /// 
-        [DllImport("user32.dll")]
-        internal static extern Int32 ReleaseDC(IntPtr hWnd, IntPtr hDc);
 
         /// <summary>
         ///   Retrieves information about the global cursor.
@@ -148,14 +125,15 @@ namespace ScreenCapture.Interop
         /// 
         public static Rectangle GetWindowRect(IntPtr hwnd)
         {
+            if (hwnd == null)
+                throw new ArgumentNullException("hWnd");
+
             RECT r;
             if (!NativeMethods.GetWindowRect(hwnd, out r))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
 
             return new Rectangle(r.Left, r.Top, r.Right - r.Left + 1, r.Bottom - r.Top + 1);
         }
-
-
 
         /// <summary>
         ///   Title bar position.
@@ -164,13 +142,11 @@ namespace ScreenCapture.Interop
         public static int HTCAPTION = 0x00000002;
 
 
-
         /// <summary>
         ///   Moves the window.
         /// </summary>
         /// 
         public static int SC_MOVE = 0xF010;
-
 
 
         /// <summary>
