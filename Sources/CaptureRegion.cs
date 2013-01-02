@@ -24,7 +24,7 @@ namespace ScreenCapture
     using System;
     using System.Drawing;
     using System.Windows.Forms;
-    using ScreenCapture.Interop;
+    using ScreenCapture.Native;
 
     /// <summary>
     ///   Capture Region Window.
@@ -66,9 +66,6 @@ namespace ScreenCapture
             : this()
         {
             this.viewModel = viewModel;
-
-            this.Bind("BackColor", viewModel, "IsRecording", (bool value) =>
-                value ? Color.Firebrick : Color.Gold);
         }
 
         /// <summary>
@@ -81,6 +78,14 @@ namespace ScreenCapture
             InitializeComponent();
             Pinned = false;
         }
+
+        private void CaptureRegion_Load(object sender, EventArgs e)
+        {
+            this.Bind("BackColor", viewModel, "IsRecording", (bool value) => value ? Color.Firebrick : Color.Gold);
+            this.Bind("Visible", viewModel, "IsFramesVisible");
+            this.Bind("Pinned", viewModel, "IsRecording");
+        }
+
 
         protected override void OnVisibleChanged(EventArgs e)
         {
@@ -163,5 +168,9 @@ namespace ScreenCapture
             }
         }
 
+        public void Initialize()
+        {
+            Show(); Hide();
+        }
     }
 }

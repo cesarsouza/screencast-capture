@@ -24,6 +24,7 @@ namespace ScreenCapture
     using System;
     using System.Windows.Forms;
     using Microsoft.WindowsAPICodePack.Shell;
+    using ScreenCapture.Properties;
 
     /// <summary>
     ///   Main window for the Screencast Capture application.
@@ -61,14 +62,12 @@ namespace ScreenCapture
             // form controls and properties from the view model.
             //
             this.Bind("BrowserDirectory", viewModel, "CurrentDirectory");
+
             btnStartRecording.Bind("Enabled", viewModel, "IsPlaying");
             btnStartRecording.Bind("Visible", viewModel, "IsRecording", (bool value) => !value);
             btnStopRecording.Bind("Visible", viewModel, "IsRecording");
             btnStartPlaying.Bind("Visible", viewModel, "IsPlaying", (bool value) => !value);
             btnPausePlaying.Bind("Visible", viewModel, "IsPlaying");
-            lbStatusRecording.Bind("Visible", viewModel, "IsRecording");
-            lbStatusReady.Bind("Visible", viewModel, "IsRecording", (bool value) => !value);
-            btnCaptureMode.Bind("Enabled", viewModel, "IsRecording", (bool value) => !value);
 
             videoSourcePlayer1.Bind("Visible", viewModel, "IsPreviewVisible");
             explorerBrowser.Bind("Visible", viewModel, "IsPreviewVisible", (bool value) => !value);
@@ -82,13 +81,32 @@ namespace ScreenCapture
             btnCaptureWindow.Bind("Checked", viewModel, "CaptureMode",
                 (CaptureRegionOption value) => value == CaptureRegionOption.Window);
 
-            regionWindow.Show();
-            regionWindow.Bind("Visible", viewModel, "IsFramesVisible");
-            regionWindow.Bind("Pinned", viewModel, "IsRecording");
+            lbStatusRecording.Bind("Visible", viewModel, "IsRecording");
+            lbStatusReady.Bind("Visible", viewModel, "IsRecording", (bool value) => !value);
+            btnCaptureMode.Bind("Enabled", viewModel, "IsRecording", (bool value) => !value);
 
-            windowWindow.Show();
-            windowWindow.Bind("Following", viewModel, "IsChoosingTarget");
-            windowWindow.Bind("Visible", viewModel, "IsChoosingTarget");
+            iconPlayPause.Bind("Text", viewModel.Icons, "CurrentText");
+            iconPlayPause.Bind("Icon", viewModel.Icons, "CurrentIcon");
+            iconPlayPause.Visible = true;
+
+            regionWindow.Initialize();
+            windowWindow.Initialize();
+
+            if (Settings.Default.FirstRun)
+                showGreetings();
+        }
+
+
+        private void showGreetings()
+        {
+            iconPlayPause.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            iconPlayPause.BalloonTipTitle = "Hi there!";
+            iconPlayPause.BalloonTipText =
+                "Perhaps you would like to know that this software is more useful if"
+                + " you enable always-visible notification icons for it. Please click"
+                + " the wench button above and enable them if you wish!";
+
+            iconPlayPause.ShowBalloonTip(5000);
         }
 
 
@@ -153,7 +171,7 @@ namespace ScreenCapture
             btnCaptureMode.Image = item.Image;
         }
 
-        
+
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -177,6 +195,21 @@ namespace ScreenCapture
             }
             set { explorerBrowser.Navigate(ShellFileSystemFolder.FromFolderPath(value)); }
         }
+
+        private void hotkeyPlayPause_Pressed(object sender, System.ComponentModel.HandledEventArgs e)
+        {
+            if (viewModel.IsPlaying)
+                viewModel.PausePlaying();
+            else viewModel.StartPlaying();
+        }
+
+        private void hotkeyStop_Pressed(object sender, System.ComponentModel.HandledEventArgs e)
+        {
+            if (viewModel.IsRecording)
+                viewModel.StopRecording();
+            else viewModel.StartRecording();
+        }
+
 
     }
 }

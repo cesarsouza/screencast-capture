@@ -39,6 +39,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\ScreenCapture.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -50,12 +51,13 @@
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>ScreenCapture.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>..\Binaries\ScreenCapture.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>capture.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\screencast.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -123,6 +125,7 @@
     <Compile Include="CaptureWindow.Designer.cs">
       <DependentUpon>CaptureWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\BindableNotifyIcon.cs" />
     <Compile Include="Controls\BindableToolStripButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -136,6 +139,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CaptureCursor.cs" />
+    <Compile Include="Controls\HotKey.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="IconViewModel.cs" />
+    <Compile Include="Native\SafeNativeMethods.cs" />
     <Compile Include="Properties\GlobalSuppressions.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -178,19 +186,17 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="ScreenCapture.snk" />
+    <None Include="Setup\setup.cmd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\mix_record.png" />
     <None Include="Resources\player_eject.png" />
     <None Include="Resources\player_end.png" />
-    <None Include="Resources\player_end1.png" />
     <None Include="Resources\player_fwd.png" />
     <None Include="Resources\player_pause.png" />
     <None Include="Resources\player_play.png" />
     <None Include="Resources\player_rew.png" />
-    <None Include="Resources\player_start.png" />
     <None Include="Resources\player_stop.png" />
-    <None Include="Resources\player-end.png" />
     <None Include="Resources\camera.png" />
     <None Include="Resources\kview.png" />
     <None Include="Resources\ksnapshot.png" />
@@ -223,10 +229,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="capture.ico" />
+    <None Include="Resources\icon_pause_overlay.png" />
+    <None Include="Resources\icon_play_overlay.png" />
+    <None Include="Resources\icon_record_overlay.png" />
+    <None Include="Resources\icon_stop_overlay.png" />
+    <None Include="Resources\icon_pause_overlay.ico" />
+    <None Include="Resources\icon_play_overlay.ico" />
+    <None Include="Resources\icon_record_overlay.ico" />
+    <None Include="Resources\icon_stop_overlay.ico" />
+    <None Include="Resources\screencast.ico" />
     <Content Include="Setup\setup.iss" />
     <CodeAnalysisDictionary Include="Properties\Dictionary.xml">
       <SubType>Designer</SubType>
     </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\masters\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">

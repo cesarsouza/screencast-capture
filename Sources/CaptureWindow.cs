@@ -89,7 +89,6 @@ namespace ScreenCapture
             : this()
         {
             this.viewModel = viewModel;
-            this.timer.Start();
         }
 
 
@@ -102,6 +101,15 @@ namespace ScreenCapture
         {
             InitializeComponent();
         }
+
+        private void CaptureWindow_Load(object sender, EventArgs e)
+        {
+            timer.Start();
+            this.Bind("Following", viewModel, "IsChoosingTarget");
+            this.Bind("Visible", viewModel, "IsChoosingTarget");
+        }
+
+        
 
         /// <summary>
         ///   Triggers when the user clicks the mouse when the window is being shown.
@@ -156,6 +164,11 @@ namespace ScreenCapture
             }
 
             base.OnPreviewKeyDown(e);
+        }
+
+        public void Initialize()
+        {
+            Show(); Hide();
         }
 
     }
