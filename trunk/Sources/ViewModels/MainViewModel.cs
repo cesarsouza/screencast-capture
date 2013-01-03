@@ -26,6 +26,7 @@ namespace ScreenCapture.ViewModels
     using AForge.Video;
     using AForge.Video.FFMPEG;
     using ScreenCapture.Native;
+    using ScreenCapture.Properties;
     using System;
     using System.ComponentModel;
     using System.Drawing;
@@ -68,12 +69,6 @@ namespace ScreenCapture.ViewModels
         /// </summary>
         /// 
         public NotifyViewModel Notify { get; private set; }
-
-        /// <summary>
-        ///   Gets the options dialog view-model.
-        /// </summary>
-        /// 
-        public OptionViewModel Options { get; private set; }
 
 
 
@@ -175,6 +170,7 @@ namespace ScreenCapture.ViewModels
         private VideoSourcePlayer videoPlayer;
         private Crop crop = new Crop(Rectangle.Empty);
         private CaptureCursor cursorCapture;
+        private CaptureClick clickCapture;
         private Object syncObj = new Object();
 
 
@@ -184,19 +180,19 @@ namespace ScreenCapture.ViewModels
         /// 
         public MainViewModel(VideoSourcePlayer player)
         {
-            if (player == null) 
+            if (player == null)
                 throw new ArgumentNullException("player");
 
-            Options = new OptionViewModel();
             Notify = new NotifyViewModel(this);
 
             videoPlayer = player;
             videoPlayer.NewFrame += new VideoSourcePlayer.NewFrameHandler(Player_NewFrame);
 
-            CurrentDirectory = Options.DefaultSaveFolder;
+            CurrentDirectory = Settings.Default.DefaultFolder;
             CaptureMode = CaptureRegionOption.Primary;
             IsPreviewVisible = true;
 
+            clickCapture = new CaptureClick();
             cursorCapture = new CaptureCursor();
             CaptureRegion = new Rectangle(0, 0, 640, 480);
 
@@ -250,10 +246,16 @@ namespace ScreenCapture.ViewModels
             int width = CaptureRegion.Width;
 
             screenStream = new ScreenCaptureStream(CaptureRegion, 1000 / framerate);
+            screenStream.VideoSourceError += screenStream_VideoSourceError;
             videoPlayer.VideoSource = screenStream;
             videoPlayer.Start();
 
             IsPlaying = true;
+        }
+
+        void screenStream_VideoSourceError(object sender, VideoSourceErrorEventArgs eventArgs)
+        {
+            throw new VideoException(eventArgs.Description);
         }
 
 
@@ -374,14 +376,18 @@ namespace ScreenCapture.ViewModels
 
         private void Player_NewFrame(object sender, ref Bitmap image)
         {
-            if (Options.CaptureMouse)
-            {
-                Bitmap cursor = cursorCapture.GetBitmap();
+            bool captureMouse = Settings.Default.CaptureMouse;
+            bool captureClick = Settings.Default.CaptureClick;
 
-                if (cursor != null)
+            if (captureMouse || captureClick)
+            {
+                using (Graphics g = Graphics.FromImage(image))
                 {
-                    using (Graphics g = Graphics.FromImage(image))
-                        g.DrawImage(cursor, cursorCapture.Position);
+                    if (captureMouse)
+                        cursorCapture.Draw(g);
+
+                    if (captureClick)
+                        clickCapture.Draw(g);
                 }
             }
 
@@ -483,6 +489,12 @@ namespace ScreenCapture.ViewModels
             if (disposing)
             {
                 // free managed resources
+                if (clickCapture != null)
+                {
+                    clickCapture.Dispose();
+                    clickCapture = null;
+                }
+
                 if (cursorCapture != null)
                 {
                     cursorCapture.Dispose();

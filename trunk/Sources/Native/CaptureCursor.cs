@@ -166,6 +166,14 @@ namespace ScreenCapture
         }
 
 
+        public void Draw(Graphics g)
+        {
+            Bitmap cursor = GetBitmap();
+
+            if (cursor != null)
+                g.DrawImage(cursor, Position);
+        }
+
 
         #region IDisposable implementation
 
@@ -222,6 +230,6 @@ namespace ScreenCapture
             }
         }
         #endregion
-
+        
     }
 }

@@ -24,6 +24,7 @@ namespace ScreenCapture.Views
     using System;
     using System.Windows.Forms;
     using ScreenCapture.ViewModels;
+    using ScreenCapture.Properties;
 
     /// <summary>
     ///   Main window for the Screencast Capture application.
@@ -78,7 +79,7 @@ namespace ScreenCapture.Views
             explorerBrowser.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible, value => !value);
             btnScreenPreview.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible, value => !value);
             btnStorageFolder.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible);
-            explorerBrowser.Bind(b => b.DefaultDirectory, viewModel.Options, m => m.DefaultSaveFolder);
+            explorerBrowser.Bind(b => b.DefaultDirectory, Settings.Default, m => m.DefaultFolder);
 
             btnCapturePrimaryScreen.Bind(b => b.Checked, viewModel, m => m.CaptureMode, value => value == CaptureRegionOption.Primary);
             btnCaptureRegion.Bind(b => b.Checked, viewModel, m => m.CaptureMode, value => value == CaptureRegionOption.Fixed);
