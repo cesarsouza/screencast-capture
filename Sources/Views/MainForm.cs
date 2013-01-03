@@ -63,7 +63,7 @@ namespace ScreenCapture.Views
             // This section configures all the bindings between 
             // form controls and properties from the view model.
             //
-            var binding = 
+            var binding =
             explorerBrowser.Bind(b => b.CurrentDirectory, viewModel, m => m.CurrentDirectory);
             binding.DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged;
             binding.ControlUpdateMode = ControlUpdateMode.OnPropertyChanged;
@@ -80,12 +80,12 @@ namespace ScreenCapture.Views
             btnStorageFolder.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible);
             explorerBrowser.Bind(b => b.DefaultDirectory, viewModel.Options, m => m.DefaultSaveFolder);
 
-            btnCapturePrimaryScreen.Bind(b => b.Checked, viewModel, m => m.CaptureMode,
-                value => value == CaptureRegionOption.Primary);
-            btnCaptureRegion.Bind(b => b.Checked, viewModel, m => m.CaptureMode,
-                value => value == CaptureRegionOption.Fixed);
-            btnCaptureWindow.Bind(b => b.Checked, viewModel, m => m.CaptureMode,
-                value => value == CaptureRegionOption.Window);
+            btnCapturePrimaryScreen.Bind(b => b.Checked, viewModel, m => m.CaptureMode, value => value == CaptureRegionOption.Primary);
+            btnCaptureRegion.Bind(b => b.Checked, viewModel, m => m.CaptureMode, value => value == CaptureRegionOption.Fixed);
+            btnCaptureWindow.Bind(b => b.Checked, viewModel, m => m.CaptureMode, value => value == CaptureRegionOption.Window);
+
+            btnCaptureMode.Bind(b => b.Text, viewModel, m => m.CaptureMode, x => getModeButton(x).Text);
+            btnCaptureMode.Bind(b => b.Image, viewModel, m => m.CaptureMode, x => getModeButton(x).Image);
 
             lbStatusRecording.Bind(b => b.Visible, viewModel, m => m.IsRecording);
             lbStatusReady.Bind(b => b.Visible, viewModel, m => m.IsRecording, value => !value);
@@ -144,31 +144,39 @@ namespace ScreenCapture.Views
         private void btnCapturePrimaryScreen_Click(object sender, EventArgs e)
         {
             viewModel.CaptureMode = CaptureRegionOption.Primary;
-            updateCaptureMode(sender as ToolStripMenuItem);
         }
 
         private void btnCaptureWindow_Click(object sender, EventArgs e)
         {
             viewModel.CaptureMode = CaptureRegionOption.Window;
-            updateCaptureMode(sender as ToolStripMenuItem);
         }
 
         private void btnCaptureRegion_Click(object sender, EventArgs e)
         {
             viewModel.CaptureMode = CaptureRegionOption.Fixed;
-            updateCaptureMode(sender as ToolStripMenuItem);
         }
 
-        private void updateCaptureMode(ToolStripMenuItem item)
+        private ToolStripMenuItem getModeButton(CaptureRegionOption mode)
         {
-            btnCaptureMode.Text = item.Text;
-            btnCaptureMode.Image = item.Image;
+            switch (mode)
+            {
+                case CaptureRegionOption.Fixed:
+                    return btnCaptureRegion;
+                case CaptureRegionOption.Primary:
+                    return btnCapturePrimaryScreen;
+                case CaptureRegionOption.Window:
+                    return btnCaptureWindow;
+                default:
+                    throw new ArgumentOutOfRangeException("mode");
+            }
         }
 
 
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            regionWindow.Close();
+            windowWindow.Close();
             viewModel.Close();
         }
 
@@ -191,7 +199,8 @@ namespace ScreenCapture.Views
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            new OptionForm().ShowDialog(this);
+            using (OptionForm form = new OptionForm())
+                form.ShowDialog(this);
         }
 
 
