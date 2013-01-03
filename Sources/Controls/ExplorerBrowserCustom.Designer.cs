@@ -1,6 +1,6 @@
 ﻿namespace ScreenCapture.Controls
 {
-    partial class ExplorerBrowserEx
+    partial class ExplorerBrowserCustom
     {
         /// <summary> 
         /// Required designer variable.

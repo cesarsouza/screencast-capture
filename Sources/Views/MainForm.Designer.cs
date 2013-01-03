@@ -34,7 +34,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.explorerBrowser = new Controls.ExplorerBrowserEx();
+            this.explorerBrowser = new Controls.ExplorerBrowserCustom();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnSettings = new System.Windows.Forms.ToolStripStatusLabel();
@@ -311,7 +311,7 @@
 
         #endregion
 
-        private ScreenCapture.Controls.ExplorerBrowserEx explorerBrowser;
+        private ScreenCapture.Controls.ExplorerBrowserCustom explorerBrowser;
         private System.Windows.Forms.ToolStrip toolStrip;
         private ScreenCapture.Controls.BindableToolStripButton btnStartRecording;
         private System.Windows.Forms.StatusStrip statusStrip;

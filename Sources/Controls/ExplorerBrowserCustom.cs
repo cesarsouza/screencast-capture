@@ -31,7 +31,7 @@ namespace ScreenCapture.Controls
     ///   Extended version of the Explorer Browser control.
     /// </summary>
     /// 
-    public partial class ExplorerBrowserEx : UserControl, INotifyPropertyChanged
+    public partial class ExplorerBrowserCustom : UserControl, INotifyPropertyChanged
     {
 
         /// <summary>
@@ -66,10 +66,10 @@ namespace ScreenCapture.Controls
 
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="ExplorerBrowserEx"/> class.
+        ///   Initializes a new instance of the <see cref="ExplorerBrowserCustom"/> class.
         /// </summary>
         /// 
-        public ExplorerBrowserEx()
+        public ExplorerBrowserCustom()
         {
             InitializeComponent();
 
