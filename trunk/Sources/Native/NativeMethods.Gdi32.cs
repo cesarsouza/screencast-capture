@@ -144,8 +144,7 @@ namespace ScreenCapture.Native
         public Int32 cbSize;
 
         /// <summary>
-        ///   The cursor state. This parameter can be one of the following values:
-        ///   0, <see cref="CURSOR_SHOWING"/>, <see cref="CURSOR_SUPPRESSED"/>.
+        ///   The cursor state.
         /// </summary>
         /// 
         public CursorState flags;
