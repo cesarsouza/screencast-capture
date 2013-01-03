@@ -122,6 +122,8 @@
     <Compile Include="Controls\BindableToolStripTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Native\CaptureClick.cs" />
+    <Compile Include="Native\NativeMethods.Kernel32.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="ViewModels\OptionViewModel.cs" />
     <Compile Include="Views\CaptureRegion.cs">

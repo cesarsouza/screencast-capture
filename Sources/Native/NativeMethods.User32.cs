@@ -51,6 +51,16 @@ namespace ScreenCapture.Native
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
+        [DllImport("user32.dll")]
+        internal static extern IntPtr SetWindowsHookEx(HookType code, LowLevelMouseProc func, IntPtr hInstance, int threadID);
+
+        [DllImport("user32.dll")]
+        internal static extern int CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool UnhookWindowsHookEx(IntPtr hhk);
+
         /// <summary>
         ///   Destroys an icon and frees any memory the icon occupied.
         /// </summary>
@@ -174,6 +184,9 @@ namespace ScreenCapture.Native
         /// 
         public static int WM_INITMENUPOPUP = 0x117;
 
+        public static int WM_LBUTTONDOWN = 0x0201;
+        public static int WM_MOUSEMOVE = 0x0200;
+        public static int WM_LBUTTONUP = 0x0202;
 
 
         /// <summary>
@@ -201,6 +214,39 @@ namespace ScreenCapture.Native
         /// </summary>
         /// 
         public static int MF_DISABLED = 0x00000002;
+
+        
+
+        public enum HookType : int
+        {
+            WH_JOURNALRECORD = 0,
+            WH_JOURNALPLAYBACK = 1,
+            WH_KEYBOARD = 2,
+            WH_GETMESSAGE = 3,
+            WH_CALLWNDPROC = 4,
+            WH_CBT = 5,
+            WH_SYSMSGFILTER = 6,
+            WH_MOUSE = 7,
+            WH_HARDWARE = 8,
+            WH_DEBUG = 9,
+            WH_SHELL = 10,
+            WH_FOREGROUNDIDLE = 11,
+            WH_CALLWNDPROCRET = 12,
+            WH_KEYBOARD_LL = 13,
+            WH_MOUSE_LL = 14
+        }
+
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct MouseHookStruct
+        {
+            public Point pt;
+            public int hwnd;
+            public int wHitTestCode;
+            public int dwExtraInfo;
+        }
+
+        internal delegate int LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
 
     }
 }
