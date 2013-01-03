@@ -82,12 +82,15 @@ namespace ScreenCapture
         /// <param name="binding">The binding object which defines the property being bound (such as a ViewModel property).</param>
         /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
         /// 
-        public static void Bind<TSource, TDestination>(this IBindableComponent component, Binding binding, Func<TSource, TDestination> format)
+        public static Binding Bind<TSource, TDestination>(this IBindableComponent component, 
+            Binding binding, Func<TSource, TDestination> format)
         {
             if (component == null) throw new ArgumentNullException("component");
             if (binding == null) throw new ArgumentNullException("binding");
             binding.Format += (sender, e) => e.Value = format((TSource)e.Value);
+            binding.FormattingEnabled = true;
             component.DataBindings.Add(binding);
+            return binding;
         }
 
         /// <summary>
@@ -102,13 +105,16 @@ namespace ScreenCapture
         /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
         /// <param name="parse">The parse transformation which transforms the control's value into the model's property.</param>
         /// 
-        public static void Bind<TSource, TDestination>(this IBindableComponent component, Binding binding, Func<TSource, TDestination> format, Func<TDestination, TSource> parse)
+        public static Binding Bind<TSource, TDestination>(this IBindableComponent component,
+            Binding binding, Func<TSource, TDestination> format, Func<TDestination, TSource> parse)
         {
             if (component == null) throw new ArgumentNullException("component");
             if (binding == null) throw new ArgumentNullException("component");
             binding.Parse += (sender, e) => e.Value = parse((TDestination)e.Value);
             binding.Format += (sender, e) => e.Value = format((TSource)e.Value);
+            binding.FormattingEnabled = true;
             component.DataBindings.Add(binding);
+            return binding;
         }
 
         /// <summary>
@@ -124,11 +130,11 @@ namespace ScreenCapture
         /// <param name="dataMember">The property or list to bind to.</param>
         /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
         /// 
-        public static void Bind<TSource, TDestination>(this IBindableComponent component,
+        public static Binding Bind<TSource, TDestination>(this IBindableComponent component,
             string propertyName, object dataSource, string dataMember, Func<TSource, TDestination> format)
         {
             if (component == null) throw new ArgumentNullException("component");
-            Bind(component, new Binding(propertyName, dataSource, dataMember), format);
+            return Bind(component, new Binding(propertyName, dataSource, dataMember), format);
         }
 
         /// <summary>
@@ -145,12 +151,12 @@ namespace ScreenCapture
         /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
         /// <param name="parse">The parse transformation which transforms the control's value into the model's property.</param>
         /// 
-        public static void Bind<TSource, TDestination>(this IBindableComponent component,
+        public static Binding Bind<TSource, TDestination>(this IBindableComponent component,
             string propertyName, object dataSource, string dataMember,
             Func<TSource, TDestination> format, Func<TDestination, TSource> parse)
         {
             if (component == null) throw new ArgumentNullException("component");
-            Bind(component, new Binding(propertyName, dataSource, dataMember, true), format, parse);
+            return Bind(component, new Binding(propertyName, dataSource, dataMember, true), format, parse);
         }
 
         /// <summary>
@@ -160,10 +166,11 @@ namespace ScreenCapture
         /// <param name="component">The component to which the binding applies (such as a control in the form).</param>
         /// <param name="binding">The binding object which defines the property being bound (such as a ViewModel property).</param>
         /// 
-        public static void Bind(this IBindableComponent component, Binding binding)
+        public static Binding Bind(this IBindableComponent component, Binding binding)
         {
             if (component == null) throw new ArgumentNullException("component");
             component.DataBindings.Add(binding);
+            return binding;
         }
 
         /// <summary>
@@ -175,11 +182,11 @@ namespace ScreenCapture
         /// <param name="dataSource">An object that represents the data source.</param>
         /// <param name="dataMember">The property or list to bind to.</param>
         /// 
-        public static void Bind(this IBindableComponent component,
+        public static Binding Bind(this IBindableComponent component,
             string propertyName, object dataSource, string dataMember)
         {
             if (component == null) throw new ArgumentNullException("component");
-            Bind(component, new Binding(propertyName, dataSource, dataMember));
+            return Bind(component, new Binding(propertyName, dataSource, dataMember));
         }
 
         /// <summary>
@@ -191,7 +198,7 @@ namespace ScreenCapture
         /// <param name="dataSource">An object that represents the data source.</param>
         /// <param name="dataMember">The property or list to bind to.</param>
         /// 
-        public static void Bind<TControl, TModel, TSource>(this TControl component,
+        public static Binding Bind<TControl, TModel, TSource>(this TControl component,
             Expression<Func<TControl, object>> propertyName, TModel dataSource,
             Expression<Func<TModel, TSource>> dataMember)
             where TControl : IBindableComponent
@@ -202,7 +209,7 @@ namespace ScreenCapture
             if (nameString == null) throw new ArgumentException("Unexpected expression.", "propertyName");
             if (dataString == null) throw new ArgumentException("Unexpected expression.", "dataMember");
 
-            Bind(component, nameString, dataSource, dataString);
+            return Bind(component, nameString, dataSource, dataString);
         }
 
         /// <summary>
@@ -215,7 +222,7 @@ namespace ScreenCapture
         /// <param name="dataMember">The property or list to bind to.</param>
         /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
         /// 
-        public static void Bind<TControl, TModel, TSource, TDestination>(this TControl component,
+        public static Binding Bind<TControl, TModel, TSource, TDestination>(this TControl component,
            Expression<Func<TControl, TDestination>> propertyName, TModel dataSource,
            Expression<Func<TModel, TSource>> dataMember, Func<TSource, TDestination> format)
             where TControl : IBindableComponent
@@ -226,7 +233,7 @@ namespace ScreenCapture
             if (nameString == null) throw new ArgumentException("Unexpected expression.", "propertyName");
             if (dataString == null) throw new ArgumentException("Unexpected expression.", "dataMember");
 
-            Bind(component, nameString, dataSource, dataString, format);
+            return Bind(component, nameString, dataSource, dataString, format);
         }
 
         /// <summary>
@@ -240,7 +247,7 @@ namespace ScreenCapture
         /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
         /// <param name="parse">The parse transformation which transforms the control's value into the model's property.</param>
         /// 
-        public static void Bind<TControl, TModel, TSource, TDestination>(this TControl component,
+        public static Binding Bind<TControl, TModel, TSource, TDestination>(this TControl component,
            Expression<Func<TControl, TDestination>> propertyName, TModel dataSource,
            Expression<Func<TModel, TSource>> dataMember, Func<TSource, TDestination> format,
             Func<TDestination, TSource> parse)
@@ -252,7 +259,7 @@ namespace ScreenCapture
             if (nameString == null) throw new ArgumentException("Unexpected expression.", "propertyName");
             if (dataString == null) throw new ArgumentException("Unexpected expression.", "dataMember");
 
-            Bind(component, nameString, dataSource, dataString, format, parse);
+            return Bind(component, nameString, dataSource, dataString, format, parse);
         }
 
 
