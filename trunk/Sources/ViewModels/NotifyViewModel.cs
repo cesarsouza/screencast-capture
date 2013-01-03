@@ -88,7 +88,7 @@ namespace ScreenCapture.ViewModels
         /// 
         public void Loaded()
         {
-            if (main.Options.FirstRun)
+            if (Settings.Default.FirstRun)
                 showGreetings();
         }
 
