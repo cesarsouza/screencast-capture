@@ -63,109 +63,208 @@ namespace ScreenCapture.ViewModels
     public class MainViewModel : INotifyPropertyChanged, IDisposable
     {
 
-        public ScreenCaptureStream ScreenStream { get; private set; }
-        public VideoFileWriter VideoWriter { get; private set; }
-        public VideoSourcePlayer Player { get; private set; }
+        /// <summary>
+        ///   Gets the notification area view-model.
+        /// </summary>
+        /// 
+        public NotifyViewModel Notify { get; private set; }
 
-        public IconViewModel Icons { get; private set; }
+        /// <summary>
+        ///   Gets the options dialog view-model.
+        /// </summary>
+        /// 
+        public OptionViewModel Options { get; private set; }
 
 
+
+        /// <summary>
+        ///   Gets the current directory in the file browser.
+        /// </summary>
+        /// 
         public string CurrentDirectory { get; set; }
+
+        /// <summary>
+        ///   If currently recording a video, gets the filename of the current
+        ///   current video. If not, gets the filename of the last recorded video.
+        /// </summary>
+        /// 
         public string CurrentFileName { get; private set; }
-        public Rectangle CurrentRegion { get; set; }
-        public IntPtr CurrentWindowHandle { get; set; }
 
-        public CaptureRegionOption CaptureMode { get; set; }
+        /// <summary>
+        ///   Gets or sets the current capture mode, if the capture area
+        ///   should be the whole screen, a fixed region or a fixed window.
+        /// </summary>
+        /// 
+        public CaptureRegionOption CaptureMode
+        {
+            get { return captureMode; }
+            set { OnCaptureModeChanged(value); }
+        }
 
+        /// <summary>
+        ///   Gets or sets the current capture region.
+        /// </summary>
+        /// 
+        public Rectangle CaptureRegion { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the current capture window.
+        /// </summary>
+        /// 
+        public IntPtr CaptureWindow { get; set; }
+
+        /// <summary>
+        ///   Gets the initial recording time.
+        /// </summary>
+        /// 
         public DateTime RecordingStartTime { get; private set; }
+
+        /// <summary>
+        ///   Gets the current recording time.
+        /// </summary>
+        /// 
         public TimeSpan RecordingDuration { get; private set; }
 
-        public bool IsChoosingTarget { get; private set; }
+
+        /// <summary>
+        ///   Gets whether the view-model is waiting for the
+        ///   user to select a target window to be recorded.
+        /// </summary>
+        /// 
+        public bool IsWaitingForTargetWindow { get; private set; }
+
+        /// <summary>
+        ///   Gets whether the application is recording the screen.
+        /// </summary>
+        /// 
         public bool IsRecording { get; private set; }
+
+        /// <summary>
+        ///   Gets whether the application is grabbing frames from the screen.
+        /// </summary>
+        /// 
         public bool IsPlaying { get; private set; }
 
-        public bool IsFramesVisible { get; private set; }
+        /// <summary>
+        ///   Gets whether the capture region frame should be visible.
+        /// </summary>
+        /// 
+        public bool IsFramesVisible { get { return IsPlaying && CaptureMode == CaptureRegionOption.Fixed; } }
+
+        /// <summary>
+        ///   Gets whether the screen preview is visible.
+        /// </summary>
         public bool IsPreviewVisible { get; set; }
 
-        public bool CaptureMouse { get; set; }
-
+        /// <summary>
+        ///   Gets the current status of the application.
+        /// </summary>
+        /// 
         public string Status { get; private set; }
 
-        private Crop crop = new Crop(Rectangle.Empty);
-        private CaptureCursor cursorCapture;
-
+        /// <summary>
+        ///   Occurs when the view-model needs a window to be recorded.
+        /// </summary>
+        /// 
         public event EventHandler TargetWindowRequested;
 
-        private object syncObj = new object();
+
+        private CaptureRegionOption captureMode;
+        private ScreenCaptureStream screenStream;
+        private VideoFileWriter videoWriter;
+        private VideoSourcePlayer videoPlayer;
+        private Crop crop = new Crop(Rectangle.Empty);
+        private CaptureCursor cursorCapture;
+        private Object syncObj = new Object();
 
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="MainViewModel"/> class.
+        /// </summary>
+        /// 
         public MainViewModel(VideoSourcePlayer player)
         {
-            Player = player;
-            CurrentDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+            Options = new OptionViewModel();
+            Notify = new NotifyViewModel(this);
+
+            videoPlayer = player;
+            videoPlayer.NewFrame += new VideoSourcePlayer.NewFrameHandler(Player_NewFrame);
+
+            CurrentDirectory = Options.DefaultSaveFolder;
             CaptureMode = CaptureRegionOption.Primary;
-            CaptureMouse = true;
-
-            Player.NewFrame += new VideoSourcePlayer.NewFrameHandler(Player_NewFrame);
-            PropertyChanged += new PropertyChangedEventHandler(MainViewModel_PropertyChanged);
-
             IsPreviewVisible = true;
-            IsPlaying = false;
-            IsRecording = false;
-            IsFramesVisible = false;
 
             cursorCapture = new CaptureCursor();
-            
-            CurrentRegion = new Rectangle(0, 0, 640, 480);
-            Icons = new IconViewModel(this);
+            CaptureRegion = new Rectangle(0, 0, 640, 480);
 
             Status = "Ready";
         }
 
-        private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "CaptureMode" || e.PropertyName == "IsPlaying")
-                IsFramesVisible = (IsPlaying && CaptureMode == CaptureRegionOption.Fixed);
-        }
 
 
+        /// <summary>
+        ///   Starts playing the preview screen, grabbing
+        ///   frames, but not recording to a video file.
+        /// </summary>
+        /// 
         public void StartPlaying()
         {
             if (IsPlaying) return;
 
-            if (!IsChoosingTarget)
+            // Checks if we were already waiting for a window
+            // to be selected, in case the user had chosen to 
+            // capture from a fixed window.
+
+            if (IsWaitingForTargetWindow)
             {
-                if (CaptureMode == CaptureRegionOption.Window)
-                {
-                    IsChoosingTarget = true;
-                    if (TargetWindowRequested != null)
-                        TargetWindowRequested(this, EventArgs.Empty);
-                    return;
-                }
+                // Yes, we were. We will not be waiting anymore
+                // since the user should have selected one now.
+                IsWaitingForTargetWindow = false;
             }
+
             else
             {
-                IsChoosingTarget = false;
+                // No, this is the first time the user starts the
+                // frame grabber. Let's check what the user wants
+
+                if (CaptureMode == CaptureRegionOption.Window)
+                {
+                    // The user wants to capture from a window. So we
+                    // need to ask which window we have to keep a look.
+
+                    // We will return here and wait the user to respond; 
+                    // when he finishes selecting he should signal back
+                    // by calling SelectWindowUnderCursor().
+                    OnTargetWindowRequested(); return;
+                }
             }
 
-            CurrentRegion = Screen.PrimaryScreen.Bounds;
+            // All is well. Keep configuring and start
+            CaptureRegion = Screen.PrimaryScreen.Bounds;
 
-            int height = CurrentRegion.Height;
-            int width = CurrentRegion.Width;
-            int framerate = 24;
+            int framerate = 24; // TODO: grab from options?
+            int height = CaptureRegion.Height;
+            int width = CaptureRegion.Width;
 
-            ScreenStream = new ScreenCaptureStream(CurrentRegion, 1000 / framerate);
-            Player.VideoSource = ScreenStream;
-            Player.Start();
+            screenStream = new ScreenCaptureStream(CaptureRegion, 1000 / framerate);
+            videoPlayer.VideoSource = screenStream;
+            videoPlayer.Start();
 
             IsPlaying = true;
         }
 
+
+
+        /// <summary>
+        ///   Starts recording. Only works if the player has
+        ///   already been started and is grabbing frames.
+        /// </summary>
+        /// 
         public void StartRecording()
         {
             if (IsRecording || !IsPlaying) return;
 
-            Rectangle area = CurrentRegion;
+            Rectangle area = CaptureRegion;
             CurrentFileName = newFileName();
 
             int height = area.Height;
@@ -176,58 +275,103 @@ namespace ScreenCapture.ViewModels
             string path = Path.Combine(CurrentDirectory, CurrentFileName);
 
             RecordingStartTime = DateTime.MinValue;
-            VideoWriter = new VideoFileWriter();
-            VideoWriter.Open(path, width, height, framerate, VideoCodec.H264, bitrate);
+
+            videoWriter = new VideoFileWriter();
+            videoWriter.Open(path, width, height, framerate, VideoCodec.H264, bitrate);
 
             IsRecording = true;
         }
 
+        /// <summary>
+        ///   Pauses the frame grabber, but keeps recording
+        ///   if the software has already started recording.
+        /// </summary>
+        /// 
         public void PausePlaying()
         {
-            if (!IsPlaying)
-                return;
+            if (!IsPlaying) return;
 
-            Player.SignalToStop();
+            videoPlayer.SignalToStop();
             IsPlaying = false;
         }
 
+        /// <summary>
+        ///   Stops recording.
+        /// </summary>
+        /// 
         public void StopRecording()
         {
-            if (!IsRecording)
-                return;
+            if (!IsRecording) return;
 
             lock (syncObj)
             {
-                if (VideoWriter != null && VideoWriter.IsOpen)
-                    VideoWriter.Close();
+                if (videoWriter != null && videoWriter.IsOpen)
+                    videoWriter.Close();
 
                 IsRecording = false;
             }
         }
 
-
-        public void GetWindowUnderCursor()
+        /// <summary>
+        ///   Raises a property changed on <see cref="CaptureMode"/>.
+        /// </summary>
+        /// 
+        protected void OnCaptureModeChanged(CaptureRegionOption value)
         {
-            CurrentWindowHandle = NativeMethods.WindowFromPoint(Cursor.Position);
+            if (IsRecording)
+                return;
 
-            if (IsChoosingTarget)
-                StartPlaying();
+            captureMode = value;
+
+            if (value == CaptureRegionOption.Window && IsPlaying)
+                OnTargetWindowRequested();
+
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("CaptureMode"));
         }
 
+        /// <summary>
+        ///   Raises the <see cref="TargetWindowRequested"/> event.
+        /// </summary>
+        protected void OnTargetWindowRequested()
+        {
+            IsWaitingForTargetWindow = true;
+            if (TargetWindowRequested != null)
+                TargetWindowRequested(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        ///   Grabs the handle of the window currently under
+        ///   the cursor, and if the application is waiting
+        ///   for a handle, immediately starts playing.
+        /// </summary>
+        /// 
+        public void SelectWindowUnderCursor()
+        {
+            CaptureWindow = NativeMethods.WindowFromPoint(Cursor.Position);
+
+            if (IsWaitingForTargetWindow) StartPlaying();
+        }
+
+        /// <summary>
+        ///   Releases resources and prepares
+        ///   the application for closing.
+        /// </summary>
+        /// 
         public void Close()
         {
-            Player.SignalToStop();
-            Player.WaitForStop();
+            videoPlayer.SignalToStop();
+            videoPlayer.WaitForStop();
 
-            if (VideoWriter != null && VideoWriter.IsOpen)
-                VideoWriter.Close();
+            if (videoWriter != null && videoWriter.IsOpen)
+                videoWriter.Close();
         }
 
 
 
         private void Player_NewFrame(object sender, ref Bitmap image)
         {
-            if (CaptureMouse)
+            if (Options.CaptureMouse)
             {
                 Bitmap cursor = cursorCapture.GetBitmap();
 
@@ -239,12 +383,12 @@ namespace ScreenCapture.ViewModels
             }
 
 
-            CurrentRegion = adjustWindow();
+            CaptureRegion = adjustWindow();
 
             if (CaptureMode == CaptureRegionOption.Fixed ||
                 CaptureMode == CaptureRegionOption.Window)
             {
-                crop.Rectangle = CurrentRegion;
+                crop.Rectangle = CaptureRegion;
                 image = crop.Apply(image);
             }
 
@@ -257,17 +401,17 @@ namespace ScreenCapture.ViewModels
                         RecordingStartTime = DateTime.Now;
 
                     RecordingDuration = DateTime.Now - RecordingStartTime;
-                    VideoWriter.WriteVideoFrame(image, RecordingDuration);
+                    videoWriter.WriteVideoFrame(image, RecordingDuration);
                 }
             }
         }
 
         private Rectangle adjustWindow()
         {
-            Rectangle area = CurrentRegion;
+            Rectangle area = CaptureRegion;
 
             if (CaptureMode == CaptureRegionOption.Window && !IsRecording)
-                area = NativeMethods.GetWindowRect(CurrentWindowHandle);
+                area = NativeMethods.GetWindowRect(CaptureWindow);
             else if (CaptureMode == CaptureRegionOption.Primary)
                 area = Screen.PrimaryScreen.Bounds;
 
@@ -288,7 +432,7 @@ namespace ScreenCapture.ViewModels
 
             string mode = String.Empty;
             if (CaptureMode == CaptureRegionOption.Primary)
-                mode = "PrimaryScreen_";
+                mode = "Screen_";
             else if (CaptureMode == CaptureRegionOption.Fixed)
                 mode = "Region_";
             else if (CaptureMode == CaptureRegionOption.Window)
@@ -351,6 +495,9 @@ namespace ScreenCapture.ViewModels
         // by the NotifyPropertyWeaver VS extension using IL injection.
         //
 #pragma warning disable 0067
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 #pragma warning restore 0067
     }

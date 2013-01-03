@@ -39,6 +39,10 @@ namespace ScreenCapture.Controls
         private bool enabled;
         private HotKeyNativeWindow window;
 
+        /// <summary>
+        ///   Occurs when the hotkey is pressed.
+        /// </summary>
+        /// 
         public event HandledEventHandler Pressed;
 
         /// <summary>

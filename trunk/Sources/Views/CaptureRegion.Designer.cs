@@ -46,14 +46,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gold;
             this.ClientSize = new System.Drawing.Size(624, 446);
-            this.ControlBox = false;
             this.Controls.Add(this.panel1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "CaptureRegion";
             this.Padding = new System.Windows.Forms.Padding(3);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Capture Region";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Fuchsia;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CaptureRegion_FormClosing);
             this.ResumeLayout(false);
 
         }

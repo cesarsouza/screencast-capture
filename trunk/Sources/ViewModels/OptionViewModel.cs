@@ -24,26 +24,55 @@ namespace ScreenCapture.ViewModels
     using ScreenCapture.Properties;
     using System.ComponentModel;
 
-
+    /// <summary>
+    ///   ViewModel for binding option windows.
+    /// </summary>
+    /// 
     public class OptionViewModel : INotifyPropertyChanged
     {
 
+        /// <summary>
+        ///   Gets or sets the default save folder, which is
+        ///   opened by default when the application starts.
+        /// </summary>
+        /// 
         public string DefaultSaveFolder { get; set; }
-        public bool RestoreLastLocation { get; set; }
 
-
+        /// <summary>
+        ///   Gets or sets whether to capture the mouse cursor image.
+        /// </summary>
+        /// 
         public bool CaptureMouse { get; set; }
+
+        /// <summary>
+        ///   Gets or sets whether to capture mouse clicks.
+        /// </summary>
+        /// 
         public bool CaptureClick { get; set; }
+
+        /// <summary>
+        ///   Gets or sets whether the application has been opened before.
+        /// </summary>
+        /// 
         public bool FirstRun { get; set; }
 
-        
 
 
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="OptionViewModel"/> class.
+        /// </summary>
+        /// 
         public OptionViewModel()
         {
             Load();
         }
 
+        /// <summary>
+        ///   Saves the contents of the view-model 
+        ///   into the application settings file.
+        /// </summary>
+        /// 
         public void Save()
         {
             Settings.Default.FirstRun = FirstRun;
@@ -54,6 +83,11 @@ namespace ScreenCapture.ViewModels
             Settings.Default.Save();
         }
 
+        /// <summary>
+        ///   Loads the contents of the application
+        ///   settings file into this view-model.
+        /// </summary>
+        /// 
         public void Load()
         {
             FirstRun = Settings.Default.FirstRun;
@@ -64,12 +98,14 @@ namespace ScreenCapture.ViewModels
 
 
 
-
         // The PropertyChanged event doesn't needs to be explicitly raised
         // from this application. The event raising is handled automatically
         // by the NotifyPropertyWeaver VS extension using IL injection.
         //
 #pragma warning disable 0067
+        /// <summary>
+        ///   Occurs when a property value changes.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 #pragma warning restore 0067
     }

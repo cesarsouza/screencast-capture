@@ -88,18 +88,27 @@ namespace ScreenCapture.Views
         }
 
 
+        /// <summary>
+        ///   Raises the <see cref="E:System.Windows.Forms.Control.VisibleChanged"/> event.
+        /// </summary>
         protected override void OnVisibleChanged(EventArgs e)
         {
             base.OnVisibleChanged(e);
             update();
         }
 
+        /// <summary>
+        ///   Raises the <see cref="E:System.Windows.Forms.Control.SizeChanged"/> event.
+        /// </summary>
         protected override void OnSizeChanged(EventArgs e)
         {
             base.OnSizeChanged(e);
             update();
         }
 
+        /// <summary>
+        ///   Raises the <see cref="E:System.Windows.Forms.Control.LocationChanged"/> event.
+        /// </summary>
         protected override void OnLocationChanged(EventArgs e)
         {
             base.OnLocationChanged(e);
@@ -152,7 +161,7 @@ namespace ScreenCapture.Views
             if (viewModel == null)
                 return;
 
-            Rectangle rectangle = viewModel.CurrentRegion;
+            Rectangle rectangle = viewModel.CaptureRegion;
 
             if (!viewModel.IsRecording)
             {
@@ -165,11 +174,15 @@ namespace ScreenCapture.Views
                 area.Width -= 2;
                 area.Height -= 2;
 
-                viewModel.CurrentRegion = area;
+                viewModel.CaptureRegion = area;
             }
         }
 
 
+        /// <summary>
+        ///   Raises the CreateControl event.
+        /// </summary>
+        /// 
         protected override void OnCreateControl()
         {
             base.OnCreateControl();
@@ -178,6 +191,11 @@ namespace ScreenCapture.Views
                 value => value ? Color.Firebrick : Color.Gold);
             this.Bind(b => b.Visible, viewModel, m => m.IsFramesVisible);
             this.Bind(b => b.Pinned, viewModel, m => m.IsRecording);
+        }
+
+        private void CaptureRegion_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            viewModel.CaptureMode = CaptureRegionOption.Primary;
         }
 
     }

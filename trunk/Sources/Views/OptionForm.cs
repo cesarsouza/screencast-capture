@@ -28,12 +28,20 @@ namespace ScreenCapture.Views
     using System.Text;
     using System.Windows.Forms;
 
+    /// <summary>
+    ///   Options dialog.
+    /// </summary>
+    /// 
     public partial class OptionForm : Form
     {
 
         OptionViewModel viewModel = new OptionViewModel();
 
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="OptionForm"/> class.
+        /// </summary> 
+        /// 
         public OptionForm()
         {
             InitializeComponent();
