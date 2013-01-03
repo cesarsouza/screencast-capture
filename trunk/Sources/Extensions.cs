@@ -22,6 +22,7 @@
 namespace ScreenCapture.Views
 {
     using System.Windows.Forms;
+    using System;
 
     /// <summary>
     ///   Misc extension methods.
@@ -36,6 +37,9 @@ namespace ScreenCapture.Views
         /// 
         public static void ForceCreateControl(this Control control)
         {
+            if (control == null) 
+                throw new ArgumentNullException("control");
+
             var method = control.GetType().GetMethod("CreateControl",
                 System.Reflection.BindingFlags.Instance |
                 System.Reflection.BindingFlags.NonPublic);

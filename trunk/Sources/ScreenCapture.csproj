@@ -113,11 +113,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bindings.cs" />
-    <Compile Include="Controls\ExplorerBrowserEx.cs">
+    <Compile Include="Controls\ExplorerBrowserCustom.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\ExplorerBrowserEx.Designer.cs">
-      <DependentUpon>ExplorerBrowserEx.cs</DependentUpon>
+    <Compile Include="Controls\ExplorerBrowserCustom.Designer.cs">
+      <DependentUpon>ExplorerBrowserCustom.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\BindableToolStripTextBox.cs">
       <SubType>Component</SubType>
@@ -174,8 +174,8 @@
     <Compile Include="Views\OptionForm.Designer.cs">
       <DependentUpon>OptionForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Controls\ExplorerBrowserEx.resx">
-      <DependentUpon>ExplorerBrowserEx.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\ExplorerBrowserCustom.resx">
+      <DependentUpon>ExplorerBrowserCustom.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\CaptureRegion.resx">
       <DependentUpon>CaptureRegion.cs</DependentUpon>

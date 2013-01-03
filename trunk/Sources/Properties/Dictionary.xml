@@ -2,11 +2,12 @@
 <Dictionary>
   <Words>
     <Unrecognized>
-      <Word>knokker</Word>
+      <Word></Word>
     </Unrecognized>
     <Recognized>
       <Word>Screencast</Word>
       <Word>Lite</Word>
+      <Word>googlecode</Word>
     </Recognized>
     <Deprecated>
       <Term PreferredAlternate=""></Term>

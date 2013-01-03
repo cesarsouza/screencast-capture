@@ -57,7 +57,7 @@ namespace ScreenCapture.Views
             showCopyrightText();
         }
 
-      
+
         private void btnSelectFolder_Click(object sender, EventArgs e)
         {
             using (var dialog = new CommonOpenFileDialog())
@@ -76,9 +76,9 @@ namespace ScreenCapture.Views
 
         private void showCopyrightText()
         {
-            String copyright;
-            
-            copyright = @"..\Copyright.txt";
+            // TODO: Move this code to a better location
+
+            String copyright = @"..\Copyright.txt";
 
             if (!File.Exists(copyright))
             {
@@ -91,9 +91,10 @@ namespace ScreenCapture.Views
                 }
             }
 
-
-            TextReader reader = new StreamReader(copyright, Encoding.Default);
-            tbCopyright.Text = reader.ReadToEnd();
+            using (TextReader reader = new StreamReader(copyright, Encoding.Default))
+            {
+                tbCopyright.Text = reader.ReadToEnd();
+            }
         }
 
 

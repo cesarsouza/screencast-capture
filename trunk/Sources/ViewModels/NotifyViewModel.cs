@@ -72,8 +72,6 @@ namespace ScreenCapture.ViewModels
             this.main = main;
             this.main.PropertyChanged += main_PropertyChanged;
             this.Update();
-
-           
         }
 
         private void main_PropertyChanged(object sender, PropertyChangedEventArgs e)

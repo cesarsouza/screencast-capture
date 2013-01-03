@@ -74,7 +74,7 @@ namespace ScreenCapture.Views
             this.ForceCreateControl();
         }
 
-       
+
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="CaptureRegion"/>
@@ -196,6 +196,8 @@ namespace ScreenCapture.Views
         private void CaptureRegion_FormClosing(object sender, FormClosingEventArgs e)
         {
             viewModel.CaptureMode = CaptureRegionOption.Primary;
+
+            e.Cancel = e.CloseReason == CloseReason.UserClosing;
         }
 
     }

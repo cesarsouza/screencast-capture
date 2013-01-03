@@ -184,6 +184,9 @@ namespace ScreenCapture.ViewModels
         /// 
         public MainViewModel(VideoSourcePlayer player)
         {
+            if (player == null) 
+                throw new ArgumentNullException("player");
+
             Options = new OptionViewModel();
             Notify = new NotifyViewModel(this);
 
@@ -484,6 +487,12 @@ namespace ScreenCapture.ViewModels
                 {
                     cursorCapture.Dispose();
                     cursorCapture = null;
+                }
+
+                if (videoWriter != null)
+                {
+                    videoWriter.Dispose();
+                    videoWriter = null;
                 }
             }
         }

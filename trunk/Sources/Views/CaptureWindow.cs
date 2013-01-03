@@ -172,6 +172,9 @@ namespace ScreenCapture.Views
         ///
         protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
         {
+            if (e == null)
+                throw new ArgumentNullException("e");
+
             if (e.KeyCode == Keys.Escape)
                 this.Close();
 
