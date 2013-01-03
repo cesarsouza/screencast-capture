@@ -113,6 +113,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bindings.cs" />
+    <Compile Include="Controls\ExplorerBrowserEx.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ExplorerBrowserEx.Designer.cs">
+      <DependentUpon>ExplorerBrowserEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BindableToolStripTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="ViewModels\OptionViewModel.cs" />
     <Compile Include="Views\CaptureRegion.cs">
       <SubType>Form</SubType>
@@ -139,14 +149,14 @@
     <Compile Include="Controls\BindableToolStripStatusLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CaptureCursor.cs" />
+    <Compile Include="Native\CaptureCursor.cs" />
     <Compile Include="Controls\HotKey.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ViewModels\IconViewModel.cs" />
+    <Compile Include="ViewModels\NotifyViewModel.cs" />
     <Compile Include="Native\SafeNativeMethods.cs" />
     <Compile Include="Properties\GlobalSuppressions.cs" />
-    <Compile Include="Views\Extensions.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,6 +174,9 @@
     <Compile Include="Views\OptionForm.Designer.cs">
       <DependentUpon>OptionForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\ExplorerBrowserEx.resx">
+      <DependentUpon>ExplorerBrowserEx.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\CaptureRegion.resx">
       <DependentUpon>CaptureRegion.cs</DependentUpon>
     </EmbeddedResource>
@@ -250,6 +263,9 @@
     <None Include="Resources\screencast.ico" />
     <None Include="Resources\icon\screencast-128.png" />
     <Content Include="Resources\advancedsettings.png" />
+    <None Include="Resources\thumbnail.png" />
+    <None Include="Resources\top.png" />
+    <None Include="Resources\home.png" />
     <Content Include="Setup\setup.iss" />
     <CodeAnalysisDictionary Include="Properties\Dictionary.xml">
       <SubType>Designer</SubType>

@@ -122,7 +122,7 @@ namespace ScreenCapture.Views
 
                 this.Hide();
 
-                viewModel.GetWindowUnderCursor();
+                viewModel.SelectWindowUnderCursor();
             }
         }
 
@@ -186,8 +186,8 @@ namespace ScreenCapture.Views
         {
             base.OnCreateControl();
 
-            this.Bind(b => b.Following, viewModel, m => m.IsChoosingTarget);
-            this.Bind(b => b.Visible, viewModel, m => m.IsChoosingTarget);
+            this.Bind(b => b.Following, viewModel, m => m.IsWaitingForTargetWindow);
+            this.Bind(b => b.Visible, viewModel, m => m.IsWaitingForTargetWindow);
         }
 
     }

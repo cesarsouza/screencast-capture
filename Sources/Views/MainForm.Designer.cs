@@ -34,7 +34,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.explorerBrowser = new Microsoft.WindowsAPICodePack.Controls.WindowsForms.ExplorerBrowser();
+            this.explorerBrowser = new Controls.ExplorerBrowserEx();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnSettings = new System.Windows.Forms.ToolStripStatusLabel();
@@ -88,7 +88,6 @@
             this.explorerBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.explorerBrowser.Location = new System.Drawing.Point(0, 0);
             this.explorerBrowser.Name = "explorerBrowser";
-            this.explorerBrowser.PropertyBagName = "Microsoft.WindowsAPICodePack.Controls.WindowsForms.ExplorerBrowser";
             this.explorerBrowser.Size = new System.Drawing.Size(656, 342);
             this.explorerBrowser.TabIndex = 0;
             // 
@@ -312,7 +311,7 @@
 
         #endregion
 
-        private Microsoft.WindowsAPICodePack.Controls.WindowsForms.ExplorerBrowser explorerBrowser;
+        private ScreenCapture.Controls.ExplorerBrowserEx explorerBrowser;
         private System.Windows.Forms.ToolStrip toolStrip;
         private ScreenCapture.Controls.BindableToolStripButton btnStartRecording;
         private System.Windows.Forms.StatusStrip statusStrip;

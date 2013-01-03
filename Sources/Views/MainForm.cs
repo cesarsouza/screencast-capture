@@ -23,10 +23,7 @@ namespace ScreenCapture.Views
 {
     using System;
     using System.Windows.Forms;
-    using Microsoft.WindowsAPICodePack.Shell;
-    using ScreenCapture.Properties;
     using ScreenCapture.ViewModels;
-    using Microsoft.WindowsAPICodePack.Controls;
 
     /// <summary>
     ///   Main window for the Screencast Capture application.
@@ -43,6 +40,10 @@ namespace ScreenCapture.Views
         CaptureWindow windowWindow;
 
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="MainForm"/> class.
+        /// </summary>
+        /// 
         public MainForm()
         {
             InitializeComponent();
@@ -50,28 +51,22 @@ namespace ScreenCapture.Views
             viewModel = new MainViewModel(videoSourcePlayer1);
             regionWindow = new CaptureRegion(viewModel);
             windowWindow = new CaptureWindow(viewModel);
+
+            viewModel.Notify.ShowBalloon += new EventHandler<BalloonEventArgs>(Notify_ShowBalloon);
         }
 
 
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            
-            explorerBrowser.ContentOptions.ViewMode = ExplorerBrowserViewMode.Details;
-            explorerBrowser.NavigationOptions.PaneVisibility.Query = PaneVisibilityState.Hide;
-            explorerBrowser.NavigationOptions.PaneVisibility.Preview = PaneVisibilityState.Hide;
-            explorerBrowser.NavigationOptions.PaneVisibility.AdvancedQuery = PaneVisibilityState.Hide;
-            explorerBrowser.NavigationOptions.PaneVisibility.CommandsOrganize = PaneVisibilityState.Hide;
-            explorerBrowser.NavigationOptions.PaneVisibility.Details = PaneVisibilityState.Hide;
-            explorerBrowser.NavigationOptions.PaneVisibility.CommandsView = PaneVisibilityState.Show;
-            explorerBrowser.NavigationOptions.PaneVisibility.Commands = PaneVisibilityState.Show;
-            explorerBrowser.NavigationOptions.PaneVisibility.Navigation = PaneVisibilityState.Show;
-            
             //
             // This section configures all the bindings between 
             // form controls and properties from the view model.
             //
-            this.Bind("BrowserDirectory", viewModel, "CurrentDirectory");
+            var binding = 
+            explorerBrowser.Bind(b => b.CurrentDirectory, viewModel, m => m.CurrentDirectory);
+            binding.DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged;
+            binding.ControlUpdateMode = ControlUpdateMode.OnPropertyChanged;
 
             btnStartRecording.Bind(b => b.Enabled, viewModel, m => m.IsPlaying);
             btnStartRecording.Bind(b => b.Visible, viewModel, m => m.IsRecording, value => !value);
@@ -83,6 +78,7 @@ namespace ScreenCapture.Views
             explorerBrowser.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible, value => !value);
             btnScreenPreview.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible, value => !value);
             btnStorageFolder.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible);
+            explorerBrowser.Bind(b => b.DefaultDirectory, viewModel.Options, m => m.DefaultSaveFolder);
 
             btnCapturePrimaryScreen.Bind(b => b.Checked, viewModel, m => m.CaptureMode,
                 value => value == CaptureRegionOption.Primary);
@@ -95,29 +91,16 @@ namespace ScreenCapture.Views
             lbStatusReady.Bind(b => b.Visible, viewModel, m => m.IsRecording, value => !value);
             btnCaptureMode.Bind(b => b.Enabled, viewModel, m => m.IsRecording, value => !value);
 
-            iconPlayPause.Bind(b => b.Text, viewModel.Icons, m => m.CurrentText);
-            iconPlayPause.Bind(b => b.Icon, viewModel.Icons, m => m.CurrentIcon);
+            iconPlayPause.Bind(b => b.Text, viewModel.Notify, m => m.CurrentText);
+            iconPlayPause.Bind(b => b.Icon, viewModel.Notify, m => m.CurrentIcon);
 
-
-            if (Settings.Default.FirstRun)
-            {
-                Settings.Default.FirstRun = false;
-
-                showGreetings();
-            }
+            viewModel.Notify.Loaded();
         }
 
 
-        private void showGreetings()
+        private void Notify_ShowBalloon(object sender, BalloonEventArgs e)
         {
-            iconPlayPause.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            iconPlayPause.BalloonTipTitle = "Hi there!";
-            iconPlayPause.BalloonTipText =
-                "Perhaps you would like to know that this software is more useful if"
-                + " you enable always-visible notification icons for it. Please click"
-                + " the wench button above and enable them if you wish!";
-
-            iconPlayPause.ShowBalloonTip(15000);
+            iconPlayPause.ShowBalloonTip(e.Milliseconds, e.Title, e.Text, e.Icon);
         }
 
 
@@ -190,22 +173,7 @@ namespace ScreenCapture.Views
         }
 
 
-        /// <summary>
-        ///   Gets or sets the current directory in the embedded
-        ///   Windows Explorer window. This property exists only
-        ///   to provide an automatic binding between the window
-        ///   and the ViewModel.
-        /// </summary>
-        /// 
-        public string BrowserDirectory
-        {
-            get
-            {
-                if (explorerBrowser.NavigationLog.CurrentLocation == null) return null;
-                return explorerBrowser.NavigationLog.CurrentLocation.Name;
-            }
-            set { explorerBrowser.Navigate(ShellFileSystemFolder.FromFolderPath(value)); }
-        }
+
 
         private void hotkeyPlayPause_Pressed(object sender, System.ComponentModel.HandledEventArgs e)
         {

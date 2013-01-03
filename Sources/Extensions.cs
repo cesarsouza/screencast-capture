@@ -19,25 +19,29 @@
 //    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 // 
 
-namespace ScreenCapture
+namespace ScreenCapture.Views
 {
-    using System;
     using System.Windows.Forms;
-    using ScreenCapture.Views;
-    using ScreenCapture.Properties;
 
-    static class Program
+    /// <summary>
+    ///   Misc extension methods.
+    /// </summary>
+    /// 
+    public static class Extensions
     {
-
-        [STAThread]
-        static void Main()
+        /// <summary>
+        ///   Forces the creation of a control or form
+        ///   so data-binding may work on all properties.
+        /// </summary>
+        /// 
+        public static void ForceCreateControl(this Control control)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
-            
-            Properties.Settings.Default.Save();
-        }
+            var method = control.GetType().GetMethod("CreateControl",
+                System.Reflection.BindingFlags.Instance |
+                System.Reflection.BindingFlags.NonPublic);
+            var parameters = method.GetParameters();
 
+            method.Invoke(control, new object[] { true });
+        }
     }
 }
