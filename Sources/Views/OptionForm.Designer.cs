@@ -32,6 +32,7 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tbCopyright = new System.Windows.Forms.RichTextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -43,7 +44,7 @@
             this.cbMouseClicks = new System.Windows.Forms.CheckBox();
             this.cbMouseCursor = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tbCopyright = new System.Windows.Forms.RichTextBox();
+            this.btnApply = new System.Windows.Forms.Button();
             this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -55,7 +56,7 @@
             // btnSave
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(376, 321);
+            this.btnSave.Location = new System.Drawing.Point(291, 321);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 1;
@@ -67,7 +68,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(457, 321);
+            this.btnCancel.Location = new System.Drawing.Point(372, 321);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 1;
@@ -85,6 +86,18 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "About";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tbCopyright
+            // 
+            this.tbCopyright.BackColor = System.Drawing.Color.White;
+            this.tbCopyright.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbCopyright.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbCopyright.Location = new System.Drawing.Point(9, 9);
+            this.tbCopyright.Name = "tbCopyright";
+            this.tbCopyright.ReadOnly = true;
+            this.tbCopyright.Size = new System.Drawing.Size(500, 265);
+            this.tbCopyright.TabIndex = 0;
+            this.tbCopyright.Text = "";
             // 
             // tabPage1
             // 
@@ -203,17 +216,16 @@
             this.tabControl1.Size = new System.Drawing.Size(526, 309);
             this.tabControl1.TabIndex = 0;
             // 
-            // tbCopyright
+            // btnApply
             // 
-            this.tbCopyright.BackColor = System.Drawing.Color.White;
-            this.tbCopyright.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbCopyright.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbCopyright.Location = new System.Drawing.Point(9, 9);
-            this.tbCopyright.Name = "tbCopyright";
-            this.tbCopyright.ReadOnly = true;
-            this.tbCopyright.Size = new System.Drawing.Size(500, 265);
-            this.tbCopyright.TabIndex = 0;
-            this.tbCopyright.Text = "";
+            this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnApply.Location = new System.Drawing.Point(453, 321);
+            this.btnApply.Name = "btnApply";
+            this.btnApply.Size = new System.Drawing.Size(75, 23);
+            this.btnApply.TabIndex = 1;
+            this.btnApply.Text = "&Apply";
+            this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // OptionForm
             // 
@@ -223,6 +235,7 @@
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(538, 353);
             this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnApply);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -264,5 +277,6 @@
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.RichTextBox tbCopyright;
+        private System.Windows.Forms.Button btnApply;
     }
 }
