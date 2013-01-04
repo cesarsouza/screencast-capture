@@ -43,7 +43,6 @@ namespace ScreenCapture.Native
 
         public const uint ERROR_HOTKEY_ALREADY_REGISTERED = 1409;
 
-
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool RegisterHotKey(IntPtr hwnd, int id, uint fsModifiers, uint vk);
@@ -128,23 +127,7 @@ namespace ScreenCapture.Native
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool EnableMenuItem(System.IntPtr hMenu, Int32 uIDEnableItem, Int32 uEnable);
 
-        /// <summary>
-        ///   Retrieves the dimensions of the bounding rectangle of the specified
-        ///   window. The dimensions are given in screen coordinates that are relative
-        ///   to the upper-left corner of the screen.
-        /// </summary>
-        /// 
-        public static Rectangle GetWindowRect(IntPtr hwnd)
-        {
-            if (hwnd == null)
-                throw new ArgumentNullException("hWnd");
-
-            RECT r;
-            if (!NativeMethods.GetWindowRect(hwnd, out r))
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-
-            return new Rectangle(r.Left, r.Top, r.Right - r.Left + 1, r.Bottom - r.Top + 1);
-        }
+       
 
         /// <summary>
         ///   Title bar position.
@@ -185,7 +168,7 @@ namespace ScreenCapture.Native
         /// 
         public const int WM_INITMENUPOPUP = 0x117;
 
-        
+
         public const int WM_MOUSEMOVE = 0x0200;
         public const int WM_LBUTTONUP = 0x0202;
         public const int WM_LBUTTONDOWN = 0x0201;
@@ -219,7 +202,7 @@ namespace ScreenCapture.Native
         /// 
         public const int MF_DISABLED = 0x00000002;
 
-        
+
         public enum HookType : int
         {
             WH_JOURNALRECORD = 0,
@@ -274,7 +257,7 @@ namespace ScreenCapture.Native
         ///   the following values. Otherwise, mouseData is not used.</para>
         /// </summary>
         /// 
-        public int mouseData; 
+        public int mouseData;
 
         /// <summary>
         ///   The event-injected flag. An application can use the following

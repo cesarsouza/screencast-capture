@@ -26,15 +26,50 @@ namespace ScreenCapture.Native
     using System.Diagnostics;
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
+    using System.Drawing;
 
-
-
+    
     /// <summary>
     ///   Managed wrapper around native methods.
     /// </summary>
     /// 
     public static class SafeNativeMethods
     {
+
+        /// <summary>
+        ///   Retrieves a handle to the window that contains the specified point.
+        /// </summary>
+        /// 
+        public static IWin32Window WindowFromPoint(Point point)
+        {
+            IntPtr ptr = NativeMethods.WindowFromPoint(point);
+            NativeWindow wnd = new NativeWindow();
+            wnd.AssignHandle(ptr);
+            return wnd;
+        }
+
+        /// <summary>
+        ///   Retrieves the dimensions of the bounding rectangle of the specified
+        ///   window. The dimensions are given in screen coordinates that are relative
+        ///   to the upper-left corner of the screen.
+        /// </summary>
+        /// 
+        public static bool TryGetWindowRect(IWin32Window window, out Rectangle rectangle)
+        {
+            rectangle = Rectangle.Empty;
+
+            if (window == null)
+                return false;
+
+            RECT r;
+            if (!NativeMethods.GetWindowRect(window.Handle, out r))
+                return false;
+
+            rectangle = new Rectangle(r.Left, r.Top, r.Right - r.Left + 1, r.Bottom - r.Top + 1);
+
+            return true;
+        }
+
 
         /// <summary>
         ///   Registers a low-level global system hook.
@@ -146,6 +181,27 @@ namespace ScreenCapture.Native
             }
 
             return true;
+        }
+
+        /// <summary>
+        ///   Gets the mouse button written in a windows message.
+        /// </summary>
+        /// 
+        public static MouseButtons GetMouseButton(int message)
+        {
+            switch (message)
+            {
+                case NativeMethods.WM_LBUTTONDOWN:
+                case NativeMethods.WM_LBUTTONUP:
+                    return MouseButtons.Left;
+
+                case NativeMethods.WM_RBUTTONUP:
+                case NativeMethods.WM_RBUTTONDOWN:
+                    return MouseButtons.Right;
+
+                default:
+                    return MouseButtons.None;
+            }
         }
     }
 
