@@ -106,7 +106,7 @@ namespace ScreenCapture.ViewModels
         ///   Gets or sets the current capture window.
         /// </summary>
         /// 
-        public IntPtr CaptureWindow { get; set; }
+        public IWin32Window CaptureWindow { get; set; }
 
         /// <summary>
         ///   Gets the initial recording time.
@@ -234,6 +234,7 @@ namespace ScreenCapture.ViewModels
                     // We will return here and wait the user to respond; 
                     // when he finishes selecting he should signal back
                     // by calling SelectWindowUnderCursor().
+                    IsWaitingForTargetWindow = true;
                     OnTargetWindowRequested(); return;
                 }
             }
@@ -245,19 +246,16 @@ namespace ScreenCapture.ViewModels
             int height = CaptureRegion.Height;
             int width = CaptureRegion.Width;
 
+            clickCapture.Enabled = true;
+
             screenStream = new ScreenCaptureStream(CaptureRegion, 1000 / framerate);
             screenStream.VideoSourceError += screenStream_VideoSourceError;
+
             videoPlayer.VideoSource = screenStream;
             videoPlayer.Start();
 
             IsPlaying = true;
         }
-
-        void screenStream_VideoSourceError(object sender, VideoSourceErrorEventArgs eventArgs)
-        {
-            throw new VideoException(eventArgs.Description);
-        }
-
 
 
         /// <summary>
@@ -329,7 +327,11 @@ namespace ScreenCapture.ViewModels
             captureMode = value;
 
             if (value == CaptureRegionOption.Window && IsPlaying)
+            {
+                IsWaitingForTargetWindow = true;
                 OnTargetWindowRequested();
+                IsWaitingForTargetWindow = false;
+            }
 
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs("CaptureMode"));
@@ -338,9 +340,9 @@ namespace ScreenCapture.ViewModels
         /// <summary>
         ///   Raises the <see cref="TargetWindowRequested"/> event.
         /// </summary>
+        /// 
         protected void OnTargetWindowRequested()
         {
-            IsWaitingForTargetWindow = true;
             if (TargetWindowRequested != null)
                 TargetWindowRequested(this, EventArgs.Empty);
         }
@@ -353,9 +355,10 @@ namespace ScreenCapture.ViewModels
         /// 
         public void SelectWindowUnderCursor()
         {
-            CaptureWindow = NativeMethods.WindowFromPoint(Cursor.Position);
+            CaptureWindow = SafeNativeMethods.WindowFromPoint(Cursor.Position);
 
-            if (IsWaitingForTargetWindow) StartPlaying();
+            if (IsWaitingForTargetWindow) 
+                StartPlaying();
         }
 
         /// <summary>
@@ -398,7 +401,10 @@ namespace ScreenCapture.ViewModels
                 CaptureMode == CaptureRegionOption.Window)
             {
                 crop.Rectangle = CaptureRegion;
-                image = crop.Apply(image);
+                using (Bitmap oldImage = image)
+                {
+                    image = crop.Apply(oldImage);
+                }
             }
 
 
@@ -415,14 +421,26 @@ namespace ScreenCapture.ViewModels
             }
         }
 
+        private void screenStream_VideoSourceError(object sender, VideoSourceErrorEventArgs eventArgs)
+        {
+            throw new VideoException(eventArgs.Description);
+        }
+
+
+
         private Rectangle adjustWindow()
         {
             Rectangle area = CaptureRegion;
 
             if (CaptureMode == CaptureRegionOption.Window && !IsRecording)
-                area = NativeMethods.GetWindowRect(CaptureWindow);
+            {
+                if (!SafeNativeMethods.TryGetWindowRect(CaptureWindow, out area))
+                    area = CaptureRegion;
+            }
             else if (CaptureMode == CaptureRegionOption.Primary)
+            {
                 area = Screen.PrimaryScreen.Bounds;
+            }
 
             if (area.Width % 2 != 0)
                 area.Width++;
@@ -521,5 +539,6 @@ namespace ScreenCapture.ViewModels
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 #pragma warning restore 0067
+
     }
 }
