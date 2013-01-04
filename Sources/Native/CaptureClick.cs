@@ -40,9 +40,11 @@ namespace ScreenCapture.Native
     public class CaptureClick : IDisposable
     {
 
-        private Pen pen;
-        Thread thread;
-        ApplicationContext context;
+        private Pen penOuter;
+        private Pen penInner;
+
+        private Thread thread;
+        private ApplicationContext context;
 
         private bool enabled;
         private bool pressed;
@@ -82,11 +84,11 @@ namespace ScreenCapture.Native
         /// 
         public CaptureClick()
         {
-            pen = new Pen(Brushes.Black, 5);
-            Radius = 100;
-            StepSize = 10;
+            penOuter = new Pen(Brushes.Black, 3);
+            penInner = new Pen(Color.FromArgb(200, Color.White), 5);
 
-            Enabled = true;
+            Radius = 60;
+            StepSize = 16;
         }
 
         /// <summary>
@@ -101,12 +103,7 @@ namespace ScreenCapture.Native
             if (currentRadius <= 0)
                 return;
 
-            int x = currentLocation.X - currentRadius;
-            int y = currentLocation.Y - currentRadius;
-            int width = currentRadius * 2;
-            int height = currentRadius * 2;
-
-            graphics.DrawEllipse(pen, x, y, width, height);
+            drawCircle(graphics);
 
             if (!pressed)
             {
@@ -115,6 +112,24 @@ namespace ScreenCapture.Native
                     currentRadius = 0;
             }
         }
+
+        private void drawCircle(Graphics graphics)
+        {
+            drawCircle(graphics, currentRadius, penOuter);
+            drawCircle(graphics, currentRadius - 5, penInner);
+            drawCircle(graphics, currentRadius - 10, penOuter);
+        }
+
+        private void drawCircle(Graphics graphics, int radius, Pen pen)
+        {
+            if (radius <= 0) return;
+            int x = currentLocation.X - radius;
+            int y = currentLocation.Y - radius;
+            int d = radius * 2;
+
+            graphics.DrawEllipse(pen, x, y, d, d);
+        }
+
 
 
         private void thread_MouseUp()
@@ -151,15 +166,15 @@ namespace ScreenCapture.Native
 
         private void threadStart()
         {
-#if DEBUG
-                return;
-#endif
             if (context != null)
                 return;
 
             context = new ApplicationContext();
             thread = new Thread(run);
+
+#if !DEBUG
             thread.Start();
+#endif
         }
 
         private void threadStop()
@@ -247,10 +262,13 @@ namespace ScreenCapture.Native
                     context = null;
                 }
 
-                if (pen != null)
+                if (penOuter != null)
                 {
-                    pen.Dispose();
-                    pen = null;
+                    penOuter.Dispose();
+                    penInner.Dispose();
+
+                    penOuter = null;
+                    penInner = null;
                 }
             }
         }
