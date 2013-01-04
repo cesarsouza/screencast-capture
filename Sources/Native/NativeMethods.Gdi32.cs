@@ -32,7 +32,7 @@ namespace ScreenCapture.Native
     /// 
     internal static partial class NativeMethods
     {
-        public static IntPtr HWND_MESSAGE = new IntPtr(-3);
+        public static readonly IntPtr HWND_MESSAGE = new IntPtr(-3);
 
         /// <summary>
         ///   Deletes a logical pen, brush, font, bitmap, region, or palette,

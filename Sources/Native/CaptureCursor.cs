@@ -166,12 +166,19 @@ namespace ScreenCapture
         }
 
 
-        public void Draw(Graphics g)
+        /// <summary>
+        ///   Draws the cursor icon into a graphics object.
+        /// </summary>
+        /// 
+        public void Draw(Graphics graphics)
         {
+            if (graphics == null)
+                throw new ArgumentNullException("graphics");
+
             Bitmap cursor = GetBitmap();
 
             if (cursor != null)
-                g.DrawImage(cursor, Position);
+                graphics.DrawImage(cursor, Position);
         }
 
 
