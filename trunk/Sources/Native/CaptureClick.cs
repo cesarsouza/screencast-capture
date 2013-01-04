@@ -1,75 +1,112 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Windows.Forms;
+﻿// Screencast Capture, free screen recorder
+// http://screencast-capture.googlecode.com
+//
+// Copyright © César Souza, 2012-2013
+// cesarsouza at gmail.com
+//
+//    This program is free software; you can redistribute it and/or modify
+//    it under the terms of the GNU General Public License as published by
+//    the Free Software Foundation; either version 2 of the License, or
+//    (at your option) any later version.
+//
+//    This program is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//    GNU General Public License for more details.
+//
+//    You should have received a copy of the GNU General Public License
+//    along with this program; if not, write to the Free Software
+//    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+// 
 
 namespace ScreenCapture.Native
 {
+    using System;
+    using System.Drawing;
+    using System.Threading;
+    using System.Windows.Forms;
+
+    /// <summary>
+    ///   Class to capture mouse clicks.
+    /// </summary>
+    /// 
+    /// <remarks>
+    ///   This class captures global mouse clicks by using a low-level global
+    ///   hook. To prevent messing with the operational system responsiveness,
+    ///   this class uses its own thread with its own message queue to process
+    ///   global mouse events and dispatch them to the user interface thread.
+    /// </remarks>
+    /// 
     public class CaptureClick : IDisposable
     {
 
         private Pen pen;
-        private Brush brush;
-        private NativeMethods.LowLevelMouseProc myCallbackDelegate = null;
-        private Thread thread;
-        private ApplicationContext ctx;
+        Thread thread;
+        ApplicationContext context;
 
+        private bool enabled;
+        private bool pressed;
         private int currentRadius;
-        private Point location;
+        private Point currentLocation;
 
+        /// <summary>
+        ///   Gets or sets the initial indicator 
+        ///   radius for the click animation. 
+        /// </summary>
+        /// 
         public int Radius { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the step size at which the <see cref="Radius"/>
+        ///   is shrinked at each call to <see cref="Draw"/>.
+        /// </summary>
+        /// 
         public int StepSize { get; set; }
 
-        public bool Enabled { get; set; }
+        /// <summary>
+        ///   Gets or sets whether the hook is installed and running.
+        ///   Has no effect on debug mode, as stopping at a breakpoint
+        ///   would freeze the mouse.
+        /// </summary>
+        /// 
+        public bool Enabled
+        {
+            get { return enabled; }
+            set { OnEnabledChanged(value); }
+        }
 
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="CaptureClick" /> class.
+        /// </summary>
+        /// 
         public CaptureClick()
         {
-            Enabled = true;
             pen = new Pen(Brushes.Black, 5);
             Radius = 100;
             StepSize = 10;
 
-            myCallbackDelegate = new NativeMethods.LowLevelMouseProc(MyCallbackFunction);
-
-            thread = new Thread(threadBody);
-            thread.Start();
+            Enabled = true;
         }
 
-        public void threadBody()
+        /// <summary>
+        ///   Draws the click animation into a Graphics object.
+        /// </summary>
+        /// 
+        public void Draw(Graphics graphics)
         {
-            IntPtr hHook;
+            if (graphics == null)
+                throw new ArgumentNullException("graphics");
 
-            using (Process process = Process.GetCurrentProcess())
-            using (ProcessModule module = process.MainModule)
-            {
-                IntPtr hModule = NativeMethods.GetModuleHandle(module.ModuleName);
-
-                hHook = NativeMethods.SetWindowsHookEx(
-                    NativeMethods.HookType.WH_MOUSE_LL, myCallbackDelegate, hModule, 0);
-            }
-
-            ctx = new ApplicationContext();
-            Application.Run(ctx);
-
-            NativeMethods.UnhookWindowsHookEx(hHook);
-        }
-
-        public void Draw(Graphics g)
-        {
             if (currentRadius <= 0)
                 return;
 
-            int x = location.X - currentRadius;
-            int y = location.Y - currentRadius;
+            int x = currentLocation.X - currentRadius;
+            int y = currentLocation.Y - currentRadius;
             int width = currentRadius * 2;
             int height = currentRadius * 2;
 
-            g.DrawEllipse(pen, x, y, width, height);
+            graphics.DrawEllipse(pen, x, y, width, height);
 
             if (!pressed)
             {
@@ -80,61 +117,90 @@ namespace ScreenCapture.Native
         }
 
 
-        private bool pressed;
-
-        protected void OnMouseUp(MouseButtons button, Point point)
+        private void thread_MouseUp()
         {
-            pressed = false;
+            this.pressed = false;
         }
 
-        protected void OnMouseDown(MouseButtons button, Point point)
-        {
-            pressed = true;
-            location = point;
-            currentRadius = Radius;
-        }
-
-        protected void OnMouseMove(MouseButtons button, Point point)
+        private void thread_MouseMove(Point location)
         {
             if (pressed)
-                location = point;
+                this.currentLocation = location;
         }
 
-        private int MyCallbackFunction(int code, IntPtr wParam, IntPtr lParam)
+        private void thread_MouseDown(Point location)
         {
-            if (!Enabled)
-                return NativeMethods.CallNextHookEx(IntPtr.Zero, code, wParam, lParam);
+            this.pressed = true;
+            this.currentLocation = location;
+            this.currentRadius = Radius;
+        }
 
-            // From 
-            // http://msdn.microsoft.com/en-us/library/windows/desktop/ms644986(v=vs.85).aspx
-            //
-            // wParam contains the identifier of the mouse message.
-            // lParam contains a pointer to a MOUSEHOOKSTRUCT structure.
-            //
-            // The wParam can be can be one of the following messages: WM_LBUTTONDOWN,
-            // WM_LBUTTONUP, WM_MOUSEMOVE, WM_MOUSEWHEEL, WM_MOUSEHWHEEL, WM_RBUTTONDOWN,
-            // or WM_RBUTTONUP.
+        private void OnEnabledChanged(bool value)
+        {
+            enabled = value;
 
-            if (code < 0)
-                return NativeMethods.CallNextHookEx(IntPtr.Zero, code, wParam, lParam);
+            if (value)
+                threadStart();
+            else
+                threadStop();
+        }
 
-            NativeMethods.MouseHookStruct MyMouseHookStruct =
-                    (NativeMethods.MouseHookStruct)Marshal.PtrToStructure(lParam,
-                    typeof(NativeMethods.MouseHookStruct));
 
-            // Parse the message identifier 
-            int msg = wParam.ToInt32();
 
-            if (msg == NativeMethods.WM_LBUTTONDOWN)
-                OnMouseDown(MouseButtons.Left, MyMouseHookStruct.pt);
 
-            else if (msg == NativeMethods.WM_LBUTTONUP)
-                OnMouseUp(MouseButtons.Left, MyMouseHookStruct.pt);
 
-            else if (msg == NativeMethods.WM_MOUSEMOVE)
-                OnMouseMove(MouseButtons.Left, MyMouseHookStruct.pt);
+        private void threadStart()
+        {
+#if DEBUG
+                return;
+#endif
+            if (context != null)
+                return;
 
-            return NativeMethods.CallNextHookEx(IntPtr.Zero, code, wParam, lParam);
+            context = new ApplicationContext();
+            thread = new Thread(run);
+            thread.Start();
+        }
+
+        private void threadStop()
+        {
+            if (context == null)
+                return;
+
+            context.ExitThread();
+            context.Dispose();
+            context = null;
+        }
+
+        private void run()
+        {
+            // Install the global mouse hook and starts its own message pump
+            using (HookHandle hook = SafeNativeMethods.SetWindowHook(lowLevelMouseProcHook))
+            {
+                Application.Run(context);
+            }
+        }
+
+        private void lowLevelMouseProcHook(int message, MouseLowLevelHookStruct info)
+        {
+            switch (message)
+            {
+                case NativeMethods.WM_LBUTTONUP:
+                case NativeMethods.WM_RBUTTONUP:
+                    thread_MouseUp();
+                    break;
+
+                case NativeMethods.WM_LBUTTONDOWN:
+                case NativeMethods.WM_RBUTTONDOWN:
+                    thread_MouseDown(info.pt);
+                    break;
+
+                case NativeMethods.WM_MOUSEMOVE:
+                    thread_MouseMove(info.pt);
+                    break;
+
+                default: break;
+            }
         }
 
 
@@ -173,15 +239,19 @@ namespace ScreenCapture.Native
         {
             if (disposing)
             {
-                if (ctx != null)
+                // free managed resources
+                if (context != null)
                 {
-                    ctx.ExitThread();
-                    ctx.Dispose();
+                    context.ExitThread();
+                    context.Dispose();
+                    context = null;
                 }
 
-                // free managed resources
-                pen.Dispose();
-                pen = null;
+                if (pen != null)
+                {
+                    pen.Dispose();
+                    pen = null;
+                }
             }
         }
         #endregion

@@ -22,11 +22,7 @@
 namespace ScreenCapture.Native
 {
     using System;
-    using System.ComponentModel;
-    using System.Drawing;
     using System.Runtime.InteropServices;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Windows.Forms;
 
     /// <summary>
     ///   Native Win32 methods.
@@ -35,7 +31,8 @@ namespace ScreenCapture.Native
     internal static partial class NativeMethods
     {
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-        public static extern IntPtr GetModuleHandle(string lpModuleName);
+        public static extern IntPtr GetModuleHandle(
+            [MarshalAs(UnmanagedType.LPWStr)]string lpModuleName);
 
     }
 }

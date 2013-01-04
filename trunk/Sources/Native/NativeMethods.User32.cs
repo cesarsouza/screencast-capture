@@ -27,6 +27,7 @@ namespace ScreenCapture.Native
     using System.Runtime.InteropServices;
     using System.Diagnostics.CodeAnalysis;
     using System.Windows.Forms;
+    using System.CodeDom.Compiler;
 
     /// <summary>
     ///   Native Win32 methods.
@@ -52,10 +53,10 @@ namespace ScreenCapture.Native
         internal static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
         [DllImport("user32.dll")]
-        internal static extern IntPtr SetWindowsHookEx(HookType code, LowLevelMouseProc func, IntPtr hInstance, int threadID);
+        internal static extern IntPtr SetWindowsHookEx(HookType idHook, LowLevelMouseProc lpfn, IntPtr hMod, int dwThreadId);
 
         [DllImport("user32.dll")]
-        internal static extern int CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+        internal static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -149,14 +150,14 @@ namespace ScreenCapture.Native
         ///   Title bar position.
         /// </summary>
         /// 
-        public static int HTCAPTION = 0x00000002;
+        public const int HTCAPTION = 0x00000002;
 
 
         /// <summary>
         ///   Moves the window.
         /// </summary>
         /// 
-        public static int SC_MOVE = 0xF010;
+        public const int SC_MOVE = 0xF010;
 
 
         /// <summary>
@@ -166,7 +167,7 @@ namespace ScreenCapture.Native
         ///   this message is not posted.
         /// </summary>
         /// 
-        public static int WM_NCLBUTTONDOWN = 0xA1;
+        public const int WM_NCLBUTTONDOWN = 0xA1;
 
         /// <summary>
         ///   A window receives this message when the user chooses a command from the 
@@ -174,7 +175,7 @@ namespace ScreenCapture.Native
         ///   chooses the maximize button, minimize button, restore button, or close button.
         /// </summary>
         /// 
-        public static int WM_SYSCOMMAND = 0x112;
+        public const int WM_SYSCOMMAND = 0x112;
 
         /// <summary>
         ///   Sent when a drop-down menu or submenu is about to become active. This allows
@@ -182,11 +183,14 @@ namespace ScreenCapture.Native
         ///   entire menu.
         /// </summary>
         /// 
-        public static int WM_INITMENUPOPUP = 0x117;
+        public const int WM_INITMENUPOPUP = 0x117;
 
-        public static int WM_LBUTTONDOWN = 0x0201;
-        public static int WM_MOUSEMOVE = 0x0200;
-        public static int WM_LBUTTONUP = 0x0202;
+        
+        public const int WM_MOUSEMOVE = 0x0200;
+        public const int WM_LBUTTONUP = 0x0202;
+        public const int WM_LBUTTONDOWN = 0x0201;
+        public const int WM_RBUTTONDOWN = 0x0204;
+        public const int WM_RBUTTONUP = 0x0205;
 
 
         /// <summary>
@@ -195,28 +199,27 @@ namespace ScreenCapture.Native
         ///   the default flag.
         /// </summary>
         /// 
-        public static int MF_BYCOMMAND = 0x00000000;
+        public const int MF_BYCOMMAND = 0x00000000;
 
         /// <summary>
         ///   Indicates that the menu item is enabled and restored from a grayed state so that it can be selected.
         /// </summary>
         /// 
-        public static int MF_ENABLED = 0x00000000;
+        public const int MF_ENABLED = 0x00000000;
 
         /// <summary>
         ///   Indicates that the menu item is disabled and grayed so that it cannot be selected.
         /// </summary>
         /// 
-        public static int MF_GRAYED = 0x00000001;
+        public const int MF_GRAYED = 0x00000001;
 
         /// <summary>
         ///   Indicates that the menu item is disabled, but not grayed, so it cannot be selected.
         /// </summary>
         /// 
-        public static int MF_DISABLED = 0x00000002;
+        public const int MF_DISABLED = 0x00000002;
 
         
-
         public enum HookType : int
         {
             WH_JOURNALRECORD = 0,
@@ -236,17 +239,60 @@ namespace ScreenCapture.Native
             WH_MOUSE_LL = 14
         }
 
+        public delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
+    }
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct MouseHookStruct
-        {
-            public Point pt;
-            public int hwnd;
-            public int wHitTestCode;
-            public int dwExtraInfo;
-        }
 
-        internal delegate int LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
+    /// <summary>
+    ///   Contains information about a low-level mouse input event (MSLLHOOKSTRUCT).
+    /// </summary>
+    /// 
+    [StructLayout(LayoutKind.Sequential)]
+    [GeneratedCode("PInvoke", "1.0.0.0")]
+    public struct MouseLowLevelHookStruct
+    {
+        /// <summary>
+        ///   The x- and y-coordinates of the cursor, in screen coordinates.
+        /// </summary>
+        /// 
+        public Point pt;
 
+        /// <summary>
+        /// <para>
+        ///   If the message is WM_MOUSEWHEEL, the high-order word of this
+        ///   member is the wheel delta. The low-order word is reserved. A 
+        ///   positive value indicates that the wheel was rotated forward, 
+        ///   away from the user; a negative value indicates that the wheel
+        ///   was rotated backward, toward the user. One wheel click is defined
+        ///   as WHEEL_DELTA, which is 120.</para>
+        ///   
+        /// <para>
+        ///   If the message is WM_XBUTTONDOWN, WM_XBUTTONUP, WM_XBUTTONDBLCLK, 
+        ///   WM_NCXBUTTONDOWN, WM_NCXBUTTONUP, or WM_NCXBUTTONDBLCLK, the high-
+        ///   order word specifies which X button was pressed or released, and 
+        ///   the low-order word is reserved. This value can be one or more of 
+        ///   the following values. Otherwise, mouseData is not used.</para>
+        /// </summary>
+        /// 
+        public int mouseData; 
+
+        /// <summary>
+        ///   The event-injected flag. An application can use the following
+        ///   value to test the mouse flags.
+        /// </summary>
+        /// 
+        public int flags;
+
+        /// <summary>
+        ///   The time stamp for this message.
+        /// </summary>
+        /// 
+        public int time;
+
+        /// <summary>
+        ///   Additional information associated with the message.
+        /// </summary>
+        /// 
+        public UIntPtr dwExtraInfo;
     }
 }
