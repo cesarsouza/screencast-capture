@@ -23,7 +23,7 @@ namespace ScreenCapture.Controls
 {
     using System.Windows.Forms;
 
-    public class BindableToolStripStatusLabel : ToolStripMenuItem, IBindableComponent
+    public class BindableToolStripButton : ToolStripButton, IBindableComponent
     {
         private ControlBindingsCollection dataBindings;
 

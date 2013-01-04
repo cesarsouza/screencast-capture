@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Screencast Capture Rules" Description="This rule set contains almost all rules from Microsoft's All Rules set." ToolsVersion="10.0">
-  <IncludeAll Action="Warning" />
-  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
-    <Rule Id="CA1303" Action="None" />
-    <Rule Id="CA1601" Action="None" />
-    <Rule Id="CA2006" Action="None" />
-  </Rules>
-</RuleSet>

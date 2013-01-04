@@ -39,7 +39,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\ScreenCapture.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -49,21 +48,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>ScreenCapture.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>..\Binaries\ScreenCapture.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\screencast.ico</ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>ScreenCapture.snk</AssemblyOriginatorKeyFile>
+    <ApplicationIcon>capture.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge, Version=2.2.4.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
@@ -113,33 +103,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bindings.cs" />
-    <Compile Include="Controls\ExplorerBrowserCustom.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ExplorerBrowserCustom.Designer.cs">
-      <DependentUpon>ExplorerBrowserCustom.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\BindableToolStripTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Native\CaptureClick.cs" />
-    <Compile Include="Native\NativeMethods.Kernel32.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="ViewModels\OptionViewModel.cs" />
-    <Compile Include="Views\CaptureRegion.cs">
+    <Compile Include="CaptureRegion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\CaptureRegion.Designer.cs">
+    <Compile Include="CaptureRegion.Designer.cs">
       <DependentUpon>CaptureRegion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\CaptureWindow.cs">
+    <Compile Include="CaptureWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\CaptureWindow.Designer.cs">
+    <Compile Include="CaptureWindow.Designer.cs">
       <DependentUpon>CaptureWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\BindableNotifyIcon.cs" />
-    <Compile Include="Controls\BindableToolStripButton.cs">
+    <Compile Include="Controls\BindableToolStripBindableButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\BindableToolStripDropDownButton.cs">
@@ -151,41 +127,24 @@
     <Compile Include="Controls\BindableToolStripStatusLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Native\CaptureCursor.cs" />
-    <Compile Include="Controls\HotKey.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ViewModels\NotifyViewModel.cs" />
-    <Compile Include="Native\SafeNativeMethods.cs" />
-    <Compile Include="Properties\GlobalSuppressions.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="Views\MainForm.cs">
+    <Compile Include="CaptureCursor.cs" />
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\MainForm.Designer.cs">
+    <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="Native\NativeMethods.Gdi32.cs" />
-    <Compile Include="Native\NativeMethods.User32.cs" />
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\OptionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\OptionForm.Designer.cs">
-      <DependentUpon>OptionForm.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Controls\ExplorerBrowserCustom.resx">
-      <DependentUpon>ExplorerBrowserCustom.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\CaptureRegion.resx">
+    <EmbeddedResource Include="CaptureRegion.resx">
       <DependentUpon>CaptureRegion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\CaptureWindow.resx">
+    <EmbeddedResource Include="CaptureWindow.resx">
       <DependentUpon>CaptureWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\MainForm.resx">
+    <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -198,9 +157,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Views\OptionForm.resx">
-      <DependentUpon>OptionForm.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -211,18 +167,19 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="ScreenCapture.snk" />
-    <None Include="Setup\setup.cmd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\mix_record.png" />
     <None Include="Resources\player_eject.png" />
     <None Include="Resources\player_end.png" />
+    <None Include="Resources\player_end1.png" />
     <None Include="Resources\player_fwd.png" />
     <None Include="Resources\player_pause.png" />
     <None Include="Resources\player_play.png" />
     <None Include="Resources\player_rew.png" />
+    <None Include="Resources\player_start.png" />
     <None Include="Resources\player_stop.png" />
+    <None Include="Resources\player-end.png" />
     <None Include="Resources\camera.png" />
     <None Include="Resources\kview.png" />
     <None Include="Resources\ksnapshot.png" />
@@ -254,27 +211,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icon_pause_overlay.png" />
-    <None Include="Resources\icon_play_overlay.png" />
-    <None Include="Resources\icon_record_overlay.png" />
-    <None Include="Resources\icon_stop_overlay.png" />
-    <None Include="Resources\icon_pause_overlay.ico" />
-    <None Include="Resources\icon_play_overlay.ico" />
-    <None Include="Resources\icon_record_overlay.ico" />
-    <None Include="Resources\icon_stop_overlay.ico" />
-    <None Include="Resources\screencast.ico" />
-    <None Include="Resources\icon\screencast-128.png" />
-    <Content Include="Resources\advancedsettings.png" />
-    <None Include="Resources\thumbnail.png" />
-    <None Include="Resources\top.png" />
-    <None Include="Resources\home.png" />
+    <Content Include="capture.ico" />
     <Content Include="Setup\setup.iss" />
-    <CodeAnalysisDictionary Include="Properties\Dictionary.xml">
-      <SubType>Designer</SubType>
-    </CodeAnalysisDictionary>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\masters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">

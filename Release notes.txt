@@ -3,21 +3,6 @@
  =========================================
 
 
- 06.12.2012, version 1.2
- -----------------------
-
-  The application is now able to capture mouse clicks in video,
-  has support for global hotkeys, a basic configuration dialog,
-  notification icons and navigations for the embedded explorer.
-
-  Issues fixed:
-  - Issue 1: Last seconds of the video are not recorded;
-  - Issue 2: Last settings should be remembered;
-  - Issue 3: Support for a basic configuration dialog;
-  - Issue 5: Include icons in the notification area;
-  - Issue 6: Capture mouse clicks in the video file.
-
-
  29.12.2012, version 1.1
  -----------------------
 

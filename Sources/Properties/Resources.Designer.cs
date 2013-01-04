@@ -60,13 +60,6 @@ namespace ScreenCapture.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap advancedsettings {
-            get {
-                object obj = ResourceManager.GetObject("advancedsettings", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap camera {
             get {
                 object obj = ResourceManager.GetObject("camera", resourceCulture);
@@ -85,41 +78,6 @@ namespace ScreenCapture.Properties {
             get {
                 object obj = ResourceManager.GetObject("folder_video", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap home {
-            get {
-                object obj = ResourceManager.GetObject("home", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Icon icon_pause_overlay {
-            get {
-                object obj = ResourceManager.GetObject("icon_pause_overlay", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Icon icon_play_overlay {
-            get {
-                object obj = ResourceManager.GetObject("icon_play_overlay", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Icon icon_record_overlay {
-            get {
-                object obj = ResourceManager.GetObject("icon_record_overlay", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Icon icon_stop_overlay {
-            get {
-                object obj = ResourceManager.GetObject("icon_stop_overlay", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -165,6 +123,20 @@ namespace ScreenCapture.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap player_end1 {
+            get {
+                object obj = ResourceManager.GetObject("player_end1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap player_end2 {
+            get {
+                object obj = ResourceManager.GetObject("player_end2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap player_fwd {
             get {
                 object obj = ResourceManager.GetObject("player_fwd", resourceCulture);
@@ -193,37 +165,16 @@ namespace ScreenCapture.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap player_start {
+            get {
+                object obj = ResourceManager.GetObject("player_start", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap player_stop {
             get {
                 object obj = ResourceManager.GetObject("player_stop", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Icon screencast {
-            get {
-                object obj = ResourceManager.GetObject("screencast", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap screencast_128 {
-            get {
-                object obj = ResourceManager.GetObject("screencast_128", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap thumbnail {
-            get {
-                object obj = ResourceManager.GetObject("thumbnail", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        internal static System.Drawing.Bitmap top {
-            get {
-                object obj = ResourceManager.GetObject("top", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

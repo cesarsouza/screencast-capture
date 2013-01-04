@@ -1,4 +1,0 @@
-Copyright (c) Cesar Roberto de Souza, 2013
-Copyright (c) Everaldo Coelho,   2006-2007
-
-The Screencast Capture Lite icon is based on Everaldo's Crystal Icon work. Thus the Screencast Capture icon is also licensed and distributabed under the LGPL. Please see the file License.txt for more details.
