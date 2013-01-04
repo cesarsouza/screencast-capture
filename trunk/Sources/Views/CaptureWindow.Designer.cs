@@ -46,14 +46,15 @@
             // 
             // timer
             // 
+            this.timer.Interval = 50;
             this.timer.Tick += new System.EventHandler(this.OnTimerTick);
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.BackColor = System.Drawing.Color.DimGray;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(2, 2);
+            this.panel1.Size = new System.Drawing.Size(1, 1);
             this.panel1.TabIndex = 1;
             this.panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.squarePanel_MouseClick);
             // 
@@ -69,6 +70,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "CaptureWindow";
             this.Opacity = 0.5D;
+            this.ShowInTaskbar = false;
             this.Text = "Capture Window";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Black;

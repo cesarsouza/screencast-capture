@@ -51,34 +51,6 @@ namespace ScreenCapture.Views
 
         MainViewModel viewModel;
 
-        /// <summary>
-        ///   Gets or sets whether the window 
-        ///   should be following the mouse.
-        /// </summary>
-        /// 
-        public bool Following
-        {
-            get { return timer.Enabled; }
-            set
-            {
-                timer.Enabled = value;
-                this.Focus();
-            }
-        }
-
-        /// <summary>
-        ///   Gets the current window position.
-        /// </summary>
-        /// 
-        public Point Position
-        {
-            get
-            {
-                Point point = this.Location;
-                point.Offset(-2, -2);
-                return point;
-            }
-        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="CaptureWindow"/> class.
@@ -89,14 +61,13 @@ namespace ScreenCapture.Views
         public CaptureWindow(MainViewModel viewModel)
             : this()
         {
+            if (viewModel == null)
+                throw new ArgumentNullException("viewModel");
+
             this.viewModel = viewModel;
-
-            // Call CreateControl, otherwise 
-            // binding to Visible won't work.
-
-            this.ForceCreateControl();
+            this.viewModel.TargetWindowRequested += viewModel_TargetWindowRequested;
         }
-
+        
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="CaptureWindow"/>
@@ -109,6 +80,12 @@ namespace ScreenCapture.Views
         }
 
 
+        private void viewModel_TargetWindowRequested(object sender, EventArgs e)
+        {
+            Show();
+        }
+
+
         /// <summary>
         ///   Triggers when the user clicks the mouse when the window is being shown.
         /// </summary>
@@ -117,14 +94,23 @@ namespace ScreenCapture.Views
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (this.timer != null)
-                    this.timer.Stop();
-
-                this.Hide();
+                Hide();
 
                 viewModel.SelectWindowUnderCursor();
             }
         }
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.Forms.Control.VisibleChanged"/> event.
+        /// </summary>
+        /// 
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            Location = Cursor.Position;
+            timer.Enabled = Visible;
+        }
+
 
         /// <summary>
         ///   Relocates the window when a timer ticks.
@@ -135,7 +121,7 @@ namespace ScreenCapture.Views
             this.Location = Cursor.Position;
             this.Focus();
         }
-
+        
         /// <summary>
         ///   Raises the <see cref="E:System.Windows.Forms.Control.MouseLeave"/> event.
         /// </summary>
@@ -176,21 +162,9 @@ namespace ScreenCapture.Views
                 throw new ArgumentNullException("e");
 
             if (e.KeyCode == Keys.Escape)
-                this.Close();
+                this.Hide();
 
             base.OnPreviewKeyDown(e);
-        }
-
-        /// <summary>
-        ///   Raises the CreateControl event.
-        /// </summary>
-        /// 
-        protected override void OnCreateControl()
-        {
-            base.OnCreateControl();
-
-            this.Bind(b => b.Following, viewModel, m => m.IsWaitingForTargetWindow);
-            this.Bind(b => b.Visible, viewModel, m => m.IsWaitingForTargetWindow);
         }
 
     }
