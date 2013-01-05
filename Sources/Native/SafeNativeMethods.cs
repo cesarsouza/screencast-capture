@@ -24,11 +24,10 @@ namespace ScreenCapture.Native
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Drawing;
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
-    using System.Drawing;
 
-    
     /// <summary>
     ///   Managed wrapper around native methods.
     /// </summary>
@@ -43,9 +42,8 @@ namespace ScreenCapture.Native
         public static IWin32Window WindowFromPoint(Point point)
         {
             IntPtr ptr = NativeMethods.WindowFromPoint(point);
-            NativeWindow wnd = new NativeWindow();
-            wnd.AssignHandle(ptr);
-            return wnd;
+
+            return new WindowHandle(ptr, false);
         }
 
         /// <summary>
@@ -213,6 +211,61 @@ namespace ScreenCapture.Native
     /// <param name="message">The identifier of the mouse message.</param>
     /// <param name="mouse">A pointer to an MSLLHOOKSTRUCT structure</param>
     public delegate void LowLevelMouseProcedure(int message, MouseLowLevelHookStruct mouse);
+
+    /// <summary>
+    ///   Managed wrapper around a native window handle.
+    /// </summary>
+    /// 
+    public class WindowHandle : SafeHandle, IWin32Window
+    {
+        /// <summary>
+        ///   Gets the handle for the hook.
+        /// </summary>
+        /// 
+        public IntPtr Handle { get; private set; }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="HookHandle" /> class.
+        /// </summary>
+        /// 
+        /// <param name="handle">The handle.</param>
+        /// <param name="ownsHandle">True to reliably let <see cref="WindowHandle"/> release the
+        ///     handle during the finalization phase; otherwise, false (not recommended).</param>
+        /// 
+        public WindowHandle(IntPtr handle, bool ownsHandle)
+            : base(IntPtr.Zero, ownsHandle)
+        {
+            Handle = handle;
+        }
+
+        /// <summary>
+        ///   When overridden in a derived class, gets a value indicating whether the handle value is invalid.
+        /// </summary>
+        /// 
+        /// <returns>true if the handle value is invalid; otherwise, false.</returns>
+        /// 
+        ///   <PermissionSet>
+        ///   <IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode" />
+        ///   </PermissionSet>
+        ///   
+        public override bool IsInvalid
+        {
+            get { return Handle == IntPtr.Zero; }
+        }
+
+        /// <summary>
+        ///   When overridden in a derived class, executes the code required to free the handle.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   true if the handle is released successfully; otherwise, in the event of a catastrophic failure, false. In this case, it generates a releaseHandleFailed MDA Managed Debugging Assistant.
+        /// </returns>
+        /// 
+        protected override bool ReleaseHandle()
+        {
+            return NativeMethods.DestroyWindow(this.handle);
+        }
+    }
 
     /// <summary>
     ///   Managed wrapper around an input hook pointer.
