@@ -61,6 +61,10 @@ namespace ScreenCapture.Native
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool UnhookWindowsHookEx(IntPtr hhk);
 
+        [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool DestroyWindow(IntPtr hwnd);
+
         /// <summary>
         ///   Destroys an icon and frees any memory the icon occupied.
         /// </summary>
