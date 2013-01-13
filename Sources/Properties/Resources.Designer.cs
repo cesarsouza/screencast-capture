@@ -81,10 +81,37 @@ namespace ScreenCapture.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Copyright file not found..
+        /// </summary>
+        internal static string Error_Missing_Copyright {
+            get {
+                return ResourceManager.GetString("Error_Missing_Copyright", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap folder_video {
             get {
                 object obj = ResourceManager.GetObject("folder_video", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Perhaps you would like to know that this software is more useful if you enable always-visible notification icons for it. Please click the wrench button above and enable them if you wish!.
+        /// </summary>
+        internal static string Greet_Text {
+            get {
+                return ResourceManager.GetString("Greet_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hi there!.
+        /// </summary>
+        internal static string Greet_Title {
+            get {
+                return ResourceManager.GetString("Greet_Title", resourceCulture);
             }
         }
         

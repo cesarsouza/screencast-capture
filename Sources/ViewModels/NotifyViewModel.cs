@@ -26,6 +26,7 @@ namespace ScreenCapture.ViewModels
     using System.Drawing;
     using ScreenCapture.Properties;
     using System.Windows.Forms;
+    using System.Resources;
 
     /// <summary>
     ///   ViewModel bridging the notification area and the model.
@@ -39,6 +40,7 @@ namespace ScreenCapture.ViewModels
         private Icon playIcon = Resources.icon_play_overlay;
         private Icon stopIcon = Resources.icon_stop_overlay;
         private Icon recIcon = Resources.icon_record_overlay;
+
 
         /// <summary>
         ///   Gets or sets the current icon to be 
@@ -118,12 +120,11 @@ namespace ScreenCapture.ViewModels
 
         private void showGreetings()
         {
+            
             var args = new BalloonEventArgs()
             {
-                Title = "Hi there!",
-                Text = "Perhaps you would like to know that this software is more useful if"
-                + " you enable always-visible notification icons for it. Please click"
-                + " the wench button above and enable them if you wish!",
+                Title = Resources.Greet_Title,
+                Text = Resources.Greet_Text,
                 Icon = ToolTipIcon.Info,
                 Milliseconds = 15000
             };

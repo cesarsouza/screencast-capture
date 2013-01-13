@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CaptureWindow));
             this.label1 = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
@@ -36,13 +37,10 @@
             // 
             // label1
             // 
+            resources.ApplyResources(this.label1, "label1");
             this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(29, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(136, 30);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Please click on the window you would like to capture";
             // 
             // timer
             // 
@@ -51,27 +49,22 @@
             // 
             // panel1
             // 
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BackColor = System.Drawing.Color.DimGray;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1, 1);
-            this.panel1.TabIndex = 1;
             this.panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.squarePanel_MouseClick);
             // 
             // CaptureWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(171, 42);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "CaptureWindow";
             this.Opacity = 0.5D;
             this.ShowInTaskbar = false;
-            this.Text = "Capture Window";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Black;
             this.ResumeLayout(false);

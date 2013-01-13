@@ -27,6 +27,8 @@ namespace ScreenCapture.Views
     using System.IO;
     using System.Text;
     using System.Windows.Forms;
+    using System.Resources;
+    using ScreenCapture.Properties;
 
     /// <summary>
     ///   Options dialog.
@@ -86,7 +88,8 @@ namespace ScreenCapture.Views
 
                 if (!File.Exists(copyright))
                 {
-                    tbCopyright.Text = "Copyright file not found.";
+
+                    tbCopyright.Text = Resources.Error_Missing_Copyright;
                     return;
                 }
             }
