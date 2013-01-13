@@ -27,6 +27,7 @@ namespace ScreenCapture.Native
     using System.Drawing;
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
+    using System.Text;
 
     /// <summary>
     ///   Managed wrapper around native methods.
@@ -156,6 +157,18 @@ namespace ScreenCapture.Native
             }
 
             return new HookHandle(hHook, lpfn);
+        }
+
+        public static string GetCharsFromKeys(Keys keys, byte[] state, StringBuilder buffer)
+        {
+            if (state.Length != 256)
+                throw new Exception();
+
+            buffer.EnsureCapacity(256);
+
+            NativeMethods.ToUnicode((uint)keys, 0, state, buffer, 256, 0);
+
+            return buffer.ToString();
         }
 
         /// <summary>

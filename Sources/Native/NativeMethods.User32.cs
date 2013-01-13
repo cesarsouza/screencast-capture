@@ -25,6 +25,7 @@ namespace ScreenCapture.Native
     using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
     using System.Runtime.InteropServices;
+    using System.Text;
 
     /// <summary>
     ///   Native Win32 methods.
@@ -60,6 +61,12 @@ namespace ScreenCapture.Native
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool DestroyWindow(IntPtr hwnd);
+
+        [DllImport("user32.dll")]
+        internal static extern int ToUnicode(uint virtualKeyCode, uint scanCode, byte[] keyboardState,
+            [Out, MarshalAs(UnmanagedType.LPWStr, SizeConst = 64)]
+            StringBuilder receivingBuffer,
+            int bufferSize, uint flags);
 
         /// <summary>
         ///   Destroys an icon and frees any memory the icon occupied.
