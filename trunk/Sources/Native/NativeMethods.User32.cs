@@ -22,12 +22,9 @@
 namespace ScreenCapture.Native
 {
     using System;
-    using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
     using System.Runtime.InteropServices;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Windows.Forms;
-    using System.CodeDom.Compiler;
 
     /// <summary>
     ///   Native Win32 methods.
@@ -41,7 +38,6 @@ namespace ScreenCapture.Native
         public static int MOD_SHIFT = 0x4;
         public static int WM_HOTKEY = 0x312;
 
-        public const uint ERROR_HOTKEY_ALREADY_REGISTERED = 1409;
 
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -52,7 +48,7 @@ namespace ScreenCapture.Native
         internal static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
         [DllImport("user32.dll")]
-        internal static extern IntPtr SetWindowsHookEx(HookType idHook, LowLevelMouseProc lpfn, IntPtr hMod, int dwThreadId);
+        internal static extern IntPtr SetWindowsHookEx(HookType idHook, Delegate lpfn, IntPtr hMod, int dwThreadId);
 
         [DllImport("user32.dll")]
         internal static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
@@ -131,7 +127,6 @@ namespace ScreenCapture.Native
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool EnableMenuItem(System.IntPtr hMenu, Int32 uIDEnableItem, Int32 uEnable);
 
-       
 
         /// <summary>
         ///   Title bar position.
@@ -172,14 +167,8 @@ namespace ScreenCapture.Native
         /// 
         public const int WM_INITMENUPOPUP = 0x117;
 
-
-        public const int WM_MOUSEMOVE = 0x0200;
-        public const int WM_LBUTTONUP = 0x0202;
-        public const int WM_LBUTTONDOWN = 0x0201;
-        public const int WM_RBUTTONDOWN = 0x0204;
-        public const int WM_RBUTTONUP = 0x0205;
-
-
+        
+        
         /// <summary>
         ///   Indicates that uIDEnableItem gives the identifier of the menu item. If neither
         ///   the MF_BYCOMMAND nor MF_BYPOSITION flag is specified, the MF_BYCOMMAND flag is
@@ -206,6 +195,7 @@ namespace ScreenCapture.Native
         /// 
         public const int MF_DISABLED = 0x00000002;
 
+        public delegate IntPtr LowLevelHookProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         public enum HookType : int
         {
@@ -225,61 +215,5 @@ namespace ScreenCapture.Native
             WH_KEYBOARD_LL = 13,
             WH_MOUSE_LL = 14
         }
-
-        public delegate IntPtr LowLevelMouseProc(int nCode, IntPtr wParam, IntPtr lParam);
-    }
-
-
-    /// <summary>
-    ///   Contains information about a low-level mouse input event (MSLLHOOKSTRUCT).
-    /// </summary>
-    /// 
-    [StructLayout(LayoutKind.Sequential)]
-    [GeneratedCode("PInvoke", "1.0.0.0")]
-    public struct MouseLowLevelHookStruct
-    {
-        /// <summary>
-        ///   The x- and y-coordinates of the cursor, in screen coordinates.
-        /// </summary>
-        /// 
-        public Point pt;
-
-        /// <summary>
-        /// <para>
-        ///   If the message is WM_MOUSEWHEEL, the high-order word of this
-        ///   member is the wheel delta. The low-order word is reserved. A 
-        ///   positive value indicates that the wheel was rotated forward, 
-        ///   away from the user; a negative value indicates that the wheel
-        ///   was rotated backward, toward the user. One wheel click is defined
-        ///   as WHEEL_DELTA, which is 120.</para>
-        ///   
-        /// <para>
-        ///   If the message is WM_XBUTTONDOWN, WM_XBUTTONUP, WM_XBUTTONDBLCLK, 
-        ///   WM_NCXBUTTONDOWN, WM_NCXBUTTONUP, or WM_NCXBUTTONDBLCLK, the high-
-        ///   order word specifies which X button was pressed or released, and 
-        ///   the low-order word is reserved. This value can be one or more of 
-        ///   the following values. Otherwise, mouseData is not used.</para>
-        /// </summary>
-        /// 
-        public int mouseData;
-
-        /// <summary>
-        ///   The event-injected flag. An application can use the following
-        ///   value to test the mouse flags.
-        /// </summary>
-        /// 
-        public int flags;
-
-        /// <summary>
-        ///   The time stamp for this message.
-        /// </summary>
-        /// 
-        public int time;
-
-        /// <summary>
-        ///   Additional information associated with the message.
-        /// </summary>
-        /// 
-        public UIntPtr dwExtraInfo;
     }
 }

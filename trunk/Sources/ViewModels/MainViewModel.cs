@@ -32,6 +32,7 @@ namespace ScreenCapture.ViewModels
     using System.Drawing;
     using System.IO;
     using System.Windows.Forms;
+    using ScreenCapture.Processors;
 
     /// <summary>
     ///   Region capturing modes.
@@ -171,6 +172,7 @@ namespace ScreenCapture.ViewModels
         private Crop crop = new Crop(Rectangle.Empty);
         private CaptureCursor cursorCapture;
         private CaptureClick clickCapture;
+        private CaptureKeyboard keyCapture;
         private Object syncObj = new Object();
 
 
