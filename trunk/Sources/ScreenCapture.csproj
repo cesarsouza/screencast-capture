@@ -124,6 +124,11 @@
     </Compile>
     <Compile Include="Native\CaptureClick.cs" />
     <Compile Include="Native\NativeMethods.Kernel32.cs" />
+    <Compile Include="Properties\Resources.pt-BR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.pt-BR.resx</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="ViewModels\OptionViewModel.cs" />
     <Compile Include="Views\CaptureRegion.cs">
@@ -176,14 +181,30 @@
     <Compile Include="Views\OptionForm.Designer.cs">
       <DependentUpon>OptionForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\ExplorerBrowserCustom.pt.resx">
+      <DependentUpon>ExplorerBrowserCustom.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ExplorerBrowserCustom.resx">
       <DependentUpon>ExplorerBrowserCustom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.pt-BR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.pt-BR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CaptureRegion.pt.resx">
+      <DependentUpon>CaptureRegion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\CaptureRegion.resx">
       <DependentUpon>CaptureRegion.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\CaptureWindow.pt.resx">
+      <DependentUpon>CaptureWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\CaptureWindow.resx">
       <DependentUpon>CaptureWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainForm.pt.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -198,6 +219,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\OptionForm.pt.resx">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\OptionForm.resx">
       <DependentUpon>OptionForm.cs</DependentUpon>
     </EmbeddedResource>
