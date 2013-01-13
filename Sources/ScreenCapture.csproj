@@ -122,8 +122,13 @@
     <Compile Include="Controls\BindableToolStripTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Native\CaptureClick.cs" />
+    <Compile Include="Native\Hooks\LowLevelMouse.cs" />
+    <Compile Include="Processors\CaptureClick.cs" />
+    <Compile Include="Processors\CaptureKeyboard.cs" />
+    <Compile Include="Native\Handles\HookHandle.cs" />
+    <Compile Include="Native\Hooks\LowLevelKeyboard.cs" />
     <Compile Include="Native\NativeMethods.Kernel32.cs" />
+    <Compile Include="Native\Handles\WindowHandle.cs" />
     <Compile Include="Properties\Resources.pt-BR.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -156,7 +161,7 @@
     <Compile Include="Controls\BindableToolStripStatusLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Native\CaptureCursor.cs" />
+    <Compile Include="Processors\CaptureCursor.cs" />
     <Compile Include="Controls\HotKey.cs">
       <SubType>Component</SubType>
     </Compile>

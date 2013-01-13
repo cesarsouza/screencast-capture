@@ -19,12 +19,13 @@
 //    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 // 
 
-namespace ScreenCapture.Native
+namespace ScreenCapture.Processors
 {
     using System;
     using System.Drawing;
     using System.Threading;
     using System.Windows.Forms;
+    using ScreenCapture.Native;
 
     /// <summary>
     ///   Class to capture mouse clicks.
@@ -196,21 +197,21 @@ namespace ScreenCapture.Native
             }
         }
 
-        private void lowLevelMouseProcHook(int message, MouseLowLevelHookStruct info)
+        private void lowLevelMouseProcHook(LowLevelMouseMessage message, MouseLowLevelHookStruct info)
         {
             switch (message)
             {
-                case NativeMethods.WM_LBUTTONUP:
-                case NativeMethods.WM_RBUTTONUP:
+                case LowLevelMouseMessage.WM_LBUTTONUP:
+                case LowLevelMouseMessage.WM_RBUTTONUP:
                     thread_MouseUp();
                     break;
 
-                case NativeMethods.WM_LBUTTONDOWN:
-                case NativeMethods.WM_RBUTTONDOWN:
+                case LowLevelMouseMessage.WM_LBUTTONDOWN:
+                case LowLevelMouseMessage.WM_RBUTTONDOWN:
                     thread_MouseDown(info.pt);
                     break;
 
-                case NativeMethods.WM_MOUSEMOVE:
+                case LowLevelMouseMessage.WM_MOUSEMOVE:
                     thread_MouseMove(info.pt);
                     break;
 

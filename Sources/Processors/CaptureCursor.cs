@@ -19,7 +19,7 @@
 //    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 // 
 
-namespace ScreenCapture
+namespace ScreenCapture.Processors
 {
     using System;
     using System.Drawing;
@@ -129,8 +129,8 @@ namespace ScreenCapture
 
                             // These two operation will result in a black cursor over a white background. Later
                             //   in the code, a call to MakeTransparent() will get rid of the white background.
-                            NativeMethods.BitBlt(resultHdc, 0, 0, 32, 32, maskHdc, 0, 32, TernaryRasterOperations.SRCCOPY);
-                            NativeMethods.BitBlt(resultHdc, 0, 0, 32, 32, maskHdc, 0, 0, TernaryRasterOperations.SRCINVERT);
+                            NativeMethods.BitBlt(resultHdc, 0, 0, 32, 32, maskHdc, 0, 32, CopyPixelOperation.SourceCopy);
+                            NativeMethods.BitBlt(resultHdc, 0, 0, 32, 32, maskHdc, 0, 0, CopyPixelOperation.SourceInvert);
 
                             resultGraphics.ReleaseHdc(resultHdc);
                         }
