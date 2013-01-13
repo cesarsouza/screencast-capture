@@ -196,6 +196,7 @@ namespace ScreenCapture.ViewModels
 
             clickCapture = new CaptureClick();
             cursorCapture = new CaptureCursor();
+            keyCapture = new CaptureKeyboard();
             CaptureRegion = new Rectangle(0, 0, 640, 480);
 
             Status = "Ready";
@@ -249,6 +250,7 @@ namespace ScreenCapture.ViewModels
             int width = CaptureRegion.Width;
 
             clickCapture.Enabled = true;
+            keyCapture.Enabled = true;
 
             screenStream = new ScreenCaptureStream(CaptureRegion, 1000 / framerate);
             screenStream.VideoSourceError += screenStream_VideoSourceError;
@@ -383,8 +385,10 @@ namespace ScreenCapture.ViewModels
         {
             bool captureMouse = Settings.Default.CaptureMouse;
             bool captureClick = Settings.Default.CaptureClick;
+            //bool captureKeys = Settings.Default.CaptureKeys;
+            bool captureKeys = true;
 
-            if (captureMouse || captureClick)
+            if (captureMouse || captureClick || captureKeys )
             {
                 using (Graphics g = Graphics.FromImage(image))
                 {
@@ -393,6 +397,9 @@ namespace ScreenCapture.ViewModels
 
                     if (captureClick)
                         clickCapture.Draw(g);
+
+                    if (captureKeys)
+                        keyCapture.Draw(g);
                 }
             }
 
@@ -519,6 +526,12 @@ namespace ScreenCapture.ViewModels
                 {
                     cursorCapture.Dispose();
                     cursorCapture = null;
+                }
+
+                if (keyCapture != null)
+                {
+                    keyCapture.Dispose();
+                    keyCapture = null;
                 }
 
                 if (videoWriter != null)
