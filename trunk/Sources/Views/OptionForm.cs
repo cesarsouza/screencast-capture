@@ -28,6 +28,7 @@ namespace ScreenCapture.Views
     using Microsoft.WindowsAPICodePack.Dialogs;
     using ScreenCapture.Properties;
     using ScreenCapture.ViewModels;
+    using System.Reflection;
 
     /// <summary>
     ///   Options dialog.
@@ -55,8 +56,11 @@ namespace ScreenCapture.Views
             cbMouseCursor.Bind(b => b.Checked, viewModel, m => m.CaptureMouse);
             cbMouseClicks.Bind(b => b.Checked, viewModel, m => m.CaptureClick);
             cbKeyboard.Bind(b => b.Checked, viewModel, m => m.CaptureKeys);
+            cbFrameRate.Bind(b => b.Text, viewModel, m => m.FrameRate);
 
             showCopyrightText();
+
+            lbVersion.Text = "Version "+ Assembly.GetExecutingAssembly().GetName().Version;
         }
 
 
@@ -117,5 +121,6 @@ namespace ScreenCapture.Views
         {
             viewModel.Save();
         }
+
     }
 }

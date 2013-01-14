@@ -34,7 +34,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tbCopyright = new System.Windows.Forms.RichTextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbVersion = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnSelectFolder = new System.Windows.Forms.Button();
@@ -42,16 +42,21 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbMouseClicks = new System.Windows.Forms.CheckBox();
+            this.cbKeyboard = new System.Windows.Forms.CheckBox();
             this.cbMouseCursor = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.btnApply = new System.Windows.Forms.Button();
-            this.cbKeyboard = new System.Windows.Forms.CheckBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.cbFrameRate = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSave
@@ -86,19 +91,22 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.groupBox3);
+            this.tabPage1.Controls.Add(this.lbVersion);
             this.tabPage1.Controls.Add(this.linkLabel1);
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.pictureBox1);
             this.tabPage1.Controls.Add(this.groupBox1);
+            this.tabPage1.Controls.Add(this.label1);
             resources.ApplyResources(this.tabPage1, "tabPage1");
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // lbVersion
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            resources.ApplyResources(this.lbVersion, "lbVersion");
+            this.lbVersion.BackColor = System.Drawing.Color.Transparent;
+            this.lbVersion.Name = "lbVersion";
             // 
             // linkLabel1
             // 
@@ -148,11 +156,22 @@
             this.cbMouseClicks.Name = "cbMouseClicks";
             this.cbMouseClicks.UseVisualStyleBackColor = true;
             // 
+            // cbKeyboard
+            // 
+            resources.ApplyResources(this.cbKeyboard, "cbKeyboard");
+            this.cbKeyboard.Name = "cbKeyboard";
+            this.cbKeyboard.UseVisualStyleBackColor = true;
+            // 
             // cbMouseCursor
             // 
             resources.ApplyResources(this.cbMouseCursor, "cbMouseCursor");
             this.cbMouseCursor.Name = "cbMouseCursor";
             this.cbMouseCursor.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
             // tabControl1
             // 
@@ -170,11 +189,30 @@
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
-            // cbKeyboard
+            // groupBox3
             // 
-            resources.ApplyResources(this.cbKeyboard, "cbKeyboard");
-            this.cbKeyboard.Name = "cbKeyboard";
-            this.cbKeyboard.UseVisualStyleBackColor = true;
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.cbFrameRate);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
+            // 
+            // cbFrameRate
+            // 
+            this.cbFrameRate.FormattingEnabled = true;
+            this.cbFrameRate.Items.AddRange(new object[] {
+            resources.GetString("cbFrameRate.Items"),
+            resources.GetString("cbFrameRate.Items1"),
+            resources.GetString("cbFrameRate.Items2"),
+            resources.GetString("cbFrameRate.Items3"),
+            resources.GetString("cbFrameRate.Items4")});
+            resources.ApplyResources(this.cbFrameRate, "cbFrameRate");
+            this.cbFrameRate.Name = "cbFrameRate";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
             // 
             // OptionForm
             // 
@@ -200,6 +238,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -223,5 +263,9 @@
         private System.Windows.Forms.RichTextBox tbCopyright;
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.CheckBox cbKeyboard;
+        private System.Windows.Forms.Label lbVersion;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox cbFrameRate;
     }
 }
