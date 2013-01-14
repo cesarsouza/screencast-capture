@@ -27,7 +27,7 @@ namespace ScreenCapture.Controls
     ///   Tool Strip Status Label with support for data binding.
     /// </summary>
     /// 
-    public class BindableToolStripStatusLabel : ToolStripMenuItem, IBindableComponent
+    public class BindableToolStripStatusLabel : ToolStripLabel, IBindableComponent
     {
         private ControlBindingsCollection dataBindings;
 

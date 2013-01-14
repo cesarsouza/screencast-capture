@@ -89,9 +89,12 @@ namespace ScreenCapture.Views
             btnCaptureMode.Bind(b => b.Image, viewModel, m => m.CaptureMode, x => getModeButton(x).Image);
 
             lbStatusRecording.Bind(b => b.Visible, viewModel, m => m.IsRecording);
+            lbStatusTime.Bind(b => b.Visible, viewModel, m => m.IsRecording);
+            lbStatusTime.Bind(b => b.Text, viewModel, m => m.RecordingDuration, value => value.ToString(@"hh\:mm\:ss"));
             lbStatusReady.Bind(b => b.Visible, viewModel, m => m.IsRecording, value => !value);
             btnCaptureMode.Bind(b => b.Enabled, viewModel, m => m.IsRecording, value => !value);
 
+            
             iconPlayPause.Bind(b => b.Text, viewModel.Notify, m => m.CurrentText);
             iconPlayPause.Bind(b => b.Icon, viewModel.Notify, m => m.CurrentIcon);
 
@@ -173,15 +176,12 @@ namespace ScreenCapture.Views
         }
 
 
-
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             regionWindow.Close();
             windowWindow.Close();
             viewModel.Close();
         }
-
-
 
 
         private void hotkeyPlayPause_Pressed(object sender, System.ComponentModel.HandledEventArgs e)
@@ -202,6 +202,11 @@ namespace ScreenCapture.Views
         {
             using (OptionForm form = new OptionForm())
                 form.ShowDialog(this);
+        }
+
+        private void iconPlayPause_Click(object sender, EventArgs e)
+        {
+            viewModel.Notify.Click();
         }
 
 
