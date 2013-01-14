@@ -58,6 +58,8 @@ namespace ScreenCapture.ViewModels
 
         public bool CaptureKeys { get; set; }
 
+        public double FrameRate { get; set; }
+
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="OptionViewModel"/> class.
@@ -80,6 +82,7 @@ namespace ScreenCapture.ViewModels
             Settings.Default.CaptureMouse = CaptureMouse;
             Settings.Default.CaptureClick = CaptureClick;
             Settings.Default.CaptureKeys = CaptureKeys;
+            Settings.Default.FrameRate = FrameRate;
 
             Settings.Default.Save();
         }
@@ -96,6 +99,7 @@ namespace ScreenCapture.ViewModels
             CaptureMouse = Settings.Default.CaptureMouse;
             CaptureClick = Settings.Default.CaptureClick;
             CaptureKeys = Settings.Default.CaptureKeys;
+            FrameRate = Settings.Default.FrameRate;
         }
 
 
