@@ -29,13 +29,13 @@ namespace ScreenCapture.Processors
     using System.Threading;
     using System.Windows.Forms;
     using ScreenCapture.Native;
+    using ScreenCapture.Native.Context;
 
     public class CaptureKeyboard
     {
 
-        private Thread thread;
-        private ApplicationContext context;
         private bool enabled;
+        private NativeKeyboardContext context;
 
         private Font textFont;
         private Brush textBrush;
@@ -47,26 +47,28 @@ namespace ScreenCapture.Processors
         private ColorMatrix matrix;
         private ImageAttributes attributes;
 
-        private Keys current;
         private Point location;
 
+        private int counter;
         private float currentTransparency;
         private float transparencyStep;
 
-        CustomKeysConverter conv = new CustomKeysConverter();
+        private CustomKeysConverter conv;
 
-        StringBuilder builder = new StringBuilder(100);
-
+       
 
         public CaptureKeyboard()
         {
-            textFont = new Font("Segoe UI", 14);
+            context = new NativeKeyboardContext();
+            conv = new CustomKeysConverter();
+
+            textFont = new Font("Segoe UI", 20);
             currentTransparency = 0f;
             transparencyStep = 0.3f;
 
             textBrush = new SolidBrush(Color.White);
 
-            backPen = new Pen(Color.White);
+            backPen = new Pen(Color.White, 4f);
             backBrush = new SolidBrush(Color.DarkBlue);
 
             matrix = new ColorMatrix();
@@ -77,37 +79,41 @@ namespace ScreenCapture.Processors
             location = new Point(5, 5);
         }
 
-
-        /// <summary>
-        ///   Gets or sets whether the hook is installed and running.
-        ///   Has no effect on debug mode, as stopping at a breakpoint
-        ///   would freeze the mouse.
-        /// </summary>
-        /// 
         public bool Enabled
         {
             get { return enabled; }
             set { OnEnabledChanged(value); }
         }
 
+        private void OnEnabledChanged(bool value)
+        {
+            enabled = value;
+
+            if (value)
+                context.Start();
+            else context.Stop();
+        }
+
 
 
         public void Draw(Graphics graphics)
         {
-
-
-            string text = conv.ToStringWithModifiers(current);
+            string text = conv.ToStringWithModifiers(context.Current);
 
             if (!String.IsNullOrEmpty(text))
             {
                 currentTransparency = 0.8f;
                 createBitmap(graphics, text);
+                counter = 0;
             }
             else
             {
-                currentTransparency -= transparencyStep;
-                if (currentTransparency <= 0)
-                    currentTransparency = 0;
+                if (counter++ > 10)
+                {
+                    currentTransparency -= transparencyStep;
+                    if (currentTransparency <= 0)
+                        currentTransparency = 0;
+                }
             }
 
             if (lastBitmap != null)
@@ -125,141 +131,27 @@ namespace ScreenCapture.Processors
         {
             // Compute size of container
             SizeF size = graphics.MeasureString(text, textFont);
-            lastBitmap = new Bitmap((int)size.Width + 20, (int)size.Height + 20);
+
+            lastBitmap = new Bitmap((int)size.Width + 50, (int)size.Height + 25);
 
             using (Graphics g = Graphics.FromImage(lastBitmap))
             {
                 g.CompositingQuality = CompositingQuality.HighQuality;
                 g.SmoothingMode = SmoothingMode.HighQuality;
 
-                RectangleF rect = new RectangleF(0, 0, size.Width + 10, size.Height + 10);
+                RectangleF rect = new RectangleF(0, 0, size.Width + 20, size.Height + 10);
 
                 // Draw container background
                 g.FillRectangle(backBrush, rect);
                 g.DrawRectangle(backPen, rect.X, rect.Y, rect.Width, rect.Height);
 
                 // Draw text
-                g.DrawString(text, textFont, textBrush, 5, 5, StringFormat.GenericTypographic);
+                g.DrawString(text, textFont, textBrush, 15, 5, StringFormat.GenericTypographic);
             }
         }
 
 
 
-        private void OnEnabledChanged(bool value)
-        {
-            enabled = value;
-
-            if (value)
-                threadStart();
-            else
-                threadStop();
-        }
-
-
-
-        private void thread_KeyUp(Keys key)
-        {
-            switch (key)
-            {
-                case Keys.LControlKey:
-                case Keys.RControlKey:
-                    current &= ~Keys.Control;
-                    return;
-
-                case Keys.LShiftKey:
-                case Keys.RShiftKey:
-                    current &= ~Keys.Shift;
-                    return;
-
-                case Keys.RMenu:
-                case Keys.LMenu:
-                    current &= ~Keys.Alt;
-                    return;
-
-                case Keys.RWin:
-                case Keys.LWin:
-                    current &= ~KeysExtensions.Windows;
-                    return;
-            }
-
-            current = Keys.None.SetModifiers(current);
-        }
-
-        private void thread_KeyDown(Keys key)
-        {
-            switch (key)
-            {
-                case Keys.Control:
-                case Keys.LControlKey:
-                case Keys.RControlKey:
-                    current |= Keys.Control;
-                    return;
-
-                case Keys.LShiftKey:
-                case Keys.RShiftKey:
-                    current |= Keys.Shift;
-                    return;
-
-                case Keys.RMenu:
-                case Keys.LMenu:
-                    current |= Keys.Alt;
-                    return;
-
-                case Keys.RWin:
-                case Keys.LWin:
-                    current |= KeysExtensions.Windows;
-                    return;
-            }
-
-            current = key.SetModifiers(current);
-        }
-
-
-        private void threadStart()
-        {
-            if (context != null)
-                return;
-
-            context = new ApplicationContext();
-            thread = new Thread(run);
-
-            thread.Start();
-        }
-
-        private void threadStop()
-        {
-            if (context == null)
-                return;
-
-            context.ExitThread();
-            context.Dispose();
-            context = null;
-        }
-
-        private void run()
-        {
-            // Install the global mouse hook and starts its own message pump
-            using (HookHandle hook = SafeNativeMethods.SetWindowHook(lowLevelKeyboardProcHook))
-            {
-                Application.Run(context);
-            }
-        }
-
-        private void lowLevelKeyboardProcHook(LowLevelKeyboardMessage message, KeyboardLowLevelHookStruct info)
-        {
-            switch (message)
-            {
-                case LowLevelKeyboardMessage.WM_KEYUP:
-                case LowLevelKeyboardMessage.WM_SYSKEYUP:
-                    thread_KeyUp((Keys)info.vkCode); break;
-
-                case LowLevelKeyboardMessage.WM_KEYDOWN:
-                case LowLevelKeyboardMessage.WM_SYSKEYDOWN:
-                    thread_KeyDown((Keys)info.vkCode); break;
-
-                default: break;
-            }
-        }
 
 
         #region IDisposable implementation
@@ -300,7 +192,6 @@ namespace ScreenCapture.Processors
                 // free managed resources
                 if (context != null)
                 {
-                    context.ExitThread();
                     context.Dispose();
                     context = null;
                 }

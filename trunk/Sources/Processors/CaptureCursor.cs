@@ -64,6 +64,8 @@ namespace ScreenCapture.Processors
         /// 
         public Point Position { get { return position; } }
 
+        public Rectangle CaptureRegion { get; set; }
+
         /// <summary>
         ///   Gets the current cursor bitmap, supporting
         ///   transparency and handling monochrome cursors.
@@ -96,6 +98,12 @@ namespace ScreenCapture.Processors
 
             position.X = cursorInfo.ptScreenPos.X - ((int)iconInfo.xHotspot);
             position.Y = cursorInfo.ptScreenPos.Y - ((int)iconInfo.yHotspot);
+
+            if (!CaptureRegion.Contains(position))
+                return null;
+
+            position.X -= CaptureRegion.X;
+            position.Y -= CaptureRegion.Y;
 
             // Note: an alternative way would be to just return 
             //
@@ -222,7 +230,7 @@ namespace ScreenCapture.Processors
                 maskHdc = IntPtr.Zero;
             }
 
-            if (desktopGraphics!= null && 
+            if (desktopGraphics != null &&
                 desktopHdc != IntPtr.Zero)
             {
                 desktopGraphics.ReleaseHdc(desktopHdc);
@@ -237,6 +245,6 @@ namespace ScreenCapture.Processors
             }
         }
         #endregion
-        
+
     }
 }
