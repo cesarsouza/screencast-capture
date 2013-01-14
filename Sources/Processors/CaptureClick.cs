@@ -26,6 +26,7 @@ namespace ScreenCapture.Processors
     using System.Threading;
     using System.Windows.Forms;
     using ScreenCapture.Native;
+    using ScreenCapture.Native.Context;
 
     /// <summary>
     ///   Class to capture mouse clicks.
@@ -41,16 +42,19 @@ namespace ScreenCapture.Processors
     public class CaptureClick : IDisposable
     {
 
+        private bool enabled;
+        private NativeMouseContext context;
+
         private Pen penOuter;
         private Pen penInner;
 
-        private Thread thread;
-        private ApplicationContext context;
-
-        private bool enabled;
         private bool pressed;
         private int currentRadius;
+
         private Point currentLocation;
+        private Point relativeLocation;
+
+        public Rectangle CaptureRegion { get; set; }
 
         /// <summary>
         ///   Gets or sets the initial indicator 
@@ -85,6 +89,11 @@ namespace ScreenCapture.Processors
         /// 
         public CaptureClick()
         {
+            context = new NativeMouseContext();
+            context.MouseUp += thread_MouseUp;
+            context.MouseDown += thread_MouseDown;
+            context.MouseMove += thread_MouseMove;
+
             penOuter = new Pen(Brushes.Black, 3);
             penInner = new Pen(Color.FromArgb(200, Color.White), 5);
 
@@ -103,6 +112,12 @@ namespace ScreenCapture.Processors
 
             if (currentRadius <= 0)
                 return;
+
+            if (!CaptureRegion.Contains(currentLocation))
+                return;
+
+            relativeLocation.X = currentLocation.X - CaptureRegion.X;
+            relativeLocation.Y = currentLocation.Y - CaptureRegion.Y;
 
             drawCircle(graphics);
 
@@ -124,31 +139,11 @@ namespace ScreenCapture.Processors
         private void drawCircle(Graphics graphics, int radius, Pen pen)
         {
             if (radius <= 0) return;
-            int x = currentLocation.X - radius;
-            int y = currentLocation.Y - radius;
+            int x = relativeLocation.X - radius;
+            int y = relativeLocation.Y - radius;
             int d = radius * 2;
 
             graphics.DrawEllipse(pen, x, y, d, d);
-        }
-
-
-
-        private void thread_MouseUp()
-        {
-            this.pressed = false;
-        }
-
-        private void thread_MouseMove(Point location)
-        {
-            if (pressed)
-                this.currentLocation = location;
-        }
-
-        private void thread_MouseDown(Point location)
-        {
-            this.pressed = true;
-            this.currentLocation = location;
-            this.currentRadius = Radius;
         }
 
         private void OnEnabledChanged(bool value)
@@ -156,68 +151,33 @@ namespace ScreenCapture.Processors
             enabled = value;
 
             if (value)
-                threadStart();
-            else
-                threadStop();
+                context.Start();
+            else context.Stop();
         }
 
 
 
 
-
-        private void threadStart()
+        private void thread_MouseUp(object sender, EventArgs e)
         {
-            if (context != null)
-                return;
-
-            context = new ApplicationContext();
-            thread = new Thread(run);
-
-#if !DEBUG
-            thread.Start();
-#endif
+            this.pressed = false;
         }
 
-        private void threadStop()
+        private void thread_MouseMove(object sender, EventArgs e)
         {
-            if (context == null)
-                return;
-
-            context.ExitThread();
-            context.Dispose();
-            context = null;
+            if (pressed)
+                this.currentLocation = context.Position;
         }
 
-        private void run()
+        private void thread_MouseDown(object sender, EventArgs e)
         {
-            // Install the global mouse hook and starts its own message pump
-            using (HookHandle hook = SafeNativeMethods.SetWindowHook(lowLevelMouseProcHook))
-            {
-                Application.Run(context);
-            }
+            this.pressed = true;
+            this.currentLocation = context.Position;
+            this.currentRadius = Radius;
         }
 
-        private void lowLevelMouseProcHook(LowLevelMouseMessage message, MouseLowLevelHookStruct info)
-        {
-            switch (message)
-            {
-                case LowLevelMouseMessage.WM_LBUTTONUP:
-                case LowLevelMouseMessage.WM_RBUTTONUP:
-                    thread_MouseUp();
-                    break;
+     
 
-                case LowLevelMouseMessage.WM_LBUTTONDOWN:
-                case LowLevelMouseMessage.WM_RBUTTONDOWN:
-                    thread_MouseDown(info.pt);
-                    break;
-
-                case LowLevelMouseMessage.WM_MOUSEMOVE:
-                    thread_MouseMove(info.pt);
-                    break;
-
-                default: break;
-            }
-        }
 
 
         #region IDisposable implementation
@@ -258,7 +218,6 @@ namespace ScreenCapture.Processors
                 // free managed resources
                 if (context != null)
                 {
-                    context.ExitThread();
                     context.Dispose();
                     context = null;
                 }
