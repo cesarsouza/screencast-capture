@@ -104,17 +104,33 @@ namespace ScreenCapture.ViewModels
             if (main.IsRecording)
             {
                 CurrentIcon = stopIcon;
-                CurrentText = "Stop recording (F10)";
+                CurrentText = "Stop recording (Ctrl+Alt+F10)";
             }
             else if (main.IsPlaying)
             {
                 CurrentIcon = recIcon;
-                CurrentText = "Start recording (F10)";
+                CurrentText = "Start recording (Ctrl+Alt+F10)";
             }
             else
             {
                 CurrentIcon = playIcon;
-                CurrentText = "Start playing (F9)";
+                CurrentText = "Start playing (Ctrl+Alt+F9)";
+            }
+        }
+
+        public void Click()
+        {
+            if (main.IsRecording)
+            {
+                main.StopRecording();
+            }
+            else if (main.IsPlaying)
+            {
+                main.StartRecording();
+            }
+            else
+            {
+                main.StartPlaying();
             }
         }
 
