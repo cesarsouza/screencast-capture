@@ -21,19 +21,19 @@
 
 namespace ScreenCapture.ViewModels
 {
+    using System;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.IO;
+    using System.Windows.Forms;
     using AForge.Controls;
     using AForge.Imaging.Filters;
     using AForge.Video;
     using AForge.Video.FFMPEG;
     using ScreenCapture.Native;
-    using ScreenCapture.Properties;
-    using System;
-    using System.ComponentModel;
-    using System.Drawing;
-    using System.IO;
-    using System.Windows.Forms;
     using ScreenCapture.Processors;
-    using System.Drawing.Drawing2D;
+    using ScreenCapture.Properties;
 
     /// <summary>
     ///   Region capturing modes.
@@ -246,14 +246,15 @@ namespace ScreenCapture.ViewModels
             // All is well. Keep configuring and start
             CaptureRegion = Screen.PrimaryScreen.Bounds;
 
-            int framerate = 24; // TODO: grab from options?
+            double framerate = Settings.Default.FrameRate;
+            int interval = (int)Math.Round(1000 / framerate);
             int height = CaptureRegion.Height;
             int width = CaptureRegion.Width;
 
             clickCapture.Enabled = true;
             keyCapture.Enabled = true;
 
-            screenStream = new ScreenCaptureStream(CaptureRegion, 1000 / framerate);
+            screenStream = new ScreenCaptureStream(CaptureRegion, interval);
             screenStream.VideoSourceError += screenStream_VideoSourceError;
 
             videoPlayer.VideoSource = screenStream;
@@ -277,7 +278,7 @@ namespace ScreenCapture.ViewModels
 
             int height = area.Height;
             int width = area.Width;
-            int framerate = 24;
+            int framerate = 1000 / screenStream.FrameInterval;
             int bitrate = 10 * 1000 * 1000;
 
             string path = Path.Combine(CurrentDirectory, CurrentFileName);
@@ -384,12 +385,31 @@ namespace ScreenCapture.ViewModels
 
         private void Player_NewFrame(object sender, ref Bitmap image)
         {
+            // Adjust the window according to the current capture
+            // mode. Also adjusts to keep even widths and heights.
+            CaptureRegion = adjustWindow();
+
+            // Crop the image if the mode requires it
+            if (CaptureMode == CaptureRegionOption.Fixed ||
+                CaptureMode == CaptureRegionOption.Window)
+            {
+                crop.Rectangle = CaptureRegion;
+                using (Bitmap oldImage = image)
+                {
+                    image = crop.Apply(oldImage);
+                }
+            }
+
+            // Draw extra information on the screen
             bool captureMouse = Settings.Default.CaptureMouse;
             bool captureClick = Settings.Default.CaptureClick;
             bool captureKeys = Settings.Default.CaptureKeys;
 
             if (captureMouse || captureClick || captureKeys )
             {
+                cursorCapture.CaptureRegion = CaptureRegion;
+                clickCapture.CaptureRegion = CaptureRegion;
+
                 using (Graphics g = Graphics.FromImage(image))
                 {
                     g.CompositingQuality = CompositingQuality.HighQuality;
@@ -407,20 +427,7 @@ namespace ScreenCapture.ViewModels
             }
 
 
-            CaptureRegion = adjustWindow();
-
-            if (CaptureMode == CaptureRegionOption.Fixed ||
-                CaptureMode == CaptureRegionOption.Window)
-            {
-                crop.Rectangle = CaptureRegion;
-                using (Bitmap oldImage = image)
-                {
-                    image = crop.Apply(oldImage);
-                }
-            }
-
-
-            lock (syncObj)
+            lock (syncObj) // Save the frame to the video file.
             {
                 if (IsRecording)
                 {
