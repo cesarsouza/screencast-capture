@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Free utility to continuously capture the desktop screen")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Accord.NET Framework")]
-[assembly: AssemblyProduct("Screencast Capture")]
+[assembly: AssemblyProduct("Screencast Capture Lite")]
 [assembly: AssemblyCopyright("Copyright © César Souza 2012-2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -33,8 +33,8 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.2.0.0")]
-[assembly: AssemblyFileVersion("1.2.0.0")]
+[assembly: AssemblyVersion("1.3.0.*")]
+[assembly: AssemblyFileVersion("1.3.0.*")]
 [assembly: NeutralResourcesLanguageAttribute("en")]
 
 [assembly: CLSCompliantAttribute(false)]
