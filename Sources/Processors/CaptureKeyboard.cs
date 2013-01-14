@@ -23,12 +23,12 @@ namespace ScreenCapture.Processors
 {
     using System;
     using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Drawing.Imaging;
     using System.Text;
     using System.Threading;
     using System.Windows.Forms;
     using ScreenCapture.Native;
-    using System.Drawing.Imaging;
-    using System.Drawing.Drawing2D;
 
     public class CaptureKeyboard
     {
@@ -43,12 +43,12 @@ namespace ScreenCapture.Processors
         private Pen backPen;
         private Brush backBrush;
 
-        private bool hasAlt;
-        private bool hasCtrl;
-        private bool hasShift;
-        private bool hasMeta;
+        private Bitmap lastBitmap;
+        private ColorMatrix matrix;
+        private ImageAttributes attributes;
+
         private Keys current;
-        private bool visible;
+        private Point location;
 
         private float currentTransparency;
         private float transparencyStep;
@@ -56,9 +56,6 @@ namespace ScreenCapture.Processors
         CustomKeysConverter conv = new CustomKeysConverter();
 
         StringBuilder builder = new StringBuilder(100);
-
-
-        public Point location;
 
 
         public CaptureKeyboard()
@@ -71,6 +68,11 @@ namespace ScreenCapture.Processors
 
             backPen = new Pen(Color.White);
             backBrush = new SolidBrush(Color.DarkBlue);
+
+            matrix = new ColorMatrix();
+            matrix.Matrix33 = currentTransparency;
+
+            attributes = new ImageAttributes();
 
             location = new Point(5, 5);
         }
@@ -88,27 +90,45 @@ namespace ScreenCapture.Processors
             set { OnEnabledChanged(value); }
         }
 
-        Bitmap lastBitmap;
+
 
         public void Draw(Graphics graphics)
         {
-            graphics.CompositingQuality = CompositingQuality.HighQuality;
-            graphics.SmoothingMode = SmoothingMode.HighQuality;
 
-            string text = conv.ToStringWithModifiers(current, hasShift, hasCtrl, hasAlt, hasMeta);
 
-            bool hasText = !String.IsNullOrEmpty(text);
+            string text = conv.ToStringWithModifiers(current);
 
-            if (hasText)
+            if (!String.IsNullOrEmpty(text))
             {
-                visible = true;
                 currentTransparency = 0.8f;
+                createBitmap(graphics, text);
+            }
+            else
+            {
+                currentTransparency -= transparencyStep;
+                if (currentTransparency <= 0)
+                    currentTransparency = 0;
+            }
 
-                // Compute size of container
-                SizeF size = graphics.MeasureString(text, textFont);
-                lastBitmap = new Bitmap((int)size.Width + 20, (int)size.Height + 20);
+            if (lastBitmap != null)
+            {
+                matrix.Matrix33 = currentTransparency;
+                attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
-                Graphics g = Graphics.FromImage(lastBitmap);
+                graphics.DrawImage((Image)lastBitmap,
+                    new Rectangle(location.X, location.Y, lastBitmap.Width, lastBitmap.Height),
+                    0, 0, lastBitmap.Width, lastBitmap.Height, GraphicsUnit.Pixel, attributes);
+            }
+        }
+
+        private void createBitmap(Graphics graphics, string text)
+        {
+            // Compute size of container
+            SizeF size = graphics.MeasureString(text, textFont);
+            lastBitmap = new Bitmap((int)size.Width + 20, (int)size.Height + 20);
+
+            using (Graphics g = Graphics.FromImage(lastBitmap))
+            {
                 g.CompositingQuality = CompositingQuality.HighQuality;
                 g.SmoothingMode = SmoothingMode.HighQuality;
 
@@ -120,32 +140,6 @@ namespace ScreenCapture.Processors
 
                 // Draw text
                 g.DrawString(text, textFont, textBrush, 5, 5, StringFormat.GenericTypographic);
-            }
-            else
-            {
-                if (currentTransparency > 0)
-                {
-                    currentTransparency -= transparencyStep;
-                    if (currentTransparency <= 0)
-                    {
-                        currentTransparency = 0;
-                        visible = false;
-                    }
-                }
-            }
-
-            if (lastBitmap != null)
-            {
-                ColorMatrix matrix = new ColorMatrix();
-                matrix.Matrix33 = currentTransparency;
-
-                ImageAttributes attributes = new ImageAttributes();
-                attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-
-                graphics.DrawImage((Image)lastBitmap,
-                    new Rectangle(location.X, location.Y, lastBitmap.Width, lastBitmap.Height),
-                    0, 0, lastBitmap.Width, lastBitmap.Height,
-                    GraphicsUnit.Pixel, attributes);
             }
         }
 
@@ -165,42 +159,59 @@ namespace ScreenCapture.Processors
 
         private void thread_KeyUp(Keys key)
         {
-            if (!setModifierKeys(key, false))
-                current = Keys.None;
-        }
-
-        private void thread_KeyDown(Keys key)
-        {
-            if (!setModifierKeys(key, true))
-                current = key;
-        }
-
-        private bool setModifierKeys(Keys key, bool modifier)
-        {
             switch (key)
             {
                 case Keys.LControlKey:
                 case Keys.RControlKey:
-                    hasCtrl = modifier;
-                    return true;
+                    current &= ~Keys.Control;
+                    return;
 
                 case Keys.LShiftKey:
                 case Keys.RShiftKey:
-                    hasShift = modifier;
-                    return true;
+                    current &= ~Keys.Shift;
+                    return;
 
                 case Keys.RMenu:
                 case Keys.LMenu:
-                    hasAlt = modifier;
-                    return true;
+                    current &= ~Keys.Alt;
+                    return;
 
                 case Keys.RWin:
                 case Keys.LWin:
-                    hasMeta = modifier;
-                    return true;
+                    current &= ~KeysExtensions.Windows;
+                    return;
             }
 
-            return false;
+            current = Keys.None.SetModifiers(current);
+        }
+
+        private void thread_KeyDown(Keys key)
+        {
+            switch (key)
+            {
+                case Keys.Control:
+                case Keys.LControlKey:
+                case Keys.RControlKey:
+                    current |= Keys.Control;
+                    return;
+
+                case Keys.LShiftKey:
+                case Keys.RShiftKey:
+                    current |= Keys.Shift;
+                    return;
+
+                case Keys.RMenu:
+                case Keys.LMenu:
+                    current |= Keys.Alt;
+                    return;
+
+                case Keys.RWin:
+                case Keys.LWin:
+                    current |= KeysExtensions.Windows;
+                    return;
+            }
+
+            current = key.SetModifiers(current);
         }
 
 

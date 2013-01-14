@@ -124,6 +124,7 @@
     </Compile>
     <Compile Include="Native\Hooks\LowLevelMouse.cs" />
     <Compile Include="Native\CustomKeysConverter.cs" />
+    <Compile Include="Native\KeysExtensions.cs" />
     <Compile Include="Processors\CaptureClick.cs" />
     <Compile Include="Processors\CaptureKeyboard.cs" />
     <Compile Include="Native\Handles\HookHandle.cs" />

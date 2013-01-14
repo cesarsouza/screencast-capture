@@ -21,14 +21,13 @@
 
 namespace ScreenCapture.Views
 {
-    using Microsoft.WindowsAPICodePack.Dialogs;
-    using ScreenCapture.ViewModels;
     using System;
     using System.IO;
     using System.Text;
     using System.Windows.Forms;
-    using System.Resources;
+    using Microsoft.WindowsAPICodePack.Dialogs;
     using ScreenCapture.Properties;
+    using ScreenCapture.ViewModels;
 
     /// <summary>
     ///   Options dialog.
@@ -55,6 +54,7 @@ namespace ScreenCapture.Views
             tbSavePath.Bind(b => b.Text, viewModel, m => m.DefaultSaveFolder);
             cbMouseCursor.Bind(b => b.Checked, viewModel, m => m.CaptureMouse);
             cbMouseClicks.Bind(b => b.Checked, viewModel, m => m.CaptureClick);
+            cbKeyboard.Bind(b => b.Checked, viewModel, m => m.CaptureKeys);
 
             showCopyrightText();
         }

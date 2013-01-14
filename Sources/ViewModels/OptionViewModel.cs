@@ -56,7 +56,7 @@ namespace ScreenCapture.ViewModels
         /// 
         public bool FirstRun { get; set; }
 
-
+        public bool CaptureKeys { get; set; }
 
 
         /// <summary>
@@ -79,6 +79,7 @@ namespace ScreenCapture.ViewModels
             Settings.Default.DefaultFolder = DefaultSaveFolder;
             Settings.Default.CaptureMouse = CaptureMouse;
             Settings.Default.CaptureClick = CaptureClick;
+            Settings.Default.CaptureKeys = CaptureKeys;
 
             Settings.Default.Save();
         }
@@ -94,6 +95,7 @@ namespace ScreenCapture.ViewModels
             DefaultSaveFolder = Settings.Default.DefaultFolder;
             CaptureMouse = Settings.Default.CaptureMouse;
             CaptureClick = Settings.Default.CaptureClick;
+            CaptureKeys = Settings.Default.CaptureKeys;
         }
 
 
