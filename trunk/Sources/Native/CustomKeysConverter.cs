@@ -22,11 +22,9 @@
 namespace ScreenCapture.Native
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    using System.Globalization;
     using System.Text;
     using System.Windows.Forms;
-    using System.Globalization;
 
     public class CustomKeysConverter
     {
@@ -35,8 +33,11 @@ namespace ScreenCapture.Native
         private byte[] stateCurrent = new byte[256];
         StringBuilder charBuffer = new StringBuilder(256);
 
-
-        public string Format(Keys key)
+        /// <summary>
+        ///   Converts a <see cref="Keys">key</see> into a string containing the key name.
+        /// </summary>
+        /// 
+        public string ToKeyNameString(Keys key)
         {
             switch (key)
             {
@@ -133,47 +134,65 @@ namespace ScreenCapture.Native
                 case Keys.Alt: return "Alt";
             }
 
-
-            string unicode = GetCharsFromKeys(key, stateInitial, charBuffer);
+            string unicode = getCharsFromKeys(key, stateInitial, charBuffer);
 
             return unicode;
         }
 
-        public string Format(Keys key, bool shift, bool altGr)
+        /// <summary>
+        ///   Converts a <see cref="Keys">key</see> into a string
+        ///   containing likely result of the user pressing those keys.
+        /// </summary>
+        /// 
+        public string ToUnicodeCharString(Keys key, bool shift, bool altGr)
         {
             stateCurrent[(int)Keys.ShiftKey] = shift ? (byte)0xff : (byte)0x00;
             stateCurrent[(int)Keys.ControlKey] = altGr ? (byte)0xff : (byte)0x00;
             stateCurrent[(int)Keys.Menu] = altGr ? (byte)0xff : (byte)0x00;
 
-            return GetCharsFromKeys(key, stateCurrent, charBuffer);
+            return getCharsFromKeys(key, stateCurrent, charBuffer);
         }
 
-
-        public string ToStringWithModifiers(Keys key, bool hasShift, bool hasCtrl, bool hasAlt, bool hasMeta)
+        /// <summary>
+        ///   Gives a formatted version of the key listing all active
+        ///   modifiers, the key name and the likely value for the key.
+        /// </summary>
+        /// 
+        public string ToStringWithModifiers(Keys key)
         {
             StringBuilder builder = new StringBuilder(100);
 
-            if (hasShift)
+            bool shift = key.HasFlag(Keys.Shift);
+            bool alt = key.HasFlag(Keys.Alt);
+            bool ctrl = key.HasFlag(Keys.Control);
+            bool win = key.HasFlag(KeysExtensions.Windows);
+
+            key = key.RemoveModifiers();
+
+            if (shift)
             {
                 builder.Append("Shift");
             }
-            if (hasCtrl)
+
+            if (ctrl)
             {
                 if (builder.Length > 0)
                     builder.Append(" + ");
                 builder.Append("Control");
             }
-            if (hasAlt)
+
+            if (alt)
             {
                 if (builder.Length > 0)
                     builder.Append(" + ");
                 builder.Append("Alt");
             }
-            if (hasMeta)
+
+            if (win)
             {
                 if (builder.Length > 0)
                     builder.Append(" + ");
-                builder.Append("Meta");
+                builder.Append("Win");
             }
 
             if (key != Keys.None)
@@ -181,12 +200,12 @@ namespace ScreenCapture.Native
                 if (builder.Length > 0)
                     builder.Append(" + ");
 
-                string raw = Format(key);
+                string raw = ToKeyNameString(key);
 
                 if (raw == null)
                     return builder.ToString();
 
-                string mod = Format(key, hasShift, hasAlt);
+                string mod = ToUnicodeCharString(key, shift, alt);
 
                 builder.Append(raw);
 
@@ -198,7 +217,7 @@ namespace ScreenCapture.Native
         }
 
 
-        private static string GetCharsFromKeys(Keys keys, byte[] state, StringBuilder buffer)
+        private static string getCharsFromKeys(Keys keys, byte[] state, StringBuilder buffer)
         {
             int ret = NativeMethods.ToUnicode((uint)keys, 0, state, buffer, 256, 0);
 
@@ -225,7 +244,7 @@ namespace ScreenCapture.Native
             }
             else
             {
-                throw new Exception();
+                throw new InvalidOperationException("ToUnicode function returned unexpected result.");
             }
 
             UnicodeCategory category = Char.GetUnicodeCategory(result, 0);
@@ -235,6 +254,5 @@ namespace ScreenCapture.Native
 
             return result;
         }
-
     }
 }

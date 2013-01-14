@@ -33,6 +33,7 @@ namespace ScreenCapture.ViewModels
     using System.IO;
     using System.Windows.Forms;
     using ScreenCapture.Processors;
+    using System.Drawing.Drawing2D;
 
     /// <summary>
     ///   Region capturing modes.
@@ -385,13 +386,15 @@ namespace ScreenCapture.ViewModels
         {
             bool captureMouse = Settings.Default.CaptureMouse;
             bool captureClick = Settings.Default.CaptureClick;
-            //bool captureKeys = Settings.Default.CaptureKeys;
-            bool captureKeys = true;
+            bool captureKeys = Settings.Default.CaptureKeys;
 
             if (captureMouse || captureClick || captureKeys )
             {
                 using (Graphics g = Graphics.FromImage(image))
                 {
+                    g.CompositingQuality = CompositingQuality.HighQuality;
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+
                     if (captureMouse)
                         cursorCapture.Draw(g);
 

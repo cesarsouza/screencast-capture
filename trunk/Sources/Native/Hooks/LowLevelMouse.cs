@@ -35,15 +35,26 @@ namespace ScreenCapture.Native
     /// 
     public delegate void LowLevelMouseProcedure(LowLevelMouseMessage message, MouseLowLevelHookStruct mouse);
 
+    /// <summary>
+    ///   Low-level hook mouse messages.
+    /// </summary>
+    /// 
     [GeneratedCode("PInvoke", "1.0.0.0")]
     public enum LowLevelMouseMessage : int
     {
+        /// <summary>Left mouse button is pressed.</summary>
         WM_LBUTTONDOWN = 0x0201,
+        /// <summary>Left mouse button is released.</summary>
         WM_LBUTTONUP = 0x0202,
+        /// <summary>Mouse has moved.</summary>
         WM_MOUSEMOVE = 0x0200,
+        /// <summary>Mouse wheel has moved.</summary>
         WM_MOUSEWHEEL = 0x020A,
+        /// <summary>Horizontal mouse wheel has moved.</summary>
         WM_MOUSEHWHEEL = 0x020E,
+        /// <summary>Right mouse button is released.</summary>
         WM_RBUTTONUP = 0x0205,
+        /// <summary>Right mouse button is pressed.</summary>
         WM_RBUTTONDOWN = 0x0204,
     }
 

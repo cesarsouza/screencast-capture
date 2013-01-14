@@ -1,5 +1,5 @@
 
- Screencast Capture Lite, a managed program for recording desktop screens
+ Screencast Capture Lite 1.3, a managed program for recording the desktop
  Copyright (c) 2012-2013, César Roberto de Souza <cesarsouza at gmail.com>
 
   This program is free software: you can redistribute it and/or modify

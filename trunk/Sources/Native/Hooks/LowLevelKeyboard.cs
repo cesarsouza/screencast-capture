@@ -35,33 +35,60 @@ namespace ScreenCapture.Native
     /// 
     public delegate void LowLevelKeyboardProcedure(LowLevelKeyboardMessage message, KeyboardLowLevelHookStruct keyboard);
 
+    /// <summary>
+    ///   Low-level hook keyboard message.
+    /// </summary>
+    /// 
     [GeneratedCode("PInvoke", "1.0.0.0")]
     public enum LowLevelKeyboardMessage : int
     {
+        /// <summary>A key has been pressed.</summary>
         WM_KEYDOWN = 0x0100,
+        /// <summary>A key has been released.</summary>
         WM_KEYUP = 0x0101,
+        /// <summary>A modifier key has been pressed.</summary>
         WM_SYSKEYDOWN = 0x0104,
+        /// <summary>A modifier key has been released.</summary>
         WM_SYSKEYUP = 0x0105,
     }
 
+    /// <summary>
+    ///   Contains information about a low-level mouse input event (KBDLLHOOKSTRUCT).
+    /// </summary>
+    /// 
     [StructLayout(LayoutKind.Sequential)]
     [GeneratedCode("PInvoke", "1.0.0.0")]
     public class KeyboardLowLevelHookStruct
     {
+        /// <summary>
+        ///   A virtual-key code. The code must be a value in the range 1 to 254.
+        /// </summary>
+        /// 
         public uint vkCode;
+
+        /// <summary>
+        ///   A hardware scan code for the key.
+        /// </summary>
+        /// 
         public uint scanCode;
-        public KeyboardLowLevelFlags flags;
+
+        /// <summary>
+        ///   The extended-key flag, event-injected flag, context code, and transition-state flag.
+        /// </summary>
+        /// 
+        public uint flags;
+
+        /// <summary>
+        ///   The time stamp for this message, equivalent to what GetMessageTime would return for this message.
+        /// </summary>
+        /// 
         public uint time;
+
+        /// <summary>
+        ///   Additional information associated with the message.
+        /// </summary>
+        /// 
         public UIntPtr dwExtraInfo;
     }
-
-    [Flags]
-    [GeneratedCode("PInvoke", "1.0.0.0")]
-    public enum KeyboardLowLevelFlags : uint
-    {
-        LLKHF_EXTENDED = 0x01,
-        LLKHF_INJECTED = 0x10,
-        LLKHF_ALTDOWN = 0x20,
-        LLKHF_UP = 0x80,
-    }
+    
 }
