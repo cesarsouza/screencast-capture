@@ -22,13 +22,13 @@
 namespace ScreenCapture.Processors
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Windows.Forms;
-    using System.Threading;
-    using ScreenCapture.Native;
     using System.Drawing;
+    using System.Text;
+    using System.Threading;
+    using System.Windows.Forms;
+    using ScreenCapture.Native;
+    using System.Drawing.Imaging;
+    using System.Drawing.Drawing2D;
 
     public class CaptureKeyboard
     {
@@ -48,12 +48,12 @@ namespace ScreenCapture.Processors
         private bool hasShift;
         private bool hasMeta;
         private Keys current;
+        private bool visible;
 
-        private int fade = 0;
-        private bool fadingIn;
-        private bool fadingOut;
-        private int currentTransparency;
-        private int transparencyStep;
+        private float currentTransparency;
+        private float transparencyStep;
+
+        CustomKeysConverter conv = new CustomKeysConverter();
 
         StringBuilder builder = new StringBuilder(100);
 
@@ -64,10 +64,13 @@ namespace ScreenCapture.Processors
         public CaptureKeyboard()
         {
             textFont = new Font("Segoe UI", 14);
+            currentTransparency = 0f;
+            transparencyStep = 0.3f;
+
             textBrush = new SolidBrush(Color.White);
 
             backPen = new Pen(Color.White);
-            backBrush = new SolidBrush(Color.FromArgb(200, Color.DarkBlue));
+            backBrush = new SolidBrush(Color.DarkBlue);
 
             location = new Point(5, 5);
         }
@@ -85,92 +88,67 @@ namespace ScreenCapture.Processors
             set { OnEnabledChanged(value); }
         }
 
-
+        Bitmap lastBitmap;
 
         public void Draw(Graphics graphics)
         {
-            if (current == Keys.None && !hasAlt && !hasCtrl && !hasShift && !hasMeta)
-                return;
+            graphics.CompositingQuality = CompositingQuality.HighQuality;
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
 
-            string text = getString();
+            string text = conv.ToStringWithModifiers(current, hasShift, hasCtrl, hasAlt, hasMeta);
 
-            SizeF size = graphics.MeasureString(text, textFont);
+            bool hasText = !String.IsNullOrEmpty(text);
 
-            // Compute size of container
-            RectangleF rect = new RectangleF(location.X, location.Y, size.Width + 10, size.Height + 10);
+            if (hasText)
+            {
+                visible = true;
+                currentTransparency = 0.8f;
 
-            // Draw container background
-            graphics.FillRectangle(backBrush, rect);
-            graphics.DrawRectangle(backPen, rect.X, rect.Y, rect.Width, rect.Height);
+                // Compute size of container
+                SizeF size = graphics.MeasureString(text, textFont);
+                lastBitmap = new Bitmap((int)size.Width + 20, (int)size.Height + 20);
 
-            // Draw text
-            graphics.DrawString(text, textFont, textBrush, location.X + 5, location.Y + 5, StringFormat.GenericTypographic);
+                Graphics g = Graphics.FromImage(lastBitmap);
+                g.CompositingQuality = CompositingQuality.HighQuality;
+                g.SmoothingMode = SmoothingMode.HighQuality;
+
+                RectangleF rect = new RectangleF(0, 0, size.Width + 10, size.Height + 10);
+
+                // Draw container background
+                g.FillRectangle(backBrush, rect);
+                g.DrawRectangle(backPen, rect.X, rect.Y, rect.Width, rect.Height);
+
+                // Draw text
+                g.DrawString(text, textFont, textBrush, 5, 5, StringFormat.GenericTypographic);
+            }
+            else
+            {
+                if (currentTransparency > 0)
+                {
+                    currentTransparency -= transparencyStep;
+                    if (currentTransparency <= 0)
+                    {
+                        currentTransparency = 0;
+                        visible = false;
+                    }
+                }
+            }
+
+            if (lastBitmap != null)
+            {
+                ColorMatrix matrix = new ColorMatrix();
+                matrix.Matrix33 = currentTransparency;
+
+                ImageAttributes attributes = new ImageAttributes();
+                attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
+                graphics.DrawImage((Image)lastBitmap,
+                    new Rectangle(location.X, location.Y, lastBitmap.Width, lastBitmap.Height),
+                    0, 0, lastBitmap.Width, lastBitmap.Height,
+                    GraphicsUnit.Pixel, attributes);
+            }
         }
 
-
-        private string getString()
-        {
-            builder.Clear();
-
-            if (hasShift)
-            {
-                builder.Append("Shift");
-            }
-            if (hasCtrl)
-            {
-                if (builder.Length > 0)
-                    builder.Append(" + ");
-                builder.Append("Control");
-            }
-            if (hasAlt)
-            {
-                if (builder.Length > 0)
-                    builder.Append(" + ");
-                builder.Append("Alt");
-            }
-            if (hasMeta)
-            {
-                if (builder.Length > 0)
-                    builder.Append(" + ");
-                builder.Append("Meta");
-            }
-
-            if (current != Keys.None)
-            {
-                if (builder.Length > 0)
-                    builder.Append(" + ");
-
-                string raw = getRawKeyChar();
-                string mod = getKeyCharWithModifiers(hasShift, hasAlt);
-
-                builder.Append(raw);
-
-                if (raw != mod)
-                    builder.AppendFormat(" ({0})", mod);
-            }
-
-            return builder.ToString();
-        }
-
-
-
-        private byte[] stateInitial = new byte[256];
-        private byte[] stateCurrent = new byte[256];
-        StringBuilder charBuffer = new StringBuilder(256);
-
-        private string getRawKeyChar()
-        {
-            return SafeNativeMethods.GetCharsFromKeys(current, stateInitial, charBuffer);
-        }
-
-        private string getKeyCharWithModifiers(bool shift, bool altGr)
-        {
-            stateCurrent[(int)Keys.ShiftKey] = shift ? (byte)0xff : (byte)0x00;
-            stateCurrent[(int)Keys.ControlKey] = altGr ? (byte)0xff : (byte)0x00;
-            stateCurrent[(int)Keys.Menu] = altGr ? (byte)0xff : (byte)0x00;
-
-            return SafeNativeMethods.GetCharsFromKeys(current, stateCurrent, charBuffer);
-        }
 
 
         private void OnEnabledChanged(bool value)
@@ -234,9 +212,7 @@ namespace ScreenCapture.Processors
             context = new ApplicationContext();
             thread = new Thread(run);
 
-#if !DEBUG
             thread.Start();
-#endif
         }
 
         private void threadStop()
