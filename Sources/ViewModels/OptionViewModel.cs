@@ -56,8 +56,16 @@ namespace ScreenCapture.ViewModels
         /// 
         public bool FirstRun { get; set; }
 
+        /// <summary>
+        ///   Gets or sets whether to capture keyboard key presses.
+        /// </summary>
+        /// 
         public bool CaptureKeys { get; set; }
 
+        /// <summary>
+        ///   Gets or sets the framerate of the video recordings.
+        /// </summary>
+        /// 
         public double FrameRate { get; set; }
 
 

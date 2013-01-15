@@ -159,7 +159,7 @@ namespace ScreenCapture.Native
             return new HookHandle(hHook, lpfn);
         }
 
-      
+
 
         /// <summary>
         ///   Defines a system-wide hot key.
@@ -247,6 +247,25 @@ namespace ScreenCapture.Native
                 default:
                     return MouseButtons.None;
             }
+        }
+
+        /// <summary>
+        ///   Creates a device context compatible with the specified surface.
+        /// </summary>
+        /// 
+        public static DeviceHandle CreateCompatibleDC(Graphics graphics)
+        {
+            if (graphics == null)
+                throw new ArgumentNullException("graphics");
+
+            IntPtr source = graphics.GetHdc();
+
+            IntPtr handle = NativeMethods.CreateCompatibleDC(source);
+            DeviceHandle dc = new DeviceHandle(handle);
+
+            graphics.ReleaseHdc(source);
+
+            return dc;
         }
     }
 

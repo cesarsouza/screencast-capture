@@ -118,6 +118,10 @@ namespace ScreenCapture.ViewModels
             }
         }
 
+        /// <summary>
+        ///   Clicks the notification button.
+        /// </summary>
+        /// 
         public void Click()
         {
             if (main.IsRecording)

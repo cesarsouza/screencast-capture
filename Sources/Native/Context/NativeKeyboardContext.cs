@@ -25,6 +25,10 @@ namespace ScreenCapture.Native.Context
     using System.Threading;
     using System.Windows.Forms;
 
+    /// <summary>
+    ///   Windows application context for grabbing global keyboard information.
+    /// </summary>
+    /// 
     public class NativeKeyboardContext : IDisposable
     {
 
@@ -33,17 +37,30 @@ namespace ScreenCapture.Native.Context
         private Keys current;
 
 
-        public NativeKeyboardContext()
-        {
-
-        }
-
-
+        /// <summary>
+        ///   Gets the last detected key press.
+        /// </summary>
+        /// 
         public Keys Current
         {
             get { return current; }
         }
 
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="NativeKeyboardContext"/> class.
+        /// </summary>
+        /// 
+        public NativeKeyboardContext()
+        {
+        }
+
+
+        /// <summary>
+        ///   Install the global hook and starts
+        ///   listening to global keyboard events.
+        /// </summary>
+        /// 
         public void Start()
         {
             if (context != null)
@@ -55,6 +72,12 @@ namespace ScreenCapture.Native.Context
             thread.Start();
         }
 
+
+        /// <summary>
+        ///   Detaches the global keyboard hook
+        ///   and stops listening for events.
+        /// </summary>
+        /// 
         public void Stop()
         {
             if (context == null)
@@ -125,8 +148,6 @@ namespace ScreenCapture.Native.Context
         }
 
 
-       
-
         private void run()
         {
             // Install the global mouse hook and starts its own message pump
@@ -135,6 +156,7 @@ namespace ScreenCapture.Native.Context
                 Application.Run(context);
             }
         }
+
 
         private void lowLevelKeyboardProcHook(LowLevelKeyboardMessage message, KeyboardLowLevelHookStruct info)
         {
