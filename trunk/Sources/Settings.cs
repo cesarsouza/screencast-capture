@@ -36,6 +36,9 @@ namespace ScreenCapture.Properties
         
         private void Settings_SettingsLoaded(object sender, SettingsLoadedEventArgs e)
         {
+            if (Settings.Default.FirstRun)
+                Settings.Default.Upgrade();
+
             // Check if the default folder is null or empty 
             // and set it to the My Videos folder by default.
 
