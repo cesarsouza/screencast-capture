@@ -60,6 +60,15 @@ namespace ScreenCapture.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Version {0}.
+        /// </summary>
+        internal static string About_Version {
+            get {
+                return ResourceManager.GetString("About_Version", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap advancedsettings {
             get {
                 object obj = ResourceManager.GetObject("advancedsettings", resourceCulture);

@@ -29,6 +29,7 @@ namespace ScreenCapture.Views
     using ScreenCapture.Properties;
     using ScreenCapture.ViewModels;
     using System.Reflection;
+    using System.Globalization;
 
     /// <summary>
     ///   Options dialog.
@@ -60,7 +61,8 @@ namespace ScreenCapture.Views
 
             showCopyrightText();
 
-            lbVersion.Text = "Version "+ Assembly.GetExecutingAssembly().GetName().Version;
+            lbVersion.Text = String.Format(CultureInfo.CurrentCulture, Resources.About_Version,
+                Assembly.GetExecutingAssembly().GetName().Version);
         }
 
 
@@ -92,7 +94,6 @@ namespace ScreenCapture.Views
 
                 if (!File.Exists(copyright))
                 {
-
                     tbCopyright.Text = Resources.Error_Missing_Copyright;
                     return;
                 }

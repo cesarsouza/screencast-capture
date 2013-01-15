@@ -54,6 +54,11 @@ namespace ScreenCapture.Processors
         private Point currentLocation;
         private Point relativeLocation;
 
+        /// <summary>
+        ///   Gets or sets the current capture region
+        ///   (region of interest) of the processor.
+        /// </summary>
+        /// 
         public Rectangle CaptureRegion { get; set; }
 
         /// <summary>

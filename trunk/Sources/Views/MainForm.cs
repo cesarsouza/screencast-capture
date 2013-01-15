@@ -25,6 +25,7 @@ namespace ScreenCapture.Views
     using System.Windows.Forms;
     using ScreenCapture.ViewModels;
     using ScreenCapture.Properties;
+    using System.Globalization;
 
     /// <summary>
     ///   Main window for the Screencast Capture application.
@@ -90,7 +91,7 @@ namespace ScreenCapture.Views
 
             lbStatusRecording.Bind(b => b.Visible, viewModel, m => m.IsRecording);
             lbStatusTime.Bind(b => b.Visible, viewModel, m => m.IsRecording);
-            lbStatusTime.Bind(b => b.Text, viewModel, m => m.RecordingDuration, value => value.ToString(@"hh\:mm\:ss"));
+            lbStatusTime.Bind(b => b.Text, viewModel, m => m.RecordingDuration, value => value.ToString(@"hh\:mm\:ss", CultureInfo.CurrentCulture));
             lbStatusReady.Bind(b => b.Visible, viewModel, m => m.IsRecording, value => !value);
             btnCaptureMode.Bind(b => b.Enabled, viewModel, m => m.IsRecording, value => !value);
 

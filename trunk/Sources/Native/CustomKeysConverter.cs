@@ -26,6 +26,11 @@ namespace ScreenCapture.Native
     using System.Text;
     using System.Windows.Forms;
 
+    /// <summary>
+    ///   Provides conversions from <see cref="Keys"/> to String representations,
+    ///   with support for key names, unicode chars, modifier and non-char keys.
+    /// </summary>
+    /// 
     public class CustomKeysConverter
     {
 
@@ -58,10 +63,10 @@ namespace ScreenCapture.Native
                 case Keys.PageDown: return "Page Down";
                 case Keys.End: return "End";
                 case Keys.Home: return "Home";
-                case Keys.Left: return "Left";
-                case Keys.Up: return "Up";
-                case Keys.Right: return "Right";
-                case Keys.Down: return "Down";
+                case Keys.Left: return "Arrow Left";
+                case Keys.Up: return "Arrow Up";
+                case Keys.Right: return "Arrow Right";
+                case Keys.Down: return "Arrow Down";
                 case Keys.Select: return "Select";
                 case Keys.Print: return "Print";
                 case Keys.Execute: return "Execute";
@@ -144,11 +149,11 @@ namespace ScreenCapture.Native
         ///   containing likely result of the user pressing those keys.
         /// </summary>
         /// 
-        public string ToUnicodeCharString(Keys key, bool shift, bool altGr)
+        public string ToUnicodeCharString(Keys key, bool shift, bool altGraph)
         {
             stateCurrent[(int)Keys.ShiftKey] = shift ? (byte)0xff : (byte)0x00;
-            stateCurrent[(int)Keys.ControlKey] = altGr ? (byte)0xff : (byte)0x00;
-            stateCurrent[(int)Keys.Menu] = altGr ? (byte)0xff : (byte)0x00;
+            stateCurrent[(int)Keys.ControlKey] = altGraph ? (byte)0xff : (byte)0x00;
+            stateCurrent[(int)Keys.Menu] = altGraph ? (byte)0xff : (byte)0x00;
 
             return getCharsFromKeys(key, stateCurrent, charBuffer);
         }
@@ -244,7 +249,7 @@ namespace ScreenCapture.Native
             }
             else
             {
-                throw new InvalidOperationException("ToUnicode function returned unexpected result.");
+                throw new InvalidOperationException("Native To Unicode function returned unexpected result.");
             }
 
             UnicodeCategory category = Char.GetUnicodeCategory(result, 0);

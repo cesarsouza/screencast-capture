@@ -25,13 +25,21 @@ namespace ScreenCapture.Processors
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Drawing.Imaging;
-    using System.Text;
-    using System.Threading;
-    using System.Windows.Forms;
     using ScreenCapture.Native;
     using ScreenCapture.Native.Context;
 
-    public class CaptureKeyboard
+    /// <summary>
+    ///   Class to capture keyboard key presses.
+    /// </summary>
+    /// 
+    /// <remarks>
+    ///   This class captures global keyboard keys by using a low-level global
+    ///   hook. To prevent messing with the operational system responsiveness,
+    ///   this class uses its own thread with its own message queue to process
+    ///   global keyboard events and dispatch them to the user interface thread.
+    /// </remarks>
+    /// 
+    public class CaptureKeyboard : IDisposable
     {
 
         private bool enabled;
@@ -55,8 +63,24 @@ namespace ScreenCapture.Processors
 
         private CustomKeysConverter conv;
 
-       
+        /// <summary>
+        ///   Gets or sets whether the hook is installed and running.
+        ///   Has no effect on debug mode, as stopping at a breakpoint
+        ///   would freeze the mouse.
+        /// </summary>
+        /// 
+        public bool Enabled
+        {
+            get { return enabled; }
+            set { OnEnabledChanged(value); }
+        }
 
+
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="CaptureKeyboard"/> class.
+        /// </summary>
+        /// 
         public CaptureKeyboard()
         {
             context = new NativeKeyboardContext();
@@ -79,25 +103,16 @@ namespace ScreenCapture.Processors
             location = new Point(5, 5);
         }
 
-        public bool Enabled
-        {
-            get { return enabled; }
-            set { OnEnabledChanged(value); }
-        }
 
-        private void OnEnabledChanged(bool value)
-        {
-            enabled = value;
-
-            if (value)
-                context.Start();
-            else context.Stop();
-        }
-
-
-
+        /// <summary>
+        ///   Draws the keyboard information into a Graphics object.
+        /// </summary>
+        /// 
         public void Draw(Graphics graphics)
         {
+            if (graphics == null)
+                throw new ArgumentNullException("graphics");
+
             string text = conv.ToStringWithModifiers(context.Current);
 
             if (!String.IsNullOrEmpty(text))
@@ -150,6 +165,14 @@ namespace ScreenCapture.Processors
             }
         }
 
+        private void OnEnabledChanged(bool value)
+        {
+            enabled = value;
+
+            if (value)
+                context.Start();
+            else context.Stop();
+        }
 
 
 
@@ -190,12 +213,47 @@ namespace ScreenCapture.Processors
             if (disposing)
             {
                 // free managed resources
+                if (lastBitmap != null)
+                {
+                    lastBitmap.Dispose();
+                    lastBitmap = null;
+                }
+
+                if (attributes != null)
+                {
+                    attributes.Dispose();
+                    attributes = null;
+                }
+
                 if (context != null)
                 {
                     context.Dispose();
                     context = null;
                 }
 
+                if (textFont != null)
+                {
+                    textFont.Dispose();
+                    textFont = null;
+                }
+
+                if (textBrush != null)
+                {
+                    textBrush.Dispose();
+                    textBrush = null;
+                }
+
+                if (backPen != null)
+                {
+                    backPen.Dispose();
+                    backPen = null;
+                }
+
+                if (backBrush != null)
+                {
+                    backBrush.Dispose();
+                    backBrush = null;
+                }
             }
         }
         #endregion

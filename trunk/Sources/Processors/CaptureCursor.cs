@@ -36,9 +36,7 @@ namespace ScreenCapture.Processors
     {
         private Point position;
 
-        private Graphics desktopGraphics;
-        private IntPtr desktopHdc;
-        private IntPtr maskHdc;
+        private DeviceHandle mask;
         private int cursorInfoSize;
 
         /// <summary>
@@ -50,11 +48,11 @@ namespace ScreenCapture.Processors
             // By preallocating those we will prevent extra 
             // object allocations in middle of processing.
 
-            desktopGraphics = Graphics.FromHwnd(NativeMethods.GetDesktopWindow());
-            desktopHdc = desktopGraphics.GetHdc();
-            maskHdc = NativeMethods.CreateCompatibleDC(desktopHdc);
-            CURSORINFO cursorInfo = new CURSORINFO();
-            cursorInfoSize = Marshal.SizeOf(cursorInfo);
+            IntPtr desk = NativeMethods.GetDesktopWindow();
+            using (Graphics desktop = Graphics.FromHwnd(desk))
+                mask = SafeNativeMethods.CreateCompatibleDC(desktop);
+
+            cursorInfoSize = Marshal.SizeOf(typeof(CURSORINFO));
         }
 
         /// <summary>
@@ -64,6 +62,11 @@ namespace ScreenCapture.Processors
         /// 
         public Point Position { get { return position; } }
 
+        /// <summary>
+        ///   Gets or sets the current capture region
+        ///   (region of interest) of the processor.
+        /// </summary>
+        /// 
         public Rectangle CaptureRegion { get; set; }
 
         /// <summary>
@@ -117,30 +120,30 @@ namespace ScreenCapture.Processors
 
             try
             {
-                using (Bitmap maskBitmap = Bitmap.FromHbitmap(iconInfo.hbmMask))
+                using (Bitmap bitmapMask = Bitmap.FromHbitmap(iconInfo.hbmMask))
                 {
                     // Here we have to determine if the current cursor is monochrome in order
                     // to do a proper processing. If we just extracted the cursor icon from
                     // the icon handle, monochrome cursors would appear garbled.
 
-                    if (maskBitmap.Height == maskBitmap.Width * 2)
+                    if (bitmapMask.Height == bitmapMask.Width * 2)
                     {
                         // Yes, this is a monochrome cursor. We will have to manually copy
                         // the bitmap and the bitmak layers of the cursor into the bitmap.
 
-                        resultBitmap = new Bitmap(maskBitmap.Width, maskBitmap.Width);
-                        IntPtr maskPtr = NativeMethods.SelectObject(maskHdc, maskBitmap.GetHbitmap());
+                        resultBitmap = new Bitmap(bitmapMask.Width, bitmapMask.Width);
+                        IntPtr maskPtr = NativeMethods.SelectObject(mask.Handle, bitmapMask.GetHbitmap());
 
                         using (Graphics resultGraphics = Graphics.FromImage(resultBitmap))
                         {
-                            IntPtr resultHdc = resultGraphics.GetHdc();
+                            IntPtr resultHandle = resultGraphics.GetHdc();
 
                             // These two operation will result in a black cursor over a white background. Later
                             //   in the code, a call to MakeTransparent() will get rid of the white background.
-                            NativeMethods.BitBlt(resultHdc, 0, 0, 32, 32, maskHdc, 0, 32, CopyPixelOperation.SourceCopy);
-                            NativeMethods.BitBlt(resultHdc, 0, 0, 32, 32, maskHdc, 0, 0, CopyPixelOperation.SourceInvert);
+                            NativeMethods.BitBlt(resultHandle, 0, 0, 32, 32, mask.Handle, 0, 32, CopyPixelOperation.SourceCopy);
+                            NativeMethods.BitBlt(resultHandle, 0, 0, 32, 32, mask.Handle, 0, 0, CopyPixelOperation.SourceInvert);
 
-                            resultGraphics.ReleaseHdc(resultHdc);
+                            resultGraphics.ReleaseHdc(resultHandle);
                         }
 
                         NativeMethods.DeleteObject(maskPtr);
@@ -223,25 +226,11 @@ namespace ScreenCapture.Processors
         ///
         protected virtual void Dispose(bool disposing)
         {
-            // free native resources
-            if (maskHdc != IntPtr.Zero)
-            {
-                NativeMethods.DeleteDC(maskHdc);
-                maskHdc = IntPtr.Zero;
-            }
-
-            if (desktopGraphics != null &&
-                desktopHdc != IntPtr.Zero)
-            {
-                desktopGraphics.ReleaseHdc(desktopHdc);
-                desktopHdc = IntPtr.Zero;
-            }
-
             if (disposing)
             {
                 // free managed resources
-                desktopGraphics.Dispose();
-                desktopGraphics = null;
+                mask.Dispose();
+                mask = null;
             }
         }
         #endregion

@@ -26,22 +26,53 @@ namespace ScreenCapture.Native.Context
     using System.Threading;
     using System.Windows.Forms;
 
+    /// <summary>
+    ///   Windows application context for grabbing global mouse information.
+    /// </summary>
+    /// 
     public class NativeMouseContext : IDisposable
     {
         private Thread thread;
         private ApplicationContext context;
 
+        /// <summary>
+        ///   Gets the current mouse position.
+        /// </summary>
+        /// 
         public Point Position { get; private set; }
 
+        /// <summary>
+        ///   Occurs when the mouse button is released.
+        /// </summary>
+        /// 
         public event EventHandler MouseUp;
+
+        /// <summary>
+        ///   Occurs when the mouse button is pressed.
+        /// </summary>
+        /// 
         public event EventHandler MouseDown;
+
+        /// <summary>
+        ///   Ocurrs when the mouse moves.
+        /// </summary>
+        /// 
         public event EventHandler MouseMove;
 
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="NativeMouseContext"/> class.
+        /// </summary>
+        /// 
         public NativeMouseContext()
         {
         }
 
-
+        /// <summary>
+        ///   Install the global hook and starts
+        ///   listening to global mouse events.
+        /// </summary>
+        /// 
         public void Start()
         {
             if (context != null)
@@ -55,6 +86,11 @@ namespace ScreenCapture.Native.Context
 #endif
         }
 
+        /// <summary>
+        ///   Detaches the global mouse hook
+        ///   and stops listening for events.
+        /// </summary>
+        /// 
         public void Stop()
         {
             if (context == null)
@@ -64,6 +100,8 @@ namespace ScreenCapture.Native.Context
             context.Dispose();
             context = null;
         }
+
+
 
         private void run()
         {
@@ -97,6 +135,7 @@ namespace ScreenCapture.Native.Context
                 default: break;
             }
         }
+
 
         #region IDisposable implementation
         /// <summary>

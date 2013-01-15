@@ -21,12 +21,12 @@
 
 namespace ScreenCapture.Native
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Windows.Forms;
 
+    /// <summary>
+    ///   Extension methods for <see cref="Keys"/>.
+    /// </summary>
+    /// 
     public static class KeysExtensions
     {
 
