@@ -34,6 +34,9 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tbCopyright = new System.Windows.Forms.RichTextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cbFrameRate = new System.Windows.Forms.ComboBox();
             this.lbVersion = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -47,16 +50,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.btnApply = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.cbFrameRate = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.btnDonate = new System.Windows.Forms.Button();
             this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSave
@@ -102,6 +103,31 @@
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.cbFrameRate);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // cbFrameRate
+            // 
+            this.cbFrameRate.FormattingEnabled = true;
+            this.cbFrameRate.Items.AddRange(new object[] {
+            resources.GetString("cbFrameRate.Items"),
+            resources.GetString("cbFrameRate.Items1"),
+            resources.GetString("cbFrameRate.Items2"),
+            resources.GetString("cbFrameRate.Items3"),
+            resources.GetString("cbFrameRate.Items4")});
+            resources.ApplyResources(this.cbFrameRate, "cbFrameRate");
+            this.cbFrameRate.Name = "cbFrameRate";
+            // 
             // lbVersion
             // 
             resources.ApplyResources(this.lbVersion, "lbVersion");
@@ -113,6 +139,7 @@
             resources.ApplyResources(this.linkLabel1, "linkLabel1");
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.TabStop = true;
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // groupBox2
             // 
@@ -189,30 +216,15 @@
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
-            // groupBox3
+            // btnDonate
             // 
-            this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.cbFrameRate);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.TabStop = false;
-            // 
-            // cbFrameRate
-            // 
-            this.cbFrameRate.FormattingEnabled = true;
-            this.cbFrameRate.Items.AddRange(new object[] {
-            resources.GetString("cbFrameRate.Items"),
-            resources.GetString("cbFrameRate.Items1"),
-            resources.GetString("cbFrameRate.Items2"),
-            resources.GetString("cbFrameRate.Items3"),
-            resources.GetString("cbFrameRate.Items4")});
-            resources.ApplyResources(this.cbFrameRate, "cbFrameRate");
-            this.cbFrameRate.Name = "cbFrameRate";
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
+            this.btnDonate.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.btnDonate, "btnDonate");
+            this.btnDonate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDonate.FlatAppearance.BorderSize = 0;
+            this.btnDonate.Name = "btnDonate";
+            this.btnDonate.UseVisualStyleBackColor = false;
+            this.btnDonate.Click += new System.EventHandler(this.btnDonate_Click);
             // 
             // OptionForm
             // 
@@ -220,6 +232,7 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
+            this.Controls.Add(this.btnDonate);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.btnSave);
@@ -232,14 +245,14 @@
             this.tabPage2.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -267,5 +280,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cbFrameRate;
+        private System.Windows.Forms.Button btnDonate;
     }
 }

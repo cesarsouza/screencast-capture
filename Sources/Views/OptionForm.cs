@@ -122,5 +122,15 @@ namespace ScreenCapture.Views
             viewModel.Save();
         }
 
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://code.google.com/p/screencast-capture/");
+        }
+
+        private void btnDonate_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MPU4U4NZZSG86");
+        }
+
     }
 }
