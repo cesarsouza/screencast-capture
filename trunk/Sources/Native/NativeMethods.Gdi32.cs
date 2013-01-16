@@ -85,7 +85,7 @@ namespace ScreenCapture.Native
     /// 
     [StructLayout(LayoutKind.Sequential)]
     [GeneratedCode("PInvoke", "1.0.0.0")]
-    public struct ICONINFO
+    internal struct ICONINFO
     {
         /// <summary>
         ///   Specifies whether this structure defines an icon or a cursor.

@@ -26,6 +26,7 @@ namespace ScreenCapture.Processors
     using System.Runtime.InteropServices;
     using System.Security.Permissions;
     using ScreenCapture.Native;
+    using ScreenCapture.Native.Handles;
 
     /// <summary>
     ///   Class to capture the cursor's bitmap.
@@ -90,37 +91,32 @@ namespace ScreenCapture.Processors
             if (cursorInfo.flags != CursorState.CURSOR_SHOWING)
                 return null;
 
-            IntPtr hicon = NativeMethods.CopyIcon(cursorInfo.hCursor);
-
-            if (hicon == IntPtr.Zero)
-                return null;
-
-            ICONINFO iconInfo;
-            if (!NativeMethods.GetIconInfo(hicon, out iconInfo))
-                return null;
-
-            position.X = cursorInfo.ptScreenPos.X - ((int)iconInfo.xHotspot);
-            position.Y = cursorInfo.ptScreenPos.Y - ((int)iconInfo.yHotspot);
-
-            if (!CaptureRegion.Contains(position))
-                return null;
-
-            position.X -= CaptureRegion.X;
-            position.Y -= CaptureRegion.Y;
-
-            // Note: an alternative way would be to just return 
-            //
-            //   Icon icon = Icon.FromHandle(hicon);
-            //
-            // However, this seems to fail for monochrome cursors such as
-            // the I-Beam cursor (text cursor). The following takes care
-            // of returning the correct bitmap.
-
-            Bitmap resultBitmap = null;
-
-            try
+            using (IconHandle hicon = SafeNativeMethods.GetCursorIcon(cursorInfo))
+            using (IconInfo iconInfo = SafeNativeMethods.GetIconInfo(hicon))
             {
-                using (Bitmap bitmapMask = Bitmap.FromHbitmap(iconInfo.hbmMask))
+                if (iconInfo == null)
+                    return null;
+
+                position.X = cursorInfo.ptScreenPos.X - iconInfo.HotSpot.X;
+                position.Y = cursorInfo.ptScreenPos.Y - iconInfo.HotSpot.Y;
+
+                if (!CaptureRegion.Contains(position))
+                    return null;
+
+                position.X -= CaptureRegion.X;
+                position.Y -= CaptureRegion.Y;
+
+                // Note: an alternative way would be to just return 
+                //
+                //   Icon icon = Icon.FromHandle(hicon);
+                //
+                // However, this seems to fail for monochrome cursors such as
+                // the I-Beam cursor (text cursor). The following takes care
+                // of returning the correct bitmap.
+
+                Bitmap resultBitmap = null;
+
+                using (Bitmap bitmapMask = Bitmap.FromHbitmap(iconInfo.MaskBitmap))
                 {
                     // Here we have to determine if the current cursor is monochrome in order
                     // to do a proper processing. If we just extracted the cursor icon from
@@ -132,7 +128,7 @@ namespace ScreenCapture.Processors
                         // the bitmap and the bitmak layers of the cursor into the bitmap.
 
                         resultBitmap = new Bitmap(bitmapMask.Width, bitmapMask.Width);
-                        IntPtr maskPtr = NativeMethods.SelectObject(mask.Handle, bitmapMask.GetHbitmap());
+                        NativeMethods.SelectObject(mask.Handle, iconInfo.MaskBitmap);
 
                         using (Graphics resultGraphics = Graphics.FromImage(resultBitmap))
                         {
@@ -146,8 +142,6 @@ namespace ScreenCapture.Processors
                             resultGraphics.ReleaseHdc(resultHandle);
                         }
 
-                        NativeMethods.DeleteObject(maskPtr);
-
                         // Remove the white background from the BitBlt calls,
                         // resulting in a black cursor over a transparent background.
                         resultBitmap.MakeTransparent(Color.White);
@@ -155,24 +149,12 @@ namespace ScreenCapture.Processors
                     else
                     {
                         // This isn't a monochrome cursor.
-                        using (Icon icon = Icon.FromHandle(hicon))
+                        using (Icon icon = Icon.FromHandle(hicon.Handle))
                             resultBitmap = icon.ToBitmap();
                     }
                 }
 
-                // Clean allocated resources
-                NativeMethods.DeleteObject(iconInfo.hbmColor);
-                NativeMethods.DeleteObject(iconInfo.hbmMask);
-                NativeMethods.DestroyIcon(hicon);
-
                 return resultBitmap;
-            }
-            catch
-            {
-                if (resultBitmap != null)
-                    resultBitmap.Dispose();
-
-                throw;
             }
         }
 
