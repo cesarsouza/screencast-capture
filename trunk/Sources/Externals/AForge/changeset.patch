@@ -322,7 +322,7 @@ Index: Sources/Controls/VideoSourcePlayer.cs
              }
          }
  
-@@ -375,137 +392,162 @@
+@@ -375,137 +392,165 @@
          /// control did not receive any video frames yet, then the method returns
          /// <see langword="null"/>.</returns>
          /// 
@@ -337,10 +337,14 @@ Index: Sources/Controls/VideoSourcePlayer.cs
              }
          }
  
-         // Paing control
+-        // Paing control
 -        private void VideoSourcePlayer_Paint( object sender, PaintEventArgs e )
++        // Paint control
 +        private void VideoSourcePlayer_Paint(object sender, PaintEventArgs e)
          {
++            if (!Visible)
++                return;
++
              // is it required to update control's size/position
 -            if ( ( needSizeUpdate ) || ( firstFrameNotProcessed ) )
 +            if ((needSizeUpdate) || (firstFrameNotProcessed))
@@ -534,7 +538,7 @@ Index: Sources/Controls/VideoSourcePlayer.cs
              {
                  case ReasonToFinishPlaying.EndOfStreamReached:
                      lastMessage = "Video has finished";
-@@ -527,36 +569,36 @@
+@@ -527,36 +572,36 @@
                      lastMessage = "Video has finished for unknown reason";
                      break;
              }
@@ -613,7 +617,7 @@ Index: Sources/Video.FFMPEG/VideoCodec.cpp
 ===================================================================
 --- Sources/Video.FFMPEG/VideoCodec.cpp	(revision 1699)
 +++ Sources/Video.FFMPEG/VideoCodec.cpp	(working copy)
-@@ -29,7 +29,10 @@
+@@ -29,7 +29,11 @@
  	libffmpeg::CODEC_ID_H263P,
  	libffmpeg::CODEC_ID_FLV1,
  	libffmpeg::CODEC_ID_MPEG2VIDEO,
@@ -622,16 +626,18 @@ Index: Sources/Video.FFMPEG/VideoCodec.cpp
 +	libffmpeg::CODEC_ID_FFV1,
 +	libffmpeg::CODEC_ID_FFVHUFF,  
 +	libffmpeg::CODEC_ID_H264,
++	libffmpeg::CODEC_ID_THEORA,
  };
  
  int pixel_formats[] =
-@@ -43,6 +46,9 @@
+@@ -43,6 +47,10 @@
  	libffmpeg::PIX_FMT_YUV420P,
  	libffmpeg::PIX_FMT_YUV420P,
  	libffmpeg::PIX_FMT_BGR24,
 +	libffmpeg::PIX_FMT_YUV420P,
 +	libffmpeg::PIX_FMT_RGB32,
-+	libffmpeg::PIX_FMT_YUVJ420P,
++	libffmpeg::PIX_FMT_YUV444P,
++	libffmpeg::PIX_FMT_YUV444P,
  };
  
  int CODECS_COUNT ( sizeof( video_codecs ) / sizeof( libffmpeg::CodecID ) );
@@ -640,7 +646,7 @@ Index: Sources/Video.FFMPEG/VideoCodec.h
 ===================================================================
 --- Sources/Video.FFMPEG/VideoCodec.h	(revision 1699)
 +++ Sources/Video.FFMPEG/VideoCodec.h	(working copy)
-@@ -62,6 +62,18 @@
+@@ -62,6 +62,22 @@
  		/// Raw (uncompressed) video.
  		/// </summary>
  		Raw,
@@ -656,6 +662,10 @@ Index: Sources/Video.FFMPEG/VideoCodec.h
 +		/// H.264/MPEG-4 Part 10.
 +		/// </summary>
 +        H264,
++		/// <summary>
++		/// H.264/MPEG-4 Part 10.
++		/// </summary>
++        Theora,
  	};
  
  } } }
