@@ -288,15 +288,6 @@
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="cbContainer.Items" xml:space="preserve">
-    <value>avi</value>
-  </data>
-  <data name="cbContainer.Items1" xml:space="preserve">
-    <value>mp4</value>
-  </data>
-  <data name="cbContainer.Items2" xml:space="preserve">
-    <value>m4v</value>
-  </data>
   <data name="cbContainer.Location" type="System.Drawing.Point, System.Drawing">
     <value>83, 41</value>
   </data>

@@ -35,7 +35,9 @@
             this.tbCopyright = new System.Windows.Forms.RichTextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.cbContainer = new System.Windows.Forms.ComboBox();
             this.cbFrameRate = new System.Windows.Forms.ComboBox();
             this.lbVersion = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -51,8 +53,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.btnApply = new System.Windows.Forms.Button();
             this.btnDonate = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cbContainer = new System.Windows.Forms.ComboBox();
             this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -115,10 +115,22 @@
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
             // label2
             // 
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
+            // 
+            // cbContainer
+            // 
+            this.cbContainer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbContainer.FormattingEnabled = true;
+            resources.ApplyResources(this.cbContainer, "cbContainer");
+            this.cbContainer.Name = "cbContainer";
             // 
             // cbFrameRate
             // 
@@ -229,22 +241,6 @@
             this.btnDonate.Name = "btnDonate";
             this.btnDonate.UseVisualStyleBackColor = false;
             this.btnDonate.Click += new System.EventHandler(this.btnDonate_Click);
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // cbContainer
-            // 
-            this.cbContainer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbContainer.FormattingEnabled = true;
-            this.cbContainer.Items.AddRange(new object[] {
-            resources.GetString("cbContainer.Items"),
-            resources.GetString("cbContainer.Items1"),
-            resources.GetString("cbContainer.Items2")});
-            resources.ApplyResources(this.cbContainer, "cbContainer");
-            this.cbContainer.Name = "cbContainer";
             // 
             // OptionForm
             // 

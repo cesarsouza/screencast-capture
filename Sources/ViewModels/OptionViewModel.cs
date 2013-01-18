@@ -71,6 +71,8 @@ namespace ScreenCapture.ViewModels
         public string Container { get; set; }
 
 
+        public static string[] SupportedContainers { get; private set; }
+
         /// <summary>
         ///   Initializes a new instance of the <see cref="OptionViewModel"/> class.
         /// </summary>
@@ -78,6 +80,14 @@ namespace ScreenCapture.ViewModels
         public OptionViewModel()
         {
             Load();
+        }
+
+        static OptionViewModel()
+        {
+            SupportedContainers = new[] 
+            {
+                "avi", "mkv", "m4v", "mp4", "mov"
+            };
         }
 
         /// <summary>
