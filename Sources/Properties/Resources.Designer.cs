@@ -76,6 +76,13 @@ namespace ScreenCapture.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap aktion {
+            get {
+                object obj = ResourceManager.GetObject("aktion", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap camera {
             get {
                 object obj = ResourceManager.GetObject("camera", resourceCulture);
