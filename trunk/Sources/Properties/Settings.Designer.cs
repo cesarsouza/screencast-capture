@@ -94,5 +94,17 @@ namespace ScreenCapture.Properties {
                 this["FrameRate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("avi")]
+        public string Container {
+            get {
+                return ((string)(this["Container"]));
+            }
+            set {
+                this["Container"] = value;
+            }
+        }
     }
 }

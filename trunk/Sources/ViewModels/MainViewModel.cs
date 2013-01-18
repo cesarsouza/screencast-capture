@@ -363,7 +363,7 @@ namespace ScreenCapture.ViewModels
         {
             CaptureWindow = SafeNativeMethods.WindowFromPoint(Cursor.Position);
 
-            if (IsWaitingForTargetWindow) 
+            if (IsWaitingForTargetWindow)
                 StartPlaying();
         }
 
@@ -405,7 +405,7 @@ namespace ScreenCapture.ViewModels
             bool captureClick = Settings.Default.CaptureClick;
             bool captureKeys = Settings.Default.CaptureKeys;
 
-            if (captureMouse || captureClick || captureKeys )
+            if (captureMouse || captureClick || captureKeys)
             {
                 cursorCapture.CaptureRegion = CaptureRegion;
                 clickCapture.CaptureRegion = CaptureRegion;
@@ -484,7 +484,7 @@ namespace ScreenCapture.ViewModels
             else if (CaptureMode == CaptureRegionOption.Window)
                 mode = "Window_";
 
-            string name = mode + date + ".avi";
+            string name = mode + date + "." + Settings.Default.Container;
 
             return name;
         }
