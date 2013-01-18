@@ -58,6 +58,7 @@ namespace ScreenCapture.Views
             cbMouseClicks.Bind(b => b.Checked, viewModel, m => m.CaptureClick);
             cbKeyboard.Bind(b => b.Checked, viewModel, m => m.CaptureKeys);
             cbFrameRate.Bind(b => b.Text, viewModel, m => m.FrameRate);
+            cbContainer.Bind(b => b.Text, viewModel, m => m.Container);
 
             showCopyrightText();
 

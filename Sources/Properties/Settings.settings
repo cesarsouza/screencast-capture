@@ -20,5 +20,8 @@
     <Setting Name="FrameRate" Type="System.Double" Scope="User">
       <Value Profile="(Default)">24</Value>
     </Setting>
+    <Setting Name="Container" Type="System.String" Scope="User">
+      <Value Profile="(Default)">avi</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

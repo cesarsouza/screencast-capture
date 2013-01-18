@@ -51,6 +51,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.btnApply = new System.Windows.Forms.Button();
             this.btnDonate = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cbContainer = new System.Windows.Forms.ComboBox();
             this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -105,7 +107,9 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.cbContainer);
             this.groupBox3.Controls.Add(this.cbFrameRate);
             resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
@@ -226,6 +230,22 @@
             this.btnDonate.UseVisualStyleBackColor = false;
             this.btnDonate.Click += new System.EventHandler(this.btnDonate_Click);
             // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // cbContainer
+            // 
+            this.cbContainer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbContainer.FormattingEnabled = true;
+            this.cbContainer.Items.AddRange(new object[] {
+            resources.GetString("cbContainer.Items"),
+            resources.GetString("cbContainer.Items1"),
+            resources.GetString("cbContainer.Items2")});
+            resources.ApplyResources(this.cbContainer, "cbContainer");
+            this.cbContainer.Name = "cbContainer";
+            // 
             // OptionForm
             // 
             this.AcceptButton = this.btnSave;
@@ -281,5 +301,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cbFrameRate;
         private System.Windows.Forms.Button btnDonate;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cbContainer;
     }
 }
