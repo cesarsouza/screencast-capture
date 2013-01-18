@@ -53,13 +53,15 @@ namespace ScreenCapture.Views
 
         private void SettingsForm_Load(object sender, EventArgs e)
         {
+            cbContainer.DataSource = OptionViewModel.SupportedContainers;
+
             tbSavePath.Bind(b => b.Text, viewModel, m => m.DefaultSaveFolder);
             cbMouseCursor.Bind(b => b.Checked, viewModel, m => m.CaptureMouse);
             cbMouseClicks.Bind(b => b.Checked, viewModel, m => m.CaptureClick);
             cbKeyboard.Bind(b => b.Checked, viewModel, m => m.CaptureKeys);
             cbFrameRate.Bind(b => b.Text, viewModel, m => m.FrameRate);
             cbContainer.Bind(b => b.Text, viewModel, m => m.Container);
-
+            
             showCopyrightText();
 
             lbVersion.Text = String.Format(CultureInfo.CurrentCulture, Resources.About_Version,
