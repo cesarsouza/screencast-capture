@@ -22,6 +22,7 @@
 namespace ScreenCapture.ViewModels
 {
     using ScreenCapture.Properties;
+    using System.Collections.Generic;
     using System.ComponentModel;
 
     /// <summary>
@@ -68,10 +69,17 @@ namespace ScreenCapture.ViewModels
         /// 
         public double FrameRate { get; set; }
 
+        /// <summary>
+        ///   Gets or sets the current storage container format.
+        /// </summary>
+        /// 
         public string Container { get; set; }
 
-
-        public static string[] SupportedContainers { get; private set; }
+        /// <summary>
+        ///   Gets a list of supported container formats.
+        /// </summary>
+        /// 
+        public static IEnumerable<string> SupportedContainers { get; private set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="OptionViewModel"/> class.
@@ -82,6 +90,10 @@ namespace ScreenCapture.ViewModels
             Load();
         }
 
+        /// <summary>
+        ///   Initializes the <see cref="OptionViewModel" /> class.
+        /// </summary>
+        /// 
         static OptionViewModel()
         {
             SupportedContainers = new[] 

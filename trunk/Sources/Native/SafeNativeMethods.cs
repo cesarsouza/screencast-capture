@@ -28,7 +28,6 @@ namespace ScreenCapture.Native
     using System.Runtime.InteropServices;
     using System.Windows.Forms;
     using System.Text;
-    using ScreenCapture.Native.Handles;
 
     /// <summary>
     ///   Managed wrapper around native methods.
@@ -37,6 +36,10 @@ namespace ScreenCapture.Native
     public static class SafeNativeMethods
     {
 
+        /// <summary>
+        ///   Gets a handle to a cursor icon.
+        /// </summary>
+        /// 
         public static IconHandle GetCursorIcon(CURSORINFO cursor)
         {
             IntPtr hIcon = NativeMethods.CopyIcon(cursor.hCursor);
@@ -47,13 +50,17 @@ namespace ScreenCapture.Native
             return new IconHandle(hIcon);
         }
 
-        public static IconInfo GetIconInfo(IconHandle hIcon)
+        /// <summary>
+        ///   Gets information about a icon from a icon handle.
+        /// </summary>
+        /// 
+        public static IconInfo GetIconInfo(IconHandle iconHandle)
         {
-            if (hIcon == null) 
+            if (iconHandle == null) 
                 return null;
 
             ICONINFO iconInfo;
-            if (!NativeMethods.GetIconInfo(hIcon.Handle, out iconInfo))
+            if (!NativeMethods.GetIconInfo(iconHandle.Handle, out iconInfo))
                 return null;
             return new IconInfo(iconInfo);
         }

@@ -26,7 +26,6 @@ namespace ScreenCapture.Processors
     using System.Threading;
     using System.Windows.Forms;
     using ScreenCapture.Native;
-    using ScreenCapture.Native.Context;
 
     /// <summary>
     ///   Class to capture mouse clicks.

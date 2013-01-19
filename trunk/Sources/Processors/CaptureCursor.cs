@@ -26,7 +26,6 @@ namespace ScreenCapture.Processors
     using System.Runtime.InteropServices;
     using System.Security.Permissions;
     using ScreenCapture.Native;
-    using ScreenCapture.Native.Handles;
 
     /// <summary>
     ///   Class to capture the cursor's bitmap.
@@ -97,8 +96,8 @@ namespace ScreenCapture.Processors
                 if (iconInfo == null)
                     return null;
 
-                position.X = cursorInfo.ptScreenPos.X - iconInfo.HotSpot.X;
-                position.Y = cursorInfo.ptScreenPos.Y - iconInfo.HotSpot.Y;
+                position.X = cursorInfo.ptScreenPos.X - iconInfo.Hotspot.X;
+                position.Y = cursorInfo.ptScreenPos.Y - iconInfo.Hotspot.Y;
 
                 if (!CaptureRegion.Contains(position))
                     return null;
@@ -116,7 +115,7 @@ namespace ScreenCapture.Processors
 
                 Bitmap resultBitmap = null;
 
-                using (Bitmap bitmapMask = Bitmap.FromHbitmap(iconInfo.MaskBitmap))
+                using (Bitmap bitmapMask = Bitmap.FromHbitmap(iconInfo.MaskBitmap.Handle))
                 {
                     // Here we have to determine if the current cursor is monochrome in order
                     // to do a proper processing. If we just extracted the cursor icon from
@@ -128,7 +127,7 @@ namespace ScreenCapture.Processors
                         // the bitmap and the bitmak layers of the cursor into the bitmap.
 
                         resultBitmap = new Bitmap(bitmapMask.Width, bitmapMask.Width);
-                        NativeMethods.SelectObject(mask.Handle, iconInfo.MaskBitmap);
+                        NativeMethods.SelectObject(mask.Handle, iconInfo.MaskBitmap.Handle);
 
                         using (Graphics resultGraphics = Graphics.FromImage(resultBitmap))
                         {

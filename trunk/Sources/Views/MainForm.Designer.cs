@@ -140,9 +140,6 @@
             // 
             // explorerBrowser
             // 
-            this.explorerBrowser.CurrentDirectory = "";
-            this.explorerBrowser.CurrentFileName = "";
-            this.explorerBrowser.DefaultDirectory = "C:\\Users\\Cesar\\Desktop";
             resources.ApplyResources(this.explorerBrowser, "explorerBrowser");
             this.explorerBrowser.Name = "explorerBrowser";
             // 
