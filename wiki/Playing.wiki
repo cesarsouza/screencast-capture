@@ -1,0 +1,33 @@
+#summary How to play videos produced with Screencast Capture Lite
+
+= Introduction =
+
+Screencast Capture records video using H624. To play those videos, you may need to have the H624 codec installed. Most likely you would already have one; however, in case your player refuses to play the videos, one of the best ways to ensure you have all proper codecs is to install [http://en.wikipedia.org/wiki/Ffdshow ffdshow].
+
+
+= ffdshow =
+
+ffdshow is a media decoder for a really extensive list of video and audio codecs. Instead of installing separate decoders and encoders for each codec, ffdshow provides support for near all video and audio formats out-of-the-box. It is free software, released under the GPL, runs on Windows and has a neat installer.
+
+ffdshow is currently being under development under the [http://ffdshow-tryout.sourceforge.net/ ffdshow-tryouts project]. Installation is quick-and-easy, and the default installer settings should suffice. After installation, all videos should be playable using any media player which uses DirectShow, such as Windows Media Player.
+<br />
+<p align="center">
+<img src="https://screencast-capture.googlecode.com/svn/wiki/images/codecs/ffdshow-1.png" align="center" /></p>
+
+<br />
+
+
+=== A note on Windows 7 32-bit ===
+
+If the videos refuse to play even after installing ffdshow, it may be necessary to use [http://www.codecguide.com/windows7_preferred_filter_tweaker.htm Win7DSFilterTweaker] to enforce select ffdshow as the default decoding mechanism. In order to do this, download and execute the tool, which should then present the following screen.
+
+Click the "Media Foundation" option, and in the next screen, mark the first checkbox to disable media foundation. After clicking _Apply_, the videos should start playing as normal in Windows Media Player.
+
+<table>
+  <tr>
+    <td>
+      <img src="https://screencast-capture.googlecode.com/svn/wiki/images/codecs/tweaker.png"/></td>
+    <td>
+      <img src="https://screencast-capture.googlecode.com/svn/wiki/images/codecs/tweaker-mf.png"/></td>
+  </tr>
+</table>
