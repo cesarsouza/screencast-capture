@@ -137,6 +137,9 @@
   <data name="&gt;&gt;tbAddress.Name" xml:space="preserve">
     <value>tbAddress</value>
   </data>
+  <data name="browser.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 39</value>
+  </data>
   <data name="btnHome.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
@@ -180,17 +183,14 @@
   <data name="&gt;&gt;browser.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="browser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 39</value>
+  <data name="&gt;&gt;btnHome.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="btnParent.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="btnHome.Size" type="System.Drawing.Size, System.Drawing">
     <value>27, 27</value>
-  </data>
-  <data name="&gt;&gt;btnHome.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="browser.Size" type="System.Drawing.Size, System.Drawing">
     <value>465, 256</value>
@@ -205,7 +205,7 @@
     <value>btnForward</value>
   </data>
   <data name="&gt;&gt;tbAddress.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripTextBox, ScreenCapture, Version=1.2.0.0, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripTextBox, ScreenCapture, Version=1.3.0.22093, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;btnBackward.Name" xml:space="preserve">
     <value>btnBackward</value>
