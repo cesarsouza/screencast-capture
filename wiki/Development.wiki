@@ -1,4 +1,4 @@
-#summary How to develop Screencast Capture.
+#summary How to build, edit and compile the application.
 #labels Phase-Implementation
 
 = Requirements =
