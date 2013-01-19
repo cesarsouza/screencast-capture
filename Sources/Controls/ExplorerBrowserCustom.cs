@@ -46,10 +46,29 @@ namespace ScreenCapture.Controls
             get
             {
                 if (browser.NavigationLog.CurrentLocation == null)
-                    return null;
+                    return String.Empty;
                 return browser.NavigationLog.CurrentLocation.ParsingName;
             }
-            set { browser.Navigate(ShellFileSystemFolder.FromFolderPath(value)); }
+            set
+            {
+                if (!String.IsNullOrEmpty(value))
+                    browser.Navigate(ShellFileSystemFolder.FromFolderPath(value));
+            }
+        }
+
+        public string CurrentFileName
+        {
+            get
+            {
+                if (browser.SelectedItems.Count > 0)
+                    return browser.SelectedItems[0].ParsingName;
+                return String.Empty;
+            }
+            set
+            {
+                if (!String.IsNullOrEmpty(value))
+                    browser.Navigate(ShellFile.FromFilePath(value));
+            }
         }
 
         /// <summary>
@@ -118,14 +137,15 @@ namespace ScreenCapture.Controls
             browser.Navigate(parent);
         }
 
-        private void browser_NavigationPending(object sender, NavigationPendingEventArgs e)
+        private void btnHome_Click(object sender, EventArgs e)
         {
-            updateButtonStatus();
+            CurrentDirectory = DefaultDirectory;
         }
 
-        private void browser_NavigationComplete(object sender, NavigationCompleteEventArgs e)
+
+
+        private void browser_NavigationPending(object sender, NavigationPendingEventArgs e)
         {
-            OnPropertyChanged("CurrentDirectory");
             updateButtonStatus();
         }
 
@@ -133,6 +153,20 @@ namespace ScreenCapture.Controls
         {
             updateButtonStatus();
         }
+
+        private void browser_NavigationComplete(object sender, NavigationCompleteEventArgs e)
+        {
+            OnPropertyChanged("CurrentDirectory");
+            OnPropertyChanged("CurrentFileName");
+            updateButtonStatus();
+        }
+
+        private void browser_SelectionChanged(object sender, EventArgs e)
+        {
+            OnPropertyChanged("CurrentFileName");
+        }
+
+
 
         private void updateButtonStatus()
         {
@@ -146,9 +180,5 @@ namespace ScreenCapture.Controls
                 browser.NavigationLog.CurrentLocation.Parent != null;
         }
 
-        private void btnHome_Click(object sender, EventArgs e)
-        {
-            CurrentDirectory = DefaultDirectory;
-        }
     }
 }

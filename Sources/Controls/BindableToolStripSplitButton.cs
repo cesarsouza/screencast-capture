@@ -24,10 +24,10 @@ namespace ScreenCapture.Controls
     using System.Windows.Forms;
 
     /// <summary>
-    ///   Tool Strip Status Label with support for data binding.
+    ///   Tool Strip Drop Down Button with support for data binding.
     /// </summary>
     /// 
-    public class BindableToolStripProgressBar : ToolStripProgressBar, IBindableComponent
+    public class BindableToolStripSplitButton : ToolStripSplitButton, IBindableComponent
     {
         private ControlBindingsCollection dataBindings;
 
@@ -40,12 +40,12 @@ namespace ScreenCapture.Controls
         /// 
         /// <returns>The <see cref="T:System.Windows.Forms.ControlBindingsCollection"/> 
         /// for this <see cref="T:System.Windows.Forms.IBindableComponent"/>. </returns>
-        /// 
+        ///
         public ControlBindingsCollection DataBindings
         {
             get
             {
-                if (dataBindings == null) 
+                if (dataBindings == null)
                     dataBindings = new ControlBindingsCollection(this);
                 return dataBindings;
             }
@@ -63,7 +63,7 @@ namespace ScreenCapture.Controls
         {
             get
             {
-                if (bindingContext == null) 
+                if (bindingContext == null)
                     bindingContext = new BindingContext();
                 return bindingContext;
             }
@@ -71,10 +71,13 @@ namespace ScreenCapture.Controls
         }
 
         /// <summary>
-        ///   Releases the unmanaged resources used by the <see cref="T:System.Windows.Forms.ToolStripMenuItem"/> and optionally releases the managed resources.
+        ///   Releases the unmanaged resources used by the 
+        ///   <see cref="T:System.Windows.Forms.ToolStripMenuItem"/>
+        ///   and optionally releases the managed resources.
         /// </summary>
         /// 
-        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        /// <param name="disposing">true to release both managed and unmanaged
+        /// resources; false to release only unmanaged resources.</param>
         /// 
         protected override void Dispose(bool disposing)
         {

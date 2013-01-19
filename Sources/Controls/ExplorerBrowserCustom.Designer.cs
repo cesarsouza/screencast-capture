@@ -44,6 +44,7 @@
             resources.ApplyResources(this.browser, "browser");
             this.browser.Name = "browser";
             this.browser.PropertyBagName = "Microsoft.WindowsAPICodePack.Controls.WindowsForms.ExplorerBrowser";
+            this.browser.SelectionChanged += new System.EventHandler(this.browser_SelectionChanged);
             this.browser.NavigationPending += new System.EventHandler<Microsoft.WindowsAPICodePack.Controls.NavigationPendingEventArgs>(this.browser_NavigationPending);
             this.browser.NavigationComplete += new System.EventHandler<Microsoft.WindowsAPICodePack.Controls.NavigationCompleteEventArgs>(this.browser_NavigationComplete);
             this.browser.NavigationFailed += new System.EventHandler<Microsoft.WindowsAPICodePack.Controls.NavigationFailedEventArgs>(this.browser_NavigationFailed);
