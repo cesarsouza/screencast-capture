@@ -19,7 +19,7 @@
 //    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 // 
 
-namespace ScreenCapture.Native.Context
+namespace ScreenCapture.Native
 {
     using System;
     using System.Drawing;

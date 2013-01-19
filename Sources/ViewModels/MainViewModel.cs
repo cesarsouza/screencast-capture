@@ -72,6 +72,9 @@ namespace ScreenCapture.ViewModels
         /// 
         public NotifyViewModel Notify { get; private set; }
 
+        /// <summary>
+        ///   Gets the format converter view-model.
+        /// </summary>
         public ConvertViewModel Convert { get; private set; }
 
         /// <summary>

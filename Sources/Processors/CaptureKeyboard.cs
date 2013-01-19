@@ -26,7 +26,6 @@ namespace ScreenCapture.Processors
     using System.Drawing.Drawing2D;
     using System.Drawing.Imaging;
     using ScreenCapture.Native;
-    using ScreenCapture.Native.Context;
 
     /// <summary>
     ///   Class to capture keyboard key presses.

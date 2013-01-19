@@ -35,10 +35,8 @@ namespace ScreenCapture.Controls
     {
 
         /// <summary>
-        ///   Gets or sets the current directory in the embedded
-        ///   Windows Explorer window. This property exists only
-        ///   to provide an automatic binding between the window
-        ///   and the ViewModel.
+        ///   Gets or sets the current directory in 
+        ///   the embedded Windows Explorer window. 
         /// </summary>
         /// 
         public string CurrentDirectory
@@ -56,6 +54,11 @@ namespace ScreenCapture.Controls
             }
         }
 
+        /// <summary>
+        ///   Gets or sets the current filename selected
+        ///   in the embedded Windows Explorer Window.
+        /// </summary>
+        /// 
         public string CurrentFileName
         {
             get

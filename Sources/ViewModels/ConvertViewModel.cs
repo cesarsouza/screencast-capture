@@ -24,30 +24,51 @@ namespace ScreenCapture.ViewModels
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Text;
 
-    public class ConvertViewModel : INotifyPropertyChanged
+    /// <summary>
+    ///   Conversion ViewModel to control the conversion process.
+    /// </summary>
+    /// 
+    public class ConvertViewModel : INotifyPropertyChanged, IDisposable
     {
 
-        public MainViewModel Main { get; private set; }
+        private MainViewModel main;
+        private BackgroundWorker worker;
 
+        /// <summary>
+        ///   Gets or sets the path to the file to be converted.
+        /// </summary>
+        /// 
         public string InputFilePath { get; set; }
 
+        /// <summary>
+        ///   Gets the progress of the conversion process.
+        ///   This value goes from 0 to 100.
+        /// </summary>
+        /// 
         public int Progress { get; private set; }
 
+        /// <summary>
+        ///   Gets whether there is a conversion in progress.
+        /// </summary>
+        /// 
         public bool IsConverting { get; private set; }
 
 
-        private BackgroundWorker worker;
-
-
+        /// <summary>
+        ///   Gets whether the current application status
+        ///   allows the user to start a conversion process.
+        /// </summary>
+        /// 
         public bool CanConvert
         {
             get
             {
-                if (Main.IsRecording)
+                if (main.IsRecording)
                     return false;
 
                 if (String.IsNullOrEmpty(InputFilePath))
@@ -66,19 +87,28 @@ namespace ScreenCapture.ViewModels
             }
         }
 
+
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="ConvertViewModel" /> class.
+        /// </summary>
+        /// 
         public ConvertViewModel(MainViewModel main)
         {
-            Main = main;
+            if (main == null)
+                throw new ArgumentNullException("main");
 
-            InputFilePath = String.Empty;
+            this.main = main;
 
-            worker = new BackgroundWorker();
-            worker.DoWork += new DoWorkEventHandler(worker_DoWork);
-            worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
-            worker.WorkerReportsProgress = true;
-            worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
+            this.InputFilePath = String.Empty;
 
-            Main.PropertyChanged += new PropertyChangedEventHandler(Main_PropertyChanged);
+            this.worker = new BackgroundWorker();
+            this.worker.DoWork += new DoWorkEventHandler(worker_DoWork);
+            this.worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
+            this.worker.WorkerReportsProgress = true;
+            this.worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
+
+            this.main.PropertyChanged += new PropertyChangedEventHandler(Main_PropertyChanged);
         }
 
         private void Main_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -88,37 +118,44 @@ namespace ScreenCapture.ViewModels
                     PropertyChanged(this, new PropertyChangedEventArgs("CanConvert"));
         }
 
-        
 
 
+        /// <summary>
+        ///   Starts a conversion.
+        /// </summary>
+        /// 
         public void Convert()
         {
             Progress = 0;
             IsConverting = true;
-            Main.Status = "Converting...";
+            main.Status = "Converting...";
 
             worker.RunWorkerAsync();
         }
+
+
+
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             Progress = 100;
             IsConverting = false;
-            Main.Status = "Ready";
+            main.Status = "Ready";
         }
 
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             Progress = e.ProgressPercentage;
         }
-        
 
 
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
+            IFormatProvider provider = CultureInfo.InvariantCulture;
+
             string input = InputFilePath;
             string output = Path.ChangeExtension(input, ".ogg");
-            string options = String.Format("-y -i {0} -q:v 5 -an  {1}",
+            string options = String.Format(provider, "-y -i {0} -q:v 5 -an  {1}",
                 input, output);
 
             ProcessStartInfo info = new ProcessStartInfo
@@ -132,54 +169,114 @@ namespace ScreenCapture.ViewModels
                 UseShellExecute = false,
             };
 
-            Process process = new Process();
-            process.StartInfo = info;
-            process.Start();
-
-            StreamReader reader = process.StandardError;
-            StreamWriter writer = process.StandardInput;
-
-            string durationMarker = "Duration: ";
-            TimeSpan duration = TimeSpan.Zero;
-
-            string progressMarker = "time=";
-            string bitrateMarker = "bitrate=";
-            TimeSpan current = TimeSpan.Zero;
-
-            StringBuilder cout = new StringBuilder();
-
-            while (!reader.EndOfStream)
+            using (Process process = new Process())
             {
-                string line = reader.ReadLine();
-                cout.AppendLine(line);
+                process.StartInfo = info;
+                process.Start();
 
-                if (line.Contains(durationMarker))
+                StreamReader reader = process.StandardError;
+                StreamWriter writer = process.StandardInput;
+
+                string durationMarker = "Duration: ";
+                TimeSpan duration = TimeSpan.Zero;
+
+                string progressMarker = "time=";
+                string bitrateMarker = "bitrate=";
+                TimeSpan current = TimeSpan.Zero;
+
+                StringBuilder cout = new StringBuilder();
+
+                while (!reader.EndOfStream)
                 {
-                    int startIndex = line.IndexOf(durationMarker) + durationMarker.Length;
-                    int endIndex = line.IndexOf(',', startIndex);
-                    string strDuration = line.Substring(startIndex, endIndex - startIndex);
-                    duration = TimeSpan.Parse(strDuration);
+                    string line = reader.ReadLine();
+                    cout.AppendLine(line);
 
-                    if (duration.Ticks == 0)
-                        return;
-                }
+                    if (line.Contains(durationMarker))
+                    {
+                        int startIndex = line.IndexOf(durationMarker,
+                            StringComparison.CurrentCulture) + durationMarker.Length;
+                        int endIndex = line.IndexOf(',', startIndex);
+                        string strDuration = line.Substring(startIndex, endIndex - startIndex);
+                        duration = TimeSpan.Parse(strDuration, provider);
 
-                if (line.Contains(progressMarker))
-                {
-                    int startIndex = line.IndexOf(progressMarker) + progressMarker.Length;
-                    int endIndex = line.IndexOf(bitrateMarker);
+                        if (duration.Ticks == 0)
+                            return;
+                    }
 
-                    string strTime = line.Substring(startIndex, endIndex - startIndex);
-                    current = TimeSpan.Parse(strTime);
+                    if (line.Contains(progressMarker))
+                    {
+                        int startIndex = line.IndexOf(progressMarker,
+                            StringComparison.CurrentCulture) + progressMarker.Length;
+                        int endIndex = line.IndexOf(bitrateMarker, StringComparison.CurrentCulture);
 
-                    double max = duration.Ticks;
-                    double cur = current.Ticks;
-                    worker.ReportProgress((int)((cur / max) * 100));
+                        string strTime = line.Substring(startIndex, endIndex - startIndex);
+                        current = TimeSpan.Parse(strTime, provider);
+
+                        double max = duration.Ticks;
+                        double cur = current.Ticks;
+                        worker.ReportProgress((int)((cur / max) * 100));
+                    }
                 }
             }
-
         }
 
+
+        #region IDisposable implementation
+
+        /// <summary>
+        ///   Performs application-defined tasks associated with freeing, 
+        ///   releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        ///   Releases unmanaged resources and performs other cleanup operations 
+        ///   before the <see cref="ConvertViewModel"/> is reclaimed by garbage collection.
+        /// </summary>
+        /// 
+        ~ConvertViewModel()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
+        ///   Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// 
+        /// <param name="disposing"><c>true</c> to release both managed
+        /// and unmanaged resources; <c>false</c> to release only unmanaged
+        /// resources.</param>
+        ///
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // free managed resources
+                if (worker != null)
+                {
+                    worker.Dispose();
+                    worker = null;
+                }
+            }
+        }
+        #endregion
+
+
+
+        // The PropertyChanged event doesn't needs to be explicitly raised
+        // from this application. The event raising is handled automatically
+        // by the NotifyPropertyWeaver VS extension using IL injection.
+        //
+#pragma warning disable 0067
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning restore 0067
     }
 }
