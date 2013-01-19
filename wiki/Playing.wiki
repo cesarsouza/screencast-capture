@@ -1,13 +1,15 @@
-#summary How to play videos produced with Screencast Capture Lite
+#summary How to play the videos produced by Screencast Capture Lite
 
 = Introduction =
 
-Screencast Capture records video using H624. To play those videos, you may need to have the H624 codec installed. Most likely you would already have one; however, in case your player refuses to play the videos, one of the best ways to ensure you have all proper codecs is to install [http://en.wikipedia.org/wiki/Ffdshow ffdshow].
+Screencast Capture always record videos using H624. To play videos generated with Screencast Capture, you will need to have the H624 codec installed. However, most likely you should already have one installed in your system and the videos should play directly on your favorite media player (including Windows Media Player) without requiring any extra steps.
+
+However, there may be the case where your player may refuse to play the video. In this case, you may either be missing the correct codec or your playing is not locating the appropriate codec correctly. One good way to ensure you have all proper codecs is to install [http://en.wikipedia.org/wiki/Ffdshow ffdshow], a free media encoder/decoder for Windows which is able to play most existent video formats with ease.
 
 
 = ffdshow =
 
-ffdshow is a media decoder for a really extensive list of video and audio codecs. Instead of installing separate decoders and encoders for each codec, ffdshow provides support for near all video and audio formats out-of-the-box. It is free software, released under the GPL, runs on Windows and has a neat installer.
+ffdshow is a media decoder for a really extensive list of video and audio codecs. Instead of installing separate decoders and encoders for each codec, ffdshow provides support for near all video and audio formats out-of-the-box. It is free software, released under the GPL, runs on Windows and features a neat installer.
 
 ffdshow is currently being under development under the [http://ffdshow-tryout.sourceforge.net/ ffdshow-tryouts project]. Installation is quick-and-easy, and the default installer settings should suffice. After installation, all videos should be playable using any media player which uses DirectShow, such as Windows Media Player.
 <br />
@@ -17,11 +19,9 @@ ffdshow is currently being under development under the [http://ffdshow-tryout.so
 <br />
 
 
-=== A note on Windows 7 32-bit ===
+=== I have installed ffdshow but still can't play the videos ===
 
-If the videos refuse to play even after installing ffdshow, it may be necessary to use [http://www.codecguide.com/windows7_preferred_filter_tweaker.htm Win7DSFilterTweaker] to enforce select ffdshow as the default decoding mechanism. In order to do this, download and execute the tool, which should then present the following screen.
-
-Click the "Media Foundation" option, and in the next screen, mark the first checkbox to disable media foundation. After clicking _Apply_, the videos should start playing as normal in Windows Media Player.
+If you find yourself in this situation, chances are you are using Windows 7 32-bit. If the videos refuse to play even after installing ffdshow, it may be necessary to use [http://www.codecguide.com/windows7_preferred_filter_tweaker.htm Win7DSFilterTweaker] to enforce select ffdshow as the default decoding mechanism. To achieve this, download and execute Filter Tweaker. It is a standalone executable and does not needs to be installed. 
 
 <table>
   <tr>
@@ -31,3 +31,5 @@ Click the "Media Foundation" option, and in the next screen, mark the first chec
       <img src="https://screencast-capture.googlecode.com/svn/wiki/images/codecs/tweaker-mf.png"/></td>
   </tr>
 </table>
+
+After running the application, click the "Media Foundation" option, and in the next screen, mark the first checkbox to disable media foundation. After clicking _Apply_, the videos should start playing as normal in Windows Media Player.
