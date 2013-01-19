@@ -2,9 +2,7 @@
 
 = Introduction =
 
-Screencast Capture always record videos using H624. To play videos generated with Screencast Capture, you will need to have the H624 codec installed. However, most likely you should already have one installed in your system and the videos should play directly on your favorite media player (including Windows Media Player) without requiring any extra steps.
-
-However, there may be the case where your player may refuse to play the video. In this case, you may either be missing the correct codec or your playing is not locating the appropriate codec correctly. 
+Screencast Capture always record videos using H624. To play videos generated with Screencast Capture, you will need to have the H624 codec installed. However, most likely you should already have one installed in your system and the videos should play directly on your favorite media player (including Windows Media Player) without requiring any extra steps. However, there may be the case where your player may refuse to play the video. In this case, you may either be missing the correct codec or your playing is not locating the appropriate codec correctly. 
 
 If you feel the problem may lie within your player, download and use an alternate player such as [http://mpc-hc.sourceforge.net/ Media Player Classic] or [http://www.videolan.org/vlc/index.html VLC]. Otherwise, a good way to ensure you have all proper codecs is to install [http://en.wikipedia.org/wiki/Ffdshow ffdshow], a free media encoder/decoder for Windows which is able to play most existent video formats with ease.
 
