@@ -113,14 +113,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bindings.cs" />
+    <Compile Include="Controls\BindableToolStripTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\BindableToolStripSplitButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\ExplorerBrowserCustom.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ExplorerBrowserCustom.Designer.cs">
       <DependentUpon>ExplorerBrowserCustom.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\BindableToolStripTextBox.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Native\Context\NativeKeyboardContext.cs" />
     <Compile Include="Native\Context\NativeMouseContext.cs" />
@@ -142,6 +145,7 @@
       <DependentUpon>Resources.pt-BR.resx</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="ViewModels\ConvertViewModel.cs" />
     <Compile Include="ViewModels\OptionViewModel.cs" />
     <Compile Include="Views\CaptureRegion.cs">
       <SubType>Form</SubType>
@@ -304,6 +308,9 @@
     <None Include="Resources\thumbnail.png" />
     <None Include="Resources\top.png" />
     <None Include="Resources\home.png" />
+    <Content Include="Resources\aktion.png" />
+    <None Include="Resources\mix_video.png" />
+    <Content Include="Resources\sharemanager.png" />
     <Content Include="Setup\setup.iss" />
     <CodeAnalysisDictionary Include="Properties\Dictionary.xml">
       <SubType>Designer</SubType>

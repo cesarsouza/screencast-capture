@@ -186,7 +186,12 @@ namespace ScreenCapture
             string propertyName, object dataSource, string dataMember)
         {
             if (component == null) throw new ArgumentNullException("component");
-            return Bind(component, new Binding(propertyName, dataSource, dataMember));
+
+            Binding binding = new Binding(propertyName, dataSource, dataMember);
+            binding.DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged;
+            binding.ControlUpdateMode = ControlUpdateMode.OnPropertyChanged;
+
+            return Bind(component, binding);
         }
 
         /// <summary>

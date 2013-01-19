@@ -78,8 +78,7 @@ namespace ScreenCapture.ViewModels
 
         private void main_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsRecording" ||
-                e.PropertyName == "IsPlaying")
+            if (e.PropertyName == "IsRecording" || e.PropertyName == "IsPlaying")
                 Update();
         }
 
@@ -140,7 +139,7 @@ namespace ScreenCapture.ViewModels
 
         private void showGreetings()
         {
-            
+
             var args = new BalloonEventArgs()
             {
                 Title = Resources.Greet_Title,
