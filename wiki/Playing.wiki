@@ -1,4 +1,4 @@
-#summary How to play the videos produced by Screencast Capture Lite
+#summary What to do when the videos don't play.
 
 = Introduction =
 
