@@ -65,10 +65,11 @@ namespace ScreenCapture.Views
             // This section configures all the bindings between 
             // form controls and properties from the view model.
             //
-            var binding =
             explorerBrowser.Bind(b => b.CurrentDirectory, viewModel, m => m.CurrentDirectory);
-            binding.DataSourceUpdateMode = DataSourceUpdateMode.OnPropertyChanged;
-            binding.ControlUpdateMode = ControlUpdateMode.OnPropertyChanged;
+            explorerBrowser.Bind(b => b.CurrentFileName, viewModel.Convert, m => m.InputFilePath);
+            explorerBrowser.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible, value => !value);
+            explorerBrowser.Bind(b => b.DefaultDirectory, Settings.Default, m => m.DefaultFolder);
+
 
             btnStartRecording.Bind(b => b.Enabled, viewModel, m => m.IsPlaying);
             btnStartRecording.Bind(b => b.Visible, viewModel, m => m.IsRecording, value => !value);
@@ -77,10 +78,9 @@ namespace ScreenCapture.Views
             btnPausePlaying.Bind(b => b.Visible, viewModel, m => m.IsPlaying);
 
             videoSourcePlayer1.Bind(v => v.Visible, viewModel, m => m.IsPreviewVisible);
-            explorerBrowser.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible, value => !value);
             btnScreenPreview.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible, value => !value);
             btnStorageFolder.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible);
-            explorerBrowser.Bind(b => b.DefaultDirectory, Settings.Default, m => m.DefaultFolder);
+
 
             btnCapturePrimaryScreen.Bind(b => b.Checked, viewModel, m => m.CaptureMode, value => value == CaptureRegionOption.Primary);
             btnCaptureRegion.Bind(b => b.Checked, viewModel, m => m.CaptureMode, value => value == CaptureRegionOption.Fixed);
@@ -93,9 +93,15 @@ namespace ScreenCapture.Views
             lbStatusTime.Bind(b => b.Visible, viewModel, m => m.IsRecording);
             lbStatusTime.Bind(b => b.Text, viewModel, m => m.RecordingDuration, value => value.ToString(@"hh\:mm\:ss", CultureInfo.CurrentCulture));
             lbStatusReady.Bind(b => b.Visible, viewModel, m => m.IsRecording, value => !value);
+            lbStatusReady.Bind(b => b.Text, viewModel, m => m.Status);
             btnCaptureMode.Bind(b => b.Enabled, viewModel, m => m.IsRecording, value => !value);
 
-            
+            btnConvert.Bind(b => b.Visible, viewModel.Convert, m => m.CanConvert);
+            lbSeparator.Bind(b => b.Visible, viewModel.Convert, m => m.CanConvert);
+
+            toolStripProgressBar1.ProgressBar.Bind(b => b.Visible, viewModel.Convert, m => m.IsConverting);
+            toolStripProgressBar1.ProgressBar.Bind(b => b.Value, viewModel.Convert, m => m.Progress);
+
             iconPlayPause.Bind(b => b.Text, viewModel.Notify, m => m.CurrentText);
             iconPlayPause.Bind(b => b.Icon, viewModel.Notify, m => m.CurrentIcon);
 
@@ -208,6 +214,11 @@ namespace ScreenCapture.Views
         private void iconPlayPause_Click(object sender, EventArgs e)
         {
             viewModel.Notify.Click();
+        }
+
+        private void btnConvertOGG_Click(object sender, EventArgs e)
+        {
+            viewModel.Convert.Convert();
         }
 
 

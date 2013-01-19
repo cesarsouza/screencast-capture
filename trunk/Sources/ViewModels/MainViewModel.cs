@@ -72,7 +72,7 @@ namespace ScreenCapture.ViewModels
         /// 
         public NotifyViewModel Notify { get; private set; }
 
-
+        public ConvertViewModel Convert { get; private set; }
 
         /// <summary>
         ///   Gets the current directory in the file browser.
@@ -157,7 +157,7 @@ namespace ScreenCapture.ViewModels
         ///   Gets the current status of the application.
         /// </summary>
         /// 
-        public string Status { get; private set; }
+        public string Status { get;  set; }
 
         /// <summary>
         ///   Occurs when the view-model needs a window to be recorded.
@@ -187,6 +187,7 @@ namespace ScreenCapture.ViewModels
                 throw new ArgumentNullException("player");
 
             Notify = new NotifyViewModel(this);
+            Convert = new ConvertViewModel(this);
 
             videoPlayer = player;
             videoPlayer.NewFrame += new VideoSourcePlayer.NewFrameHandler(Player_NewFrame);

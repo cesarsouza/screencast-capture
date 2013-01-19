@@ -33,6 +33,14 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.btnSettings = new System.Windows.Forms.ToolStripStatusLabel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
+            this.explorerBrowser = new ScreenCapture.Controls.ExplorerBrowserCustom();
             this.btnCaptureMode = new ScreenCapture.Controls.BindableToolStripDropDownButton();
             this.btnCapturePrimaryScreen = new ScreenCapture.Controls.BindableToolStripMenuItem();
             this.btnCaptureWindow = new ScreenCapture.Controls.BindableToolStripMenuItem();
@@ -41,18 +49,14 @@
             this.btnStopRecording = new ScreenCapture.Controls.BindableToolStripButton();
             this.btnPausePlaying = new ScreenCapture.Controls.BindableToolStripButton();
             this.btnStartPlaying = new ScreenCapture.Controls.BindableToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnScreenPreview = new ScreenCapture.Controls.BindableToolStripButton();
             this.btnStorageFolder = new ScreenCapture.Controls.BindableToolStripButton();
-            this.explorerBrowser = new ScreenCapture.Controls.ExplorerBrowserCustom();
-            this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.lbStatusRecording = new ScreenCapture.Controls.BindableToolStripStatusLabel();
             this.lbStatusTime = new ScreenCapture.Controls.BindableToolStripStatusLabel();
             this.lbStatusReady = new ScreenCapture.Controls.BindableToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnSettings = new System.Windows.Forms.ToolStripStatusLabel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
+            this.btnConvert = new ScreenCapture.Controls.BindableToolStripDropDownButton();
+            this.btnConvertOGG = new System.Windows.Forms.ToolStripMenuItem();
+            this.lbSeparator = new ScreenCapture.Controls.BindableToolStripStatusLabel();
             this.iconPlayPause = new ScreenCapture.Controls.BindableNotifyIcon(this.components);
             this.keyPlayPause = new ScreenCapture.Controls.HotKey(this.components);
             this.keyStartStop = new ScreenCapture.Controls.HotKey(this.components);
@@ -75,6 +79,72 @@
             this.btnStorageFolder});
             resources.ApplyResources(this.toolStrip, "toolStrip");
             this.toolStrip.Name = "toolStrip";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            // 
+            // statusStrip
+            // 
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lbStatusRecording,
+            this.lbStatusTime,
+            this.lbStatusReady,
+            this.toolStripStatusLabel2,
+            this.toolStripProgressBar1,
+            this.btnConvert,
+            this.lbSeparator,
+            this.btnSettings});
+            resources.ApplyResources(this.statusStrip, "statusStrip");
+            this.statusStrip.Name = "statusStrip";
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            resources.ApplyResources(this.toolStripStatusLabel2, "toolStripStatusLabel2");
+            this.toolStripStatusLabel2.Spring = true;
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Margin = new System.Windows.Forms.Padding(1, 3, 6, 3);
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            resources.ApplyResources(this.toolStripProgressBar1, "toolStripProgressBar1");
+            // 
+            // btnSettings
+            // 
+            this.btnSettings.ActiveLinkColor = System.Drawing.Color.Black;
+            this.btnSettings.Image = global::ScreenCapture.Properties.Resources.advancedsettings;
+            this.btnSettings.IsLink = true;
+            this.btnSettings.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+            this.btnSettings.LinkColor = System.Drawing.Color.Black;
+            this.btnSettings.Name = "btnSettings";
+            resources.ApplyResources(this.btnSettings, "btnSettings");
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.videoSourcePlayer1);
+            this.panel1.Controls.Add(this.explorerBrowser);
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
+            // 
+            // videoSourcePlayer1
+            // 
+            this.videoSourcePlayer1.BackColor = System.Drawing.Color.Black;
+            resources.ApplyResources(this.videoSourcePlayer1, "videoSourcePlayer1");
+            this.videoSourcePlayer1.KeepAspectRatio = true;
+            this.videoSourcePlayer1.Name = "videoSourcePlayer1";
+            this.videoSourcePlayer1.VideoSource = null;
+            // 
+            // explorerBrowser
+            // 
+            this.explorerBrowser.CurrentDirectory = "";
+            this.explorerBrowser.CurrentFileName = "";
+            this.explorerBrowser.DefaultDirectory = "C:\\Users\\Cesar\\Desktop";
+            resources.ApplyResources(this.explorerBrowser, "explorerBrowser");
+            this.explorerBrowser.Name = "explorerBrowser";
             // 
             // btnCaptureMode
             // 
@@ -143,12 +213,6 @@
             this.btnStartPlaying.Name = "btnStartPlaying";
             this.btnStartPlaying.Click += new System.EventHandler(this.btnStartPlaying_Click);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
-            // 
             // btnScreenPreview
             // 
             this.btnScreenPreview.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -165,24 +229,6 @@
             this.btnStorageFolder.Name = "btnStorageFolder";
             this.btnStorageFolder.Click += new System.EventHandler(this.btnStorageFolder_Click);
             // 
-            // explorerBrowser
-            // 
-            this.explorerBrowser.CurrentDirectory = null;
-            this.explorerBrowser.DefaultDirectory = "C:\\Users\\Cesar\\Desktop";
-            resources.ApplyResources(this.explorerBrowser, "explorerBrowser");
-            this.explorerBrowser.Name = "explorerBrowser";
-            // 
-            // statusStrip
-            // 
-            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lbStatusRecording,
-            this.lbStatusTime,
-            this.lbStatusReady,
-            this.toolStripStatusLabel1,
-            this.btnSettings});
-            resources.ApplyResources(this.statusStrip, "statusStrip");
-            this.statusStrip.Name = "statusStrip";
-            // 
             // lbStatusRecording
             // 
             resources.ApplyResources(this.lbStatusRecording, "lbStatusRecording");
@@ -198,33 +244,24 @@
             this.lbStatusReady.Name = "lbStatusReady";
             resources.ApplyResources(this.lbStatusReady, "lbStatusReady");
             // 
-            // toolStripStatusLabel1
+            // btnConvert
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
-            this.toolStripStatusLabel1.Spring = true;
+            this.btnConvert.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnConvertOGG});
+            this.btnConvert.Image = global::ScreenCapture.Properties.Resources.mix_video;
+            resources.ApplyResources(this.btnConvert, "btnConvert");
+            this.btnConvert.Name = "btnConvert";
             // 
-            // btnSettings
+            // btnConvertOGG
             // 
-            this.btnSettings.Image = global::ScreenCapture.Properties.Resources.advancedsettings;
-            this.btnSettings.Name = "btnSettings";
-            resources.ApplyResources(this.btnSettings, "btnSettings");
-            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            this.btnConvertOGG.Name = "btnConvertOGG";
+            resources.ApplyResources(this.btnConvertOGG, "btnConvertOGG");
+            this.btnConvertOGG.Click += new System.EventHandler(this.btnConvertOGG_Click);
             // 
-            // panel1
+            // lbSeparator
             // 
-            this.panel1.Controls.Add(this.videoSourcePlayer1);
-            this.panel1.Controls.Add(this.explorerBrowser);
-            resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.Name = "panel1";
-            // 
-            // videoSourcePlayer1
-            // 
-            this.videoSourcePlayer1.BackColor = System.Drawing.Color.Black;
-            resources.ApplyResources(this.videoSourcePlayer1, "videoSourcePlayer1");
-            this.videoSourcePlayer1.KeepAspectRatio = true;
-            this.videoSourcePlayer1.Name = "videoSourcePlayer1";
-            this.videoSourcePlayer1.VideoSource = null;
+            this.lbSeparator.Name = "lbSeparator";
+            resources.ApplyResources(this.lbSeparator, "lbSeparator");
             // 
             // iconPlayPause
             // 
@@ -297,8 +334,12 @@
         private Controls.HotKey keyStartStop;
         internal Controls.BindableNotifyIcon iconPlayPause;
         private System.Windows.Forms.ToolStripStatusLabel btnSettings;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private ScreenCapture.Controls.BindableToolStripStatusLabel lbStatusTime;
+        private Controls.BindableToolStripStatusLabel lbSeparator;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private Controls.BindableToolStripDropDownButton btnConvert;
+        private System.Windows.Forms.ToolStripMenuItem btnConvertOGG;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
     }
 }
 

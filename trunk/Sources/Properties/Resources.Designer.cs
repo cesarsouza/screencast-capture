@@ -194,6 +194,13 @@ namespace ScreenCapture.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap mix_video {
+            get {
+                object obj = ResourceManager.GetObject("mix_video", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap player_eject {
             get {
                 object obj = ResourceManager.GetObject("player_eject", resourceCulture);
