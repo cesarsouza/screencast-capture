@@ -92,7 +92,7 @@ namespace ScreenCapture.Native
         /// 
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+        internal static extern bool GetWindowRect(IntPtr hwnd, out Rect lpRect);
 
         /// <summary>
         ///   Retrieves a handle to the desktop window. The desktop window 
@@ -109,7 +109,7 @@ namespace ScreenCapture.Native
         /// 
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool GetCursorInfo(out CURSORINFO pci);
+        internal static extern bool GetCursorInfo(out CursorInfo pci);
 
         /// <summary>
         ///   Copies the specified icon from another module to the current module.

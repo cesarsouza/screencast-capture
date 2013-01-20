@@ -37,10 +37,37 @@ namespace ScreenCapture.Native
     {
 
         /// <summary>
+        ///   Extends the window frame into the client area.
+        /// </summary>
+        /// 
+        /// <param name="window">
+        ///   The handle to the window in which the frame will
+        ///   be extended into the client area.</param>
+        /// <param name="margins">
+        ///   A pointer to a <see cref="ThemeMargins"/> structure that describes
+        ///   the margins to use when extending the frame into the client area.</param>
+        ///   
+        public static void ExtendAeroGlassIntoClientArea(IWin32Window window, ThemeMargins margins)
+        {
+            if (window == null) throw new ArgumentNullException("window");
+            NativeMethods.DwmExtendFrameIntoClientArea(window.Handle, ref margins);
+        }
+
+        /// <summary>
+        ///   Obtains a value that indicates whether Desktop
+        ///   Window Manager (DWM) composition is enabled. 
+        /// </summary>
+        /// 
+        public static bool IsAeroEnabled
+        {
+            get { return NativeMethods.DwmIsCompositionEnabled(); }
+        }
+
+        /// <summary>
         ///   Gets a handle to a cursor icon.
         /// </summary>
         /// 
-        public static IconHandle GetCursorIcon(CURSORINFO cursor)
+        public static IconHandle GetCursorIcon(CursorInfo cursor)
         {
             IntPtr hIcon = NativeMethods.CopyIcon(cursor.hCursor);
 
@@ -54,15 +81,15 @@ namespace ScreenCapture.Native
         ///   Gets information about a icon from a icon handle.
         /// </summary>
         /// 
-        public static IconInfo GetIconInfo(IconHandle iconHandle)
+        public static IconHandleInfo GetIconInfo(IconHandle iconHandle)
         {
-            if (iconHandle == null) 
+            if (iconHandle == null)
                 return null;
 
-            ICONINFO iconInfo;
+            NativeMethods.ICONINFO iconInfo;
             if (!NativeMethods.GetIconInfo(iconHandle.Handle, out iconInfo))
                 return null;
-            return new IconInfo(iconInfo);
+            return new IconHandleInfo(iconInfo);
         }
 
         /// <summary>
@@ -89,7 +116,7 @@ namespace ScreenCapture.Native
             if (window == null)
                 return false;
 
-            RECT r;
+            Rect r;
             if (!NativeMethods.GetWindowRect(window.Handle, out r))
                 return false;
 

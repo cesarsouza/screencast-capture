@@ -52,7 +52,7 @@ namespace ScreenCapture.Processors
             using (Graphics desktop = Graphics.FromHwnd(desk))
                 mask = SafeNativeMethods.CreateCompatibleDC(desktop);
 
-            cursorInfoSize = Marshal.SizeOf(typeof(CURSORINFO));
+            cursorInfoSize = Marshal.SizeOf(typeof(CursorInfo));
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace ScreenCapture.Processors
             // Based on answer from Tarsier in SO question "C# - Capturing the Mouse cursor image"
             // http://stackoverflow.com/questions/918990/c-sharp-capturing-the-mouse-cursor-image
 
-            CURSORINFO cursorInfo;
+            CursorInfo cursorInfo;
             cursorInfo.cbSize = cursorInfoSize;
 
             if (!NativeMethods.GetCursorInfo(out cursorInfo))
@@ -91,7 +91,7 @@ namespace ScreenCapture.Processors
                 return null;
 
             using (IconHandle hicon = SafeNativeMethods.GetCursorIcon(cursorInfo))
-            using (IconInfo iconInfo = SafeNativeMethods.GetIconInfo(hicon))
+            using (IconHandleInfo iconInfo = SafeNativeMethods.GetIconInfo(hicon))
             {
                 if (iconInfo == null)
                     return null;

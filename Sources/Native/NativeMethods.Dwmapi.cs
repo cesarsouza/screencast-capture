@@ -22,10 +22,8 @@
 namespace ScreenCapture.Native
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Drawing;
+    using System.CodeDom.Compiler;
     using System.Runtime.InteropServices;
-    using System.Text;
 
     /// <summary>
     ///   Native Win32 methods.
@@ -34,22 +32,53 @@ namespace ScreenCapture.Native
     internal static partial class NativeMethods
     {
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct MARGINS
-        {
-            public int Left;
-            public int Right;
-            public int Top;
-            public int Bottom;
-        }
+        [DllImport("dwmapi.dll", PreserveSig = false)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern void DwmExtendFrameIntoClientArea(IntPtr hwnd, ref ThemeMargins margins);
 
         [DllImport("dwmapi.dll", PreserveSig = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern void DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
+        internal static extern bool DwmIsCompositionEnabled();
 
-        [DllImport("dwmapi.dll", PreserveSig = false)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool DwmIsCompositionEnabled();
+    }
 
+    /// <summary>
+    ///   MARGINS structure (Windows).
+    /// </summary>
+    /// 
+    /// <remarks>
+    ///   Returned by the GetThemeMargins function to define the 
+    ///   margins of windows that have visual styles applied.
+    ///   
+    ///   http://msdn.microsoft.com/en-us/library/windows/desktop/bb773244(v=vs.85).aspx
+    /// </remarks>
+    /// 
+    [StructLayout(LayoutKind.Sequential)]
+    [GeneratedCode("PInvoke", "1.0.0.0")]
+    public struct ThemeMargins
+    {
+        /// <summary>
+        ///   Width of the left border that retains its size.
+        /// </summary>
+        /// 
+        public int LeftWidth;
+
+        /// <summary>
+        ///   Width of the right border that retains its size.
+        /// </summary>
+        /// 
+        public int RightWidth;
+
+        /// <summary>
+        ///   Height of the top border that retains its size.
+        /// </summary>
+        /// 
+        public int TopHeight;
+
+        /// <summary>
+        ///   Height of the bottom border that retains its size.
+        /// </summary>
+        /// 
+        public int BottomHeight;
     }
 }

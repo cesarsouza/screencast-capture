@@ -39,7 +39,7 @@ namespace ScreenCapture.Native
         ///   Gets the current mouse position.
         /// </summary>
         /// 
-        public Point Position { get; private set; }
+        public Point Current { get; private set; }
 
         /// <summary>
         ///   Occurs when the mouse button is released.
@@ -114,7 +114,7 @@ namespace ScreenCapture.Native
 
         private void lowLevelMouseProcHook(LowLevelMouseMessage message, MouseLowLevelHookStruct info)
         {
-            Position = info.pt;
+            Current = info.pt;
 
             switch (message)
             {
