@@ -137,10 +137,10 @@
     <Compile Include="Native\Hooks\LowLevelKeyboard.cs" />
     <Compile Include="Native\NativeMethods.Kernel32.cs" />
     <Compile Include="Native\Handles\WindowHandle.cs" />
-    <Compile Include="Properties\Resources.pt-BR.Designer.cs">
+    <Compile Include="Properties\Resources.pt.Designer.cs">
+      <DependentUpon>Resources.pt.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.pt-BR.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="ViewModels\ConvertViewModel.cs" />
@@ -208,9 +208,9 @@
     <EmbeddedResource Include="Controls\ExplorerBrowserCustom.resx">
       <DependentUpon>ExplorerBrowserCustom.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.pt-BR.resx">
+    <EmbeddedResource Include="Properties\Resources.pt.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.pt-BR.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.pt.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\CaptureRegion.pt.resx">
       <DependentUpon>CaptureRegion.cs</DependentUpon>
@@ -224,7 +224,7 @@
     <EmbeddedResource Include="Views\CaptureWindow.resx">
       <DependentUpon>CaptureWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\ConvertForm.pt-BR.resx">
+    <EmbeddedResource Include="Views\ConvertForm.pt.resx">
       <DependentUpon>ConvertForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ConvertForm.resx">
