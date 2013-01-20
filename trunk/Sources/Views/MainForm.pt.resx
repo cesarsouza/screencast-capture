@@ -118,6 +118,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnCapturePrimaryScreen.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 22</value>
+  </data>
+  <data name="btnCapturePrimaryScreen.Text" xml:space="preserve">
+    <value>Monitor Primário</value>
+  </data>
+  <data name="btnCaptureWindow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 22</value>
+  </data>
+  <data name="btnCaptureWindow.Text" xml:space="preserve">
+    <value>Janela Única</value>
+  </data>
+  <data name="btnCaptureRegion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>165, 22</value>
+  </data>
+  <data name="btnCaptureRegion.Text" xml:space="preserve">
+    <value>Região Fixa</value>
+  </data>
   <data name="btnCaptureMode.Size" type="System.Drawing.Size, System.Drawing">
     <value>143, 36</value>
   </data>
@@ -133,29 +151,23 @@
   <data name="btnStopRecording.Text" xml:space="preserve">
     <value>Parar gravação</value>
   </data>
+  <data name="btnPausePlaying.Text" xml:space="preserve">
+    <value>Pausar reprodução</value>
+  </data>
+  <data name="btnStartPlaying.Text" xml:space="preserve">
+    <value>Iniciar reprodução</value>
+  </data>
   <data name="btnScreenPreview.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 36</value>
+    <value>129, 36</value>
   </data>
   <data name="btnScreenPreview.Text" xml:space="preserve">
-    <value>Pré-visualização</value>
+    <value>Pré-Visualização</value>
   </data>
-  <data name="btnCapturePrimaryScreen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 38</value>
+  <data name="btnStorageFolder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>176, 36</value>
   </data>
-  <data name="btnCapturePrimaryScreen.Text" xml:space="preserve">
-    <value>Monitor Primário</value>
-  </data>
-  <data name="btnCaptureWindow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 38</value>
-  </data>
-  <data name="btnCaptureWindow.Text" xml:space="preserve">
-    <value>Janela Única</value>
-  </data>
-  <data name="btnCaptureRegion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>181, 38</value>
-  </data>
-  <data name="btnCaptureRegion.Text" xml:space="preserve">
-    <value>Região Fixa</value>
+  <data name="btnStorageFolder.Text" xml:space="preserve">
+    <value>Pasta de armazenamento</value>
   </data>
   <data name="lbStatusRecording.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -220,13 +232,31 @@
 </value>
   </data>
   <data name="lbStatusRecording.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 22</value>
+    <value>74, 17</value>
   </data>
   <data name="lbStatusRecording.Text" xml:space="preserve">
     <value>Gravando</value>
   </data>
-  <data name="toolStripStatusLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>373, 17</value>
+  <data name="lbStatusReady.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 17</value>
+  </data>
+  <data name="lbStatusReady.Text" xml:space="preserve">
+    <value>Pronto</value>
+  </data>
+  <data name="toolStripStatusLabel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>344, 17</value>
+  </data>
+  <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 17</value>
+  </data>
+  <data name="btnCancel.Text" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="btnConvert.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 17</value>
+  </data>
+  <data name="btnConvert.Text" xml:space="preserve">
+    <value>Converter</value>
   </data>
   <data name="btnSettings.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 17</value>
