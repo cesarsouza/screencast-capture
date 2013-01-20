@@ -46,7 +46,7 @@ namespace ScreenCapture.Views
     public partial class CaptureRegion : Form
     {
 
-        MainViewModel viewModel;
+        RecorderViewModel viewModel;
 
         /// <summary>
         ///   Gets or sets whether the window is currently
@@ -63,7 +63,7 @@ namespace ScreenCapture.Views
         /// 
         /// <param name="viewModel">The main view model in the application.</param>
         /// 
-        public CaptureRegion(MainViewModel viewModel)
+        public CaptureRegion(RecorderViewModel viewModel)
             : this()
         {
             this.viewModel = viewModel;
@@ -189,7 +189,7 @@ namespace ScreenCapture.Views
 
             this.Bind(b => b.BackColor, viewModel, m => m.IsRecording,
                 value => value ? Color.Firebrick : Color.Gold);
-            this.Bind(b => b.Visible, viewModel, m => m.IsFramesVisible);
+            this.Bind(b => b.Visible, viewModel, m => m.IsCaptureFrameVisible);
             this.Bind(b => b.Pinned, viewModel, m => m.IsRecording);
         }
 

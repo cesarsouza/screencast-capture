@@ -24,6 +24,9 @@ namespace ScreenCapture
     using System;
     using System.Windows.Forms;
     using System.Linq.Expressions;
+    using System.ComponentModel;
+    using System.Collections.ObjectModel;
+    using System.Reflection;
 
     /// <summary>
     ///   Extension methods for binding.
@@ -82,7 +85,7 @@ namespace ScreenCapture
         /// <param name="binding">The binding object which defines the property being bound (such as a ViewModel property).</param>
         /// <param name="format">The format transformation which transforms the model's property to a control's value.</param>
         /// 
-        public static Binding Bind<TSource, TDestination>(this IBindableComponent component, 
+        public static Binding Bind<TSource, TDestination>(this IBindableComponent component,
             Binding binding, Func<TSource, TDestination> format)
         {
             if (component == null) throw new ArgumentNullException("component");
@@ -267,7 +270,52 @@ namespace ScreenCapture
             return Bind(component, nameString, dataSource, dataString, format, parse);
         }
 
+        /// <summary>
+        ///   Attaches a binding to a component, using the given format transformation.
+        /// </summary>
+        /// 
+        public static void Bind<TControl, TDestination>(this TControl component,
+            Action<TControl, TDestination> propertyName, Action<EventHandler> handler,
+            Func<TDestination> format)
+        {
+            if (handler == null) throw new ArgumentNullException("handler");
+            if (format == null) throw new ArgumentNullException("format");
+            if (propertyName == null) throw new ArgumentNullException("propertyName");
 
+            Action<object, EventArgs> ev = delegate(object sender, EventArgs e)
+            {
+                propertyName(component, format());
+            };
+
+            handler(new EventHandler(ev));
+
+            propertyName(component, format());
+        }
+
+        /// <summary>
+        ///   Attaches a binding to a component, using the given format transformation.
+        /// </summary>
+        /// 
+        public static void Bind<TControl, TDestination>(this TControl component,
+           Expression<Func<TControl, TDestination>> propertyName,
+            Action<EventHandler> handler,
+           Func<TDestination> format)
+        {
+            if (handler == null) throw new ArgumentNullException("handler");
+            if (format == null) throw new ArgumentNullException("format");
+            if (propertyName == null) throw new ArgumentNullException("propertyName");
+
+            var prop = (PropertyInfo)((MemberExpression)propertyName.Body).Member;
+
+            Action<object, EventArgs> ev = delegate(object sender, EventArgs e)
+            {
+                prop.SetValue(component, format(), null);
+            };
+
+            handler(new EventHandler(ev));
+
+            prop.SetValue(component, format(), null);
+        }
 
         private static void getNames<TControl, TModel, TSource, TDestination>(
             Expression<Func<TControl, TDestination>> propertyNameExpression,

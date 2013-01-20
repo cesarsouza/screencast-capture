@@ -26,6 +26,7 @@ namespace ScreenCapture.Views
     using ScreenCapture.ViewModels;
     using ScreenCapture.Properties;
     using System.Globalization;
+    using System.Linq;
 
     /// <summary>
     ///   Main window for the Screencast Capture application.
@@ -51,8 +52,8 @@ namespace ScreenCapture.Views
             InitializeComponent();
 
             viewModel = new MainViewModel(videoSourcePlayer1);
-            regionWindow = new CaptureRegion(viewModel);
-            windowWindow = new CaptureWindow(viewModel);
+            regionWindow = new CaptureRegion(viewModel.Recorder);
+            windowWindow = new CaptureWindow(viewModel.Recorder);
 
             viewModel.Notify.ShowBalloon += new EventHandler<BalloonEventArgs>(Notify_ShowBalloon);
         }
@@ -66,42 +67,12 @@ namespace ScreenCapture.Views
             // form controls and properties from the view model.
             //
             explorerBrowser.Bind(b => b.CurrentDirectory, viewModel, m => m.CurrentDirectory);
-            explorerBrowser.Bind(b => b.CurrentFileName, viewModel.Convert, m => m.InputFilePath);
+            explorerBrowser.Bind(b => b.CurrentFileName, viewModel, m => m.CurrentSelection);
             explorerBrowser.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible, value => !value);
             explorerBrowser.Bind(b => b.DefaultDirectory, Settings.Default, m => m.DefaultFolder);
 
-
-            btnStartRecording.Bind(b => b.Enabled, viewModel, m => m.IsPlaying);
-            btnStartRecording.Bind(b => b.Visible, viewModel, m => m.IsRecording, value => !value);
-            btnStopRecording.Bind(b => b.Visible, viewModel, m => m.IsRecording);
-            btnStartPlaying.Bind(b => b.Visible, viewModel, m => m.IsPlaying, value => !value);
-            btnPausePlaying.Bind(b => b.Visible, viewModel, m => m.IsPlaying);
-
-            videoSourcePlayer1.Bind(v => v.Visible, viewModel, m => m.IsPreviewVisible);
-            btnScreenPreview.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible, value => !value);
-            btnStorageFolder.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible);
-
-
-            btnCapturePrimaryScreen.Bind(b => b.Checked, viewModel, m => m.CaptureMode, value => value == CaptureRegionOption.Primary);
-            btnCaptureRegion.Bind(b => b.Checked, viewModel, m => m.CaptureMode, value => value == CaptureRegionOption.Fixed);
-            btnCaptureWindow.Bind(b => b.Checked, viewModel, m => m.CaptureMode, value => value == CaptureRegionOption.Window);
-
-            btnCaptureMode.Bind(b => b.Text, viewModel, m => m.CaptureMode, x => getModeButton(x).Text);
-            btnCaptureMode.Bind(b => b.Image, viewModel, m => m.CaptureMode, x => getModeButton(x).Image);
-
-            lbStatusRecording.Bind(b => b.Visible, viewModel, m => m.IsRecording);
-            lbStatusTime.Bind(b => b.Visible, viewModel, m => m.IsRecording);
-            lbStatusTime.Bind(b => b.Text, viewModel, m => m.RecordingDuration, value => value.ToString(@"hh\:mm\:ss", CultureInfo.CurrentCulture));
-            lbStatusReady.Bind(b => b.Visible, viewModel, m => m.IsRecording, value => !value);
-            lbStatusReady.Bind(b => b.Text, viewModel, m => m.Status);
-            btnCaptureMode.Bind(b => b.Enabled, viewModel, m => m.IsRecording, value => !value);
-
-            btnConvert.Bind(b => b.Visible, viewModel.Convert, m => m.CanConvert);
-            btnCancel.Bind(b => b.Visible, viewModel.Convert, m => m.IsConverting);
-            lbSeparator.Bind(b => b.Visible, viewModel.Convert, m => m.IsActive);
-
-            progressBar1.Bind(b => b.Visible, viewModel.Convert, m => m.IsConverting);
-            progressBar1.Bind(b => b.Value, viewModel.Convert, m => m.Progress);
+            bindToolStrip();
+            bindStatusBar();
 
             iconPlayPause.Bind(b => b.Text, viewModel.Notify, m => m.CurrentText);
             iconPlayPause.Bind(b => b.Icon, viewModel.Notify, m => m.CurrentIcon);
@@ -110,6 +81,45 @@ namespace ScreenCapture.Views
 
             viewModel.Notify.Loaded();
         }
+
+        private void bindToolStrip()
+        {
+            btnStartRecording.Bind(b => b.Enabled, viewModel, m => m.IsRecordingEnabled);
+            btnStartRecording.Bind(b => b.Visible, viewModel.Recorder, m => m.IsRecording, value => !value);
+            btnStopRecording.Bind(b => b.Visible, viewModel.Recorder, m => m.IsRecording);
+            btnStartPlaying.Bind(b => b.Visible, viewModel.Recorder, m => m.IsPlaying, value => !value);
+            btnPausePlaying.Bind(b => b.Visible, viewModel.Recorder, m => m.IsPlaying);
+
+            videoSourcePlayer1.Bind(v => v.Visible, viewModel, m => m.IsPreviewVisible);
+            btnScreenPreview.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible, value => !value);
+            btnStorageFolder.Bind(b => b.Visible, viewModel, m => m.IsPreviewVisible);
+
+            btnCapturePrimaryScreen.Bind(b => b.Checked, viewModel.Recorder, m => m.CaptureMode, value => value == CaptureRegionOption.Primary);
+            btnCaptureRegion.Bind(b => b.Checked, viewModel.Recorder, m => m.CaptureMode, value => value == CaptureRegionOption.Fixed);
+            btnCaptureWindow.Bind(b => b.Checked, viewModel.Recorder, m => m.CaptureMode, value => value == CaptureRegionOption.Window);
+
+            btnCaptureMode.Bind(b => b.Text, viewModel.Recorder, m => m.CaptureMode, x => getModeButton(x).Text);
+            btnCaptureMode.Bind(b => b.Image, viewModel.Recorder, m => m.CaptureMode, x => getModeButton(x).Image);
+            btnCaptureMode.Bind(b => b.Enabled, viewModel.Recorder, m => m.IsRecording, value => !value);
+        }
+
+        private void bindStatusBar()
+        {
+            lbStatusRecording.Bind(b => b.Visible, viewModel.Recorder, m => m.IsRecording);
+            lbStatusTime.Bind(b => b.Visible, viewModel.Recorder, m => m.IsRecording);
+            lbStatusTime.Bind(b => b.Text, viewModel.Recorder, m => m.RecordingDuration, value => value.ToString(@"hh\:mm\:ss", CultureInfo.CurrentCulture));
+            lbStatusReady.Bind(b => b.Visible, viewModel.Recorder, m => m.IsRecording, value => !value);
+            lbStatusReady.Bind(b => b.Text, viewModel, m => m.Status);
+
+            btnConvert.Bind(b => b.Visible, viewModel, m => m.IsConversionVisible);
+            btnCancel.Bind(b => b.Visible, viewModel.Convert, m => m.IsConverting);
+            progressBar1.Bind(b => b.Visible, viewModel.Convert, m => m.IsConverting);
+            progressBar1.Bind(b => b.Value, viewModel.Convert, m => m.Progress);
+
+            lbSeparator.Bind(b => b.Visible, b => btnConvert.VisibleChanged += b, () => btnCancel.Visible || btnConvert.Visible);
+            lbSeparator.Bind(b => b.Visible, b => btnCancel.VisibleChanged += b, () => btnCancel.Visible || btnConvert.Visible);
+        }
+
 
 
         private void Notify_ShowBalloon(object sender, BalloonEventArgs e)
@@ -121,24 +131,24 @@ namespace ScreenCapture.Views
         // Video player controls
         private void btnStartPlaying_Click(object sender, EventArgs e)
         {
-            viewModel.StartPlaying();
+            viewModel.Recorder.StartPlaying();
         }
 
         private void btnPausePlaying_Click(object sender, EventArgs e)
         {
-            viewModel.PausePlaying();
+            viewModel.Recorder.PausePlaying();
         }
 
 
         // Video recording controls
         private void btnStartRecording_Click(object sender, EventArgs e)
         {
-            viewModel.StartRecording();
+            viewModel.Recorder.StartRecording();
         }
 
         private void btnStopRecording_Click(object sender, EventArgs e)
         {
-            viewModel.StopRecording();
+            viewModel.Recorder.StopRecording();
         }
 
 
@@ -157,17 +167,17 @@ namespace ScreenCapture.Views
         // Capture mode controls
         private void btnCapturePrimaryScreen_Click(object sender, EventArgs e)
         {
-            viewModel.CaptureMode = CaptureRegionOption.Primary;
+            viewModel.Recorder.CaptureMode = CaptureRegionOption.Primary;
         }
 
         private void btnCaptureWindow_Click(object sender, EventArgs e)
         {
-            viewModel.CaptureMode = CaptureRegionOption.Window;
+            viewModel.Recorder.CaptureMode = CaptureRegionOption.Window;
         }
 
         private void btnCaptureRegion_Click(object sender, EventArgs e)
         {
-            viewModel.CaptureMode = CaptureRegionOption.Fixed;
+            viewModel.Recorder.CaptureMode = CaptureRegionOption.Fixed;
         }
 
         private ToolStripMenuItem getModeButton(CaptureRegionOption mode)
@@ -190,22 +200,22 @@ namespace ScreenCapture.Views
         {
             regionWindow.Close();
             windowWindow.Close();
-            viewModel.Close();
+            viewModel.Recorder.Close();
         }
 
 
         private void hotkeyPlayPause_Pressed(object sender, System.ComponentModel.HandledEventArgs e)
         {
-            if (viewModel.IsPlaying)
-                viewModel.PausePlaying();
-            else viewModel.StartPlaying();
+            if (viewModel.Recorder.IsPlaying)
+                viewModel.Recorder.PausePlaying();
+            else viewModel.Recorder.StartPlaying();
         }
 
         private void hotkeyStop_Pressed(object sender, System.ComponentModel.HandledEventArgs e)
         {
-            if (viewModel.IsRecording)
-                viewModel.StopRecording();
-            else viewModel.StartRecording();
+            if (viewModel.Recorder.IsRecording)
+                viewModel.Recorder.StopRecording();
+            else viewModel.Recorder.StartRecording();
         }
 
         private void btnSettings_Click(object sender, EventArgs e)
