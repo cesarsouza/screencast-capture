@@ -49,7 +49,7 @@ namespace ScreenCapture.Views
     public partial class CaptureWindow : Form
     {
 
-        MainViewModel viewModel;
+        RecorderViewModel viewModel;
 
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace ScreenCapture.Views
         /// 
         /// <param name="viewModel">The main view model.</param>
         /// 
-        public CaptureWindow(MainViewModel viewModel)
+        public CaptureWindow(RecorderViewModel viewModel)
             : this()
         {
             if (viewModel == null)

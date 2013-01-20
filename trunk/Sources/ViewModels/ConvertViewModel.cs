@@ -27,7 +27,6 @@ namespace ScreenCapture.ViewModels
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
-    using System.Linq;
 
     /// <summary>
     ///   Conversion ViewModel to control the conversion process.
@@ -40,17 +39,14 @@ namespace ScreenCapture.ViewModels
         private BackgroundWorker worker;
         private bool shouldStop;
 
+
         /// <summary>
         ///   Gets or sets the path to the file to be converted.
         /// </summary>
         /// 
-        public string InputFilePath { get; set; }
+        public string InputPath { get; set; }
 
-        /// <summary>
-        ///   Gets or sets whether the last set file was the last recorded file.
-        /// </summary>
-        /// 
-        public bool LastRecordedPath { get; set; }
+
 
         /// <summary>
         ///   Gets the progress of the conversion process.
@@ -65,12 +61,7 @@ namespace ScreenCapture.ViewModels
         /// 
         public bool IsConverting { get; private set; }
 
-        /// <summary>
-        ///   Gets whether the application can start a 
-        ///   conversion or is already converting.
-        /// </summary>
-        /// 
-        public bool IsActive { get { return IsConverting || CanConvert; } }
+     
 
         /// <summary>
         ///   Gets or sets whether to convert to OGG.
@@ -84,6 +75,8 @@ namespace ScreenCapture.ViewModels
         /// 
         public bool ToWebM { get; set; }
 
+
+
         /// <summary>
         ///   Gets whether the current application status
         ///   allows the user to start a conversion process.
@@ -93,16 +86,13 @@ namespace ScreenCapture.ViewModels
         {
             get
             {
-                if (main.IsRecording || IsConverting)
+                if (IsConverting)
                     return false;
 
-                if (main.IsPreviewVisible && !LastRecordedPath)
+                if (String.IsNullOrEmpty(InputPath))
                     return false;
 
-                if (String.IsNullOrEmpty(InputFilePath))
-                    return false;
-
-                string ext = Path.GetExtension(InputFilePath);
+                string ext = Path.GetExtension(InputPath);
 
                 if (!String.IsNullOrEmpty(ext))
                 {
@@ -128,34 +118,13 @@ namespace ScreenCapture.ViewModels
 
             this.main = main;
 
-            this.InputFilePath = String.Empty;
+            this.InputPath = String.Empty;
 
             this.worker = new BackgroundWorker();
             this.worker.DoWork += new DoWorkEventHandler(worker_DoWork);
             this.worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
             this.worker.WorkerReportsProgress = true;
             this.worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
-
-            this.main.PropertyChanged += new PropertyChangedEventHandler(Main_PropertyChanged);
-            this.PropertyChanged += new PropertyChangedEventHandler(ConvertViewModel_PropertyChanged);
-        }
-
-        private void ConvertViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "InputFilePath")
-                LastRecordedPath = false;
-        }
-
-        private void Main_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "IsRecording" || e.PropertyName == "IsPreviewVisible")
-            {
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("CanConvert"));
-                    PropertyChanged(this, new PropertyChangedEventArgs("IsActive"));
-                }
-            }
         }
 
 
@@ -206,7 +175,7 @@ namespace ScreenCapture.ViewModels
             if (ToOgg)
                 formats.Add(".ogg");
 
-            string input = InputFilePath;
+            string input = InputPath;
             IFormatProvider provider = CultureInfo.InvariantCulture;
 
 
@@ -280,7 +249,10 @@ namespace ScreenCapture.ViewModels
                         }
 
                         if (shouldStop)
+                        {
+                            process.Kill();
                             return;
+                        }
                     }
                 }
             }

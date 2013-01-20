@@ -35,11 +35,7 @@ namespace ScreenCapture.ViewModels
     public class NotifyViewModel : INotifyPropertyChanged
     {
 
-        private MainViewModel main;
-
-        private Icon playIcon = Resources.icon_play_overlay;
-        private Icon stopIcon = Resources.icon_stop_overlay;
-        private Icon recIcon = Resources.icon_record_overlay;
+        private RecorderViewModel recorder;
 
 
         /// <summary>
@@ -56,31 +52,35 @@ namespace ScreenCapture.ViewModels
         /// 
         public string CurrentText { get; private set; }
 
+
         /// <summary>
         ///   Occurs when the view-model needs to show a balloon.
         /// </summary>
         /// 
         public event EventHandler<BalloonEventArgs> ShowBalloon;
 
+
         /// <summary>
         ///   Initializes a new instance of the <see cref="NotifyViewModel"/> class.
         /// </summary>
         /// 
-        public NotifyViewModel(MainViewModel main)
+        public NotifyViewModel(RecorderViewModel recorder)
         {
-            if (main == null)
-                throw new ArgumentNullException("main");
+            if (recorder == null)
+                throw new ArgumentNullException("recorder");
 
-            this.main = main;
-            this.main.PropertyChanged += main_PropertyChanged;
-            this.Update();
+            this.recorder = recorder;
+            this.recorder.PropertyChanged += recorder_PropertyChanged;
+
+            this.update();
         }
 
-        private void main_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void recorder_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsRecording" || e.PropertyName == "IsPlaying")
-                Update();
+                update();
         }
+
 
         /// <summary>
         ///   Notifies the view-model that the
@@ -93,29 +93,6 @@ namespace ScreenCapture.ViewModels
                 showGreetings();
         }
 
-        /// <summary>
-        ///   Analyzes the current program state and
-        ///   updates the notification area accordingly.
-        /// </summary>
-        /// 
-        public void Update()
-        {
-            if (main.IsRecording)
-            {
-                CurrentIcon = stopIcon;
-                CurrentText = "Stop recording (Ctrl+Alt+F10)";
-            }
-            else if (main.IsPlaying)
-            {
-                CurrentIcon = recIcon;
-                CurrentText = "Start recording (Ctrl+Alt+F10)";
-            }
-            else
-            {
-                CurrentIcon = playIcon;
-                CurrentText = "Start playing (Ctrl+Alt+F9)";
-            }
-        }
 
         /// <summary>
         ///   Clicks the notification button.
@@ -123,17 +100,39 @@ namespace ScreenCapture.ViewModels
         /// 
         public void Click()
         {
-            if (main.IsRecording)
+            if (recorder.IsRecording)
             {
-                main.StopRecording();
+                recorder.StopRecording();
             }
-            else if (main.IsPlaying)
+            else if (recorder.IsPlaying)
             {
-                main.StartRecording();
+                recorder.StartRecording();
             }
             else
             {
-                main.StartPlaying();
+                recorder.StartPlaying();
+            }
+        }
+
+
+
+
+        private void update()
+        {
+            if (recorder.IsRecording)
+            {
+                CurrentIcon = Resources.icon_stop_overlay;
+                CurrentText = "Stop recording (Ctrl+Alt+F10)";
+            }
+            else if (recorder.IsPlaying)
+            {
+                CurrentIcon = Resources.icon_record_overlay;
+                CurrentText = "Start recording (Ctrl+Alt+F10)";
+            }
+            else
+            {
+                CurrentIcon = Resources.icon_play_overlay;
+                CurrentText = "Start playing (Ctrl+Alt+F9)";
             }
         }
 

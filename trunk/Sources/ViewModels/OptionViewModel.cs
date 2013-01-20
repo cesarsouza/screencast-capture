@@ -79,7 +79,9 @@ namespace ScreenCapture.ViewModels
         ///   Gets a list of supported container formats.
         /// </summary>
         /// 
-        public static IEnumerable<string> SupportedContainers { get; private set; }
+        public static ICollection<string> SupportedContainers { get; private set; }
+
+
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="OptionViewModel"/> class.
@@ -101,6 +103,8 @@ namespace ScreenCapture.ViewModels
                 "avi", "mkv", "m4v", "mp4", "mov"
             };
         }
+
+
 
         /// <summary>
         ///   Saves the contents of the view-model 

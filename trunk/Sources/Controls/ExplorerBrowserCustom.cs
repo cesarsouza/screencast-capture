@@ -70,7 +70,7 @@ namespace ScreenCapture.Controls
             set
             {
                 if (!String.IsNullOrEmpty(value))
-                    browser.Navigate(ShellFile.FromFilePath(value));
+                    browser.Navigate(ShellFile.FromParsingName(value));
             }
         }
 

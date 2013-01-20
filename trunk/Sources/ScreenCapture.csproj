@@ -102,7 +102,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -144,8 +143,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.pt-BR.resx</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
+    <Compile Include="Properties\Settings.cs" />
     <Compile Include="ViewModels\ConvertViewModel.cs" />
+    <Compile Include="ViewModels\RecorderViewModel.cs" />
     <Compile Include="ViewModels\OptionViewModel.cs" />
     <Compile Include="Views\CaptureRegion.cs">
       <SubType>Form</SubType>
@@ -225,6 +225,9 @@
     <EmbeddedResource Include="Views\CaptureWindow.resx">
       <DependentUpon>CaptureWindow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\ConvertForm.pt-BR.resx">
+      <DependentUpon>ConvertForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\ConvertForm.resx">
       <DependentUpon>ConvertForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -251,6 +254,7 @@
       <DependentUpon>OptionForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="ScreenCapture.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -8,6 +8,12 @@
 // "In Project Suppression File".
 // You do not need to add suppressions to this file manually.
 
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Scope = "member", Target = "ScreenCapture.Views.ConvertForm.#OnPaintBackground(System.Windows.Forms.PaintEventArgs)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly", MessageId = "ConvertOr", Scope = "member", Target = "ScreenCapture.ViewModels.MainViewModel.#CanConvertOrCancel")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Scope = "member", Target = "ScreenCapture.ViewModels.NotifyViewModel.#.ctor(ScreenCapture.ViewModels.RecorderViewModel)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Scope = "member", Target = "ScreenCapture.ViewModels.RecorderViewModel.#.ctor(ScreenCapture.ViewModels.MainViewModel,AForge.Controls.VideoSourcePlayer)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Scope = "member", Target = "ScreenCapture.BindingExtensions.#Bind`2(!!0,System.Linq.Expressions.Expression`1<System.Func`2<!!0,!!1>>,System.Action`1<System.EventHandler>,System.Func`1<!!1>)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Scope = "member", Target = "ScreenCapture.BindingExtensions.#Bind`2(!!0,System.Linq.Expressions.Expression`1<System.Func`2<!!0,!!1>>,System.Action`1<System.EventHandler>,System.Func`1<!!1>)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Scope = "member", Target = "ScreenCapture.ViewModels.ConvertViewModel.#.ctor(ScreenCapture.ViewModels.MainViewModel)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Scope = "member", Target = "ScreenCapture.Controls.BindableToolStripSplitButton.#BindingContext")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Scope = "member", Target = "ScreenCapture.Processors.CaptureCursor.#GetBitmap()")]
