@@ -97,13 +97,16 @@ namespace ScreenCapture.Views
             btnCaptureMode.Bind(b => b.Enabled, viewModel, m => m.IsRecording, value => !value);
 
             btnConvert.Bind(b => b.Visible, viewModel.Convert, m => m.CanConvert);
-            lbSeparator.Bind(b => b.Visible, viewModel.Convert, m => m.CanConvert);
+            btnCancel.Bind(b => b.Visible, viewModel.Convert, m => m.IsConverting);
+            lbSeparator.Bind(b => b.Visible, viewModel.Convert, m => m.IsActive);
 
-            toolStripProgressBar1.ProgressBar.Bind(b => b.Visible, viewModel.Convert, m => m.IsConverting);
-            toolStripProgressBar1.ProgressBar.Bind(b => b.Value, viewModel.Convert, m => m.Progress);
+            progressBar1.Bind(b => b.Visible, viewModel.Convert, m => m.IsConverting);
+            progressBar1.Bind(b => b.Value, viewModel.Convert, m => m.Progress);
 
             iconPlayPause.Bind(b => b.Text, viewModel.Notify, m => m.CurrentText);
             iconPlayPause.Bind(b => b.Icon, viewModel.Notify, m => m.CurrentIcon);
+
+            progressBar1.BringToFront();
 
             viewModel.Notify.Loaded();
         }
@@ -218,7 +221,18 @@ namespace ScreenCapture.Views
 
         private void btnConvertOGG_Click(object sender, EventArgs e)
         {
-            viewModel.Convert.Convert();
+            viewModel.Convert.Start();
+        }
+
+        private void btnConvert_Click(object sender, EventArgs e)
+        {
+            using (ConvertForm form = new ConvertForm(viewModel.Convert))
+                form.ShowDialog(this);
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            viewModel.Convert.Cancel();
         }
 
 

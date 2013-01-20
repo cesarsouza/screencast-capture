@@ -8,6 +8,9 @@
 // "In Project Suppression File".
 // You do not need to add suppressions to this file manually.
 
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Scope = "member", Target = "ScreenCapture.ViewModels.ConvertViewModel.#.ctor(ScreenCapture.ViewModels.MainViewModel)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Scope = "member", Target = "ScreenCapture.Controls.BindableToolStripSplitButton.#BindingContext")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Scope = "member", Target = "ScreenCapture.Processors.CaptureCursor.#GetBitmap()")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Scope = "member", Target = "ScreenCapture.Controls.BindableToolStripTextBox.#BindingContext")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Scope = "member", Target = "ScreenCapture.ViewModels.NotifyViewModel.#.ctor(ScreenCapture.ViewModels.MainViewModel)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Scope = "member", Target = "ScreenCapture.ViewModels.MainViewModel.#.ctor(AForge.Controls.VideoSourcePlayer)")]

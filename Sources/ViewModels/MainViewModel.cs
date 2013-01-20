@@ -160,7 +160,7 @@ namespace ScreenCapture.ViewModels
         ///   Gets the current status of the application.
         /// </summary>
         /// 
-        public string Status { get;  set; }
+        public string Status { get; set; }
 
         /// <summary>
         ///   Occurs when the view-model needs a window to be recorded.
@@ -322,6 +322,9 @@ namespace ScreenCapture.ViewModels
                     videoWriter.Close();
 
                 IsRecording = false;
+
+                Convert.InputFilePath = Path.Combine(CurrentDirectory, CurrentFileName);
+                Convert.LastRecordedPath = true;
             }
         }
 
