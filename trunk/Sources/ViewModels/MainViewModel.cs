@@ -52,12 +52,12 @@ namespace ScreenCapture.ViewModels
         ///   Gets the notification area view-model.
         /// </summary>
         /// 
-        public NotifyViewModel Notify { get; private set; }
+        public NotifyViewModel Notifier { get; private set; }
 
         /// <summary>
         ///   Gets the format converter view-model.
         /// </summary>
-        public ConvertViewModel Convert { get; private set; }
+        public ConvertViewModel Converter { get; private set; }
 
 
 
@@ -96,8 +96,8 @@ namespace ScreenCapture.ViewModels
                 throw new ArgumentNullException("player");
 
             Recorder = new RecorderViewModel(this, player);
-            Notify = new NotifyViewModel(Recorder);
-            Convert = new ConvertViewModel(this);
+            Notifier = new NotifyViewModel(Recorder);
+            Converter = new ConvertViewModel(this);
 
             IsPreviewVisible = true;
             CurrentDirectory = Settings.Default.DefaultFolder;
@@ -105,7 +105,7 @@ namespace ScreenCapture.ViewModels
 
             PropertyChanged += MainViewModel_PropertyChanged;
             Recorder.PropertyChanged += recorder_PropertyChanged;
-            Convert.PropertyChanged += Convert_PropertyChanged;
+            Converter.PropertyChanged += Convert_PropertyChanged;
         }
 
 
@@ -113,7 +113,7 @@ namespace ScreenCapture.ViewModels
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "CurrentSelection" && !IsPreviewVisible)
-                Convert.InputPath = CurrentSelection;
+                Converter.InputPath = CurrentSelection;
             if (e.PropertyName == "IsPreviewVisible")
                 raise("IsConversionVisible");
         }
@@ -121,7 +121,7 @@ namespace ScreenCapture.ViewModels
         private void recorder_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "HasRecorded" && Recorder.HasRecorded)
-                Convert.InputPath = Recorder.OutputPath;
+                Converter.InputPath = Recorder.OutputPath;
             if (e.PropertyName == "IsPlaying")
                 raise("IsRecordingEnabled");
         }
@@ -148,11 +148,11 @@ namespace ScreenCapture.ViewModels
                 if (IsPreviewVisible)
                 {
                     if (Recorder.HasRecorded)
-                        return Convert.CanConvert;
+                        return Converter.CanConvert;
                     return false;
                 }
 
-                return Convert.CanConvert;
+                return Converter.CanConvert;
             }
         }
 
@@ -165,7 +165,7 @@ namespace ScreenCapture.ViewModels
         {
             get
             {
-                if (Convert.IsConverting)
+                if (Converter.IsConverting)
                     return false;
                 return Recorder.IsPlaying;
             }

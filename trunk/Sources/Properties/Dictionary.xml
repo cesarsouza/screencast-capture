@@ -11,6 +11,7 @@
       <Word>Theora</Word>
       <Word>ogg</Word>
       <Word>webm</Word>
+      <Word>notifier</Word>
     </Recognized>
     <Deprecated>
       <Term PreferredAlternate=""></Term>

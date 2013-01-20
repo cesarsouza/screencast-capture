@@ -77,57 +77,60 @@ namespace ScreenCapture.Native
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool BitBlt(IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, CopyPixelOperation dwRop);
 
+
+
+        /// <summary>
+        ///   Contains information about an icon or a cursor.
+        /// </summary>
+        /// 
+        [StructLayout(LayoutKind.Sequential)]
+        [GeneratedCode("PInvoke", "1.0.0.0")]
+        internal struct ICONINFO
+        {
+            /// <summary>
+            ///   Specifies whether this structure defines an icon or a cursor.
+            ///   A value of TRUE specifies an icon; FALSE specifies a cursor. 
+            /// </summary>
+            /// 
+            public bool fIcon;
+
+            /// <summary>
+            ///   Specifies the x-coordinate of a cursor's hot spot. If this structure defines
+            ///   an icon, the hot spot is always in the center of the icon, and this member is
+            ///   ignored.
+            /// </summary>
+            /// 
+            public Int32 xHotspot;
+
+            /// <summary>
+            ///   Specifies the y-coordinate of a cursor's hot spot. If this structure defines
+            ///   an icon, the hot spot is always in the center of the icon, and this member is
+            ///   ignored.
+            /// </summary>
+            /// 
+            public Int32 yHotspot;
+
+            /// <summary>
+            ///   (HBITMAP) Specifies the icon bitmask bitmap. If this structure defines a black and white icon, 
+            ///   this bitmask is formatted so that the upper half is the icon AND bitmask and the lower half is 
+            ///   the icon XOR bitmask. Under this condition, the height should be an even multiple of two. If 
+            ///   this structure defines a color icon, this mask only defines the AND bitmask of the icon. 
+            /// </summary>
+            /// 
+            public IntPtr hbmMask;
+
+            /// <summary>
+            ///   (HBITMAP) Handle to the icon color bitmap. This member can be optional if this 
+            ///   structure defines a black and white icon. The AND bitmask of hbmMask is applied 
+            ///   with the SRCAND flag to the destination; subsequently, the color bitmap is applied
+            ///   (using XOR) to the destination by using the SRCINVERT flag. 
+            /// </summary>
+            /// 
+            public IntPtr hbmColor;
+        }
     }
 
-    /// <summary>
-    ///   Contains information about an icon or a cursor.
-    /// </summary>
-    /// 
-    [StructLayout(LayoutKind.Sequential)]
-    [GeneratedCode("PInvoke", "1.0.0.0")]
-    internal struct ICONINFO
-    {
-        /// <summary>
-        ///   Specifies whether this structure defines an icon or a cursor.
-        ///   A value of TRUE specifies an icon; FALSE specifies a cursor. 
-        /// </summary>
-        /// 
-        public bool fIcon;
-
-        /// <summary>
-        ///   Specifies the x-coordinate of a cursor's hot spot. If this structure defines
-        ///   an icon, the hot spot is always in the center of the icon, and this member is
-        ///   ignored.
-        /// </summary>
-        /// 
-        public Int32 xHotspot;
-
-        /// <summary>
-        ///   Specifies the y-coordinate of a cursor's hot spot. If this structure defines
-        ///   an icon, the hot spot is always in the center of the icon, and this member is
-        ///   ignored.
-        /// </summary>
-        /// 
-        public Int32 yHotspot;
-
-        /// <summary>
-        ///   (HBITMAP) Specifies the icon bitmask bitmap. If this structure defines a black and white icon, 
-        ///   this bitmask is formatted so that the upper half is the icon AND bitmask and the lower half is 
-        ///   the icon XOR bitmask. Under this condition, the height should be an even multiple of two. If 
-        ///   this structure defines a color icon, this mask only defines the AND bitmask of the icon. 
-        /// </summary>
-        /// 
-        public IntPtr hbmMask;
-
-        /// <summary>
-        ///   (HBITMAP) Handle to the icon color bitmap. This member can be optional if this 
-        ///   structure defines a black and white icon. The AND bitmask of hbmMask is applied 
-        ///   with the SRCAND flag to the destination; subsequently, the color bitmap is applied
-        ///   (using XOR) to the destination by using the SRCINVERT flag. 
-        /// </summary>
-        /// 
-        public IntPtr hbmColor;
-    }
+   
 
     /// <summary>
     ///   Contains global cursor information.
@@ -135,7 +138,7 @@ namespace ScreenCapture.Native
     /// 
     [StructLayout(LayoutKind.Sequential)]
     [GeneratedCode("PInvoke", "1.0.0.0")]
-    public struct CURSORINFO
+    public struct CursorInfo
     {
         /// <summary>
         ///   The size of the structure, in bytes. The caller must set this to sizeof(CURSORINFO).
@@ -169,7 +172,7 @@ namespace ScreenCapture.Native
     /// 
     [StructLayout(LayoutKind.Sequential)]
     [GeneratedCode("PInvoke", "1.0.0.0")]
-    public struct RECT
+    public struct Rect
     {
         /// <summary>
         ///   The x-coordinate of the upper-left corner of the rectangle.
@@ -196,16 +199,16 @@ namespace ScreenCapture.Native
         public int Bottom;
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="RECT"/> struct.
+        ///   Initializes a new instance of the <see cref="Rect"/> struct.
         /// </summary>
         /// 
         /// <param name="Rectangle">The rectangle coordinates.</param>
         /// 
-        public RECT(RECT Rectangle)
+        public Rect(Rect Rectangle)
             : this(Rectangle.Left, Rectangle.Top, Rectangle.Right, Rectangle.Bottom) { }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="RECT"/> struct.
+        ///   Initializes a new instance of the <see cref="Rect"/> struct.
         /// </summary>
         /// 
         /// <param name="left">The x-coordinate of the upper-left corner of the rectangle.</param>
@@ -213,7 +216,7 @@ namespace ScreenCapture.Native
         /// <param name="right">The x-coordinate of the lower-right corner of the rectangle.</param>
         /// <param name="bottom">The y-coordinate of the lower-right corner of the rectangle.</param>
         /// 
-        public RECT(int left, int top, int right, int bottom)
+        public Rect(int left, int top, int right, int bottom)
         {
             this.Left = left;
             this.Top = top;

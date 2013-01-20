@@ -31,7 +31,7 @@ namespace ScreenCapture.Native
     ///   Managed version of the ICONINFO Win32 structure.
     /// </summary>
     /// 
-    public class IconInfo : IDisposable
+    public class IconHandleInfo : IDisposable
     {
         /// <summary>
         ///   Specifies whether this structure defines an icon or a cursor.
@@ -66,7 +66,7 @@ namespace ScreenCapture.Native
         public BitmapHandle ColorBitmap { get; private set; }
 
 
-        internal IconInfo(ICONINFO info)
+        internal IconHandleInfo(NativeMethods.ICONINFO info)
         {
             this.IsIcon = info.fIcon;
             this.Hotspot = new Point(info.xHotspot, info.yHotspot);
@@ -90,10 +90,10 @@ namespace ScreenCapture.Native
 
         /// <summary>
         ///   Releases unmanaged resources and performs other cleanup operations 
-        ///   before the <see cref="IconInfo"/> is reclaimed by garbage collection.
+        ///   before the <see cref="IconHandleInfo"/> is reclaimed by garbage collection.
         /// </summary>
         /// 
-        ~IconInfo()
+        ~IconHandleInfo()
         {
             Dispose(false);
         }

@@ -55,7 +55,7 @@ namespace ScreenCapture.Views
             regionWindow = new CaptureRegion(viewModel.Recorder);
             windowWindow = new CaptureWindow(viewModel.Recorder);
 
-            viewModel.Notify.ShowBalloon += new EventHandler<BalloonEventArgs>(Notify_ShowBalloon);
+            viewModel.Notifier.ShowBalloon += new EventHandler<BalloonEventArgs>(Notify_ShowBalloon);
         }
 
 
@@ -74,12 +74,12 @@ namespace ScreenCapture.Views
             bindToolStrip();
             bindStatusBar();
 
-            iconPlayPause.Bind(b => b.Text, viewModel.Notify, m => m.CurrentText);
-            iconPlayPause.Bind(b => b.Icon, viewModel.Notify, m => m.CurrentIcon);
+            iconPlayPause.Bind(b => b.Text, viewModel.Notifier, m => m.CurrentText);
+            iconPlayPause.Bind(b => b.Icon, viewModel.Notifier, m => m.CurrentIcon);
 
             progressBar1.BringToFront();
 
-            viewModel.Notify.Loaded();
+            viewModel.Notifier.Loaded();
         }
 
         private void bindToolStrip()
@@ -112,9 +112,9 @@ namespace ScreenCapture.Views
             lbStatusReady.Bind(b => b.Text, viewModel, m => m.Status);
 
             btnConvert.Bind(b => b.Visible, viewModel, m => m.IsConversionVisible);
-            btnCancel.Bind(b => b.Visible, viewModel.Convert, m => m.IsConverting);
-            progressBar1.Bind(b => b.Visible, viewModel.Convert, m => m.IsConverting);
-            progressBar1.Bind(b => b.Value, viewModel.Convert, m => m.Progress);
+            btnCancel.Bind(b => b.Visible, viewModel.Converter, m => m.IsConverting);
+            progressBar1.Bind(b => b.Visible, viewModel.Converter, m => m.IsConverting);
+            progressBar1.Bind(b => b.Value, viewModel.Converter, m => m.Progress);
 
             lbSeparator.Bind(b => b.Visible, b => btnConvert.VisibleChanged += b, () => btnCancel.Visible || btnConvert.Visible);
             lbSeparator.Bind(b => b.Visible, b => btnCancel.VisibleChanged += b, () => btnCancel.Visible || btnConvert.Visible);
@@ -226,23 +226,23 @@ namespace ScreenCapture.Views
 
         private void iconPlayPause_Click(object sender, EventArgs e)
         {
-            viewModel.Notify.Click();
+            viewModel.Notifier.Click();
         }
 
         private void btnConvertOGG_Click(object sender, EventArgs e)
         {
-            viewModel.Convert.Start();
+            viewModel.Converter.Start();
         }
 
         private void btnConvert_Click(object sender, EventArgs e)
         {
-            using (ConvertForm form = new ConvertForm(viewModel.Convert))
+            using (ConvertForm form = new ConvertForm(viewModel.Converter))
                 form.ShowDialog(this);
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            viewModel.Convert.Cancel();
+            viewModel.Converter.Cancel();
         }
 
 

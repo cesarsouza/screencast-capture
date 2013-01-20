@@ -3,7 +3,20 @@
  =========================================
 
 
- 06.12.2012, version 1.2
+ 24.01.2013, version 1.3
+ -----------------------
+
+  The application can now record keyboard keypresses, show those
+  in the video, and can convert to HTML5 formats such as OGG and
+  WebM.
+
+  Issues fixed:
+  - Issue  7: Add version information in the about dialog;
+  - Issue 10: Add a timer counter in the status bar;
+  - Issue 12: Add indicators for keyboard activity;
+
+
+ 06.01.2013, version 1.2
  -----------------------
 
   The application is now able to capture mouse clicks in video,

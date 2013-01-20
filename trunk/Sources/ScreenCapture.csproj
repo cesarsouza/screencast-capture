@@ -128,10 +128,9 @@
     <Compile Include="Native\Handles\BitmapHandle.cs" />
     <Compile Include="Native\Handles\IconHandle.cs" />
     <Compile Include="Native\Handles\DeviceHandle.cs" />
-    <Compile Include="Native\IconInfo.cs" />
+    <Compile Include="Native\Handles\IconHandleInfo.cs" />
     <Compile Include="Native\Hooks\LowLevelMouse.cs" />
     <Compile Include="Native\CustomKeysConverter.cs" />
-    <Compile Include="Native\KeysExtensions.cs" />
     <Compile Include="Processors\CaptureClick.cs" />
     <Compile Include="Processors\CaptureKeyboard.cs" />
     <Compile Include="Native\Handles\HookHandle.cs" />
@@ -254,7 +253,8 @@
       <DependentUpon>OptionForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="ScreenCapture.cd" />
+    <None Include="Diagrams\NativeInterop.cd" />
+    <None Include="Diagrams\Application.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

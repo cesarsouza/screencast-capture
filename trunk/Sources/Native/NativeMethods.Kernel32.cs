@@ -31,7 +31,7 @@ namespace ScreenCapture.Native
     internal static partial class NativeMethods
     {
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-        public static extern IntPtr GetModuleHandle(
+        internal static extern IntPtr GetModuleHandle(
             [MarshalAs(UnmanagedType.LPWStr)]string lpModuleName);
 
     }

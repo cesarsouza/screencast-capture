@@ -35,7 +35,7 @@ namespace ScreenCapture.Views
     {
 
         ConvertViewModel viewModel;
-        NativeMethods.MARGINS margins;
+        ThemeMargins margins;
 
 
         /// <summary>
@@ -69,19 +69,19 @@ namespace ScreenCapture.Views
             cbWebM.Bind(b => b.Checked, viewModel, m => m.ToWebM);
 
             // Perform special processing to enable aero
-            if (NativeMethods.DwmIsCompositionEnabled())
+            if (SafeNativeMethods.IsAeroEnabled)
             {
                 btnCancel.FlatStyle = FlatStyle.Flat;
                 btnOK.FlatStyle = FlatStyle.Flat;
 
-                margins = new NativeMethods.MARGINS();
-                margins.Top = panel1.Top;
-                margins.Left = panel1.Left;
-                margins.Right = ClientRectangle.Right - panel1.Right;
-                margins.Bottom = ClientRectangle.Bottom - panel1.Bottom;
+                margins = new ThemeMargins();
+                margins.TopHeight = panel1.Top;
+                margins.LeftWidth = panel1.Left;
+                margins.RightWidth = ClientRectangle.Right - panel1.Right;
+                margins.BottomHeight = ClientRectangle.Bottom - panel1.Bottom;
 
                 // Extend the Frame into client area
-                NativeMethods.DwmExtendFrameIntoClientArea(Handle, ref margins);
+                SafeNativeMethods.ExtendAeroGlassIntoClientArea(this, margins);
             }
         }
 
@@ -92,16 +92,16 @@ namespace ScreenCapture.Views
         {
             base.OnPaint(e);
 
-            if (NativeMethods.DwmIsCompositionEnabled())
+            if (SafeNativeMethods.IsAeroEnabled)
             {
                 // paint background black to enable include glass regions
                 e.Graphics.Clear(Color.Black);
 
                 // revert the non-glass rectangle back to it's original colour
                 Rectangle clientArea = new Rectangle(
-                    margins.Left, margins.Top,
-                    this.ClientRectangle.Width - margins.Left - margins.Right,
-                    this.ClientRectangle.Height - margins.Top - margins.Bottom
+                    margins.LeftWidth, margins.TopHeight,
+                    this.ClientRectangle.Width - margins.LeftWidth - margins.RightWidth,
+                    this.ClientRectangle.Height - margins.TopHeight - margins.BottomHeight
                 );
 
                 using (Brush b = new SolidBrush(this.BackColor))

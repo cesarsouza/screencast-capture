@@ -170,13 +170,13 @@ namespace ScreenCapture.Processors
         private void thread_MouseMove(object sender, EventArgs e)
         {
             if (pressed)
-                this.currentLocation = context.Position;
+                this.currentLocation = context.Current;
         }
 
         private void thread_MouseDown(object sender, EventArgs e)
         {
             this.pressed = true;
-            this.currentLocation = context.Position;
+            this.currentLocation = context.Current;
             this.currentRadius = Radius;
         }
 
