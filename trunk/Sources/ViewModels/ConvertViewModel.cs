@@ -22,12 +22,12 @@
 namespace ScreenCapture.ViewModels
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     ///   Conversion ViewModel to control the conversion process.
@@ -38,12 +38,19 @@ namespace ScreenCapture.ViewModels
 
         private MainViewModel main;
         private BackgroundWorker worker;
+        private bool shouldStop;
 
         /// <summary>
         ///   Gets or sets the path to the file to be converted.
         /// </summary>
         /// 
         public string InputFilePath { get; set; }
+
+        /// <summary>
+        ///   Gets or sets whether the last set file was the last recorded file.
+        /// </summary>
+        /// 
+        public bool LastRecordedPath { get; set; }
 
         /// <summary>
         ///   Gets the progress of the conversion process.
@@ -58,6 +65,24 @@ namespace ScreenCapture.ViewModels
         /// 
         public bool IsConverting { get; private set; }
 
+        /// <summary>
+        ///   Gets whether the application can start a 
+        ///   conversion or is already converting.
+        /// </summary>
+        /// 
+        public bool IsActive { get { return IsConverting || CanConvert; } }
+
+        /// <summary>
+        ///   Gets or sets whether to convert to OGG.
+        /// </summary>
+        /// 
+        public bool ToOgg { get; set; }
+
+        /// <summary>
+        ///   Gets or sets whether to convert to WebM.
+        /// </summary>
+        /// 
+        public bool ToWebM { get; set; }
 
         /// <summary>
         ///   Gets whether the current application status
@@ -68,7 +93,10 @@ namespace ScreenCapture.ViewModels
         {
             get
             {
-                if (main.IsRecording)
+                if (main.IsRecording || IsConverting)
+                    return false;
+
+                if (main.IsPreviewVisible && !LastRecordedPath)
                     return false;
 
                 if (String.IsNullOrEmpty(InputFilePath))
@@ -109,30 +137,51 @@ namespace ScreenCapture.ViewModels
             this.worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
 
             this.main.PropertyChanged += new PropertyChangedEventHandler(Main_PropertyChanged);
+            this.PropertyChanged += new PropertyChangedEventHandler(ConvertViewModel_PropertyChanged);
+        }
+
+        private void ConvertViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "InputFilePath")
+                LastRecordedPath = false;
         }
 
         private void Main_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsRecording")
+            if (e.PropertyName == "IsRecording" || e.PropertyName == "IsPreviewVisible")
+            {
                 if (PropertyChanged != null)
+                {
                     PropertyChanged(this, new PropertyChangedEventArgs("CanConvert"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("IsActive"));
+                }
+            }
         }
 
 
 
         /// <summary>
-        ///   Starts a conversion.
+        ///   Starts a conversion operation.
         /// </summary>
         /// 
-        public void Convert()
+        public void Start()
         {
             Progress = 0;
             IsConverting = true;
             main.Status = "Converting...";
+            shouldStop = false;
 
             worker.RunWorkerAsync();
         }
 
+        /// <summary>
+        ///   Stops the current conversion.
+        /// </summary>
+        /// 
+        public void Cancel()
+        {
+            shouldStop = true;   
+        }
 
 
 
@@ -151,70 +200,87 @@ namespace ScreenCapture.ViewModels
 
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            IFormatProvider provider = CultureInfo.InvariantCulture;
+            List<String> formats = new List<string>();
+            if (ToWebM)
+                formats.Add(".webm");
+            if (ToOgg)
+                formats.Add(".ogg");
 
             string input = InputFilePath;
-            string output = Path.ChangeExtension(input, ".ogg");
-            string options = String.Format(provider, "-y -i {0} -q:v 5 -an  {1}",
-                input, output);
+            IFormatProvider provider = CultureInfo.InvariantCulture;
 
-            ProcessStartInfo info = new ProcessStartInfo
+
+            for (int i = 0; i < formats.Count; i++)
             {
-                FileName = "avconv.exe",
-                Arguments = options,
-                CreateNoWindow = true,
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-            };
+                string extension = formats[i];
+                string output = Path.ChangeExtension(input, extension);
+                string options = String.Format(provider, "-y -i {0} -q:v 6 -an  {1}",
+                    input, output);
 
-            using (Process process = new Process())
-            {
-                process.StartInfo = info;
-                process.Start();
-
-                StreamReader reader = process.StandardError;
-                StreamWriter writer = process.StandardInput;
-
-                string durationMarker = "Duration: ";
-                TimeSpan duration = TimeSpan.Zero;
-
-                string progressMarker = "time=";
-                string bitrateMarker = "bitrate=";
-                TimeSpan current = TimeSpan.Zero;
-
-                StringBuilder cout = new StringBuilder();
-
-                while (!reader.EndOfStream)
+                ProcessStartInfo info = new ProcessStartInfo
                 {
-                    string line = reader.ReadLine();
-                    cout.AppendLine(line);
+                    FileName = "ffmpeg.exe",
+                    Arguments = options,
+                    CreateNoWindow = true,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                };
 
-                    if (line.Contains(durationMarker))
+                using (Process process = new Process())
+                {
+                    process.StartInfo = info;
+                    process.Start();
+
+                    StreamReader reader = process.StandardError;
+                    StreamWriter writer = process.StandardInput;
+
+                    string durationMarker = "Duration: ";
+                    TimeSpan duration = TimeSpan.Zero;
+
+                    string progressMarker = "time=";
+                    string bitrateMarker = "bitrate=";
+                    TimeSpan current = TimeSpan.Zero;
+
+                    while (!reader.EndOfStream)
                     {
-                        int startIndex = line.IndexOf(durationMarker,
-                            StringComparison.CurrentCulture) + durationMarker.Length;
-                        int endIndex = line.IndexOf(',', startIndex);
-                        string strDuration = line.Substring(startIndex, endIndex - startIndex);
-                        duration = TimeSpan.Parse(strDuration, provider);
+                        string line = reader.ReadLine();
 
-                        if (duration.Ticks == 0)
+                        if (line.Contains(durationMarker))
+                        {
+                            int startIndex = line.IndexOf(durationMarker,
+                                StringComparison.CurrentCulture) + durationMarker.Length;
+                            int endIndex = line.IndexOf(',', startIndex);
+                            string strDuration = line.Substring(startIndex, endIndex - startIndex);
+                            duration = TimeSpan.Parse(strDuration, provider);
+
+                            if (duration.Ticks == 0)
+                                return;
+                        }
+
+                        if (line.Contains(progressMarker))
+                        {
+                            int startIndex = line.IndexOf(progressMarker,
+                                StringComparison.CurrentCulture) + progressMarker.Length;
+                            int endIndex = line.IndexOf(bitrateMarker, StringComparison.CurrentCulture);
+
+                            string strTime = line.Substring(startIndex, endIndex - startIndex);
+                            current = TimeSpan.Parse(strTime, provider);
+
+                            double max = duration.Ticks;
+                            double cur = current.Ticks;
+
+                            double progress = (cur / max);
+                            double taskSize = 1.0 / formats.Count;
+
+                            double start = i / (double)formats.Count;
+
+                            worker.ReportProgress((int)((start + progress * taskSize) * 100.0));
+                        }
+
+                        if (shouldStop)
                             return;
-                    }
-
-                    if (line.Contains(progressMarker))
-                    {
-                        int startIndex = line.IndexOf(progressMarker,
-                            StringComparison.CurrentCulture) + progressMarker.Length;
-                        int endIndex = line.IndexOf(bitrateMarker, StringComparison.CurrentCulture);
-
-                        string strTime = line.Substring(startIndex, endIndex - startIndex);
-                        current = TimeSpan.Parse(strTime, provider);
-
-                        double max = duration.Ticks;
-                        double cur = current.Ticks;
-                        worker.ReportProgress((int)((cur / max) * 100));
                     }
                 }
             }
@@ -278,5 +344,7 @@ namespace ScreenCapture.ViewModels
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 #pragma warning restore 0067
+
+        
     }
 }

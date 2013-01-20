@@ -264,6 +264,13 @@ namespace ScreenCapture.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap stop {
+            get {
+                object obj = ResourceManager.GetObject("stop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap thumbnail {
             get {
                 object obj = ResourceManager.GetObject("thumbnail", resourceCulture);

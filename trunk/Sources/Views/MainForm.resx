@@ -121,23 +121,27 @@
     <value>133, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnCapturePrimaryScreen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 38</value>
+  <data name="toolStrip.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="btnCapturePrimaryScreen.Text" xml:space="preserve">
-    <value>Primary Screen</value>
+  <data name="toolStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>656, 39</value>
   </data>
-  <data name="btnCaptureWindow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 38</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="toolStrip.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
-  <data name="btnCaptureWindow.Text" xml:space="preserve">
-    <value>Single Window</value>
+  <data name="&gt;&gt;toolStrip.Name" xml:space="preserve">
+    <value>toolStrip</value>
   </data>
-  <data name="btnCaptureRegion.Size" type="System.Drawing.Size, System.Drawing">
-    <value>169, 38</value>
+  <data name="&gt;&gt;toolStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="btnCaptureRegion.Text" xml:space="preserve">
-    <value>Fixed Region</value>
+  <data name="&gt;&gt;toolStrip.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;toolStrip.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="btnCaptureMode.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
@@ -147,6 +151,24 @@
   </data>
   <data name="btnCaptureMode.Text" xml:space="preserve">
     <value>Primary Screen</value>
+  </data>
+  <data name="btnCapturePrimaryScreen.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 22</value>
+  </data>
+  <data name="btnCapturePrimaryScreen.Text" xml:space="preserve">
+    <value>Primary Screen</value>
+  </data>
+  <data name="btnCaptureWindow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 22</value>
+  </data>
+  <data name="btnCaptureWindow.Text" xml:space="preserve">
+    <value>Single Window</value>
+  </data>
+  <data name="btnCaptureRegion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 22</value>
+  </data>
+  <data name="btnCaptureRegion.Text" xml:space="preserve">
+    <value>Fixed Region</value>
   </data>
   <data name="btnStartRecording.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
@@ -166,7 +188,6 @@
   <data name="btnStopRecording.Text" xml:space="preserve">
     <value>Stop recording</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnStopRecording.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -220,27 +241,6 @@
   </data>
   <data name="btnStorageFolder.Text" xml:space="preserve">
     <value>Storage folder</value>
-  </data>
-  <data name="toolStrip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="toolStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>656, 39</value>
-  </data>
-  <data name="toolStrip.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;toolStrip.Name" xml:space="preserve">
-    <value>toolStrip</value>
-  </data>
-  <data name="&gt;&gt;toolStrip.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStrip.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;toolStrip.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <metadata name="statusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -332,22 +332,22 @@
     <value>Ready</value>
   </data>
   <data name="toolStripStatusLabel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>242, 17</value>
+    <value>246, 17</value>
   </data>
-  <data name="toolStripProgressBar1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 16</value>
+  <data name="btnCancel.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
   </data>
-  <data name="btnConvertOGG.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+  <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 17</value>
   </data>
-  <data name="btnConvertOGG.Text" xml:space="preserve">
-    <value>OGG/Theora</value>
+  <data name="btnCancel.Text" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="btnConvert.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
   <data name="btnConvert.Size" type="System.Drawing.Size, System.Drawing">
-    <value>78, 20</value>
+    <value>65, 17</value>
   </data>
   <data name="btnConvert.Text" xml:space="preserve">
     <value>Convert</value>
@@ -392,6 +392,54 @@
   <data name="&gt;&gt;statusStrip.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="&gt;&gt;videoSourcePlayer1.Name" xml:space="preserve">
+    <value>videoSourcePlayer1</value>
+  </data>
+  <data name="&gt;&gt;videoSourcePlayer1.Type" xml:space="preserve">
+    <value>AForge.Controls.VideoSourcePlayer, AForge.Controls, Version=2.2.4.0, Culture=neutral, PublicKeyToken=a8ac264d1dc6b9d9</value>
+  </data>
+  <data name="&gt;&gt;videoSourcePlayer1.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;videoSourcePlayer1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;explorerBrowser.Name" xml:space="preserve">
+    <value>explorerBrowser</value>
+  </data>
+  <data name="&gt;&gt;explorerBrowser.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.ExplorerBrowserCustom, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;explorerBrowser.Parent" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;explorerBrowser.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 39</value>
+  </data>
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>656, 342</value>
+  </data>
+  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="videoSourcePlayer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
@@ -435,7 +483,7 @@
     <value>explorerBrowser</value>
   </data>
   <data name="&gt;&gt;explorerBrowser.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.ExplorerBrowserCustom, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.ExplorerBrowserCustom, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;explorerBrowser.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -443,29 +491,32 @@
   <data name="&gt;&gt;explorerBrowser.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="panel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
+  <data name="progressBar1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
   </data>
-  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 39</value>
+  <data name="progressBar1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>656, 342</value>
+  <data name="progressBar1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>90, 384</value>
   </data>
-  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
+  <data name="progressBar1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>403, 16</value>
+  </data>
+  <data name="progressBar1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
-    <value>panel1</value>
+  <data name="&gt;&gt;progressBar1.Name" xml:space="preserve">
+    <value>progressBar1</value>
   </data>
-  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;progressBar1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;progressBar1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;progressBar1.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <metadata name="iconPlayPause.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>231, 17</value>
@@ -478,6 +529,9 @@
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>66</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
@@ -1996,11 +2050,89 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Screencast Capture Lite</value>
   </data>
+  <data name="&gt;&gt;btnCaptureMode.Name" xml:space="preserve">
+    <value>btnCaptureMode</value>
+  </data>
+  <data name="&gt;&gt;btnCaptureMode.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripDropDownButton, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;btnCapturePrimaryScreen.Name" xml:space="preserve">
+    <value>btnCapturePrimaryScreen</value>
+  </data>
+  <data name="&gt;&gt;btnCapturePrimaryScreen.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripMenuItem, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;btnCaptureWindow.Name" xml:space="preserve">
+    <value>btnCaptureWindow</value>
+  </data>
+  <data name="&gt;&gt;btnCaptureWindow.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripMenuItem, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;btnCaptureRegion.Name" xml:space="preserve">
+    <value>btnCaptureRegion</value>
+  </data>
+  <data name="&gt;&gt;btnCaptureRegion.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripMenuItem, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;btnStartRecording.Name" xml:space="preserve">
+    <value>btnStartRecording</value>
+  </data>
+  <data name="&gt;&gt;btnStartRecording.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;btnStopRecording.Name" xml:space="preserve">
+    <value>btnStopRecording</value>
+  </data>
+  <data name="&gt;&gt;btnStopRecording.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;btnPausePlaying.Name" xml:space="preserve">
+    <value>btnPausePlaying</value>
+  </data>
+  <data name="&gt;&gt;btnPausePlaying.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;btnStartPlaying.Name" xml:space="preserve">
+    <value>btnStartPlaying</value>
+  </data>
+  <data name="&gt;&gt;btnStartPlaying.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
   <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
     <value>toolStripSeparator1</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnScreenPreview.Name" xml:space="preserve">
+    <value>btnScreenPreview</value>
+  </data>
+  <data name="&gt;&gt;btnScreenPreview.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;btnStorageFolder.Name" xml:space="preserve">
+    <value>btnStorageFolder</value>
+  </data>
+  <data name="&gt;&gt;btnStorageFolder.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;lbStatusRecording.Name" xml:space="preserve">
+    <value>lbStatusRecording</value>
+  </data>
+  <data name="&gt;&gt;lbStatusRecording.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;lbStatusTime.Name" xml:space="preserve">
+    <value>lbStatusTime</value>
+  </data>
+  <data name="&gt;&gt;lbStatusTime.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;lbStatusReady.Name" xml:space="preserve">
+    <value>lbStatusReady</value>
+  </data>
+  <data name="&gt;&gt;lbStatusReady.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;toolStripStatusLabel2.Name" xml:space="preserve">
     <value>toolStripStatusLabel2</value>
@@ -2008,11 +2140,23 @@
   <data name="&gt;&gt;toolStripStatusLabel2.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toolStripProgressBar1.Name" xml:space="preserve">
-    <value>toolStripProgressBar1</value>
+  <data name="&gt;&gt;btnCancel.Name" xml:space="preserve">
+    <value>btnCancel</value>
   </data>
-  <data name="&gt;&gt;toolStripProgressBar1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;btnCancel.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;btnConvert.Name" xml:space="preserve">
+    <value>btnConvert</value>
+  </data>
+  <data name="&gt;&gt;btnConvert.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;lbSeparator.Name" xml:space="preserve">
+    <value>lbSeparator</value>
+  </data>
+  <data name="&gt;&gt;lbSeparator.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;btnSettings.Name" xml:space="preserve">
     <value>btnSettings</value>
@@ -2020,119 +2164,23 @@
   <data name="&gt;&gt;btnSettings.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;btnCaptureMode.Name" xml:space="preserve">
-    <value>btnCaptureMode</value>
-  </data>
-  <data name="&gt;&gt;btnCaptureMode.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripDropDownButton, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
-  </data>
-  <data name="&gt;&gt;btnCapturePrimaryScreen.Name" xml:space="preserve">
-    <value>btnCapturePrimaryScreen</value>
-  </data>
-  <data name="&gt;&gt;btnCapturePrimaryScreen.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripMenuItem, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
-  </data>
-  <data name="&gt;&gt;btnCaptureWindow.Name" xml:space="preserve">
-    <value>btnCaptureWindow</value>
-  </data>
-  <data name="&gt;&gt;btnCaptureWindow.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripMenuItem, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
-  </data>
-  <data name="&gt;&gt;btnCaptureRegion.Name" xml:space="preserve">
-    <value>btnCaptureRegion</value>
-  </data>
-  <data name="&gt;&gt;btnCaptureRegion.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripMenuItem, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
-  </data>
-  <data name="&gt;&gt;btnStartRecording.Name" xml:space="preserve">
-    <value>btnStartRecording</value>
-  </data>
-  <data name="&gt;&gt;btnStartRecording.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
-  </data>
-  <data name="&gt;&gt;btnStopRecording.Name" xml:space="preserve">
-    <value>btnStopRecording</value>
-  </data>
-  <data name="&gt;&gt;btnStopRecording.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
-  </data>
-  <data name="&gt;&gt;btnPausePlaying.Name" xml:space="preserve">
-    <value>btnPausePlaying</value>
-  </data>
-  <data name="&gt;&gt;btnPausePlaying.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
-  </data>
-  <data name="&gt;&gt;btnStartPlaying.Name" xml:space="preserve">
-    <value>btnStartPlaying</value>
-  </data>
-  <data name="&gt;&gt;btnStartPlaying.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
-  </data>
-  <data name="&gt;&gt;btnScreenPreview.Name" xml:space="preserve">
-    <value>btnScreenPreview</value>
-  </data>
-  <data name="&gt;&gt;btnScreenPreview.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
-  </data>
-  <data name="&gt;&gt;btnStorageFolder.Name" xml:space="preserve">
-    <value>btnStorageFolder</value>
-  </data>
-  <data name="&gt;&gt;btnStorageFolder.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
-  </data>
-  <data name="&gt;&gt;lbStatusRecording.Name" xml:space="preserve">
-    <value>lbStatusRecording</value>
-  </data>
-  <data name="&gt;&gt;lbStatusRecording.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
-  </data>
-  <data name="&gt;&gt;lbStatusTime.Name" xml:space="preserve">
-    <value>lbStatusTime</value>
-  </data>
-  <data name="&gt;&gt;lbStatusTime.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
-  </data>
-  <data name="&gt;&gt;lbStatusReady.Name" xml:space="preserve">
-    <value>lbStatusReady</value>
-  </data>
-  <data name="&gt;&gt;lbStatusReady.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
-  </data>
-  <data name="&gt;&gt;btnConvert.Name" xml:space="preserve">
-    <value>btnConvert</value>
-  </data>
-  <data name="&gt;&gt;btnConvert.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripDropDownButton, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
-  </data>
-  <data name="&gt;&gt;btnConvertOGG.Name" xml:space="preserve">
-    <value>btnConvertOGG</value>
-  </data>
-  <data name="&gt;&gt;btnConvertOGG.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lbSeparator.Name" xml:space="preserve">
-    <value>lbSeparator</value>
-  </data>
-  <data name="&gt;&gt;lbSeparator.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
-  </data>
   <data name="&gt;&gt;iconPlayPause.Name" xml:space="preserve">
     <value>iconPlayPause</value>
   </data>
   <data name="&gt;&gt;iconPlayPause.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableNotifyIcon, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableNotifyIcon, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;keyPlayPause.Name" xml:space="preserve">
     <value>keyPlayPause</value>
   </data>
   <data name="&gt;&gt;keyPlayPause.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.HotKey, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.HotKey, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;keyStartStop.Name" xml:space="preserve">
     <value>keyStartStop</value>
   </data>
   <data name="&gt;&gt;keyStartStop.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.HotKey, ScreenCapture, Version=1.3.0.24217, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.HotKey, ScreenCapture, Version=1.3.0.39010, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>
