@@ -8,7 +8,9 @@
 
   The application can now record keyboard keypresses, show those
   in the video, and can convert to HTML5 formats such as OGG and
-  WebM.
+  WebM. There is initial support for globalization, with English
+  and Brazilian Portuguese available. The video container format
+  can now be chosen in the Settings dialog.
 
   Issues fixed:
   - Issue  7: Add version information in the about dialog;
