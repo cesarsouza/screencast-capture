@@ -21,15 +21,15 @@
 
 namespace ScreenCapture.Views
 {
-    using System;
-    using System.IO;
-    using System.Text;
-    using System.Windows.Forms;
     using Microsoft.WindowsAPICodePack.Dialogs;
     using ScreenCapture.Properties;
     using ScreenCapture.ViewModels;
-    using System.Reflection;
+    using System;
     using System.Globalization;
+    using System.IO;
+    using System.Reflection;
+    using System.Text;
+    using System.Windows.Forms;
 
     /// <summary>
     ///   Options dialog.
@@ -61,6 +61,7 @@ namespace ScreenCapture.Views
             cbKeyboard.Bind(b => b.Checked, viewModel, m => m.CaptureKeys);
             cbFrameRate.Bind(b => b.Text, viewModel, m => m.FrameRate);
             cbContainer.Bind(b => b.Text, viewModel, m => m.Container);
+            cbConversion.Bind(b => b.Checked, viewModel, m => m.ShowConversionOptionsAfterRecording);
             
             showCopyrightText();
 
