@@ -101,7 +101,7 @@ namespace ScreenCapture.Processors
             penOuter = new Pen(Brushes.Black, 3);
             penInner = new Pen(Color.FromArgb(200, Color.White), 5);
 
-            Radius = 60;
+            Radius = 50;
             StepSize = 16;
         }
 
