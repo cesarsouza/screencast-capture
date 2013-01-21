@@ -126,10 +126,19 @@
   <data name="tabPage1.Text" xml:space="preserve">
     <value>Opções de Captura</value>
   </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Conversão</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="cbConversion.Size" type="System.Drawing.Size, System.Drawing">
+    <value>320, 17</value>
+  </data>
+  <data name="cbConversion.Text" xml:space="preserve">
+    <value>Oferecer conversão de vídeo quando a gravação terminar</value>
+  </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Vídeo</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>82, 13</value>
   </data>
