@@ -21,10 +21,10 @@
 
 namespace ScreenCapture
 {
+    using ScreenCapture.Properties;
+    using ScreenCapture.Views;
     using System;
     using System.Windows.Forms;
-    using ScreenCapture.Views;
-    using ScreenCapture.Properties;
 
     static class Program
     {
@@ -36,7 +36,7 @@ namespace ScreenCapture
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
             
-            Properties.Settings.Default.Save();
+            Settings.Default.Save();
         }
 
     }

@@ -21,19 +21,10 @@
 
 namespace ScreenCapture.ViewModels
 {
+    using AForge.Controls;
+    using ScreenCapture.Properties;
     using System;
     using System.ComponentModel;
-    using System.Drawing;
-    using System.Drawing.Drawing2D;
-    using System.IO;
-    using System.Windows.Forms;
-    using AForge.Controls;
-    using AForge.Imaging.Filters;
-    using AForge.Video;
-    using AForge.Video.FFMPEG;
-    using ScreenCapture.Native;
-    using ScreenCapture.Processors;
-    using ScreenCapture.Properties;
 
 
     /// <summary>
@@ -76,13 +67,15 @@ namespace ScreenCapture.ViewModels
         /// <summary>
         ///   Gets whether the screen preview is visible.
         /// </summary>
+        /// 
         public bool IsPreviewVisible { get; set; }
 
         /// <summary>
         ///   Gets the current status of the application.
         /// </summary>
         /// 
-        public string Status { get; set; }
+        [LocalizableAttribute(true)]
+        public string StatusText { get; set; }
 
 
 
@@ -101,7 +94,7 @@ namespace ScreenCapture.ViewModels
 
             IsPreviewVisible = true;
             CurrentDirectory = Settings.Default.DefaultFolder;
-            Status = "Ready";
+            StatusText = Resources.Status_Ready;
 
             PropertyChanged += MainViewModel_PropertyChanged;
             Recorder.PropertyChanged += recorder_PropertyChanged;
@@ -114,7 +107,7 @@ namespace ScreenCapture.ViewModels
         {
             if (e.PropertyName == "CurrentSelection" && !IsPreviewVisible)
                 Converter.InputPath = CurrentSelection;
-            if (e.PropertyName == "IsPreviewVisible")
+            else if (e.PropertyName == "IsPreviewVisible")
                 raise("IsConversionVisible");
         }
 
@@ -122,8 +115,10 @@ namespace ScreenCapture.ViewModels
         {
             if (e.PropertyName == "HasRecorded" && Recorder.HasRecorded)
                 Converter.InputPath = Recorder.OutputPath;
-            if (e.PropertyName == "IsPlaying")
+            else if (e.PropertyName == "IsPlaying")
                 raise("IsRecordingEnabled");
+            else if (e.PropertyName == "IsRecording")
+                raise("IsConversionVisible");
         }
 
         private void Convert_PropertyChanged(object sender, PropertyChangedEventArgs e)
