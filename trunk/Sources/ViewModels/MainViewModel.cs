@@ -32,7 +32,7 @@ namespace ScreenCapture.ViewModels
     ///   Main ViewModel to control the application.
     /// </summary>
     /// 
-    public class MainViewPresenter : INotifyPropertyChanged, IDisposable
+    public class MainViewModel : INotifyPropertyChanged, IDisposable
     {
 
         /// <summary>
@@ -52,11 +52,6 @@ namespace ScreenCapture.ViewModels
         /// 
         public ConvertViewModel Converter { get; private set; }
 
-        /// <summary>
-        ///   Gets the main view for the application.
-        /// </summary>
-        /// 
-        public MainForm MainView { get; private set; }
 
 
         /// <summary>
@@ -85,17 +80,21 @@ namespace ScreenCapture.ViewModels
         public string StatusText { get; set; }
 
 
-
         /// <summary>
-        ///   Initializes a new instance of the <see cref="MainViewPresenter"/> class.
+        ///   Occurs when the format conversion dialog is requested.
         /// </summary>
         /// 
-        public MainViewPresenter(MainForm view, VideoSourcePlayer player)
+        public event EventHandler ShowConversionDialog;
+
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="MainViewModel"/> class.
+        /// </summary>
+        /// 
+        public MainViewModel(VideoSourcePlayer player)
         {
-            if (view == null) throw new ArgumentNullException("view");
             if (player == null) throw new ArgumentNullException("player");
 
-            MainView = view;
             Recorder = new RecorderViewModel(this, player);
             Notifier = new NotifyViewModel(Recorder);
             Converter = new ConvertViewModel(this);
@@ -125,12 +124,18 @@ namespace ScreenCapture.ViewModels
             {
                 Converter.InputPath = Recorder.OutputPath;
                 if (Settings.Default.ShowConversionOnFinish)
-                    MainView.ShowVideoConversionDialog();
+                    raiseShowConversionDialog();
             }
             else if (e.PropertyName == "IsPlaying")
                 raise("IsRecordingEnabled");
             else if (e.PropertyName == "IsRecording")
                 raise("IsConversionVisible");
+        }
+
+        private void raiseShowConversionDialog()
+        {
+            if (ShowConversionDialog != null)
+                ShowConversionDialog(this, EventArgs.Empty);
         }
 
         private void Convert_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -179,6 +184,8 @@ namespace ScreenCapture.ViewModels
         }
 
 
+
+
         private void raise(string propertyName)
         {
             if (PropertyChanged != null)
@@ -202,10 +209,10 @@ namespace ScreenCapture.ViewModels
 
         /// <summary>
         ///   Releases unmanaged resources and performs other cleanup operations 
-        ///   before the <see cref="MainViewPresenter"/> is reclaimed by garbage collection.
+        ///   before the <see cref="MainViewModel"/> is reclaimed by garbage collection.
         /// </summary>
         /// 
-        ~MainViewPresenter()
+        ~MainViewModel()
         {
             Dispose(false);
         }

@@ -229,7 +229,7 @@
             this.btnConvert.LinkColor = System.Drawing.Color.Black;
             this.btnConvert.Name = "btnConvert";
             this.btnConvert.VisitedLinkColor = System.Drawing.Color.Black;
-            this.btnConvert.Click += new System.EventHandler(this.btnConvert_Click);
+            this.btnConvert.Click += new System.EventHandler(this.Converter_ShowDialog);
             // 
             // lbSeparator
             // 

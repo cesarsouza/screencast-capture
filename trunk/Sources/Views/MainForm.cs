@@ -21,12 +21,11 @@
 
 namespace ScreenCapture.Views
 {
-    using System;
-    using System.Windows.Forms;
-    using ScreenCapture.ViewModels;
     using ScreenCapture.Properties;
+    using ScreenCapture.ViewModels;
+    using System;
     using System.Globalization;
-    using System.Linq;
+    using System.Windows.Forms;
 
     /// <summary>
     ///   Main window for the Screencast Capture application.
@@ -35,10 +34,11 @@ namespace ScreenCapture.Views
     public partial class MainForm : Form
     {
 
-        MainViewPresenter viewModel;
+        MainViewModel viewModel;
 
         // Those are the windows shown when the user selects the
         // "Capture Region" or "Capture Window" application modes.
+        //
         CaptureRegion regionWindow;
         CaptureWindow windowWindow;
 
@@ -51,11 +51,9 @@ namespace ScreenCapture.Views
         {
             InitializeComponent();
 
-            viewModel = new MainViewPresenter(this, videoSourcePlayer1);
+            viewModel = new MainViewModel(videoSourcePlayer1);
             regionWindow = new CaptureRegion(viewModel.Recorder);
             windowWindow = new CaptureWindow(viewModel.Recorder);
-
-            viewModel.Notifier.ShowBalloon += new EventHandler<BalloonEventArgs>(Notify_ShowBalloon);
         }
 
 
@@ -77,7 +75,8 @@ namespace ScreenCapture.Views
             iconPlayPause.Bind(b => b.Text, viewModel.Notifier, m => m.CurrentText);
             iconPlayPause.Bind(b => b.Icon, viewModel.Notifier, m => m.CurrentIcon);
 
-            toolStripProgressBar1.ProgressBar.BringToFront();
+            viewModel.ShowConversionDialog += Converter_ShowDialog;
+            viewModel.Notifier.ShowBalloon += Notifier_ShowBalloon;
 
             viewModel.Notifier.Loaded();
         }
@@ -122,10 +121,6 @@ namespace ScreenCapture.Views
 
 
 
-        private void Notify_ShowBalloon(object sender, BalloonEventArgs e)
-        {
-            iconPlayPause.ShowBalloonTip(e.Milliseconds, e.Title, e.Text, e.Icon);
-        }
 
 
         // Video player controls
@@ -180,6 +175,64 @@ namespace ScreenCapture.Views
             viewModel.Recorder.CaptureMode = CaptureRegionOption.Fixed;
         }
 
+
+        // Global HotKey actions
+        private void hotkeyPlayPause_Pressed(object sender, System.ComponentModel.HandledEventArgs e)
+        {
+            if (viewModel.Recorder.IsPlaying)
+                viewModel.Recorder.PausePlaying();
+            else viewModel.Recorder.StartPlaying();
+        }
+
+        private void hotkeyStop_Pressed(object sender, System.ComponentModel.HandledEventArgs e)
+        {
+            if (viewModel.Recorder.IsRecording)
+                viewModel.Recorder.StopRecording();
+            else viewModel.Recorder.StartRecording();
+        }
+
+
+        // Notification area icons
+        private void iconPlayPause_Click(object sender, EventArgs e)
+        {
+            viewModel.Notifier.Click();
+        }
+
+        private void Notifier_ShowBalloon(object sender, BalloonEventArgs e)
+        {
+            iconPlayPause.ShowBalloonTip(e.Milliseconds, e.Title, e.Text, e.Icon);
+        }
+
+
+        // Status bar controls
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            using (OptionForm form = new OptionForm())
+                form.ShowDialog(this);
+        }
+
+        private void Converter_ShowDialog(object sender, EventArgs e)
+        {
+            using (ConvertForm form = new ConvertForm(viewModel.Converter))
+                form.ShowDialog(this);
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            viewModel.Converter.Cancel();
+        }
+
+
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            regionWindow.Close();
+            windowWindow.Close();
+            viewModel.Recorder.Close();
+        }
+
+
+
         private ToolStripMenuItem getModeButton(CaptureRegionOption mode)
         {
             switch (mode)
@@ -195,63 +248,5 @@ namespace ScreenCapture.Views
             }
         }
 
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            regionWindow.Close();
-            windowWindow.Close();
-            viewModel.Recorder.Close();
-        }
-
-
-        private void hotkeyPlayPause_Pressed(object sender, System.ComponentModel.HandledEventArgs e)
-        {
-            if (viewModel.Recorder.IsPlaying)
-                viewModel.Recorder.PausePlaying();
-            else viewModel.Recorder.StartPlaying();
-        }
-
-        private void hotkeyStop_Pressed(object sender, System.ComponentModel.HandledEventArgs e)
-        {
-            if (viewModel.Recorder.IsRecording)
-                viewModel.Recorder.StopRecording();
-            else viewModel.Recorder.StartRecording();
-        }
-
-        private void btnSettings_Click(object sender, EventArgs e)
-        {
-            using (OptionForm form = new OptionForm())
-                form.ShowDialog(this);
-        }
-
-        private void iconPlayPause_Click(object sender, EventArgs e)
-        {
-            viewModel.Notifier.Click();
-        }
-
-        private void btnConvertOGG_Click(object sender, EventArgs e)
-        {
-            viewModel.Converter.Start();
-        }
-
-        private void btnConvert_Click(object sender, EventArgs e)
-        {
-            ShowVideoConversionDialog();
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            viewModel.Converter.Cancel();
-        }
-
-        /// <summary>
-        ///   Displays the video format conversion dialog.
-        /// </summary>
-        /// 
-        public void ShowVideoConversionDialog()
-        {
-            using (ConvertForm form = new ConvertForm(viewModel.Converter))
-                form.ShowDialog(this);
-        }
     }
 }

@@ -81,7 +81,7 @@ namespace ScreenCapture.ViewModels
         ///   dialog automatically when recording stops.
         /// </summary>
         /// 
-        public bool ShowConversionOptionsAfterRecording { get; set; }
+        public bool AutoConversionDialog { get; set; }
 
         /// <summary>
         ///   Gets a list of supported container formats.
@@ -128,7 +128,7 @@ namespace ScreenCapture.ViewModels
             Settings.Default.CaptureKeys = CaptureKeys;
             Settings.Default.FrameRate = FrameRate;
             Settings.Default.Container = Container;
-            Settings.Default.ShowConversionOnFinish = ShowConversionOptionsAfterRecording;
+            Settings.Default.ShowConversionOnFinish = AutoConversionDialog;
 
             Settings.Default.Save();
         }
@@ -147,7 +147,7 @@ namespace ScreenCapture.ViewModels
             CaptureKeys = Settings.Default.CaptureKeys;
             FrameRate = Settings.Default.FrameRate;
             Container = Settings.Default.Container;
-            ShowConversionOptionsAfterRecording = Settings.Default.ShowConversionOnFinish;
+            AutoConversionDialog = Settings.Default.ShowConversionOnFinish;
         }
 
 

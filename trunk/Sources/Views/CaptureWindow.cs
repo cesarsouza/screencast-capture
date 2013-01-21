@@ -65,7 +65,7 @@ namespace ScreenCapture.Views
                 throw new ArgumentNullException("viewModel");
 
             this.viewModel = viewModel;
-            this.viewModel.TargetWindowRequested += viewModel_TargetWindowRequested;
+            this.viewModel.ShowTargetWindow += viewModel_TargetWindowRequested;
         }
         
 

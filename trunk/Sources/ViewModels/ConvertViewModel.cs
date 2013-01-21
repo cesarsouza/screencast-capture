@@ -36,7 +36,7 @@ namespace ScreenCapture.ViewModels
     public class ConvertViewModel : INotifyPropertyChanged, IDisposable
     {
 
-        private MainViewPresenter main;
+        private MainViewModel main;
         private BackgroundWorker worker;
         private bool shouldStop;
 
@@ -112,7 +112,7 @@ namespace ScreenCapture.ViewModels
         ///   Initializes a new instance of the <see cref="ConvertViewModel" /> class.
         /// </summary>
         /// 
-        public ConvertViewModel(MainViewPresenter main)
+        public ConvertViewModel(MainViewModel main)
         {
             if (main == null)
                 throw new ArgumentNullException("main");
