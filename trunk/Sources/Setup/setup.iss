@@ -33,7 +33,7 @@ Name: "src"; Description: "Source code files"; Types: full custom;
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\..\Binaries\*";        DestDir: "{app}\Binaries";  Components: bin; 
+Source: "..\..\Binaries\*";        DestDir: "{app}\Binaries";  Components: bin; Flags: recursesubdirs;
 Source: "..\..\Sources\*";         DestDir: "{app}\Sources";   Components: src; Flags: recursesubdirs; Excludes: "*.~*,\TestResults,\bin,\obj,*.sdf,*.suo,*.user,*.vsp,*.shfbproj_*,*.pidb"
 Source: "..\..\Copyright.txt";     DestDir: "{app}";           Components: bin
 Source: "..\..\License.txt";       DestDir: "{app}";           Components: bin
