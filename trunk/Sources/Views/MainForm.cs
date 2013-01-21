@@ -35,7 +35,7 @@ namespace ScreenCapture.Views
     public partial class MainForm : Form
     {
 
-        MainViewModel viewModel;
+        MainViewPresenter viewModel;
 
         // Those are the windows shown when the user selects the
         // "Capture Region" or "Capture Window" application modes.
@@ -51,7 +51,7 @@ namespace ScreenCapture.Views
         {
             InitializeComponent();
 
-            viewModel = new MainViewModel(videoSourcePlayer1);
+            viewModel = new MainViewPresenter(this, videoSourcePlayer1);
             regionWindow = new CaptureRegion(viewModel.Recorder);
             windowWindow = new CaptureWindow(viewModel.Recorder);
 
@@ -236,8 +236,7 @@ namespace ScreenCapture.Views
 
         private void btnConvert_Click(object sender, EventArgs e)
         {
-            using (ConvertForm form = new ConvertForm(viewModel.Converter))
-                form.ShowDialog(this);
+            ShowVideoConversionDialog();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -245,6 +244,14 @@ namespace ScreenCapture.Views
             viewModel.Converter.Cancel();
         }
 
-
+        /// <summary>
+        ///   Displays the video format conversion dialog.
+        /// </summary>
+        /// 
+        public void ShowVideoConversionDialog()
+        {
+            using (ConvertForm form = new ConvertForm(viewModel.Converter))
+                form.ShowDialog(this);
+        }
     }
 }

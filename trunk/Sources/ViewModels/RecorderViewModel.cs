@@ -66,7 +66,7 @@ namespace ScreenCapture.ViewModels
     public class RecorderViewModel : INotifyPropertyChanged, IDisposable
     {
 
-        private MainViewModel main;
+        private MainViewPresenter main;
 
         private CaptureRegionOption captureMode;
         private ScreenCaptureStream screenStream;
@@ -164,10 +164,10 @@ namespace ScreenCapture.ViewModels
 
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="MainViewModel"/> class.
+        ///   Initializes a new instance of the <see cref="MainViewPresenter"/> class.
         /// </summary>
         /// 
-        public RecorderViewModel(MainViewModel main, VideoSourcePlayer player)
+        public RecorderViewModel(MainViewPresenter main, VideoSourcePlayer player)
         {
             if (main == null)
                 throw new ArgumentNullException("main");

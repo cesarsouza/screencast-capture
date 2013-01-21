@@ -23,6 +23,7 @@ namespace ScreenCapture.ViewModels
 {
     using AForge.Controls;
     using ScreenCapture.Properties;
+    using ScreenCapture.Views;
     using System;
     using System.ComponentModel;
 
@@ -31,7 +32,7 @@ namespace ScreenCapture.ViewModels
     ///   Main ViewModel to control the application.
     /// </summary>
     /// 
-    public class MainViewModel : INotifyPropertyChanged, IDisposable
+    public class MainViewPresenter : INotifyPropertyChanged, IDisposable
     {
 
         /// <summary>
@@ -48,8 +49,14 @@ namespace ScreenCapture.ViewModels
         /// <summary>
         ///   Gets the format converter view-model.
         /// </summary>
+        /// 
         public ConvertViewModel Converter { get; private set; }
 
+        /// <summary>
+        ///   Gets the main view for the application.
+        /// </summary>
+        /// 
+        public MainForm MainView { get; private set; }
 
 
         /// <summary>
@@ -80,14 +87,15 @@ namespace ScreenCapture.ViewModels
 
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="MainViewModel"/> class.
+        ///   Initializes a new instance of the <see cref="MainViewPresenter"/> class.
         /// </summary>
         /// 
-        public MainViewModel(VideoSourcePlayer player)
+        public MainViewPresenter(MainForm view, VideoSourcePlayer player)
         {
-            if (player == null)
-                throw new ArgumentNullException("player");
+            if (view == null) throw new ArgumentNullException("view");
+            if (player == null) throw new ArgumentNullException("player");
 
+            MainView = view;
             Recorder = new RecorderViewModel(this, player);
             Notifier = new NotifyViewModel(Recorder);
             Converter = new ConvertViewModel(this);
@@ -114,7 +122,11 @@ namespace ScreenCapture.ViewModels
         private void recorder_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "HasRecorded" && Recorder.HasRecorded)
+            {
                 Converter.InputPath = Recorder.OutputPath;
+                if (Settings.Default.ShowConversionOnFinish)
+                    MainView.ShowVideoConversionDialog();
+            }
             else if (e.PropertyName == "IsPlaying")
                 raise("IsRecordingEnabled");
             else if (e.PropertyName == "IsRecording")
@@ -190,10 +202,10 @@ namespace ScreenCapture.ViewModels
 
         /// <summary>
         ///   Releases unmanaged resources and performs other cleanup operations 
-        ///   before the <see cref="MainViewModel"/> is reclaimed by garbage collection.
+        ///   before the <see cref="MainViewPresenter"/> is reclaimed by garbage collection.
         /// </summary>
         /// 
-        ~MainViewModel()
+        ~MainViewPresenter()
         {
             Dispose(false);
         }
