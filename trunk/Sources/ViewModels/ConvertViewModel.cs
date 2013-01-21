@@ -21,6 +21,7 @@
 
 namespace ScreenCapture.ViewModels
 {
+    using ScreenCapture.Properties;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -137,7 +138,7 @@ namespace ScreenCapture.ViewModels
         {
             Progress = 0;
             IsConverting = true;
-            main.Status = "Converting...";
+            main.StatusText = Resources.Status_Converting;
             shouldStop = false;
 
             worker.RunWorkerAsync();
@@ -158,7 +159,7 @@ namespace ScreenCapture.ViewModels
         {
             Progress = 100;
             IsConverting = false;
-            main.Status = "Ready";
+            main.StatusText = Resources.Status_Ready;
         }
 
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)

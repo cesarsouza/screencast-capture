@@ -23,5 +23,8 @@
     <Setting Name="Container" Type="System.String" Scope="User">
       <Value Profile="(Default)">avi</Value>
     </Setting>
+    <Setting Name="ShowConversionOnFinish" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

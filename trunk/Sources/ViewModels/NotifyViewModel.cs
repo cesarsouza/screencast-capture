@@ -21,12 +21,11 @@
 
 namespace ScreenCapture.ViewModels
 {
+    using ScreenCapture.Properties;
     using System;
     using System.ComponentModel;
     using System.Drawing;
-    using ScreenCapture.Properties;
     using System.Windows.Forms;
-    using System.Resources;
 
     /// <summary>
     ///   ViewModel bridging the notification area and the model.

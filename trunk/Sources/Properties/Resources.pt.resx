@@ -129,4 +129,13 @@
   <data name="Greet_Title" xml:space="preserve">
     <value>Olá! E aí, beleza?</value>
   </data>
+  <data name="Status_Converting" xml:space="preserve">
+    <value>Convertendo...</value>
+  </data>
+  <data name="Status_Ready" xml:space="preserve">
+    <value>Pronto</value>
+  </data>
+  <data name="Status_Recording" xml:space="preserve">
+    <value>Gravando</value>
+  </data>
 </root>

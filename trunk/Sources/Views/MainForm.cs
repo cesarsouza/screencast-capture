@@ -77,7 +77,7 @@ namespace ScreenCapture.Views
             iconPlayPause.Bind(b => b.Text, viewModel.Notifier, m => m.CurrentText);
             iconPlayPause.Bind(b => b.Icon, viewModel.Notifier, m => m.CurrentIcon);
 
-            progressBar1.BringToFront();
+            toolStripProgressBar1.ProgressBar.BringToFront();
 
             viewModel.Notifier.Loaded();
         }
@@ -109,12 +109,12 @@ namespace ScreenCapture.Views
             lbStatusTime.Bind(b => b.Visible, viewModel.Recorder, m => m.IsRecording);
             lbStatusTime.Bind(b => b.Text, viewModel.Recorder, m => m.RecordingDuration, value => value.ToString(@"hh\:mm\:ss", CultureInfo.CurrentCulture));
             lbStatusReady.Bind(b => b.Visible, viewModel.Recorder, m => m.IsRecording, value => !value);
-            lbStatusReady.Bind(b => b.Text, viewModel, m => m.Status);
+            lbStatusReady.Bind(b => b.Text, viewModel, m => m.StatusText);
 
             btnConvert.Bind(b => b.Visible, viewModel, m => m.IsConversionVisible);
             btnCancel.Bind(b => b.Visible, viewModel.Converter, m => m.IsConverting);
-            progressBar1.Bind(b => b.Visible, viewModel.Converter, m => m.IsConverting);
-            progressBar1.Bind(b => b.Value, viewModel.Converter, m => m.Progress);
+            toolStripProgressBar1.ProgressBar.Bind(b => b.Visible, viewModel.Converter, m => m.IsConverting);
+            toolStripProgressBar1.ProgressBar.Bind(b => b.Value, viewModel.Converter, m => m.Progress);
 
             lbSeparator.Bind(b => b.Visible, b => btnConvert.VisibleChanged += b, () => btnCancel.Visible || btnConvert.Visible);
             lbSeparator.Bind(b => b.Visible, b => btnCancel.VisibleChanged += b, () => btnCancel.Visible || btnConvert.Visible);

@@ -279,12 +279,12 @@ namespace ScreenCapture.ViewModels
             int framerate = 1000 / screenStream.FrameInterval;
             int bitrate = 10 * 1000 * 1000;
 
-            string path = Path.Combine(main.CurrentDirectory, fileName);
+            OutputPath = Path.Combine(main.CurrentDirectory, fileName);
 
             RecordingStartTime = DateTime.MinValue;
 
             videoWriter = new VideoFileWriter();
-            videoWriter.Open(path, width, height, framerate, VideoCodec.H264, bitrate);
+            videoWriter.Open(OutputPath, width, height, framerate, VideoCodec.H264, bitrate);
 
             HasRecorded = false;
             IsRecording = true;
