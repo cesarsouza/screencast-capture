@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
   <Comment CommentText="Views">
-    <Position X="10.3" Y="4.314" Height="0.492" Width="0.887" />
+    <Position X="11.581" Y="4.114" Height="0.492" Width="0.887" />
   </Comment>
   <Comment CommentText="ViewModels">
-    <Position X="11.85" Y="8.235" Height="0.492" Width="0.887" />
+    <Position X="11.616" Y="7.555" Height="0.492" Width="0.887" />
   </Comment>
   <Class Name="ScreenCapture.Program" Collapsed="true">
     <Position X="0.5" Y="0.75" Width="1.5" />
@@ -14,10 +14,11 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ScreenCapture.Controls.ExplorerBrowserCustom" BaseTypeListCollapsed="true">
-    <Position X="4.5" Y="4.75" Width="2" />
+    <Position X="6" Y="4.75" Width="2" />
     <Members>
       <Method Name="Dispose" Hidden="true" />
       <Method Name="OnPropertyChanged" Hidden="true" />
+      <Event Name="PropertyChanged" Hidden="true" />
     </Members>
     <Compartments>
       <Compartment Name="Private" Collapsed="true" />
@@ -26,10 +27,10 @@
       <HashCode>AQQAAAEIRSAAAAAEIMCQAAACoAAEAAAAAAAIIAABAEA=</HashCode>
       <FileName>Controls\ExplorerBrowserCustom.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="ScreenCapture.Controls.HotKey">
-    <Position X="4.5" Y="2.25" Width="2" />
+    <Position X="6" Y="2.25" Width="2" />
     <Members>
       <Field Name="enabled" Hidden="true" />
       <Field Name="key" Hidden="true" />
@@ -52,21 +53,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ScreenCapture.Views.CaptureRegion" Collapsed="true">
-    <Position X="11.5" Y="2.5" Width="1.5" />
+    <Position X="13" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAABIAAAACABAAIAAACQAAACAAAAAAAAAAAAQQAEAAA=</HashCode>
       <FileName>Views\CaptureRegion.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ScreenCapture.Views.CaptureWindow" Collapsed="true">
-    <Position X="11.5" Y="3.25" Width="1.5" />
+    <Position X="13" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAgIACAAABIAAACQAIACABAAAAAAAIAAAQAIAAA=</HashCode>
       <FileName>Views\CaptureWindow.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ScreenCapture.Views.ConvertForm">
-    <Position X="6.5" Y="0.5" Width="2.25" />
+    <Position X="8" Y="0.5" Width="2.25" />
     <Members>
       <Field Name="btnCancel" Hidden="true" />
       <Field Name="btnOK" Hidden="true" />
@@ -88,7 +89,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ScreenCapture.Views.MainForm">
-    <Position X="8.25" Y="2.5" Width="1.5" />
+    <Position X="9.75" Y="2.5" Width="1.5" />
     <Members>
       <Method Name="Dispose" Hidden="true" />
     </Members>
@@ -97,13 +98,24 @@
       <Compartment Name="Methods" Collapsed="true" />
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
-    <AssociationLine Name="viewModel" Type="ScreenCapture.ViewModels.MainViewModel">
+    <AssociationLine Name="viewModel" Type="ScreenCapture.ViewModels.MainViewModel" FixedToPoint="true">
+      <Path>
+        <Point X="10.688" Y="3.992" />
+        <Point X="10.688" Y="8.25" />
+      </Path>
       <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-0.296" Y="0.057" />
+        <Position X="0.112" Y="0.542" />
       </MemberNameLabel>
     </AssociationLine>
+    <AssociationLine Name="explorerBrowser" Type="ScreenCapture.Controls.ExplorerBrowserCustom" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10.062" Y="3.992" />
+        <Point X="10.062" Y="5.785" />
+        <Point X="8" Y="5.785" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>EAABZEGQCCegAEkGCiDwEEBCAEEAAAwYwBIIBQAAICM=</HashCode>
+      <HashCode>EAABZEGQCCfgAEkGCiDwEEBCAAECAAwYwBIIBQAAJCM=</HashCode>
       <FileName>Views\MainForm.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -116,7 +128,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="ScreenCapture.Views.OptionForm">
-    <Position X="10" Y="0.5" Width="2" />
+    <Position X="11.5" Y="0.5" Width="2" />
     <Members>
       <Field Name="btnApply" Hidden="true" />
       <Method Name="btnApply_Click" Hidden="true" />
@@ -129,6 +141,7 @@
       <Field Name="btnSelectFolder" Hidden="true" />
       <Method Name="btnSelectFolder_Click" Hidden="true" />
       <Field Name="cbContainer" Hidden="true" />
+      <Field Name="cbConversion" Hidden="true" />
       <Field Name="cbFrameRate" Hidden="true" />
       <Field Name="cbKeyboard" Hidden="true" />
       <Field Name="cbMouseClicks" Hidden="true" />
@@ -138,6 +151,7 @@
       <Field Name="groupBox1" Hidden="true" />
       <Field Name="groupBox2" Hidden="true" />
       <Field Name="groupBox3" Hidden="true" />
+      <Field Name="groupBox4" Hidden="true" />
       <Method Name="InitializeComponent" Hidden="true" />
       <Field Name="label1" Hidden="true" />
       <Field Name="label2" Hidden="true" />
@@ -160,12 +174,12 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AACAAAAAACAAABECABSRCkADACQgABAEACAAABJFREA=</HashCode>
+      <HashCode>AACAAAAAACAAABECABSRCkADACQgABAEACAAABJHREA=</HashCode>
       <FileName>Views\OptionForm.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ScreenCapture.Processors.CaptureClick" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="1" Y="14" Width="1.5" />
+    <Position X="0.75" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IgQKAAAAAKAAAoEAAACAQAAAACAYACAAAAAQAKAAAAA=</HashCode>
       <FileName>Processors\CaptureClick.cs</FileName>
@@ -173,7 +187,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="ScreenCapture.Processors.CaptureCursor" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="1" Y="13" Width="1.5" />
+    <Position X="0.75" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAAAAACAAAgEgAAAAIAAAAAAACAAAAAAAAAAAgAA=</HashCode>
       <FileName>Processors\CaptureCursor.cs</FileName>
@@ -181,7 +195,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="ScreenCapture.Processors.CaptureKeyboard" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="1" Y="12" Width="1.5" />
+    <Position X="0.75" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgACACABACAAAoBAACCBACACAAAEEAEAAAAAAAAAAIw=</HashCode>
       <FileName>Processors\CaptureKeyboard.cs</FileName>
@@ -191,7 +205,7 @@
   <Class Name="ScreenCapture.Properties.Resources" Collapsed="true">
     <Position X="0.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AFQAggACMhBmgAQLAAABEAgEAQAgAAYEAAEACAAAIIw=</HashCode>
+      <HashCode>AFQAggACOhBmgAQLAAQBEAgEAQCgAAYEAAEACAAAIIw=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="ScreenCapture.Properties.Settings">
@@ -202,15 +216,16 @@
       <Method Name="Settings_SettingsSaving" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAQAAAAAAAAIACAAIAAAACABAAAAACAEAACAAAA=</HashCode>
+      <HashCode>AAAAAAQAAAAAAAAIACAAIAAAACABAAAAACAUAACAAAA=</HashCode>
       <FileName>Properties\Settings.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ScreenCapture.ViewModels.ConvertViewModel" BaseTypeListCollapsed="true">
-    <Position X="14" Y="11.5" Width="1.75" />
+    <Position X="13.75" Y="10" Width="1.75" />
     <Members>
       <Method Name="Dispose" Hidden="true" />
       <Field Name="main" Hidden="true" />
+      <Event Name="PropertyChanged" Hidden="true" />
       <Field Name="shouldStop" Hidden="true" />
       <Field Name="worker" Hidden="true" />
     </Members>
@@ -224,19 +239,22 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="ScreenCapture.ViewModels.MainViewModel" BaseTypeListCollapsed="true">
-    <Position X="9" Y="9.25" Width="2.5" />
+    <Position X="8.75" Y="8.25" Width="2.5" />
     <Members>
       <Method Name="~MainViewModel" Hidden="true" />
       <Method Name="Convert_PropertyChanged" Hidden="true" />
+      <Method Name="Dispose" Hidden="true" />
       <Method Name="MainViewModel_PropertyChanged" Hidden="true" />
+      <Event Name="PropertyChanged" Hidden="true" />
       <Method Name="raise" Hidden="true" />
+      <Method Name="raiseShowConversionDialog" Hidden="true" />
       <Method Name="recorder_PropertyChanged" Hidden="true" />
     </Members>
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAEwCAAAABkAAEAAACAgFAIAQAAIAAAAAAAAAA=</HashCode>
+      <HashCode>AAAACAgAwCAAAABmAAEAAACAgFAIAQAAIAAAAAAAAAA=</HashCode>
       <FileName>ViewModels\MainViewModel.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -247,8 +265,9 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="ScreenCapture.ViewModels.NotifyViewModel" BaseTypeListCollapsed="true">
-    <Position X="14" Y="8.25" Width="1.5" />
+    <Position X="13.75" Y="7.25" Width="1.75" />
     <Members>
+      <Event Name="PropertyChanged" Hidden="true" />
       <Field Name="recorder" Hidden="true" />
       <Method Name="recorder_PropertyChanged" Hidden="true" />
       <Method Name="showGreetings" Hidden="true" />
@@ -261,23 +280,36 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="ScreenCapture.ViewModels.OptionViewModel" BaseTypeListCollapsed="true">
-    <Position X="9.25" Y="13" Width="2" />
+    <Position X="8.75" Y="11.5" Width="2.5" />
+    <Members>
+      <Method Name="OptionViewModel" Hidden="true" />
+      <Event Name="PropertyChanged" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAgIQAAAAAAAAIACAAAAAAgAIAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AAAAgIQAAAAAAAAIACAAAAAAgAIAAAAAACAQAAAAAAA=</HashCode>
       <FileName>ViewModels\OptionViewModel.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="ScreenCapture.ViewModels.RecorderViewModel">
-    <Position X="4.75" Y="9.75" Width="2.5" />
+    <Position X="4.5" Y="8.75" Width="2.5" />
     <Members>
+      <Method Name="~RecorderViewModel" Hidden="true" />
       <Method Name="adjustWindow" Hidden="true" />
+      <Field Name="captureMode" Hidden="true" />
+      <Field Name="crop" Hidden="true" />
       <Method Name="Dispose" Hidden="true" />
+      <Field Name="main" Hidden="true" />
       <Method Name="newFileName" Hidden="true" />
       <Method Name="onCaptureModeChanged" Hidden="true" />
       <Method Name="onTargetWindowRequested" Hidden="true" />
       <Method Name="Player_NewFrame" Hidden="true" />
+      <Event Name="PropertyChanged" Hidden="true" />
+      <Field Name="screenStream" Hidden="true" />
       <Method Name="screenStream_VideoSourceError" Hidden="true" />
+      <Field Name="syncObj" Hidden="true" />
+      <Field Name="videoPlayer" Hidden="true" />
+      <Field Name="videoWriter" Hidden="true" />
     </Members>
     <Compartments>
       <Compartment Name="Private" Collapsed="true" />
@@ -289,7 +321,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>gGAAAAADBDIAAAEACYABAAQAwwQEIEAEAIIAggSBBCQ=</HashCode>
+      <HashCode>gGAAAAADBDIAAAEAC4ABAAQAwwQEIEAEAIIAggSBBCQ=</HashCode>
       <FileName>ViewModels\RecorderViewModel.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -301,7 +333,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Enum Name="ScreenCapture.ViewModels.CaptureRegionOption">
-    <Position X="0.75" Y="9.75" Width="2" />
+    <Position X="0.5" Y="8.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACADAAAA=</HashCode>
       <FileName>ViewModels\RecorderViewModel.cs</FileName>

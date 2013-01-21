@@ -191,7 +191,7 @@
     <Compile Include="Views\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\MainViewPresenter.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Native\NativeMethods.Gdi32.cs" />
     <Compile Include="Native\NativeMethods.User32.cs" />
     <Compile Include="Program.cs" />

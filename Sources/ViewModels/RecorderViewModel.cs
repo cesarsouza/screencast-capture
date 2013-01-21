@@ -66,7 +66,7 @@ namespace ScreenCapture.ViewModels
     public class RecorderViewModel : INotifyPropertyChanged, IDisposable
     {
 
-        private MainViewPresenter main;
+        private MainViewModel main;
 
         private CaptureRegionOption captureMode;
         private ScreenCaptureStream screenStream;
@@ -157,17 +157,17 @@ namespace ScreenCapture.ViewModels
         ///   Occurs when the view-model needs a window to be recorded.
         /// </summary>
         /// 
-        public event EventHandler TargetWindowRequested;
+        public event EventHandler ShowTargetWindow;
 
 
       
 
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="MainViewPresenter"/> class.
+        ///   Initializes a new instance of the <see cref="MainViewModel"/> class.
         /// </summary>
         /// 
-        public RecorderViewModel(MainViewPresenter main, VideoSourcePlayer player)
+        public RecorderViewModel(MainViewModel main, VideoSourcePlayer player)
         {
             if (main == null)
                 throw new ArgumentNullException("main");
@@ -364,13 +364,13 @@ namespace ScreenCapture.ViewModels
         }
 
         /// <summary>
-        ///   Raises the <see cref="TargetWindowRequested"/> event.
+        ///   Raises the <see cref="ShowTargetWindow"/> event.
         /// </summary>
         /// 
         private void onTargetWindowRequested()
         {
-            if (TargetWindowRequested != null)
-                TargetWindowRequested(this, EventArgs.Empty);
+            if (ShowTargetWindow != null)
+                ShowTargetWindow(this, EventArgs.Empty);
         }
 
 
