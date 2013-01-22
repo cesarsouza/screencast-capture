@@ -33,11 +33,13 @@ namespace ScreenCapture.Properties
             this.SettingsSaving += new SettingsSavingEventHandler(Settings_SettingsSaving);
         }
 
-        
+
         private void Settings_SettingsLoaded(object sender, SettingsLoadedEventArgs e)
         {
-            if (Settings.Default.FirstRun)
+            if (Settings.Default.CanUpgrade)
                 Settings.Default.Upgrade();
+            
+            CanUpgrade = false;
 
             // Check if the default folder is null or empty 
             // and set it to the My Videos folder by default.
