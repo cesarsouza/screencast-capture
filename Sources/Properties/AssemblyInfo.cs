@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Screencast Capture Lite")]
-[assembly: AssemblyDescription("Free utility to continuously capture the desktop screen")]
+[assembly: AssemblyDescription("Free utility to continuously capture the computer screen.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Accord.NET Framework")]
+[assembly: AssemblyCompany("Accord.NET")]
 [assembly: AssemblyProduct("Screencast Capture Lite")]
 [assembly: AssemblyCopyright("Copyright © César Souza 2012-2013")]
 [assembly: AssemblyTrademark("")]
