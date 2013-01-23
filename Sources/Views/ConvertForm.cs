@@ -71,14 +71,11 @@ namespace ScreenCapture.Views
             // Perform special processing to enable aero
             if (SafeNativeMethods.IsAeroEnabled)
             {
-                btnCancel.FlatStyle = FlatStyle.Flat;
-                btnOK.FlatStyle = FlatStyle.Flat;
-
                 margins = new ThemeMargins();
-                margins.TopHeight = panel1.Top;
-                margins.LeftWidth = panel1.Left;
-                margins.RightWidth = ClientRectangle.Right - panel1.Right;
-                margins.BottomHeight = ClientRectangle.Bottom - panel1.Bottom;
+                margins.TopHeight = panel1.Top + 1;
+                margins.LeftWidth = panel1.Left + 1;
+                margins.RightWidth = ClientRectangle.Right - panel1.Right + 1;
+                margins.BottomHeight = ClientRectangle.Bottom - panel1.Bottom + 1;
 
                 // Extend the Frame into client area
                 SafeNativeMethods.ExtendAeroGlassIntoClientArea(this, margins);
@@ -90,12 +87,12 @@ namespace ScreenCapture.Views
         /// </summary>
         protected override void OnPaintBackground(PaintEventArgs e)
         {
-            base.OnPaint(e);
+            base.OnPaintBackground(e);
 
             if (SafeNativeMethods.IsAeroEnabled)
             {
                 // paint background black to enable include glass regions
-                e.Graphics.Clear(Color.Black);
+                e.Graphics.Clear(Color.FromArgb(0, this.BackColor));
 
                 // revert the non-glass rectangle back to it's original colour
                 Rectangle clientArea = new Rectangle(
@@ -103,12 +100,6 @@ namespace ScreenCapture.Views
                     this.ClientRectangle.Width - margins.LeftWidth - margins.RightWidth,
                     this.ClientRectangle.Height - margins.TopHeight - margins.BottomHeight
                 );
-
-                using (Brush b = new SolidBrush(this.BackColor))
-                    e.Graphics.FillRectangle(b, clientArea);
-
-                e.Graphics.FillRectangle(SystemBrushes.Control, new Rectangle(btnCancel.Location, btnCancel.Size));
-                e.Graphics.FillRectangle(SystemBrushes.Control, new Rectangle(btnOK.Location, btnOK.Size));
             }
         }
 
