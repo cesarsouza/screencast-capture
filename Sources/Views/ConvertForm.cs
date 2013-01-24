@@ -93,13 +93,6 @@ namespace ScreenCapture.Views
             {
                 // paint background black to enable include glass regions
                 e.Graphics.Clear(Color.FromArgb(0, this.BackColor));
-
-                // revert the non-glass rectangle back to it's original colour
-                Rectangle clientArea = new Rectangle(
-                    margins.LeftWidth, margins.TopHeight,
-                    this.ClientRectangle.Width - margins.LeftWidth - margins.RightWidth,
-                    this.ClientRectangle.Height - margins.TopHeight - margins.BottomHeight
-                );
             }
         }
 
