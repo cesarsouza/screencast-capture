@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
+  <Class Name="ScreenCapture.Native.NativeKeyboardContext" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="8.25" Width="2" />
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACAgAAACAAEAEAAACAAAAAgAAAgAAAIAAABAAAAAA=</HashCode>
+      <FileName>Native\Context\NativeKeyboardContext.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ScreenCapture.Native.NativeMouseContext" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="4.25" Width="2" />
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAACAgAAACAAAEEAAACAAAAAAAAAEAAAIAAAEACAAAA=</HashCode>
+      <FileName>Native\Context\NativeMouseContext.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ScreenCapture.Native.CustomKeysConverter">
+    <Position X="3.25" Y="5.75" Width="2.5" />
+    <Members>
+      <Field Name="charBuffer" Hidden="true" />
+      <Method Name="getCharsFromKeys" Hidden="true" />
+      <Field Name="stateCurrent" Hidden="true" />
+      <Field Name="stateInitial" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAQACIAAAAggAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Native\CustomKeysConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScreenCapture.Native.BitmapHandle">
+    <Position X="9.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACgAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Native\Handles\BitmapHandle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScreenCapture.Native.DeviceHandle">
+    <Position X="11.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACgAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Native\Handles\DeviceHandle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScreenCapture.Native.HookHandle">
+    <Position X="14.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACgAAAAAAAAAAAAAAAAAAAIAAAAAAAAAQAA=</HashCode>
+      <FileName>Native\Handles\HookHandle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScreenCapture.Native.IconHandle">
+    <Position X="7.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACgAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Native\Handles\IconHandle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScreenCapture.Native.WindowHandle" BaseTypeListCollapsed="true">
+    <Position X="13" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACgAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Native\Handles\WindowHandle.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ScreenCapture.Native.KeyboardLowLevelHookStruct">
+    <Position X="11" Y="9.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAABAEQAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Native\Hooks\LowLevelKeyboard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScreenCapture.Native.IconHandleInfo" BaseTypeListCollapsed="true">
+    <Position X="17.25" Y="0.75" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Protected" Collapsed="true" />
+      <Compartment Name="Internal" Collapsed="true" />
+      <Compartment Name="Private" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAQAAAAAABgAAAAAAAAQAAA=</HashCode>
+      <FileName>Native\Handles\IconHandleInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ScreenCapture.Native.KeysExtensions">
+    <Position X="3.25" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAEAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Native\KeysExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScreenCapture.Native.NativeMethods">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <NestedTypes>
+      <Delegate Name="ScreenCapture.Native.NativeMethods.LowLevelHookProc" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Native\NativeMethods.User32.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Enum Name="ScreenCapture.Native.NativeMethods.HookType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Native\NativeMethods.User32.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Struct Name="ScreenCapture.Native.NativeMethods.ICONINFO" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Native\NativeMethods.Gdi32.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AABIAAAAAABAgBSAECNBHECAAIRAAAAQCQggKhAgKIQ=</HashCode>
+      <FileName>Native\NativeMethods.Dwmapi.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScreenCapture.Native.SafeNativeMethods">
+    <Position X="3.25" Y="0.5" Width="2.5" />
+    <Members>
+      <Method Name="registerHotKey" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IAAIAAAAAAAABAAAAAAAEACABIEAAAAAAQAAAQAACAQ=</HashCode>
+      <FileName>Native\SafeNativeMethods.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="ScreenCapture.Native.MouseLowLevelHookStruct">
+    <Position X="11" Y="5.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAIAAAAAAAAAAAAAAAAAEAEAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Native\Hooks\LowLevelMouse.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ScreenCapture.Native.Rect">
+    <Position X="3.5" Y="8.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAgAAAAAIQAEAAAAAIAAAACACAAAAAAAA=</HashCode>
+      <FileName>Native\NativeMethods.Gdi32.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ScreenCapture.Native.ThemeMargins">
+    <Position X="1" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAQAAAABAAAAAABA=</HashCode>
+      <FileName>Native\NativeMethods.Dwmapi.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ScreenCapture.Native.CursorInfo">
+    <Position X="17.25" Y="5.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAAAAAAQAAAAABAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Native\NativeMethods.Gdi32.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="ScreenCapture.Native.LowLevelKeyboardMessage">
+    <Position X="13.75" Y="8.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACCAAAgAAACA=</HashCode>
+      <FileName>Native\Hooks\LowLevelKeyboard.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ScreenCapture.Native.LowLevelMouseMessage">
+    <Position X="13.75" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AIAAACAAAAAAAgAAAAAAAAAAABAAAAAAAAAAAIAAIAA=</HashCode>
+      <FileName>Native\Hooks\LowLevelMouse.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ScreenCapture.Native.CursorState">
+    <Position X="17.25" Y="4.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAgAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Native\NativeMethods.Gdi32.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="ScreenCapture.Native.LowLevelKeyboardProcedure">
+    <Position X="11" Y="8" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Native\Hooks\LowLevelKeyboard.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="ScreenCapture.Native.LowLevelMouseProcedure">
+    <Position X="11" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Native\Hooks\LowLevelMouse.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

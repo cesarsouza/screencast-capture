@@ -1,0 +1,7 @@
+The binaries available on this folder have been built using 
+rev 1699 as the base, then aplying the modifications listed
+in the changeset.patch upon the trunk.
+
+The AForge.NET Framework repository can be found at:
+ 
+ https://code.google.com/p/aforge/
