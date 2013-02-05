@@ -85,7 +85,7 @@ Index: Sources/Controls/VideoSourcePlayer.cs
                      else
 Index: Sources/Video.FFMPEG/AssemblyInfo.cpp
 ===================================================================
---- Sources/Video.FFMPEG/AssemblyInfo.cpp	(revision 1699)
+--- Sources/Video.FFMPEG/AssemblyInfo.cpp	(revision 1705)
 +++ Sources/Video.FFMPEG/AssemblyInfo.cpp	(working copy)
 @@ -39,3 +39,5 @@
  [assembly:CLSCompliantAttribute(true)];
@@ -93,9 +93,96 @@ Index: Sources/Video.FFMPEG/AssemblyInfo.cpp
  [assembly:SecurityPermission(SecurityAction::RequestMinimum, UnmanagedCode = true)];
 +[assembly:AssemblyKeyFileAttribute("AForge.Video.FFMPEG.snk")];
 +[assembly:AssemblyDelaySignAttribute(true)];
+Index: Sources/Video.FFMPEG/AudioCodec.cpp
+===================================================================
+--- Sources/Video.FFMPEG/AudioCodec.cpp	(revision 0)
++++ Sources/Video.FFMPEG/AudioCodec.cpp	(working copy)
+@@ -0,0 +1,30 @@
++// AForge FFMPEG Library
++// AForge.NET framework
++// http://www.aforgenet.com/framework/
++//
++// Copyright © AForge.NET, 2009-2011
++// contacts@aforgenet.com
++//
++
++#include "StdAfx.h"
++#include "AudioCodec.h"
++
++namespace libffmpeg
++{
++	extern "C"
++	{
++		#pragma warning(disable:4635) 
++		#pragma warning(disable:4244) 
++		#include "libavcodec\avcodec.h"
++	}
++}
++
++int audio_codecs[] =
++{
++	libffmpeg::CODEC_ID_MP3,
++	libffmpeg::CODEC_ID_AAC,
++	libffmpeg::CODEC_ID_MP4ALS
++};
++
++
++int AUDIO_CODECS_COUNT ( sizeof( audio_codecs ) / sizeof( libffmpeg::CodecID ) );
+\ No newline at end of file
+Index: Sources/Video.FFMPEG/AudioCodec.h
+===================================================================
+--- Sources/Video.FFMPEG/AudioCodec.h	(revision 0)
++++ Sources/Video.FFMPEG/AudioCodec.h	(working copy)
+@@ -0,0 +1,45 @@
++// AForge FFMPEG Library
++// AForge.NET framework
++// http://www.aforgenet.com/framework/
++//
++// Copyright © AForge.NET, 2009-2011
++// contacts@aforgenet.com
++//
++
++#pragma once
++
++using namespace System;
++
++extern int audio_codecs[];
++
++extern int AUDIO_CODECS_COUNT;
++
++namespace AForge { namespace Video { namespace FFMPEG
++{
++	/// <summary>
++	/// Enumeration of some audio codecs from FFmpeg library, which are available for writing audio files.
++	/// </summary>
++	public enum class AudioCodec
++	{
++		None = -1,
++
++		/// <summary>
++		/// MPEG-3
++		/// </summary>
++		///
++		MP3 = 0,
++
++		/// <summary>
++		/// AAC
++		/// </summary>
++		///
++		AAC,
++
++		/// <summary>
++		/// M4A
++		/// </summary>
++		///
++		M4A,
++	};
++
++} } }
+\ No newline at end of file
 Index: Sources/Video.FFMPEG/Video.FFMPEG.vcxproj
 ===================================================================
---- Sources/Video.FFMPEG/Video.FFMPEG.vcxproj	(revision 1699)
+--- Sources/Video.FFMPEG/Video.FFMPEG.vcxproj	(revision 1705)
 +++ Sources/Video.FFMPEG/Video.FFMPEG.vcxproj	(working copy)
 @@ -22,11 +22,13 @@
      <CharacterSet>Unicode</CharacterSet>
@@ -111,9 +198,25 @@ Index: Sources/Video.FFMPEG/Video.FFMPEG.vcxproj
    </PropertyGroup>
    <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
    <ImportGroup Label="ExtensionSettings">
+@@ -117,6 +119,7 @@
+   </ItemGroup>
+   <ItemGroup>
+     <ClCompile Include="AssemblyInfo.cpp" />
++    <ClCompile Include="AudioCodec.cpp" />
+     <ClCompile Include="Stdafx.cpp">
+       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+@@ -127,6 +130,7 @@
+     <ClCompile Include="VideoFileWriter.cpp" />
+   </ItemGroup>
+   <ItemGroup>
++    <ClInclude Include="AudioCodec.h" />
+     <ClInclude Include="Stdafx.h" />
+     <ClInclude Include="VideoCodec.h" />
+     <ClInclude Include="VideoFileReader.h" />
 Index: Sources/Video.FFMPEG/VideoCodec.cpp
 ===================================================================
---- Sources/Video.FFMPEG/VideoCodec.cpp	(revision 1699)
+--- Sources/Video.FFMPEG/VideoCodec.cpp	(revision 1705)
 +++ Sources/Video.FFMPEG/VideoCodec.cpp	(working copy)
 @@ -29,7 +29,11 @@
  	libffmpeg::CODEC_ID_H263P,
@@ -142,7 +245,7 @@ Index: Sources/Video.FFMPEG/VideoCodec.cpp
 \ No newline at end of file
 Index: Sources/Video.FFMPEG/VideoCodec.h
 ===================================================================
---- Sources/Video.FFMPEG/VideoCodec.h	(revision 1699)
+--- Sources/Video.FFMPEG/VideoCodec.h	(revision 1705)
 +++ Sources/Video.FFMPEG/VideoCodec.h	(working copy)
 @@ -62,6 +62,22 @@
  		/// Raw (uncompressed) video.
@@ -170,9 +273,99 @@ Index: Sources/Video.FFMPEG/VideoCodec.h
 \ No newline at end of file
 Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
 ===================================================================
---- Sources/Video.FFMPEG/VideoFileWriter.cpp	(revision 1699)
+--- Sources/Video.FFMPEG/VideoFileWriter.cpp	(revision 1705)
 +++ Sources/Video.FFMPEG/VideoFileWriter.cpp	(working copy)
-@@ -119,7 +119,7 @@
+@@ -9,6 +9,8 @@
+ #include "StdAfx.h"
+ #include "VideoFileWriter.h"
+ 
++#define MAX_AUDIO_PACKET_SIZE (128 * 1024)
++
+ namespace libffmpeg
+ {
+ 	extern "C"
+@@ -33,7 +35,12 @@
+ static void open_video( WriterPrivateData^ data );
+ static void add_video_stream( WriterPrivateData^ data, int width, int height, int frameRate, int bitRate,
+ 							  enum libffmpeg::CodecID codec_id, enum libffmpeg::PixelFormat pixelFormat );
++// audio support
++static void add_audio_stream( WriterPrivateData^ data, enum libffmpeg::CodecID codec_id);
++static void open_audio( WriterPrivateData^ data );
++// end audio support
+ 
++
+ // A structure to encapsulate all FFMPEG related private variable
+ ref struct WriterPrivateData
+ {
+@@ -44,6 +51,21 @@
+ 	struct libffmpeg::SwsContext*	ConvertContext;
+ 	struct libffmpeg::SwsContext*	ConvertContextGrayscale;
+ 
++	// audio support
++    libffmpeg::AVStream*			AudioStream;
++    libffmpeg::uint8_t*				AudioEncodeBuffer;
++	char* AudioBuffer;
++	int	AudioEncodeBufferSize;
++	int	AudioInputSampleSize;
++	int AudioBufferSizeCurrent;
++	int AudioBufferSize;
++	int FrameNumber;
++	bool IsConstantFramerate;
++	int SampleRate;
++	int BitRate;
++	int Channels;
++	// end audio support
++
+ 	libffmpeg::uint8_t*	VideoOutputBuffer;
+ 	int VideoOutputBufferSize;
+ 
+@@ -55,6 +77,19 @@
+ 		ConvertContext	  = NULL;
+ 		ConvertContextGrayscale = NULL;
+ 		VideoOutputBuffer = NULL;
++
++		// audio support
++		AudioStream		  = NULL;
++		AudioEncodeBuffer = NULL;
++		AudioEncodeBufferSize = 0;
++		AudioInputSampleSize = NULL;
++
++		AudioBufferSize = 1024 * 1024 * 4;
++		AudioBuffer = new char[AudioBufferSize];
++		AudioBufferSizeCurrent = 0;
++		FrameNumber = 0;
++		IsConstantFramerate = false;
++		// end audio support
+ 	}
+ };
+ #pragma endregion
+@@ -84,6 +119,14 @@
+ // Creates a video file with the specified name and properties
+ void VideoFileWriter::Open( String^ fileName, int width, int height, int frameRate, VideoCodec codec, int bitRate )
+ {
++	Open( fileName, width, height, frameRate, codec, 400000, AudioCodec::None, 0, 0, 0 );
++}
++
++// Creates a video file with the specified name and properties
++void VideoFileWriter::Open( String^ fileName, int width, int height, int frameRate, 
++	VideoCodec codec, int bitRate,
++	AudioCodec audioCodec, int audioBitRate, int sampleRate, int channels)
++{
+     CheckIfDisposed( );
+ 
+ 	// close previous file if any open
+@@ -109,6 +152,10 @@
+ 	m_codec  = codec;
+ 	m_frameRate = frameRate;
+ 	m_bitRate = bitRate;
++
++	// audio support
++	m_audiocodec = audioCodec;
++    // audio support
+ 	
+ 	// convert specified managed String to unmanaged string
+ 	IntPtr ptr = System::Runtime::InteropServices::Marshal::StringToHGlobalUni( fileName );
+@@ -119,12 +166,12 @@
  
  	try
  	{
@@ -181,20 +374,47 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  		libffmpeg::AVOutputFormat* outputFormat = libffmpeg::av_guess_format( NULL, nativeFileName, NULL );
  
  		if ( !outputFormat )
-@@ -143,9 +143,9 @@
- 		data->FormatContext->oformat = outputFormat;
+ 		{
+-			// gues about destination file format from its short name
++			// guess about destination file format from its short name
+ 			outputFormat = libffmpeg::av_guess_format( "mpeg", NULL, NULL );
+ 
+ 			if ( !outputFormat )
+@@ -144,9 +191,19 @@
  
  		// add video stream using the specified video codec
--		add_video_stream( data, width, height, frameRate, bitRate,
+ 		add_video_stream( data, width, height, frameRate, bitRate,
 -			( codec == VideoCodec::Default ) ? outputFormat->video_codec : (libffmpeg::CodecID) video_codecs[(int) codec],
 -			( codec == VideoCodec::Default ) ? libffmpeg::PIX_FMT_YUV420P : (libffmpeg::PixelFormat) pixel_formats[(int) codec] );
-+		 add_video_stream( data, width, height, frameRate, bitRate,
 +                        ( codec == VideoCodec::Default ) ? outputFormat->video_codec : (libffmpeg::CodecID) video_codecs[(int) codec],
 +                        ( codec == VideoCodec::Default ) ? libffmpeg::PIX_FMT_YUV420P : (libffmpeg::PixelFormat) pixel_formats[(int) codec] );
  
++		
++		// add audio stream using the specified audio codec
++		if ( audioCodec != AudioCodec::None )	
++		{
++			data->SampleRate = sampleRate;
++			data->BitRate = audioBitRate;
++			data->Channels = channels;
++			add_audio_stream(data, (libffmpeg::CodecID) audio_codecs[(int)audioCodec]);
++		}
++
  		// set the output parameters (must be done even if no parameters)
  		if ( libffmpeg::av_set_parameters( data->FormatContext, NULL ) < 0 )
-@@ -185,6 +185,8 @@
+ 		{
+@@ -155,6 +212,11 @@
+ 
+ 		open_video( data );
+ 
++		// audio support
++		if (audioCodec != AudioCodec::None)
++			open_audio( data );
++		// end audio support
++
+ 		// open output file
+ 		if ( !( outputFormat->flags & AVFMT_NOFILE ) )
+ 		{
+@@ -185,6 +247,8 @@
  {
  	if ( data != nullptr )
  	{
@@ -203,7 +423,36 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  		if ( data->FormatContext )
  		{
  			if ( data->FormatContext->pb != NULL )
-@@ -239,6 +241,58 @@
+@@ -197,6 +261,13 @@
+ 				libffmpeg::avcodec_close( data->VideoStream->codec );
+ 			}
+ 
++			// audio support
++			if ( data->AudioStream)
++			{
++				libffmpeg::avcodec_close( data->AudioStream->codec );
++			}
++			// end audio support
++
+ 			if ( data->VideoFrame )
+ 			{
+ 				libffmpeg::av_free( data->VideoFrame->data[0] );
+@@ -208,6 +279,14 @@
+ 				libffmpeg::av_free( data->VideoOutputBuffer );
+ 			}
+ 
++			// audio support
++			if (data->AudioBuffer)
++			{
++				delete[] data->AudioBuffer;
++				data->AudioBuffer = NULL;
++			}
++			// end audio support
++
+ 			for ( unsigned int i = 0; i < data->FormatContext->nb_streams; i++ )
+ 			{
+ 				libffmpeg::av_freep( &data->FormatContext->streams[i]->codec );
+@@ -239,6 +318,58 @@
  	m_height = 0;
  }
  
@@ -262,15 +511,87 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  // Writes new video frame to the opened video file
  void VideoFileWriter::WriteVideoFrame( Bitmap^ frame )
  {
-@@ -301,6 +355,7 @@
+@@ -301,6 +432,79 @@
  	write_video_frame( data );
  }
  
++/*
++// Writes new video frame to the opened video file
++void VideoFileWriter::WriteAudioFrame( array<System::Byte> ^buffer )
++{
++	WriteAudioFrame( buffer, TimeSpan::MinValue );
++}
++*/
++
++// Writes new video frame to the opened video file
++void VideoFileWriter::WriteAudioFrame( array<System::Byte> ^buffer/*, TimeSpan timestamp*/ )
++{
++	pin_ptr<unsigned char> bufPin = &buffer[0];
++    unsigned char *soundBuffer = bufPin;
++	int soundBufferSize = buffer.Length;
++
++	CheckIfDisposed( );
++
++	if ( data == nullptr )
++	{
++		throw gcnew System::IO::IOException( "A video file was not opened yet." );
++	}
++
++	 // Add sound
++	AddAudioSamples(data, soundBuffer, soundBufferSize/*, timestamp*/);
++}
++
++void VideoFileWriter::AddAudioSamples( WriterPrivateData^ data,  BYTE* soundBuffer, 
++	int soundBufferSize/*, TimeSpan timestamp*/)
++{
++	if (!data->AudioStream)
++		return;
++
++	libffmpeg::AVCodecContext* codecContext = data->AudioStream->codec;   
++
++	memcpy(data->AudioBuffer + data->AudioBufferSizeCurrent,  soundBuffer, soundBufferSize);
++	data->AudioBufferSizeCurrent += soundBufferSize;
++
++	BYTE* pSoundBuffer = (BYTE *)data->AudioBuffer;
++	DWORD nCurrentSize    = data->AudioBufferSizeCurrent;
++ 
++	// Size of packet on bytes.
++	DWORD packSizeInSize = (2 * data->AudioInputSampleSize) * data->Channels;
++
++	while (nCurrentSize >= packSizeInSize)
++	{
++		libffmpeg::AVPacket pkt;
++		libffmpeg::av_init_packet(&pkt);
++
++		pkt.size = libffmpeg::avcodec_encode_audio(codecContext, data->AudioEncodeBuffer, 
++			data->AudioEncodeBufferSize, (const short *)pSoundBuffer);
++
++
++		pkt.flags |= AV_PKT_FLAG_KEY;
++		pkt.stream_index = data->AudioStream->index;
++		pkt.data = data->AudioEncodeBuffer;
++	
++		// Write the compressed frame in the media file.
++		if (libffmpeg::av_interleaved_write_frame(data->FormatContext, &pkt) != 0) 
++		{
++			break;
++		}
++
++		libffmpeg::av_free_packet(&pkt);
++		nCurrentSize -= packSizeInSize;  
++		pSoundBuffer += packSizeInSize;      
++	}
++
++	// save excess
++	memcpy(data->AudioBuffer, data->AudioBuffer + data->AudioBufferSizeCurrent - nCurrentSize, nCurrentSize);
++	data->AudioBufferSizeCurrent = nCurrentSize; 
++}
++
 +
  #pragma region Private methods
  // Writes video frame to opened video file
  void write_video_frame( WriterPrivateData^ data )
-@@ -383,47 +438,81 @@
+@@ -383,47 +587,81 @@
  void add_video_stream( WriterPrivateData^ data,  int width, int height, int frameRate, int bitRate,
  					  enum libffmpeg::CodecID codecId, enum libffmpeg::PixelFormat pixelFormat )
  {
@@ -386,16 +707,148 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  }
  
  // Open video codec and prepare out buffer and picture
+@@ -473,6 +711,88 @@
+ 		throw gcnew VideoException( "Cannot initialize frames conversion context." );
+ 	}
+ }
++
++
++void add_audio_stream( WriterPrivateData^ data,  enum libffmpeg::CodecID codec_id )
++{
++	  libffmpeg::AVCodecContext *codecContex;
++
++	  data->AudioStream = libffmpeg::av_new_stream(data->FormatContext, 1);
++
++	  if ( !data->AudioStream )
++	  {
++			throw gcnew VideoException( "Failed creating new audio stream." );
++	  }
++
++	  // Codec.
++	  codecContex = data->AudioStream->codec;
++	  codecContex->codec_id = codec_id;
++	  codecContex->codec_type = libffmpeg::AVMEDIA_TYPE_AUDIO;
++	  // Set format
++	  codecContex->bit_rate    = data->BitRate;
++	  codecContex->sample_rate = data->SampleRate;
++	  codecContex->channels    = data->Channels;
++
++	  codecContex->sample_fmt  = libffmpeg::SAMPLE_FMT_S16;
++
++	  codecContex->time_base.num = 1;
++	  codecContex->time_base.den = codecContex->sample_rate;
++	  
++
++	  data->AudioEncodeBufferSize = 4 * MAX_AUDIO_PACKET_SIZE;
++	  if (data->AudioEncodeBuffer == NULL)
++	  {      
++		  data->AudioEncodeBuffer = (libffmpeg::uint8_t*) libffmpeg::av_malloc(data->AudioEncodeBufferSize);
++	  }
++
++	  // Some formats want stream headers to be separate.
++	  if( data->FormatContext->oformat->flags & AVFMT_GLOBALHEADER)
++	  {
++		  codecContex->flags |= CODEC_FLAG_GLOBAL_HEADER;
++	  }
++}
++
++
++void open_audio( WriterPrivateData^ data )
++{
++	libffmpeg::AVCodecContext* codecContext = data->AudioStream->codec;
++	libffmpeg::AVCodec* codec = avcodec_find_encoder( codecContext->codec_id );
++
++	if ( !codec )
++	{
++		throw gcnew VideoException( "Cannot find audio codec." );
++	}
++
++
++	// Open it.
++	if (libffmpeg::avcodec_open(codecContext, codec) < 0) 
++	{
++		throw gcnew VideoException( "Cannot open audio codec." );
++	}
++
++	if (codecContext->frame_size <= 1) 
++	{
++		// Ugly hack for PCM codecs (will be removed ASAP with new PCM
++		// support to compute the input frame size in samples. 
++		data->AudioInputSampleSize = data->AudioEncodeBufferSize / codecContext->channels;
++		switch (codecContext->codec_id) 
++		{
++			case libffmpeg::CODEC_ID_PCM_S16LE:
++			case libffmpeg::CODEC_ID_PCM_S16BE:
++			case libffmpeg::CODEC_ID_PCM_U16LE:
++			case libffmpeg::CODEC_ID_PCM_U16BE:
++				data->AudioInputSampleSize >>= 1;
++			break;
++			default:
++			break;
++		}
++		codecContext->frame_size = data->AudioInputSampleSize;
++	} 
++	else 
++	{
++		data-> AudioInputSampleSize = codecContext->frame_size;
++	}
++}
+ #pragma endregion
+ 		
+ } } }
 Index: Sources/Video.FFMPEG/VideoFileWriter.h
 ===================================================================
---- Sources/Video.FFMPEG/VideoFileWriter.h	(revision 1699)
+--- Sources/Video.FFMPEG/VideoFileWriter.h	(revision 1705)
 +++ Sources/Video.FFMPEG/VideoFileWriter.h	(working copy)
-@@ -294,6 +294,8 @@
+@@ -14,6 +14,7 @@
+ using namespace AForge::Video;
+ 
+ #include "VideoCodec.h"
++#include "AudioCodec.h"
+ 
+ namespace AForge { namespace Video { namespace FFMPEG
+ {
+@@ -257,6 +258,10 @@
+         /// 
+ 		void Open( String^ fileName, int width, int height, int frameRate, VideoCodec codec, int bitRate );
+ 
++		void Open( String^ fileName, int width, int height, int frameRate, 
++			VideoCodec codec, int bitRate,
++			AudioCodec audioCodec, int audioBitrate, int sampleRate, int channels);
++
+         /// <summary>
+         /// Write new video frame into currently opened video file.
+         /// </summary>
+@@ -294,6 +299,12 @@
          /// 
  		void WriteVideoFrame( Bitmap^ frame, TimeSpan timestamp );
  
++		void WriteAudioFrame( array<System::Byte> ^buffer );
++
++	    //void WriteAudioFrame( array<System::Byte> ^buffer, TimeSpan timestamp );
++
 +		void Flush( );
 +
          /// <summary>
          /// Close currently opened video file if any.
          /// </summary>
+@@ -308,6 +319,10 @@
+ 		int m_bitRate;
+ 		VideoCodec m_codec;
+ 
++		// audio support
++		AudioCodec m_audiocodec;
++		// end audio support
++
+ 	private:
+ 		// Checks if video file was opened
+ 		void CheckIfVideoFileIsOpen( )
+@@ -327,6 +342,8 @@
+             }
+         }
+ 
++		void AddAudioSamples( WriterPrivateData^ data,  BYTE* soundBuffer, int soundBufferSize /*, TimeSpan timestamp*/ );
++
+ 	private:
+ 		// private data of the class
+ 		WriterPrivateData^ data;
