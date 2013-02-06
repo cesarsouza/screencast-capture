@@ -34,6 +34,8 @@ namespace ScreenCapture.ViewModels
     using ScreenCapture.Native;
     using ScreenCapture.Processors;
     using ScreenCapture.Properties;
+    using Accord.DirectSound;
+    using Accord.Audio;
 
     /// <summary>
     ///   Region capturing modes.
@@ -77,6 +79,9 @@ namespace ScreenCapture.ViewModels
         private CaptureClick clickCapture;
         private CaptureKeyboard keyCapture;
         private Object syncObj = new Object();
+
+        private AudioCaptureDevice audioDevice;
+        private bool captureAudio = true;
 
 
         /// <summary>
@@ -160,7 +165,7 @@ namespace ScreenCapture.ViewModels
         public event EventHandler ShowTargetWindow;
 
 
-      
+
 
 
         /// <summary>
@@ -177,7 +182,13 @@ namespace ScreenCapture.ViewModels
 
             this.main = main;
             this.videoPlayer = player;
-            this.videoPlayer.NewFrame += new VideoSourcePlayer.NewFrameHandler(Player_NewFrame);
+            this.videoPlayer.NewFrame += Player_NewFrame;
+
+            audioDevice = new AudioCaptureDevice();
+            audioDevice.Format = SampleFormat.Format16Bit;
+            audioDevice.SampleRate = 22050;
+            audioDevice.DesiredFrameSize = 4096;
+            audioDevice.NewFrame += audioDevice_NewFrame;
 
             this.CaptureMode = CaptureRegionOption.Primary;
             this.CaptureRegion = new Rectangle(0, 0, 640, 480);
@@ -186,6 +197,8 @@ namespace ScreenCapture.ViewModels
             this.cursorCapture = new CaptureCursor();
             this.keyCapture = new CaptureKeyboard();
         }
+
+
 
 
 
@@ -244,6 +257,11 @@ namespace ScreenCapture.ViewModels
             videoPlayer.VideoSource = screenStream;
             videoPlayer.Start();
 
+            if (captureAudio)
+            {
+                audioDevice.Start();
+            }
+
             IsPlaying = true;
         }
 
@@ -277,14 +295,22 @@ namespace ScreenCapture.ViewModels
             int height = area.Height;
             int width = area.Width;
             int framerate = 1000 / screenStream.FrameInterval;
-            int bitrate = 10 * 1000 * 1000;
+            int videoBitRate = 10* 1000 * 1000;
+            int audioBitRate = 128 * 1000;
 
             OutputPath = Path.Combine(main.CurrentDirectory, fileName);
-
             RecordingStartTime = DateTime.MinValue;
-
             videoWriter = new VideoFileWriter();
-            videoWriter.Open(OutputPath, width, height, framerate, VideoCodec.H264, bitrate);
+
+            if (captureAudio)
+            {
+                videoWriter.Open(OutputPath, width, height, framerate, VideoCodec.H264, videoBitRate,
+                    AudioCodec.MP3, audioBitRate, audioDevice.SampleRate, 1);
+            }
+            else
+            {
+                videoWriter.Open(OutputPath, width, height, framerate, VideoCodec.H264, videoBitRate);
+            }
 
             HasRecorded = false;
             IsRecording = true;
@@ -334,6 +360,9 @@ namespace ScreenCapture.ViewModels
         {
             videoPlayer.SignalToStop();
             videoPlayer.WaitForStop();
+
+            audioDevice.SignalToStop();
+            audioDevice.WaitForStop();
 
             if (videoWriter != null && videoWriter.IsOpen)
                 videoWriter.Close();
@@ -427,6 +456,17 @@ namespace ScreenCapture.ViewModels
 
                     RecordingDuration = DateTime.Now - RecordingStartTime;
                     videoWriter.WriteVideoFrame(image, RecordingDuration);
+                }
+            }
+        }
+
+        private void audioDevice_NewFrame(object sender, Accord.Audio.NewFrameEventArgs e)
+        {
+            lock (syncObj) // Save the frame to the video file.
+            {
+                if (IsRecording)
+                {
+                    videoWriter.WriteAudioFrame(e.Signal.RawData);
                 }
             }
         }
