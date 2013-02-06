@@ -64,6 +64,12 @@ namespace ScreenCapture.ViewModels
         public bool CaptureKeys { get; set; }
 
         /// <summary>
+        ///   Gets or sets whether to capture audio.
+        /// </summary>
+        /// 
+        public bool CaptureAudio { get; set; }
+
+        /// <summary>
         ///   Gets or sets the framerate of the video recordings.
         /// </summary>
         /// 
@@ -123,12 +129,14 @@ namespace ScreenCapture.ViewModels
         {
             Settings.Default.FirstRun = FirstRun;
             Settings.Default.DefaultFolder = DefaultSaveFolder;
+            Settings.Default.CaptureAudio = CaptureAudio;
             Settings.Default.CaptureMouse = CaptureMouse;
             Settings.Default.CaptureClick = CaptureClick;
             Settings.Default.CaptureKeys = CaptureKeys;
             Settings.Default.FrameRate = FrameRate;
             Settings.Default.Container = Container;
             Settings.Default.ShowConversionOnFinish = AutoConversionDialog;
+            
 
             Settings.Default.Save();
         }
@@ -142,6 +150,7 @@ namespace ScreenCapture.ViewModels
         {
             FirstRun = Settings.Default.FirstRun;
             DefaultSaveFolder = Settings.Default.DefaultFolder;
+            CaptureAudio = Settings.Default.CaptureAudio;
             CaptureMouse = Settings.Default.CaptureMouse;
             CaptureClick = Settings.Default.CaptureClick;
             CaptureKeys = Settings.Default.CaptureKeys;

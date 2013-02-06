@@ -26,6 +26,9 @@ namespace ScreenCapture.ViewModels
     using ScreenCapture.Views;
     using System;
     using System.ComponentModel;
+    using Accord.DirectSound;
+    using System.Windows.Forms;
+    using System.Collections.Generic;
 
 
     /// <summary>
@@ -80,6 +83,7 @@ namespace ScreenCapture.ViewModels
         public string StatusText { get; set; }
 
 
+
         /// <summary>
         ///   Occurs when the format conversion dialog is requested.
         /// </summary>
@@ -102,6 +106,8 @@ namespace ScreenCapture.ViewModels
             IsPreviewVisible = true;
             CurrentDirectory = Settings.Default.DefaultFolder;
             StatusText = Resources.Status_Ready;
+
+
 
             PropertyChanged += MainViewModel_PropertyChanged;
             Recorder.PropertyChanged += recorder_PropertyChanged;

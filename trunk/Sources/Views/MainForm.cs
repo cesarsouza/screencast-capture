@@ -26,6 +26,7 @@ namespace ScreenCapture.Views
     using System;
     using System.Globalization;
     using System.Windows.Forms;
+    using Accord.DirectSound;
 
     /// <summary>
     ///   Main window for the Screencast Capture application.
@@ -54,6 +55,14 @@ namespace ScreenCapture.Views
             viewModel = new MainViewModel(videoSourcePlayer1);
             regionWindow = new CaptureRegion(viewModel.Recorder);
             windowWindow = new CaptureWindow(viewModel.Recorder);
+
+            // Create audio menu items for each audio device
+            foreach (var dev in RecorderViewModel.AudioDevices)
+            {
+                ToolStripItem item = btnAudio.DropDownItems.Add("Capture " + dev.Description);
+                item.Click += new EventHandler(btnAudioDevice_Click);
+                item.Tag = dev;
+            }
         }
 
 
@@ -80,6 +89,9 @@ namespace ScreenCapture.Views
 
             viewModel.Notifier.Loaded();
         }
+
+
+
 
         private void bindToolStrip()
         {
@@ -117,9 +129,13 @@ namespace ScreenCapture.Views
 
             lbSeparator.Bind(b => b.Visible, b => btnConvert.VisibleChanged += b, () => btnCancel.Visible || btnConvert.Visible);
             lbSeparator.Bind(b => b.Visible, b => btnCancel.VisibleChanged += b, () => btnCancel.Visible || btnConvert.Visible);
+
+            btnAudio.Bind(b => b.Enabled, viewModel.Recorder, m => m.IsRecording, value => !value);
+            btnAudio.Bind(b => b.Text, viewModel.Recorder, m => m.CaptureAudioDevice,
+                c => c == null ? "No audio" : c.Description.Substring(0, 13) + "...");
+            btnAudio.Bind(b => b.Image, viewModel.Recorder, m => m.CaptureAudioDevice,
+                c => c == null ? Resources.kmixdocked_mute : Resources.kmixdocked);
         }
-
-
 
 
 
@@ -222,6 +238,13 @@ namespace ScreenCapture.Views
             viewModel.Converter.Cancel();
         }
 
+        private void btnAudioDevice_Click(object sender, EventArgs e)
+        {
+            var item = sender as ToolStripMenuItem;
+            var device = item.Tag as AudioDeviceInfo;
+            viewModel.Recorder.CaptureAudioDevice = device;
+        }
+
 
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -247,6 +270,7 @@ namespace ScreenCapture.Views
                     throw new ArgumentOutOfRangeException("mode");
             }
         }
+
 
     }
 }

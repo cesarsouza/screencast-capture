@@ -332,13 +332,13 @@
     <value>Ready</value>
   </data>
   <data name="toolStripStatusLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>22, 17</value>
+    <value>1, 17</value>
   </data>
   <data name="toolStripProgressBar1.Size" type="System.Drawing.Size, System.Drawing">
     <value>200, 16</value>
   </data>
   <data name="toolStripStatusLabel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>22, 17</value>
+    <value>1, 17</value>
   </data>
   <data name="btnCancel.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
@@ -362,6 +362,30 @@
     <value>10, 17</value>
   </data>
   <data name="lbSeparator.Text" xml:space="preserve">
+    <value>|</value>
+  </data>
+  <data name="doNotRecordAudioToolStripMenuItem.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt, style=Italic</value>
+  </data>
+  <data name="doNotRecordAudioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 22</value>
+  </data>
+  <data name="doNotRecordAudioToolStripMenuItem.Text" xml:space="preserve">
+    <value>Do not record audio</value>
+  </data>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>174, 6</value>
+  </data>
+  <data name="btnAudio.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 20</value>
+  </data>
+  <data name="btnAudio.Text" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="bindableToolStripStatusLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>10, 17</value>
+  </data>
+  <data name="bindableToolStripStatusLabel1.Text" xml:space="preserve">
     <value>|</value>
   </data>
   <data name="btnSettings.Size" type="System.Drawing.Size, System.Drawing">
@@ -441,7 +465,7 @@
     <value>explorerBrowser</value>
   </data>
   <data name="&gt;&gt;explorerBrowser.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.ExplorerBrowserCustom, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.ExplorerBrowserCustom, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;explorerBrowser.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -2009,49 +2033,49 @@
     <value>btnCaptureMode</value>
   </data>
   <data name="&gt;&gt;btnCaptureMode.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripDropDownButton, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripDropDownButton, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;btnCapturePrimaryScreen.Name" xml:space="preserve">
     <value>btnCapturePrimaryScreen</value>
   </data>
   <data name="&gt;&gt;btnCapturePrimaryScreen.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripMenuItem, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripMenuItem, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;btnCaptureWindow.Name" xml:space="preserve">
     <value>btnCaptureWindow</value>
   </data>
   <data name="&gt;&gt;btnCaptureWindow.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripMenuItem, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripMenuItem, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;btnCaptureRegion.Name" xml:space="preserve">
     <value>btnCaptureRegion</value>
   </data>
   <data name="&gt;&gt;btnCaptureRegion.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripMenuItem, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripMenuItem, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;btnStartRecording.Name" xml:space="preserve">
     <value>btnStartRecording</value>
   </data>
   <data name="&gt;&gt;btnStartRecording.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;btnStopRecording.Name" xml:space="preserve">
     <value>btnStopRecording</value>
   </data>
   <data name="&gt;&gt;btnStopRecording.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;btnPausePlaying.Name" xml:space="preserve">
     <value>btnPausePlaying</value>
   </data>
   <data name="&gt;&gt;btnPausePlaying.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;btnStartPlaying.Name" xml:space="preserve">
     <value>btnStartPlaying</value>
   </data>
   <data name="&gt;&gt;btnStartPlaying.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator1.Name" xml:space="preserve">
     <value>toolStripSeparator1</value>
@@ -2063,31 +2087,43 @@
     <value>btnScreenPreview</value>
   </data>
   <data name="&gt;&gt;btnScreenPreview.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;btnStorageFolder.Name" xml:space="preserve">
     <value>btnStorageFolder</value>
   </data>
   <data name="&gt;&gt;btnStorageFolder.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripButton, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;lbStatusRecording.Name" xml:space="preserve">
     <value>lbStatusRecording</value>
   </data>
   <data name="&gt;&gt;lbStatusRecording.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;lbStatusTime.Name" xml:space="preserve">
     <value>lbStatusTime</value>
   </data>
   <data name="&gt;&gt;lbStatusTime.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;lbStatusReady.Name" xml:space="preserve">
     <value>lbStatusReady</value>
   </data>
   <data name="&gt;&gt;lbStatusReady.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;toolStripStatusLabel1.Name" xml:space="preserve">
+    <value>toolStripStatusLabel1</value>
+  </data>
+  <data name="&gt;&gt;toolStripStatusLabel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripProgressBar1.Name" xml:space="preserve">
+    <value>toolStripProgressBar1</value>
+  </data>
+  <data name="&gt;&gt;toolStripProgressBar1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolStripStatusLabel2.Name" xml:space="preserve">
     <value>toolStripStatusLabel2</value>
@@ -2099,19 +2135,25 @@
     <value>btnCancel</value>
   </data>
   <data name="&gt;&gt;btnCancel.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;btnConvert.Name" xml:space="preserve">
     <value>btnConvert</value>
   </data>
   <data name="&gt;&gt;btnConvert.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;lbSeparator.Name" xml:space="preserve">
     <value>lbSeparator</value>
   </data>
   <data name="&gt;&gt;lbSeparator.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+  </data>
+  <data name="&gt;&gt;bindableToolStripStatusLabel1.Name" xml:space="preserve">
+    <value>bindableToolStripStatusLabel1</value>
+  </data>
+  <data name="&gt;&gt;bindableToolStripStatusLabel1.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripStatusLabel, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;btnSettings.Name" xml:space="preserve">
     <value>btnSettings</value>
@@ -2123,31 +2165,37 @@
     <value>iconPlayPause</value>
   </data>
   <data name="&gt;&gt;iconPlayPause.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.BindableNotifyIcon, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.BindableNotifyIcon, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;keyPlayPause.Name" xml:space="preserve">
     <value>keyPlayPause</value>
   </data>
   <data name="&gt;&gt;keyPlayPause.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.HotKey, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.HotKey, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
   <data name="&gt;&gt;keyStartStop.Name" xml:space="preserve">
     <value>keyStartStop</value>
   </data>
   <data name="&gt;&gt;keyStartStop.Type" xml:space="preserve">
-    <value>ScreenCapture.Controls.HotKey, ScreenCapture, Version=1.3.0.18922, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
+    <value>ScreenCapture.Controls.HotKey, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
-  <data name="&gt;&gt;toolStripProgressBar1.Name" xml:space="preserve">
-    <value>toolStripProgressBar1</value>
+  <data name="&gt;&gt;btnAudio.Name" xml:space="preserve">
+    <value>btnAudio</value>
   </data>
-  <data name="&gt;&gt;toolStripProgressBar1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;btnAudio.Type" xml:space="preserve">
+    <value>ScreenCapture.Controls.BindableToolStripDropDownButton, ScreenCapture, Version=1.3.0.20825, Culture=neutral, PublicKeyToken=ebad635db74c3375</value>
   </data>
-  <data name="&gt;&gt;toolStripStatusLabel1.Name" xml:space="preserve">
-    <value>toolStripStatusLabel1</value>
+  <data name="&gt;&gt;doNotRecordAudioToolStripMenuItem.Name" xml:space="preserve">
+    <value>doNotRecordAudioToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;toolStripStatusLabel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripStatusLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;doNotRecordAudioToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Name" xml:space="preserve">
+    <value>toolStripSeparator2</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>

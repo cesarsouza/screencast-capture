@@ -130,5 +130,17 @@ namespace ScreenCapture.Properties {
                 this["CanUpgrade"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CaptureAudio {
+            get {
+                return ((bool)(this["CaptureAudio"]));
+            }
+            set {
+                this["CaptureAudio"] = value;
+            }
+        }
     }
 }

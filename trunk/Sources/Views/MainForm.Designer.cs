@@ -48,10 +48,13 @@
             this.lbStatusRecording = new ScreenCapture.Controls.BindableToolStripStatusLabel();
             this.lbStatusTime = new ScreenCapture.Controls.BindableToolStripStatusLabel();
             this.lbStatusReady = new ScreenCapture.Controls.BindableToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnCancel = new ScreenCapture.Controls.BindableToolStripStatusLabel();
             this.btnConvert = new ScreenCapture.Controls.BindableToolStripStatusLabel();
             this.lbSeparator = new ScreenCapture.Controls.BindableToolStripStatusLabel();
+            this.bindableToolStripStatusLabel1 = new ScreenCapture.Controls.BindableToolStripStatusLabel();
             this.btnSettings = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
@@ -59,8 +62,9 @@
             this.iconPlayPause = new ScreenCapture.Controls.BindableNotifyIcon(this.components);
             this.keyPlayPause = new ScreenCapture.Controls.HotKey(this.components);
             this.keyStartStop = new ScreenCapture.Controls.HotKey(this.components);
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnAudio = new ScreenCapture.Controls.BindableToolStripDropDownButton();
+            this.doNotRecordAudioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -182,6 +186,8 @@
             this.btnCancel,
             this.btnConvert,
             this.lbSeparator,
+            this.btnAudio,
+            this.bindableToolStripStatusLabel1,
             this.btnSettings});
             resources.ApplyResources(this.statusStrip, "statusStrip");
             this.statusStrip.Name = "statusStrip";
@@ -200,6 +206,17 @@
             // 
             this.lbStatusReady.Name = "lbStatusReady";
             resources.ApplyResources(this.lbStatusReady, "lbStatusReady");
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
+            this.toolStripStatusLabel1.Spring = true;
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            resources.ApplyResources(this.toolStripProgressBar1, "toolStripProgressBar1");
             // 
             // toolStripStatusLabel2
             // 
@@ -235,6 +252,11 @@
             // 
             this.lbSeparator.Name = "lbSeparator";
             resources.ApplyResources(this.lbSeparator, "lbSeparator");
+            // 
+            // bindableToolStripStatusLabel1
+            // 
+            this.bindableToolStripStatusLabel1.Name = "bindableToolStripStatusLabel1";
+            resources.ApplyResources(this.bindableToolStripStatusLabel1, "bindableToolStripStatusLabel1");
             // 
             // btnSettings
             // 
@@ -297,16 +319,25 @@
             | System.Windows.Forms.Keys.F10)));
             this.keyStartStop.Pressed += new System.ComponentModel.HandledEventHandler(this.hotkeyStop_Pressed);
             // 
-            // toolStripProgressBar1
+            // btnAudio
             // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            resources.ApplyResources(this.toolStripProgressBar1, "toolStripProgressBar1");
+            this.btnAudio.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.doNotRecordAudioToolStripMenuItem,
+            this.toolStripSeparator2});
+            this.btnAudio.Image = global::ScreenCapture.Properties.Resources.kmid;
+            this.btnAudio.Name = "btnAudio";
+            resources.ApplyResources(this.btnAudio, "btnAudio");
             // 
-            // toolStripStatusLabel1
+            // doNotRecordAudioToolStripMenuItem
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            resources.ApplyResources(this.toolStripStatusLabel1, "toolStripStatusLabel1");
-            this.toolStripStatusLabel1.Spring = true;
+            resources.ApplyResources(this.doNotRecordAudioToolStripMenuItem, "doNotRecordAudioToolStripMenuItem");
+            this.doNotRecordAudioToolStripMenuItem.Name = "doNotRecordAudioToolStripMenuItem";
+            this.doNotRecordAudioToolStripMenuItem.Click += new System.EventHandler(this.btnAudioDevice_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             // 
             // MainForm
             // 
@@ -359,6 +390,10 @@
         private Controls.BindableToolStripStatusLabel btnCancel;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private Controls.BindableToolStripStatusLabel bindableToolStripStatusLabel1;
+        private Controls.BindableToolStripDropDownButton btnAudio;
+        private System.Windows.Forms.ToolStripMenuItem doNotRecordAudioToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
     }
 }
 
