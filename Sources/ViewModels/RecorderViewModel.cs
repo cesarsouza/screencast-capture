@@ -36,6 +36,8 @@ namespace ScreenCapture.ViewModels
     using ScreenCapture.Properties;
     using Accord.DirectSound;
     using Accord.Audio;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
     /// <summary>
     ///   Region capturing modes.
@@ -74,14 +76,14 @@ namespace ScreenCapture.ViewModels
         private ScreenCaptureStream screenStream;
         private VideoFileWriter videoWriter;
         private VideoSourcePlayer videoPlayer;
+
+        private AudioCaptureDevice audioDevice;
+
         private Crop crop = new Crop(Rectangle.Empty);
         private CaptureCursor cursorCapture;
         private CaptureClick clickCapture;
         private CaptureKeyboard keyCapture;
         private Object syncObj = new Object();
-
-        private AudioCaptureDevice audioDevice;
-        private bool captureAudio = true;
 
 
         /// <summary>
@@ -159,6 +161,20 @@ namespace ScreenCapture.ViewModels
         public bool IsCaptureFrameVisible { get { return IsPlaying && CaptureMode == CaptureRegionOption.Fixed; } }
 
         /// <summary>
+        ///   Gets or sets the current capture audio device. If set
+        ///   to null, audio capturing will be disabled.
+        /// </summary>
+        /// 
+        public AudioDeviceInfo CaptureAudioDevice { get; set; }
+
+        /// <summary>
+        ///   Gets a list of audio devices available in the system.
+        /// </summary>
+        /// 
+        public static ReadOnlyCollection<AudioDeviceInfo> AudioDevices { get; private set; }
+
+
+        /// <summary>
         ///   Occurs when the view-model needs a window to be recorded.
         /// </summary>
         /// 
@@ -184,21 +200,22 @@ namespace ScreenCapture.ViewModels
             this.videoPlayer = player;
             this.videoPlayer.NewFrame += Player_NewFrame;
 
-            audioDevice = new AudioCaptureDevice();
-            audioDevice.Format = SampleFormat.Format16Bit;
-            audioDevice.SampleRate = 22050;
-            audioDevice.DesiredFrameSize = 4096;
-            audioDevice.NewFrame += audioDevice_NewFrame;
-
             this.CaptureMode = CaptureRegionOption.Primary;
             this.CaptureRegion = new Rectangle(0, 0, 640, 480);
 
             this.clickCapture = new CaptureClick();
             this.cursorCapture = new CaptureCursor();
             this.keyCapture = new CaptureKeyboard();
+
+            if (Settings.Default.CaptureAudio)
+                this.CaptureAudioDevice = new AudioDeviceCollection(AudioDeviceCategory.Capture).Default;
         }
 
-
+        static RecorderViewModel()
+        {
+            AudioDevices = new ReadOnlyCollection<AudioDeviceInfo>(
+                new List<AudioDeviceInfo>(new AudioDeviceCollection(AudioDeviceCategory.Capture)));
+        }
 
 
 
@@ -257,11 +274,6 @@ namespace ScreenCapture.ViewModels
             videoPlayer.VideoSource = screenStream;
             videoPlayer.Start();
 
-            if (captureAudio)
-            {
-                audioDevice.Start();
-            }
-
             IsPlaying = true;
         }
 
@@ -295,15 +307,22 @@ namespace ScreenCapture.ViewModels
             int height = area.Height;
             int width = area.Width;
             int framerate = 1000 / screenStream.FrameInterval;
-            int videoBitRate = 10* 1000 * 1000;
+            int videoBitRate = 10 * 1000 * 1000;
             int audioBitRate = 128 * 1000;
 
             OutputPath = Path.Combine(main.CurrentDirectory, fileName);
             RecordingStartTime = DateTime.MinValue;
             videoWriter = new VideoFileWriter();
 
-            if (captureAudio)
+            if (CaptureAudioDevice != null)
             {
+                audioDevice = new AudioCaptureDevice(CaptureAudioDevice.Guid);
+                audioDevice.Format = SampleFormat.Format16Bit;
+                audioDevice.SampleRate = 22050;
+                audioDevice.DesiredFrameSize = 4096;
+                audioDevice.NewFrame += audioDevice_NewFrame;
+                audioDevice.Start();
+
                 videoWriter.Open(OutputPath, width, height, framerate, VideoCodec.H264, videoBitRate,
                     AudioCodec.MP3, audioBitRate, audioDevice.SampleRate, 1);
             }
@@ -358,11 +377,17 @@ namespace ScreenCapture.ViewModels
         /// 
         public void Close()
         {
-            videoPlayer.SignalToStop();
-            videoPlayer.WaitForStop();
+            if (videoPlayer != null && videoPlayer.IsRunning)
+            {
+                videoPlayer.SignalToStop();
+                videoPlayer.WaitForStop();
+            }
 
-            audioDevice.SignalToStop();
-            audioDevice.WaitForStop();
+            if (audioDevice != null && audioDevice.IsRunning)
+            {
+                audioDevice.SignalToStop();
+                audioDevice.WaitForStop();
+            }
 
             if (videoWriter != null && videoWriter.IsOpen)
                 videoWriter.Close();
@@ -569,6 +594,12 @@ namespace ScreenCapture.ViewModels
                 {
                     keyCapture.Dispose();
                     keyCapture = null;
+                }
+
+                if (audioDevice != null)
+                {
+                    audioDevice.Dispose();
+                    audioDevice = null;
                 }
 
                 if (videoWriter != null)
