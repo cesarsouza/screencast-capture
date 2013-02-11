@@ -21,12 +21,8 @@
 
 namespace ScreenCapture.ViewModels
 {
-    using System;
-    using System.ComponentModel;
-    using System.Drawing;
-    using System.Drawing.Drawing2D;
-    using System.IO;
-    using System.Windows.Forms;
+    using Accord.Audio;
+    using Accord.DirectSound;
     using AForge.Controls;
     using AForge.Imaging.Filters;
     using AForge.Video;
@@ -34,10 +30,14 @@ namespace ScreenCapture.ViewModels
     using ScreenCapture.Native;
     using ScreenCapture.Processors;
     using ScreenCapture.Properties;
-    using Accord.DirectSound;
-    using Accord.Audio;
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.IO;
+    using System.Windows.Forms;
 
     /// <summary>
     ///   Region capturing modes.
@@ -308,7 +308,7 @@ namespace ScreenCapture.ViewModels
             int width = area.Width;
             int framerate = 1000 / screenStream.FrameInterval;
             int videoBitRate = 10 * 1000 * 1000;
-            int audioBitRate = 128 * 1000;
+            int audioBitRate = 320 * 1000;
 
             OutputPath = Path.Combine(main.CurrentDirectory, fileName);
             RecordingStartTime = DateTime.MinValue;
@@ -318,7 +318,7 @@ namespace ScreenCapture.ViewModels
             {
                 audioDevice = new AudioCaptureDevice(CaptureAudioDevice.Guid);
                 audioDevice.Format = SampleFormat.Format16Bit;
-                audioDevice.SampleRate = 22050;
+                audioDevice.SampleRate = 44100;
                 audioDevice.DesiredFrameSize = 4096;
                 audioDevice.NewFrame += audioDevice_NewFrame;
                 audioDevice.Start();
@@ -345,8 +345,19 @@ namespace ScreenCapture.ViewModels
 
             lock (syncObj)
             {
-                if (videoWriter != null && videoWriter.IsOpen)
+                if (videoWriter != null)
+                {
                     videoWriter.Close();
+                    videoWriter.Dispose();
+                    videoWriter = null;
+                }
+
+                if (audioDevice != null)
+                {
+                    audioDevice.Stop();
+                    audioDevice.Dispose();
+                    audioDevice = null;
+                }
 
                 IsRecording = false;
                 HasRecorded = true;

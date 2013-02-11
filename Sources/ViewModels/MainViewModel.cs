@@ -23,13 +23,8 @@ namespace ScreenCapture.ViewModels
 {
     using AForge.Controls;
     using ScreenCapture.Properties;
-    using ScreenCapture.Views;
     using System;
     using System.ComponentModel;
-    using Accord.DirectSound;
-    using System.Windows.Forms;
-    using System.Collections.Generic;
-
 
     /// <summary>
     ///   Main ViewModel to control the application.
