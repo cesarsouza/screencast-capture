@@ -132,7 +132,7 @@ namespace ScreenCapture.Views
 
             btnAudio.Bind(b => b.Enabled, viewModel.Recorder, m => m.IsRecording, value => !value);
             btnAudio.Bind(b => b.Text, viewModel.Recorder, m => m.CaptureAudioDevice,
-                c => c == null ? "No audio" : c.Description.Substring(0, 13) + "...");
+                c => c == null ? String.Empty : c.Description.Substring(0, 13) + "...");
             btnAudio.Bind(b => b.Image, viewModel.Recorder, m => m.CaptureAudioDevice,
                 c => c == null ? Resources.kmixdocked_mute : Resources.kmixdocked);
         }

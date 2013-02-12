@@ -127,6 +127,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -226,6 +227,12 @@
     <Compile Include="Views\OptionForm.Designer.cs">
       <DependentUpon>OptionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\PreviewOnScreeDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\PreviewOnScreeDisplay.Designer.cs">
+      <DependentUpon>PreviewOnScreeDisplay.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Controls\ExplorerBrowserCustom.pt.resx">
       <DependentUpon>ExplorerBrowserCustom.cs</DependentUpon>
     </EmbeddedResource>
@@ -276,6 +283,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\OptionForm.resx">
       <DependentUpon>OptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\PreviewOnScreeDisplay.resx">
+      <DependentUpon>PreviewOnScreeDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Diagrams\NativeInterop.cd" />
