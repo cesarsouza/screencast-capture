@@ -22,9 +22,11 @@
 namespace ScreenCapture.Views
 {
     using Microsoft.WindowsAPICodePack.Dialogs;
+    using ScreenCapture.Processors;
     using ScreenCapture.Properties;
     using ScreenCapture.ViewModels;
     using System;
+    using System.Drawing;
     using System.Globalization;
     using System.IO;
     using System.Reflection;
@@ -40,6 +42,8 @@ namespace ScreenCapture.Views
 
         OptionViewModel viewModel = new OptionViewModel();
 
+        PreviewOnScreeDisplay preview;
+
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="OptionForm"/> class.
@@ -54,15 +58,21 @@ namespace ScreenCapture.Views
         private void SettingsForm_Load(object sender, EventArgs e)
         {
             cbContainer.DataSource = OptionViewModel.SupportedContainers;
+            cbFont.DataSource = OptionViewModel.InstalledFonts;
+
 
             tbSavePath.Bind(b => b.Text, viewModel, m => m.DefaultSaveFolder);
             cbMouseCursor.Bind(b => b.Checked, viewModel, m => m.CaptureMouse);
             cbMouseClicks.Bind(b => b.Checked, viewModel, m => m.CaptureClick);
             cbKeyboard.Bind(b => b.Checked, viewModel, m => m.CaptureKeys);
             cbFrameRate.Bind(b => b.Text, viewModel, m => m.FrameRate);
+            cbAudioRate.Bind(b => b.Text, viewModel, m => m.AudioRate);
             cbContainer.Bind(b => b.Text, viewModel, m => m.Container);
             cbConversion.Bind(b => b.Checked, viewModel, m => m.AutoConversionDialog);
-            
+
+            cbFont.Bind(b => b.SelectedItem, viewModel, m => m.FontFamily);
+            numFontSize.Bind(b => b.Value, viewModel, m => m.FontSize);
+
             showCopyrightText();
 
             lbVersion.Text = String.Format(CultureInfo.CurrentCulture, Resources.About_Version,
@@ -110,6 +120,45 @@ namespace ScreenCapture.Views
         }
 
 
+        private void btnPreviewOSD_Click(object sender, EventArgs e)
+        {
+            if (preview == null || preview.IsDisposed)
+            {
+                preview = new PreviewOnScreeDisplay(viewModel);
+                preview.Show();
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            closePreview();
+        }
+
+        private void closePreview()
+        {
+            if (preview != null && !preview.IsDisposed)
+            {
+                preview.Close();
+                preview = null;
+            }
+        }
+
+        private void btnSizeUp_Click(object sender, EventArgs e)
+        {
+            viewModel.FontSize++;
+        }
+
+        private void btnSizeDown_Click(object sender, EventArgs e)
+        {
+            viewModel.FontSize--;
+        }
+
+        private void cbFont_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ValidateChildren();
+        }
+
+
 
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -135,6 +184,11 @@ namespace ScreenCapture.Views
         private void btnDonate_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MPU4U4NZZSG86");
+        }
+
+        private void OptionForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            closePreview();
         }
 
     }

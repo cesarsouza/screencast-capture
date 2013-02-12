@@ -42,6 +42,7 @@ namespace ScreenCapture.Processors
     {
 
         private bool enabled;
+        private bool preview;
         private NativeKeyboardContext context;
 
         private Font textFont;
@@ -62,6 +63,12 @@ namespace ScreenCapture.Processors
 
         private CustomKeysConverter conv;
 
+        public Font Font
+        {
+            get { return textFont; }
+            set { textFont = value; }
+        }
+
         /// <summary>
         ///   Gets or sets whether the hook is installed and running.
         ///   Has no effect on debug mode, as stopping at a breakpoint
@@ -74,6 +81,11 @@ namespace ScreenCapture.Processors
             set { OnEnabledChanged(value); }
         }
 
+        public bool Preview
+        {
+            get { return preview; }
+            set { preview = value; }
+        }
 
 
         /// <summary>
@@ -112,21 +124,30 @@ namespace ScreenCapture.Processors
             if (graphics == null)
                 throw new ArgumentNullException("graphics");
 
-            string text = conv.ToStringWithModifiers(context.Current);
-
-            if (!String.IsNullOrEmpty(text))
+            if (preview)
             {
                 currentTransparency = 0.8f;
-                createBitmap(graphics, text);
-                counter = 0;
+                createBitmap(graphics, "Preview");
             }
             else
             {
-                if (counter++ > 10)
+
+                string text = conv.ToStringWithModifiers(context.Current);
+
+                if (!String.IsNullOrEmpty(text))
                 {
-                    currentTransparency -= transparencyStep;
-                    if (currentTransparency <= 0)
-                        currentTransparency = 0;
+                    currentTransparency = 0.8f;
+                    createBitmap(graphics, text);
+                    counter = 0;
+                }
+                else
+                {
+                    if (counter++ > 10)
+                    {
+                        currentTransparency -= transparencyStep;
+                        if (currentTransparency <= 0)
+                            currentTransparency = 0;
+                    }
                 }
             }
 

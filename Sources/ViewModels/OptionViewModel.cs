@@ -24,6 +24,7 @@ namespace ScreenCapture.ViewModels
     using ScreenCapture.Properties;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Drawing;
 
     /// <summary>
     ///   ViewModel for binding option windows.
@@ -76,11 +77,20 @@ namespace ScreenCapture.ViewModels
         public double FrameRate { get; set; }
 
         /// <summary>
+        ///   Gets or sets the sample rate of the audio recordings.
+        /// </summary>
+        /// 
+        public int AudioRate { get; set; }
+
+        /// <summary>
         ///   Gets or sets the current storage container format.
         /// </summary>
         /// 
         public string Container { get; set; }
 
+        public string FontFamily { get; set; }
+
+        public float FontSize { get; set; }
 
         /// <summary>
         ///   Gets or sets whether to offer a conversion 
@@ -95,7 +105,7 @@ namespace ScreenCapture.ViewModels
         /// 
         public static ICollection<string> SupportedContainers { get; private set; }
 
-
+        public static ICollection<string> InstalledFonts { get; private set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="OptionViewModel"/> class.
@@ -116,6 +126,11 @@ namespace ScreenCapture.ViewModels
             {
                 "avi", "mkv", "m4v", "mp4", "mov"
             };
+
+            List<string> fonts = new List<string>();
+            foreach (FontFamily font in System.Drawing.FontFamily.Families)
+                fonts.Add(font.Name);
+            InstalledFonts = fonts;
         }
 
 
@@ -136,7 +151,7 @@ namespace ScreenCapture.ViewModels
             Settings.Default.FrameRate = FrameRate;
             Settings.Default.Container = Container;
             Settings.Default.ShowConversionOnFinish = AutoConversionDialog;
-            
+            Settings.Default.KeyboardFont = new Font(FontFamily, FontSize);
 
             Settings.Default.Save();
         }
@@ -157,6 +172,9 @@ namespace ScreenCapture.ViewModels
             FrameRate = Settings.Default.FrameRate;
             Container = Settings.Default.Container;
             AutoConversionDialog = Settings.Default.ShowConversionOnFinish;
+            FontFamily = Settings.Default.KeyboardFont.FontFamily.Name;
+            FontSize = Settings.Default.KeyboardFont.Size;
+            AudioRate = Settings.Default.SampleRate;
         }
 
 

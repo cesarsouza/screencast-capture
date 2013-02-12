@@ -318,7 +318,7 @@ namespace ScreenCapture.ViewModels
             {
                 audioDevice = new AudioCaptureDevice(CaptureAudioDevice.Guid);
                 audioDevice.Format = SampleFormat.Format16Bit;
-                audioDevice.SampleRate = 44100;
+                audioDevice.SampleRate = Settings.Default.SampleRate;
                 audioDevice.DesiredFrameSize = 4096;
                 audioDevice.NewFrame += audioDevice_NewFrame;
                 audioDevice.Start();
@@ -465,6 +465,7 @@ namespace ScreenCapture.ViewModels
             {
                 cursorCapture.CaptureRegion = CaptureRegion;
                 clickCapture.CaptureRegion = CaptureRegion;
+                keyCapture.Font = Settings.Default.KeyboardFont;
 
                 using (Graphics g = Graphics.FromImage(image))
                 {
