@@ -31,7 +31,7 @@ namespace ScreenCapture.Views
     ///   Video conversion options.
     /// </summary>
     /// 
-    public partial class ConvertForm : Form
+    public partial class ConvertFormatDialog : Form
     {
 
         ConvertViewModel viewModel;
@@ -39,20 +39,20 @@ namespace ScreenCapture.Views
 
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="ConvertForm"/> class.
+        ///   Initializes a new instance of the <see cref="ConvertFormatDialog"/> class.
         /// </summary>
         /// 
-        public ConvertForm(ConvertViewModel viewModel)
+        public ConvertFormatDialog(ConvertViewModel viewModel)
             : this()
         {
             this.viewModel = viewModel;
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="ConvertForm"/> class.
+        ///   Initializes a new instance of the <see cref="ConvertFormatDialog"/> class.
         /// </summary>
         /// 
-        public ConvertForm()
+        public ConvertFormatDialog()
         {
             InitializeComponent();
         }

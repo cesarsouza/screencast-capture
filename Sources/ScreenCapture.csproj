@@ -106,6 +106,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Externals\AForge\AForge.Video.dll</HintPath>
     </Reference>
+    <Reference Include="AForge.Video.DirectShow, Version=2.2.4.1, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Externals\AForge\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
     <Reference Include="AForge.Video.FFMPEG, Version=2.2.4.0, Culture=neutral, PublicKeyToken=03563089b1be05dd, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Externals\AForge\AForge.Video.FFMPEG.dll</HintPath>
@@ -171,6 +175,18 @@
     <Compile Include="ViewModels\ConvertViewModel.cs" />
     <Compile Include="ViewModels\RecorderViewModel.cs" />
     <Compile Include="ViewModels\OptionViewModel.cs" />
+    <Compile Include="Views\CameraForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CameraForm.Designer.cs">
+      <DependentUpon>CameraForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialog\CaptureDeviceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Dialog\CaptureDeviceDialog.Designer.cs">
+      <DependentUpon>CaptureDeviceDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\CaptureRegion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -204,11 +220,11 @@
     <Compile Include="Native\SafeNativeMethods.cs" />
     <Compile Include="Properties\GlobalSuppressions.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Views\ConvertForm.cs">
+    <Compile Include="Views\Dialog\ConvertFormatDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\ConvertForm.Designer.cs">
-      <DependentUpon>ConvertForm.cs</DependentUpon>
+    <Compile Include="Views\Dialog\ConvertFormatDialog.Designer.cs">
+      <DependentUpon>ConvertFormatDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
@@ -227,11 +243,11 @@
     <Compile Include="Views\OptionForm.Designer.cs">
       <DependentUpon>OptionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\PreviewOnScreeDisplay.cs">
+    <Compile Include="Views\Dialog\KeyboardPreviewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\PreviewOnScreeDisplay.Designer.cs">
-      <DependentUpon>PreviewOnScreeDisplay.cs</DependentUpon>
+    <Compile Include="Views\Dialog\KeyboardPreviewForm.Designer.cs">
+      <DependentUpon>KeyboardPreviewForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Controls\ExplorerBrowserCustom.pt.resx">
       <DependentUpon>ExplorerBrowserCustom.cs</DependentUpon>
@@ -242,6 +258,12 @@
     <EmbeddedResource Include="Properties\Resources.pt.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.pt.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CameraForm.resx">
+      <DependentUpon>CameraForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Dialog\CaptureDeviceDialog.resx">
+      <DependentUpon>CaptureDeviceDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\CaptureRegion.pt.resx">
       <DependentUpon>CaptureRegion.cs</DependentUpon>
@@ -255,11 +277,11 @@
     <EmbeddedResource Include="Views\CaptureWindow.resx">
       <DependentUpon>CaptureWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\ConvertForm.pt.resx">
-      <DependentUpon>ConvertForm.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Dialog\ConvertFormatDialog.pt.resx">
+      <DependentUpon>ConvertFormatDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\ConvertForm.resx">
-      <DependentUpon>ConvertForm.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Dialog\ConvertFormatDialog.resx">
+      <DependentUpon>ConvertFormatDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MainForm.pt.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -284,8 +306,8 @@
     <EmbeddedResource Include="Views\OptionForm.resx">
       <DependentUpon>OptionForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\PreviewOnScreeDisplay.resx">
-      <DependentUpon>PreviewOnScreeDisplay.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Dialog\KeyboardPreviewForm.resx">
+      <DependentUpon>KeyboardPreviewForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Diagrams\NativeInterop.cd" />
@@ -356,8 +378,15 @@
     <None Include="Resources\thumbnail.png" />
     <None Include="Resources\top.png" />
     <None Include="Resources\home.png" />
+    <None Include="Resources\agt_family.png" />
+    <Content Include="Resources\agt_family-off.png" />
     <Content Include="Resources\aktion.png" />
     <None Include="Resources\mix_video.png" />
+    <None Include="Resources\aktion16.png" />
+    <None Include="Resources\aktion1.png" />
+    <Content Include="Resources\camera.ico" />
+    <Content Include="Resources\camera_unmount.png" />
+    <Content Include="Resources\inline_image.png" />
     <Content Include="Resources\kmid.png" />
     <Content Include="Resources\kmixdocked.png" />
     <Content Include="Resources\kmixdocked_mute.png" />

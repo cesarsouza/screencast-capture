@@ -76,6 +76,20 @@ namespace ScreenCapture.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap agt_family {
+            get {
+                object obj = ResourceManager.GetObject("agt_family", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap agt_family_off {
+            get {
+                object obj = ResourceManager.GetObject("agt_family_off", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap aktion {
             get {
                 object obj = ResourceManager.GetObject("aktion", resourceCulture);
@@ -83,9 +97,30 @@ namespace ScreenCapture.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap aktion1 {
+            get {
+                object obj = ResourceManager.GetObject("aktion1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap aktion16 {
+            get {
+                object obj = ResourceManager.GetObject("aktion16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap camera {
             get {
                 object obj = ResourceManager.GetObject("camera", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap camera_unmount {
+            get {
+                object obj = ResourceManager.GetObject("camera_unmount", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,6 +198,13 @@ namespace ScreenCapture.Properties {
             get {
                 object obj = ResourceManager.GetObject("icon_stop_overlay", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap inline_image {
+            get {
+                object obj = ResourceManager.GetObject("inline_image", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

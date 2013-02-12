@@ -21,12 +21,13 @@
 
 namespace ScreenCapture.Views
 {
-    using ScreenCapture.Properties;
-    using ScreenCapture.ViewModels;
     using System;
     using System.Globalization;
     using System.Windows.Forms;
     using Accord.DirectSound;
+    using ScreenCapture.Properties;
+    using ScreenCapture.ViewModels;
+    using ScreenCapture.Controls;
 
     /// <summary>
     ///   Main window for the Screencast Capture application.
@@ -43,6 +44,8 @@ namespace ScreenCapture.Views
         CaptureRegion regionWindow;
         CaptureWindow windowWindow;
 
+        CameraForm webcamWindow;
+
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="MainForm"/> class.
@@ -55,14 +58,6 @@ namespace ScreenCapture.Views
             viewModel = new MainViewModel(videoSourcePlayer1);
             regionWindow = new CaptureRegion(viewModel.Recorder);
             windowWindow = new CaptureWindow(viewModel.Recorder);
-
-            // Create audio menu items for each audio device
-            foreach (var dev in RecorderViewModel.AudioDevices)
-            {
-                ToolStripItem item = btnAudio.DropDownItems.Add("Capture " + dev.Description);
-                item.Click += new EventHandler(btnAudioDevice_Click);
-                item.Tag = dev;
-            }
         }
 
 
@@ -130,11 +125,22 @@ namespace ScreenCapture.Views
             lbSeparator.Bind(b => b.Visible, b => btnConvert.VisibleChanged += b, () => btnCancel.Visible || btnConvert.Visible);
             lbSeparator.Bind(b => b.Visible, b => btnCancel.VisibleChanged += b, () => btnCancel.Visible || btnConvert.Visible);
 
+            btnWebcam.Bind(b => b.Image, viewModel, m => m.IsWebcamEnabled, value => value ? Resources.agt_family : Resources.agt_family_off);
             btnAudio.Bind(b => b.Enabled, viewModel.Recorder, m => m.IsRecording, value => !value);
-            btnAudio.Bind(b => b.Text, viewModel.Recorder, m => m.CaptureAudioDevice,
-                c => c == null ? String.Empty : c.Description.Substring(0, 13) + "...");
             btnAudio.Bind(b => b.Image, viewModel.Recorder, m => m.CaptureAudioDevice,
                 c => c == null ? Resources.kmixdocked_mute : Resources.kmixdocked);
+            btnNoAudio.Bind(b => b.Checked, viewModel.Recorder, m => m.CaptureAudioDevice,
+                 value => value == null);
+
+            // Create audio menu items for each audio device
+            foreach (AudioDeviceInfo dev in RecorderViewModel.AudioDevices)
+            {
+                var item = new BindableToolStripMenuItem("Capture " + dev.Description);
+                item.Tag = dev; item.Click += btnAudioDevice_Click;
+                item.Bind(b => b.Checked, viewModel.Recorder, m => m.CaptureAudioDevice,
+                    value => value == (item.Tag as AudioDeviceInfo));
+                btnAudio.DropDownItems.Add(item);
+            }
         }
 
 
@@ -229,7 +235,7 @@ namespace ScreenCapture.Views
 
         private void Converter_ShowDialog(object sender, EventArgs e)
         {
-            using (ConvertForm form = new ConvertForm(viewModel.Converter))
+            using (ConvertFormatDialog form = new ConvertFormatDialog(viewModel.Converter))
                 form.ShowDialog(this);
         }
 
@@ -268,6 +274,15 @@ namespace ScreenCapture.Views
                     return btnCaptureWindow;
                 default:
                     throw new ArgumentOutOfRangeException("mode");
+            }
+        }
+
+        private void btnWebcam_Click(object sender, EventArgs e)
+        {
+            if (webcamWindow == null || webcamWindow.IsDisposed)
+            {
+                webcamWindow = new CameraForm(viewModel);
+                webcamWindow.Show(this);
             }
         }
 

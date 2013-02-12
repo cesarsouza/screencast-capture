@@ -55,15 +55,16 @@
             this.btnConvert = new ScreenCapture.Controls.BindableToolStripStatusLabel();
             this.lbSeparator = new ScreenCapture.Controls.BindableToolStripStatusLabel();
             this.btnAudio = new ScreenCapture.Controls.BindableToolStripDropDownButton();
-            this.doNotRecordAudioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnNoAudio = new ScreenCapture.Controls.BindableToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnSettings = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnSettings = new System.Windows.Forms.ToolStripDropDownButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
             this.explorerBrowser = new ScreenCapture.Controls.ExplorerBrowserCustom();
             this.iconPlayPause = new ScreenCapture.Controls.BindableNotifyIcon(this.components);
             this.keyPlayPause = new ScreenCapture.Controls.HotKey(this.components);
             this.keyStartStop = new ScreenCapture.Controls.HotKey(this.components);
+            this.btnWebcam = new ScreenCapture.Controls.BindableToolStripDropDownButton();
             this.toolStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -185,6 +186,7 @@
             this.btnCancel,
             this.btnConvert,
             this.lbSeparator,
+            this.btnWebcam,
             this.btnAudio,
             this.btnSettings});
             resources.ApplyResources(this.statusStrip, "statusStrip");
@@ -254,17 +256,18 @@
             // btnAudio
             // 
             this.btnAudio.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.doNotRecordAudioToolStripMenuItem,
+            this.btnNoAudio,
             this.toolStripSeparator2});
-            this.btnAudio.Image = global::ScreenCapture.Properties.Resources.kmid;
+            this.btnAudio.Image = global::ScreenCapture.Properties.Resources.kmixdocked_mute;
             this.btnAudio.Name = "btnAudio";
+            this.btnAudio.ShowDropDownArrow = false;
             resources.ApplyResources(this.btnAudio, "btnAudio");
             // 
-            // doNotRecordAudioToolStripMenuItem
+            // btnNoAudio
             // 
-            resources.ApplyResources(this.doNotRecordAudioToolStripMenuItem, "doNotRecordAudioToolStripMenuItem");
-            this.doNotRecordAudioToolStripMenuItem.Name = "doNotRecordAudioToolStripMenuItem";
-            this.doNotRecordAudioToolStripMenuItem.Click += new System.EventHandler(this.btnAudioDevice_Click);
+            resources.ApplyResources(this.btnNoAudio, "btnNoAudio");
+            this.btnNoAudio.Name = "btnNoAudio";
+            this.btnNoAudio.Click += new System.EventHandler(this.btnAudioDevice_Click);
             // 
             // toolStripSeparator2
             // 
@@ -273,12 +276,9 @@
             // 
             // btnSettings
             // 
-            this.btnSettings.ActiveLinkColor = System.Drawing.Color.Black;
             this.btnSettings.Image = global::ScreenCapture.Properties.Resources.advancedsettings;
-            this.btnSettings.IsLink = true;
-            this.btnSettings.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
-            this.btnSettings.LinkColor = System.Drawing.Color.Black;
             this.btnSettings.Name = "btnSettings";
+            this.btnSettings.ShowDropDownArrow = false;
             resources.ApplyResources(this.btnSettings, "btnSettings");
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
@@ -332,6 +332,15 @@
             | System.Windows.Forms.Keys.F10)));
             this.keyStartStop.Pressed += new System.ComponentModel.HandledEventHandler(this.hotkeyStop_Pressed);
             // 
+            // btnWebcam
+            // 
+            this.btnWebcam.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnWebcam.Image = global::ScreenCapture.Properties.Resources.agt_family_off;
+            resources.ApplyResources(this.btnWebcam, "btnWebcam");
+            this.btnWebcam.Name = "btnWebcam";
+            this.btnWebcam.ShowDropDownArrow = false;
+            this.btnWebcam.Click += new System.EventHandler(this.btnWebcam_Click);
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
@@ -375,7 +384,6 @@
         private Controls.HotKey keyPlayPause;
         private Controls.HotKey keyStartStop;
         private Controls.BindableNotifyIcon iconPlayPause;
-        private System.Windows.Forms.ToolStripStatusLabel btnSettings;
         private ScreenCapture.Controls.BindableToolStripStatusLabel lbStatusTime;
         private Controls.BindableToolStripStatusLabel lbSeparator;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
@@ -384,8 +392,10 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private Controls.BindableToolStripDropDownButton btnAudio;
-        private System.Windows.Forms.ToolStripMenuItem doNotRecordAudioToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripDropDownButton btnSettings;
+        private Controls.BindableToolStripMenuItem btnNoAudio;
+        private Controls.BindableToolStripDropDownButton btnWebcam;
     }
 }
 
