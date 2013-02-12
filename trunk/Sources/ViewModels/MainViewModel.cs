@@ -21,10 +21,10 @@
 
 namespace ScreenCapture.ViewModels
 {
-    using AForge.Controls;
-    using ScreenCapture.Properties;
     using System;
     using System.ComponentModel;
+    using AForge.Controls;
+    using ScreenCapture.Properties;
 
     /// <summary>
     ///   Main ViewModel to control the application.
@@ -76,6 +76,8 @@ namespace ScreenCapture.ViewModels
         /// 
         [LocalizableAttribute(true)]
         public string StatusText { get; set; }
+
+        public bool IsWebcamEnabled { get; set; }
 
 
 

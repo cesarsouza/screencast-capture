@@ -42,7 +42,7 @@ namespace ScreenCapture.Views
 
         OptionViewModel viewModel = new OptionViewModel();
 
-        PreviewOnScreeDisplay preview;
+        KeyboardPreviewForm preview;
 
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace ScreenCapture.Views
         {
             if (preview == null || preview.IsDisposed)
             {
-                preview = new PreviewOnScreeDisplay(viewModel);
+                preview = new KeyboardPreviewForm(viewModel);
                 preview.Show();
             }
         }

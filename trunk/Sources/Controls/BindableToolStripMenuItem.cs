@@ -33,6 +33,15 @@ namespace ScreenCapture.Controls
 
         private BindingContext bindingContext;
 
+
+        public BindableToolStripMenuItem()
+        {
+        }
+
+        public BindableToolStripMenuItem(string text)
+            : base(text) { }
+
+
         /// <summary>
         ///   Gets the collection of data-binding objects for this
         ///   <see cref="T:System.Windows.Forms.IBindableComponent"/>.
@@ -45,7 +54,7 @@ namespace ScreenCapture.Controls
         {
             get
             {
-                if (dataBindings == null) 
+                if (dataBindings == null)
                     dataBindings = new ControlBindingsCollection(this);
                 return dataBindings;
             }

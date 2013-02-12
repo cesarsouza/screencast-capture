@@ -1,6 +1,6 @@
 ﻿namespace ScreenCapture.Views
 {
-    partial class ConvertForm
+    partial class ConvertFormatDialog
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConvertForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConvertFormatDialog));
             this.btnCancel = new System.Windows.Forms.Button();
             this.cbTheora = new System.Windows.Forms.CheckBox();
             this.cbWebM = new System.Windows.Forms.CheckBox();

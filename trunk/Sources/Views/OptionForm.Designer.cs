@@ -47,6 +47,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabAudioVideo = new System.Windows.Forms.TabPage();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.cbConversion = new System.Windows.Forms.CheckBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -74,6 +75,7 @@
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabAudioVideo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numFontSize)).BeginInit();
@@ -208,6 +210,7 @@
             // 
             // tabAudioVideo
             // 
+            this.tabAudioVideo.Controls.Add(this.pictureBox2);
             this.tabAudioVideo.Controls.Add(this.groupBox4);
             this.tabAudioVideo.Controls.Add(this.groupBox6);
             this.tabAudioVideo.Controls.Add(this.groupBox5);
@@ -215,6 +218,13 @@
             resources.ApplyResources(this.tabAudioVideo, "tabAudioVideo");
             this.tabAudioVideo.Name = "tabAudioVideo";
             this.tabAudioVideo.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::ScreenCapture.Properties.Resources.aktion1;
+            resources.ApplyResources(this.pictureBox2, "pictureBox2");
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.TabStop = false;
             // 
             // groupBox4
             // 
@@ -390,6 +400,8 @@
             this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabAudioVideo.ResumeLayout(false);
+            this.tabAudioVideo.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox6.ResumeLayout(false);
@@ -443,5 +455,6 @@
         private System.Windows.Forms.ComboBox cbAudioRate;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox cbConversion;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
