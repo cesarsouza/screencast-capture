@@ -13,10 +13,21 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing)
             {
-                components.Dispose();
+                if (components != null)
+                {
+                    components.Dispose();
+                    components = null;
+                }
+
+                if (capture != null)
+                {
+                    capture.Dispose();
+                    capture = null;
+                }
             }
+
             base.Dispose(disposing);
         }
 
@@ -48,11 +59,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "DisplayPreview";
             this.ShowInTaskbar = false;
-            this.Text = "PreviewOnScreeDisplay";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(255)))), ((int)(((byte)(254)))));
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.PreviewOnScreeDisplay_Load);
             this.Click += new System.EventHandler(this.PreviewOnScreeDisplay_Click);
             this.ResumeLayout(false);
 

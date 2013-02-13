@@ -29,17 +29,31 @@ namespace ScreenCapture.Views
     using AForge.Video.DirectShow;
     using ScreenCapture.ViewModels;
 
+    /// <summary>
+    ///   Displays a webcam always on top of the screen.
+    /// </summary>
+    /// 
     public partial class CameraForm : Form
     {
 
         MainViewModel viewModel;
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="CameraForm"/> class.
+        /// </summary>
+        /// 
+        /// <param name="viewModel">The view model.</param>
+        /// 
         public CameraForm(MainViewModel viewModel)
             :this()
         {
             this.viewModel = viewModel;
         }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="CameraForm"/> class.
+        /// </summary>
+        /// 
         public CameraForm()
         {
             InitializeComponent();
@@ -54,25 +68,26 @@ namespace ScreenCapture.Views
                 return;
             }
 
-            CaptureDeviceDialog form = new CaptureDeviceDialog();
-
-            if (form.ShowDialog(this) == DialogResult.OK)
+            using (CaptureDeviceDialog form = new CaptureDeviceDialog())
             {
-                // create video source
-                VideoCaptureDevice videoSource = new VideoCaptureDevice(form.VideoDevice);
+                if (form.ShowDialog(this) == DialogResult.OK)
+                {
+                    // create video source
+                    VideoCaptureDevice videoSource = new VideoCaptureDevice(form.VideoDevice);
 
-                // set busy cursor
-                this.Cursor = Cursors.WaitCursor;
+                    // set busy cursor
+                    this.Cursor = Cursors.WaitCursor;
 
-                stop();
+                    stop();
 
-                // start new video source
-                videoSourcePlayer.VideoSource = new AsyncVideoSource(videoSource);
-                videoSourcePlayer.Start();
+                    // start new video source
+                    videoSourcePlayer.VideoSource = new AsyncVideoSource(videoSource);
+                    videoSourcePlayer.Start();
 
-                Cursor = Cursors.Default;
-                label1.Visible = false;
-                viewModel.IsWebcamEnabled = true;
+                    Cursor = Cursors.Default;
+                    label1.Visible = false;
+                    viewModel.IsWebcamEnabled = true;
+                }
             }
         }
 

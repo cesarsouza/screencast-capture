@@ -27,39 +27,56 @@ namespace ScreenCapture.Views
     using ScreenCapture.Processors;
     using ScreenCapture.ViewModels;
 
-    public partial class KeyboardPreviewForm : Form
+    /// <summary>
+    ///   Preview display for the keyboard logger.
+    /// </summary>
+    /// 
+    public partial class KeyboardPreviewForm : Form, IDisposable
     {
 
         CaptureKeyboard capture;
         OptionViewModel viewModel;
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="KeyboardPreviewForm"/> class.
+        /// </summary>
+        /// 
+        /// <param name="viewModel">The view model.</param>
+        /// 
         public KeyboardPreviewForm(OptionViewModel viewModel)
             : this()
         {
             this.viewModel = viewModel;
         }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="KeyboardPreviewForm"/> class.
+        /// </summary>
+        /// 
         public KeyboardPreviewForm()
         {
             InitializeComponent();
-        }
 
-        private void PreviewOnScreeDisplay_Load(object sender, EventArgs e)
-        {
             capture = new CaptureKeyboard()
             {
-                Preview = true
+                Preview = true,
+                Enabled = false
             };
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-
             capture.Font = new Font(viewModel.FontFamily, viewModel.FontSize);
 
             Invalidate();
         }
 
+        /// <summary>
+        ///   Paints the control.
+        /// </summary>
+        /// 
+        /// <param name="e">A <see cref="T:System.Windows.Forms.PaintEventArgs"/> that contains the event data.</param>
+        /// 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);

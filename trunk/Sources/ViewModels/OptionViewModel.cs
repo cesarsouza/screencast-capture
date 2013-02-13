@@ -88,8 +88,15 @@ namespace ScreenCapture.ViewModels
         /// 
         public string Container { get; set; }
 
+        /// <summary>
+        ///   Gets or sets the font family of the keyboard display.
+        /// </summary>
+        /// 
         public string FontFamily { get; set; }
 
+        /// <summary>
+        ///   Gets or sets the font size for the keyboard display.
+        /// </summary>
         public float FontSize { get; set; }
 
         /// <summary>
@@ -105,6 +112,10 @@ namespace ScreenCapture.ViewModels
         /// 
         public static ICollection<string> SupportedContainers { get; private set; }
 
+        /// <summary>
+        ///   Gets a list of fonts installed in the system.
+        /// </summary>
+        /// 
         public static ICollection<string> InstalledFonts { get; private set; }
 
         /// <summary>

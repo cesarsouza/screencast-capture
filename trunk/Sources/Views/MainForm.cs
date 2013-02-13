@@ -135,7 +135,7 @@ namespace ScreenCapture.Views
             // Create audio menu items for each audio device
             foreach (AudioDeviceInfo dev in RecorderViewModel.AudioDevices)
             {
-                var item = new BindableToolStripMenuItem("Capture " + dev.Description);
+                var item = new BindableToolStripMenuItem(dev.Description);
                 item.Tag = dev; item.Click += btnAudioDevice_Click;
                 item.Bind(b => b.Checked, viewModel.Recorder, m => m.CaptureAudioDevice,
                     value => value == (item.Tag as AudioDeviceInfo));

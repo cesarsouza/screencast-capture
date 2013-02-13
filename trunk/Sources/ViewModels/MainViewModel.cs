@@ -71,13 +71,16 @@ namespace ScreenCapture.ViewModels
         public bool IsPreviewVisible { get; set; }
 
         /// <summary>
+        ///   Gets or whether the webcam window is visible.
+        /// </summary>
+        public bool IsWebcamEnabled { get; set; }
+
+        /// <summary>
         ///   Gets the current status of the application.
         /// </summary>
         /// 
         [LocalizableAttribute(true)]
         public string StatusText { get; set; }
-
-        public bool IsWebcamEnabled { get; set; }
 
 
 

@@ -208,6 +208,15 @@ namespace ScreenCapture.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Preview.
+        /// </summary>
+        internal static string Keyboard_Preview {
+            get {
+                return ResourceManager.GetString("Keyboard_Preview", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap kmid {
             get {
                 object obj = ResourceManager.GetObject("kmid", resourceCulture);
