@@ -3,6 +3,19 @@
  =========================================
 
 
+ 20.02.2013, version 1.4
+ -----------------------
+
+  The application can now record audio and present a webcam as a
+  picture-in-picture (pip) window. The keyboard display in video
+  is now customizable, as font style and font size can be chosen
+  in the options menu.
+
+  Issues fixed:
+  - Issue  8: Add support for audio recording;
+  - Issue 13: Add support for webcam recording;
+
+
  24.01.2013, version 1.3
  -----------------------
 
