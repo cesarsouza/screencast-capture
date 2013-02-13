@@ -259,8 +259,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.pt.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\CameraForm.pt.resx">
+      <DependentUpon>CameraForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\CameraForm.resx">
       <DependentUpon>CameraForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Dialog\CaptureDeviceDialog.pt.resx">
+      <DependentUpon>CaptureDeviceDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Dialog\CaptureDeviceDialog.resx">
       <DependentUpon>CaptureDeviceDialog.cs</DependentUpon>

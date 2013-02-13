@@ -117,28 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="About_Version" xml:space="preserve">
-    <value>Versão {0}</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 13</value>
   </data>
-  <data name="Error_Missing_Copyright" xml:space="preserve">
-    <value>Arquivo de direitos autorais não encontrado.</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Selecione um dispositivo de captura:</value>
   </data>
-  <data name="Greet_Text" xml:space="preserve">
-    <value>Talvez você gostaria de saber que este aplicativo se torna muito mais útil se você ativar ícones de notificações sempre visíveis para ele. Por favor, clique no botão em forma de chave inglesa ai em cima e as habilite se desejar!</value>
+  <data name="cancelButton.Text" xml:space="preserve">
+    <value>Cancelar</value>
   </data>
-  <data name="Greet_Title" xml:space="preserve">
-    <value>Olá! E aí, beleza?</value>
+  <data name="okButton.Text" xml:space="preserve">
+    <value>OK</value>
   </data>
-  <data name="Keyboard_Preview" xml:space="preserve">
-    <value>Pré-visualização</value>
-  </data>
-  <data name="Status_Converting" xml:space="preserve">
-    <value>Convertendo...</value>
-  </data>
-  <data name="Status_Ready" xml:space="preserve">
-    <value>Pronto</value>
-  </data>
-  <data name="Status_Recording" xml:space="preserve">
-    <value>Gravando</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Escolher dispositivo</value>
   </data>
 </root>

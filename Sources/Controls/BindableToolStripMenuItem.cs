@@ -34,10 +34,19 @@ namespace ScreenCapture.Controls
         private BindingContext bindingContext;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BindableToolStripMenuItem"/> class.
+        /// </summary>
+        /// 
         public BindableToolStripMenuItem()
         {
         }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="BindableToolStripMenuItem"/>
+        ///   class that displays the specified text.
+        /// </summary>
+        /// 
         public BindableToolStripMenuItem(string text)
             : base(text) { }
 

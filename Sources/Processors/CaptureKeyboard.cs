@@ -26,6 +26,7 @@ namespace ScreenCapture.Processors
     using System.Drawing.Drawing2D;
     using System.Drawing.Imaging;
     using ScreenCapture.Native;
+    using ScreenCapture.Properties;
 
     /// <summary>
     ///   Class to capture keyboard key presses.
@@ -63,6 +64,11 @@ namespace ScreenCapture.Processors
 
         private CustomKeysConverter conv;
 
+        /// <summary>
+        ///   Gets or sets the font used in 
+        ///   the keyboard display text.
+        /// </summary>
+        /// 
         public Font Font
         {
             get { return textFont; }
@@ -81,12 +87,17 @@ namespace ScreenCapture.Processors
             set { OnEnabledChanged(value); }
         }
 
+        /// <summary>
+        ///   Gets or sets whether this instance is in preview mode.
+        ///   In preview mode, the object is being drawn on screen
+        ///   rather than on video.
+        /// </summary>
+        /// 
         public bool Preview
         {
             get { return preview; }
             set { preview = value; }
         }
-
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="CaptureKeyboard"/> class.
@@ -127,7 +138,7 @@ namespace ScreenCapture.Processors
             if (preview)
             {
                 currentTransparency = 0.8f;
-                createBitmap(graphics, "Preview");
+                createBitmap(graphics, Resources.Keyboard_Preview);
             }
             else
             {

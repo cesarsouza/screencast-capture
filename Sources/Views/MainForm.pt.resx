@@ -243,8 +243,11 @@
   <data name="lbStatusReady.Text" xml:space="preserve">
     <value>Pronto</value>
   </data>
+  <data name="toolStripStatusLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>39, 17</value>
+  </data>
   <data name="toolStripStatusLabel2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>344, 17</value>
+    <value>39, 17</value>
   </data>
   <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 17</value>
@@ -258,8 +261,17 @@
   <data name="btnConvert.Text" xml:space="preserve">
     <value>Converter</value>
   </data>
+  <data name="btnNoAudio.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 22</value>
+  </data>
+  <data name="btnNoAudio.Text" xml:space="preserve">
+    <value>Não gravar áudio</value>
+  </data>
+  <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>164, 6</value>
+  </data>
   <data name="btnSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 17</value>
+    <value>104, 20</value>
   </data>
   <data name="btnSettings.Text" xml:space="preserve">
     <value>Configurações</value>

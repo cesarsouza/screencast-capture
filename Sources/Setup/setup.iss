@@ -1,6 +1,6 @@
 ; Settings
 #define MyAppName "Screencast Capture Lite"
-#define MyAppVersion "1.3"
+#define MyAppVersion "1.4"
 #define MyAppPublisher "Accord.NET Framework"
 #define MyAppURL "http://screencast-capture.googlecode.com"
 #define MyAppExeName "ScreenCapture.exe"

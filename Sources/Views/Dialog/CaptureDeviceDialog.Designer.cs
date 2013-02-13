@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CaptureDeviceDialog));
             this.label1 = new System.Windows.Forms.Label();
             this.devicesCombo = new System.Windows.Forms.ComboBox();
             this.cancelButton = new System.Windows.Forms.Button();
@@ -36,60 +37,44 @@
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 17);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(185, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Please select a video capture device:";
             // 
             // devicesCombo
             // 
             this.devicesCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.devicesCombo.FormattingEnabled = true;
-            this.devicesCombo.Location = new System.Drawing.Point(12, 37);
+            resources.ApplyResources(this.devicesCombo, "devicesCombo");
             this.devicesCombo.Name = "devicesCombo";
-            this.devicesCombo.Size = new System.Drawing.Size(320, 21);
-            this.devicesCombo.TabIndex = 1;
             // 
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(257, 81);
+            resources.ApplyResources(this.cancelButton, "cancelButton");
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelButton.TabIndex = 7;
-            this.cancelButton.Text = "Cancel";
             // 
             // okButton
             // 
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(176, 81);
+            resources.ApplyResources(this.okButton, "okButton");
             this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 6;
-            this.okButton.Text = "Ok";
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // CaptureDeviceDialog
             // 
             this.AcceptButton = this.okButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(344, 116);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.devicesCombo);
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(360, 154);
             this.MinimizeBox = false;
             this.Name = "CaptureDeviceDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Capture Device";
             this.ResumeLayout(false);
             this.PerformLayout();
 

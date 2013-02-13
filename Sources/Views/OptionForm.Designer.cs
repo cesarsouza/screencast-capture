@@ -67,7 +67,6 @@
             this.cbFrameRate = new System.Windows.Forms.ComboBox();
             this.btnApply = new System.Windows.Forms.Button();
             this.btnDonate = new System.Windows.Forms.Button();
-            this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.tabAbout.SuspendLayout();
             this.tabCapture.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -100,28 +99,28 @@
             // 
             // tabAbout
             // 
-            this.tabAbout.Controls.Add(this.tbCopyright);
             resources.ApplyResources(this.tabAbout, "tabAbout");
+            this.tabAbout.Controls.Add(this.tbCopyright);
             this.tabAbout.Name = "tabAbout";
             this.tabAbout.UseVisualStyleBackColor = true;
             // 
             // tbCopyright
             // 
+            resources.ApplyResources(this.tbCopyright, "tbCopyright");
             this.tbCopyright.BackColor = System.Drawing.Color.White;
             this.tbCopyright.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            resources.ApplyResources(this.tbCopyright, "tbCopyright");
             this.tbCopyright.Name = "tbCopyright";
             this.tbCopyright.ReadOnly = true;
             // 
             // tabCapture
             // 
+            resources.ApplyResources(this.tabCapture, "tabCapture");
             this.tabCapture.Controls.Add(this.lbVersion);
             this.tabCapture.Controls.Add(this.linkLabel1);
             this.tabCapture.Controls.Add(this.groupBox2);
             this.tabCapture.Controls.Add(this.pictureBox1);
             this.tabCapture.Controls.Add(this.groupBox1);
             this.tabCapture.Controls.Add(this.label1);
-            resources.ApplyResources(this.tabCapture, "tabCapture");
             this.tabCapture.Name = "tabCapture";
             this.tabCapture.UseVisualStyleBackColor = true;
             // 
@@ -140,9 +139,9 @@
             // 
             // groupBox2
             // 
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.btnSelectFolder);
             this.groupBox2.Controls.Add(this.tbSavePath);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
@@ -160,17 +159,17 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::ScreenCapture.Properties.Resources.screencast_128;
             resources.ApplyResources(this.pictureBox1, "pictureBox1");
+            this.pictureBox1.Image = global::ScreenCapture.Properties.Resources.screencast_128;
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.cbMouseClicks);
             this.groupBox1.Controls.Add(this.cbKeyboard);
             this.groupBox1.Controls.Add(this.cbMouseCursor);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -199,10 +198,10 @@
             // 
             // tabControl1
             // 
+            resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Controls.Add(this.tabCapture);
             this.tabControl1.Controls.Add(this.tabAudioVideo);
             this.tabControl1.Controls.Add(this.tabAbout);
-            resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -210,26 +209,26 @@
             // 
             // tabAudioVideo
             // 
+            resources.ApplyResources(this.tabAudioVideo, "tabAudioVideo");
             this.tabAudioVideo.Controls.Add(this.pictureBox2);
             this.tabAudioVideo.Controls.Add(this.groupBox4);
             this.tabAudioVideo.Controls.Add(this.groupBox6);
             this.tabAudioVideo.Controls.Add(this.groupBox5);
             this.tabAudioVideo.Controls.Add(this.groupBox3);
-            resources.ApplyResources(this.tabAudioVideo, "tabAudioVideo");
             this.tabAudioVideo.Name = "tabAudioVideo";
             this.tabAudioVideo.UseVisualStyleBackColor = true;
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Image = global::ScreenCapture.Properties.Resources.aktion1;
             resources.ApplyResources(this.pictureBox2, "pictureBox2");
+            this.pictureBox2.Image = global::ScreenCapture.Properties.Resources.aktion1;
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.TabStop = false;
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.cbConversion);
             resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Controls.Add(this.cbConversion);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
@@ -241,13 +240,13 @@
             // 
             // groupBox6
             // 
+            resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Controls.Add(this.button1);
             this.groupBox6.Controls.Add(this.label4);
             this.groupBox6.Controls.Add(this.cbFont);
             this.groupBox6.Controls.Add(this.btnSizeDown);
             this.groupBox6.Controls.Add(this.numFontSize);
             this.groupBox6.Controls.Add(this.btnSizeUp);
-            resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.TabStop = false;
             // 
@@ -265,9 +264,9 @@
             // 
             // cbFont
             // 
+            resources.ApplyResources(this.cbFont, "cbFont");
             this.cbFont.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFont.FormattingEnabled = true;
-            resources.ApplyResources(this.cbFont, "cbFont");
             this.cbFont.Name = "cbFont";
             this.cbFont.SelectedIndexChanged += new System.EventHandler(this.cbFont_SelectedIndexChanged);
             // 
@@ -297,9 +296,9 @@
             // 
             // groupBox5
             // 
+            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Controls.Add(this.label5);
             this.groupBox5.Controls.Add(this.cbAudioRate);
-            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
             // 
@@ -310,20 +309,20 @@
             // 
             // cbAudioRate
             // 
+            resources.ApplyResources(this.cbAudioRate, "cbAudioRate");
             this.cbAudioRate.FormattingEnabled = true;
             this.cbAudioRate.Items.AddRange(new object[] {
             resources.GetString("cbAudioRate.Items"),
             resources.GetString("cbAudioRate.Items1")});
-            resources.ApplyResources(this.cbAudioRate, "cbAudioRate");
             this.cbAudioRate.Name = "cbAudioRate";
             // 
             // groupBox3
             // 
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.cbContainer);
             this.groupBox3.Controls.Add(this.cbFrameRate);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -339,13 +338,14 @@
             // 
             // cbContainer
             // 
+            resources.ApplyResources(this.cbContainer, "cbContainer");
             this.cbContainer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbContainer.FormattingEnabled = true;
-            resources.ApplyResources(this.cbContainer, "cbContainer");
             this.cbContainer.Name = "cbContainer";
             // 
             // cbFrameRate
             // 
+            resources.ApplyResources(this.cbFrameRate, "cbFrameRate");
             this.cbFrameRate.FormattingEnabled = true;
             this.cbFrameRate.Items.AddRange(new object[] {
             resources.GetString("cbFrameRate.Items"),
@@ -353,7 +353,6 @@
             resources.GetString("cbFrameRate.Items2"),
             resources.GetString("cbFrameRate.Items3"),
             resources.GetString("cbFrameRate.Items4")});
-            resources.ApplyResources(this.cbFrameRate, "cbFrameRate");
             this.cbFrameRate.Name = "cbFrameRate";
             // 
             // btnApply
@@ -365,8 +364,8 @@
             // 
             // btnDonate
             // 
-            this.btnDonate.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.btnDonate, "btnDonate");
+            this.btnDonate.BackColor = System.Drawing.Color.Transparent;
             this.btnDonate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnDonate.FlatAppearance.BorderSize = 0;
             this.btnDonate.Name = "btnDonate";
@@ -443,7 +442,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cbContainer;
         private System.Windows.Forms.ComboBox cbFrameRate;
-        private System.Windows.Forms.FontDialog fontDialog1;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label4;

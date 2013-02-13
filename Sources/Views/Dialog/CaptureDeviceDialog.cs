@@ -36,28 +36,40 @@ namespace ScreenCapture.Views
     using System.Windows.Forms;
     using AForge.Video.DirectShow;
 
+    /// <summary>
+    ///   Capture device selection dialog.
+    /// </summary>
+    /// 
     public partial class CaptureDeviceDialog : Form
     {
-        FilterInfoCollection videoDevices;
+        private FilterInfoCollection videoDevices;
         private string device;
 
+        /// <summary>
+        ///   Gets the selected video device.
+        /// </summary>
+        /// 
         public string VideoDevice
         {
             get { return device; }
         }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="CaptureDeviceDialog"/> class.
+        /// </summary>
+        /// 
         public CaptureDeviceDialog()
         {
             InitializeComponent();
 
-            // show device list
-            try
+
+            try // show device list
             {
                 // enumerate video devices
                 videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 
                 if (videoDevices.Count == 0)
-                    throw new ApplicationException();
+                    noDevices();
 
                 // add all devices to combo
                 foreach (FilterInfo device in videoDevices)
@@ -67,15 +79,20 @@ namespace ScreenCapture.Views
             }
             catch (ApplicationException)
             {
-                devicesCombo.Items.Add("No local capture devices");
-                devicesCombo.Enabled = false;
-                okButton.Enabled = false;
+                noDevices();
             }
 
             devicesCombo.SelectedIndex = 0;
         }
 
-        // Ok button clicked
+        private void noDevices()
+        {
+            devicesCombo.Items.Add("No local capture devices");
+            devicesCombo.Enabled = false;
+            okButton.Enabled = false;
+        }
+
+
         private void okButton_Click(object sender, EventArgs e)
         {
             device = videoDevices[devicesCombo.SelectedIndex].MonikerString;
