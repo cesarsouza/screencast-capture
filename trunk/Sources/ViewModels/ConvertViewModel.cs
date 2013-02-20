@@ -28,6 +28,7 @@ namespace ScreenCapture.ViewModels
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
+    using System.Text;
 
     /// <summary>
     ///   Conversion ViewModel to control the conversion process.
@@ -38,6 +39,7 @@ namespace ScreenCapture.ViewModels
 
         private MainViewModel main;
         private BackgroundWorker worker;
+        private StringBuilder logger;
         private bool shouldStop;
 
 
@@ -62,7 +64,10 @@ namespace ScreenCapture.ViewModels
         /// 
         public bool IsConverting { get; private set; }
 
-     
+
+        public string LastExecutionLog { get; private set; }
+
+
 
         /// <summary>
         ///   Gets or sets whether to convert to OGG.
@@ -76,6 +81,11 @@ namespace ScreenCapture.ViewModels
         /// 
         public bool ToWebM { get; set; }
 
+        /// <summary>
+        ///   Gets or sets whether to convert to MP4.
+        /// </summary>
+        /// 
+        public bool ToMp4 { get; set; }
 
 
         /// <summary>
@@ -120,7 +130,9 @@ namespace ScreenCapture.ViewModels
             this.main = main;
 
             this.InputPath = String.Empty;
+            this.LastExecutionLog = String.Empty;
 
+            this.logger = new StringBuilder();
             this.worker = new BackgroundWorker();
             this.worker.DoWork += new DoWorkEventHandler(worker_DoWork);
             this.worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
@@ -140,6 +152,7 @@ namespace ScreenCapture.ViewModels
             IsConverting = true;
             main.StatusText = Resources.Status_Converting;
             shouldStop = false;
+            logger.Clear();
 
             worker.RunWorkerAsync();
         }
@@ -150,7 +163,7 @@ namespace ScreenCapture.ViewModels
         /// 
         public void Cancel()
         {
-            shouldStop = true;   
+            shouldStop = true;
         }
 
 
@@ -160,6 +173,7 @@ namespace ScreenCapture.ViewModels
             Progress = 100;
             IsConverting = false;
             main.StatusText = Resources.Status_Ready;
+            LastExecutionLog = logger.ToString();
         }
 
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -167,97 +181,155 @@ namespace ScreenCapture.ViewModels
             Progress = e.ProgressPercentage;
         }
 
-
-        void worker_DoWork(object sender, DoWorkEventArgs e)
+        private class FormatOptions
         {
-            List<String> formats = new List<string>();
+            public string Extension { get; set; }
+            public string Parameters { get; set; }
+        }
+
+        private List<FormatOptions> createFormats()
+        {
+            var formats = new List<FormatOptions>();
+
             if (ToWebM)
-                formats.Add(".webm");
+            {
+                formats.Add(new FormatOptions()
+                {
+                    Extension = ".webm",
+                    Parameters = "-q:v 6 -acodec libvorbis -aq 60"
+                });
+            }
+
             if (ToOgg)
-                formats.Add(".ogg");
+            {
+                formats.Add(new FormatOptions()
+                {
+                    Extension = ".ogg",
+                    Parameters = "-q:v 6 -acodec libvorbis -aq 60"
+                });
+            }
 
-            string input = InputPath;
-            IFormatProvider provider = CultureInfo.InvariantCulture;
+            if (ToMp4)
+            {
+                formats.Add(new FormatOptions()
+                {
+                    Extension = ".mp4",
+                    Parameters = "-q:v 6 -c:v copy -c:a aac -strict experimental"
+                });
+            }
 
+            return formats;
+        }
+
+
+        private void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var formats = createFormats();
 
             for (int i = 0; i < formats.Count; i++)
             {
-                string extension = formats[i];
-                string output = Path.ChangeExtension(input, extension);
-                string options = String.Format(provider, "-y -i {0} -q:v 6 -an  {1}",
-                    input, output);
-
-                ProcessStartInfo info = new ProcessStartInfo
+                try
                 {
-                    FileName = "ffmpeg.exe",
-                    Arguments = options,
-                    CreateNoWindow = true,
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                };
+                    FormatOptions format = formats[i];
 
-                using (Process process = new Process())
+                    string extension = format.Extension;
+                    string parameters = format.Parameters;
+                    string output = Path.ChangeExtension(InputPath, extension);
+
+                    string options = String.Format(CultureInfo.InvariantCulture,
+                        "-y -i {0} {1} {2}", InputPath, parameters, output);
+
+                    ffmpeg(options, i, formats.Count);
+                }
+                catch (Exception ex)
                 {
-                    process.StartInfo = info;
-                    process.Start();
-
-                    StreamReader reader = process.StandardError;
-                    StreamWriter writer = process.StandardInput;
-
-                    string durationMarker = "Duration: ";
-                    TimeSpan duration = TimeSpan.Zero;
-
-                    string progressMarker = "time=";
-                    string bitrateMarker = "bitrate=";
-                    TimeSpan current = TimeSpan.Zero;
-
-                    while (!reader.EndOfStream)
-                    {
-                        string line = reader.ReadLine();
-
-                        if (line.Contains(durationMarker))
-                        {
-                            int startIndex = line.IndexOf(durationMarker,
-                                StringComparison.CurrentCulture) + durationMarker.Length;
-                            int endIndex = line.IndexOf(',', startIndex);
-                            string strDuration = line.Substring(startIndex, endIndex - startIndex);
-                            duration = TimeSpan.Parse(strDuration, provider);
-
-                            if (duration.Ticks == 0)
-                                return;
-                        }
-
-                        if (line.Contains(progressMarker))
-                        {
-                            int startIndex = line.IndexOf(progressMarker,
-                                StringComparison.CurrentCulture) + progressMarker.Length;
-                            int endIndex = line.IndexOf(bitrateMarker, StringComparison.CurrentCulture);
-
-                            string strTime = line.Substring(startIndex, endIndex - startIndex);
-                            current = TimeSpan.Parse(strTime, provider);
-
-                            double max = duration.Ticks;
-                            double cur = current.Ticks;
-
-                            double progress = (cur / max);
-                            double taskSize = 1.0 / formats.Count;
-
-                            double start = i / (double)formats.Count;
-
-                            worker.ReportProgress((int)((start + progress * taskSize) * 100.0));
-                        }
-
-                        if (shouldStop)
-                        {
-                            process.Kill();
-                            return;
-                        }
-                    }
+                    logger.Append(ex.ToString());
                 }
             }
         }
+
+        private void ffmpeg(string options, int task, int total)
+        {
+            IFormatProvider provider = CultureInfo.InvariantCulture;
+
+
+            ProcessStartInfo info = new ProcessStartInfo
+            {
+                FileName = "ffmpeg.exe",
+                Arguments = options,
+                CreateNoWindow = true,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+            };
+
+
+            using (Process process = new Process())
+            {
+                process.StartInfo = info;
+                process.Start();
+
+                StreamReader reader = process.StandardError;
+                StreamWriter writer = process.StandardInput;
+
+                string durationMarker = "Duration: ";
+                TimeSpan duration = TimeSpan.Zero;
+
+                string progressMarker = "time=";
+                string bitrateMarker = "bitrate=";
+                TimeSpan current = TimeSpan.Zero;
+
+                while (!reader.EndOfStream)
+                {
+                    string line = reader.ReadLine();
+
+                    logger.AppendLine(line);
+
+                    if (line.Contains(durationMarker))
+                    {
+                        int startIndex = line.IndexOf(durationMarker,
+                            StringComparison.CurrentCulture) + durationMarker.Length;
+                        int endIndex = line.IndexOf(',', startIndex);
+                        string strDuration = line.Substring(startIndex, endIndex - startIndex);
+                        bool success = TimeSpan.TryParse(strDuration, provider, out duration);
+
+                        if (duration.Ticks == 0 || !success)
+                            break;
+                    }
+
+                    if (line.Contains(progressMarker))
+                    {
+                        int startIndex = line.IndexOf(progressMarker,
+                            StringComparison.CurrentCulture) + progressMarker.Length;
+                        int endIndex = line.IndexOf(bitrateMarker, StringComparison.CurrentCulture);
+
+                        string strTime = line.Substring(startIndex, endIndex - startIndex);
+                        bool success = TimeSpan.TryParse(strTime, provider, out current);
+
+                        if (!success)
+                            break;
+
+                        double max = duration.Ticks;
+                        double cur = current.Ticks;
+
+                        double progress = (cur / max);
+                        double taskSize = 1.0 / total;
+
+                        double start = task / (double)total;
+
+                        worker.ReportProgress((int)((start + progress * taskSize) * 100.0));
+                    }
+
+                    if (shouldStop)
+                        break;
+                }
+
+                process.WaitForExit(2000);
+            }
+        }
+
+
 
 
         #region IDisposable implementation
@@ -318,6 +390,6 @@ namespace ScreenCapture.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 #pragma warning restore 0067
 
-        
+
     }
 }

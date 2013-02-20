@@ -67,6 +67,7 @@ namespace ScreenCapture.Views
 
             cbTheora.Bind(b => b.Checked, viewModel, m => m.ToOgg);
             cbWebM.Bind(b => b.Checked, viewModel, m => m.ToWebM);
+            cbMp4.Bind(b => b.Checked, viewModel, m => m.ToMp4);
 
             // Perform special processing to enable aero
             if (SafeNativeMethods.IsAeroEnabled)
