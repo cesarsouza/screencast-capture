@@ -33,6 +33,7 @@
             this.cbTheora = new System.Windows.Forms.CheckBox();
             this.cbWebM = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cbMp4 = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -66,8 +67,17 @@
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.cbTheora);
+            this.panel1.Controls.Add(this.cbMp4);
             this.panel1.Controls.Add(this.cbWebM);
             this.panel1.Name = "panel1";
+            // 
+            // cbMp4
+            // 
+            this.cbMp4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(1)))), ((int)(((byte)(1)))));
+            resources.ApplyResources(this.cbMp4, "cbMp4");
+            this.cbMp4.Name = "cbMp4";
+            this.cbMp4.UseCompatibleTextRendering = true;
+            this.cbMp4.UseVisualStyleBackColor = false;
             // 
             // btnOK
             // 
@@ -77,7 +87,7 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // ConvertForm
+            // ConvertFormatDialog
             // 
             this.AcceptButton = this.btnOK;
             resources.ApplyResources(this, "$this");
@@ -89,7 +99,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ConvertForm";
+            this.Name = "ConvertFormatDialog";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -103,5 +113,6 @@
         private System.Windows.Forms.CheckBox cbWebM;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.CheckBox cbMp4;
     }
 }
