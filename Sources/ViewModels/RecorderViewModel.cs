@@ -63,6 +63,14 @@ namespace ScreenCapture.ViewModels
         Window
     }
 
+    public class AudioDeviceInfoViewModel : INotifyPropertyChanged
+    {
+        public AudioDeviceInfo DeviceInfo { get; set; }
+        public bool Checked { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+    }
+
     /// <summary>
     ///   Main ViewModel to control the application.
     /// </summary>
@@ -77,7 +85,7 @@ namespace ScreenCapture.ViewModels
         private VideoFileWriter videoWriter;
         private VideoSourcePlayer videoPlayer;
 
-        private AudioCaptureDevice audioDevice;
+        private IAudioSource audioDevice;
 
         private Crop crop = new Crop(Rectangle.Empty);
         private CaptureCursor cursorCapture;
@@ -165,7 +173,7 @@ namespace ScreenCapture.ViewModels
         ///   to null, audio capturing will be disabled.
         /// </summary>
         /// 
-        public AudioDeviceInfo CaptureAudioDevice { get; set; }
+        public List<AudioDeviceInfoViewModel> CaptureAudioDevices { get; set; }
 
         /// <summary>
         ///   Gets a list of audio devices available in the system.
@@ -207,8 +215,19 @@ namespace ScreenCapture.ViewModels
             this.cursorCapture = new CaptureCursor();
             this.keyCapture = new CaptureKeyboard();
 
+            this.CaptureAudioDevices = new List<AudioDeviceInfoViewModel>();
+            foreach (AudioDeviceInfo dev in RecorderViewModel.AudioDevices)
+            {
+                var devvm = new AudioDeviceInfoViewModel() { DeviceInfo = dev };
+                this.CaptureAudioDevices.Add(devvm);
+            }
+
             if (Settings.Default.CaptureAudio)
-                this.CaptureAudioDevice = new AudioDeviceCollection(AudioDeviceCategory.Capture).Default;
+            {
+                var def = new AudioDeviceCollection(AudioDeviceCategory.Capture).Default;
+                foreach (var dev in CaptureAudioDevices)
+                    if (dev.DeviceInfo == def) dev.Checked = true;
+            }
         }
 
         static RecorderViewModel()
@@ -314,17 +333,28 @@ namespace ScreenCapture.ViewModels
             RecordingStartTime = DateTime.MinValue;
             videoWriter = new VideoFileWriter();
 
-            if (CaptureAudioDevice != null)
+
+            var devices = new List<AudioCaptureDevice>();
+            foreach (var deviceInfo in CaptureAudioDevices)
             {
-                audioDevice = new AudioCaptureDevice(CaptureAudioDevice.Guid);
-                audioDevice.Format = SampleFormat.Format16Bit;
-                audioDevice.SampleRate = Settings.Default.SampleRate;
-                audioDevice.DesiredFrameSize = 4096;
+                if (!deviceInfo.Checked) continue;
+                var device = new AudioCaptureDevice(deviceInfo.DeviceInfo.Guid);
+                device.Format = SampleFormat.Format16Bit;
+                device.SampleRate = Settings.Default.SampleRate;
+                device.DesiredFrameSize = 4096;
+                device.Start();
+
+                devices.Add(device);
+            }
+
+            if (devices.Count > 0)
+            {
+                audioDevice = new AudioSourceMixer(devices.ToArray());
                 audioDevice.NewFrame += audioDevice_NewFrame;
                 audioDevice.Start();
 
                 videoWriter.Open(OutputPath, width, height, framerate, VideoCodec.H264, videoBitRate,
-                    AudioCodec.MP3, audioBitRate, audioDevice.SampleRate, 1);
+                    AudioCodec.MP3, audioBitRate, audioDevice.SampleRate, audioDevice.Channels);
             }
             else
             {
