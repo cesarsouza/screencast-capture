@@ -64,7 +64,10 @@ namespace ScreenCapture.ViewModels
         /// 
         public bool IsConverting { get; private set; }
 
-
+        /// <summary>
+        ///   Gets the external output during the last conversion.
+        /// </summary>
+        /// 
         public string LastExecutionLog { get; private set; }
 
 
@@ -82,10 +85,10 @@ namespace ScreenCapture.ViewModels
         public bool ToWebM { get; set; }
 
         /// <summary>
-        ///   Gets or sets whether to convert to MP4.
+        ///   Gets or sets whether to convert audio to AAC.
         /// </summary>
         /// 
-        public bool ToMp4 { get; set; }
+        public bool ToMP4AAC { get; set; }
 
 
         /// <summary>
@@ -209,7 +212,7 @@ namespace ScreenCapture.ViewModels
                 });
             }
 
-            if (ToMp4)
+            if (ToMP4AAC)
             {
                 formats.Add(new FormatOptions()
                 {

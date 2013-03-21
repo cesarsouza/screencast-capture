@@ -173,6 +173,7 @@
     </Compile>
     <Compile Include="Properties\Settings.cs" />
     <Compile Include="ViewModels\ConvertViewModel.cs" />
+    <Compile Include="ViewModels\AudioDeviceViewModel.cs" />
     <Compile Include="ViewModels\RecorderViewModel.cs" />
     <Compile Include="ViewModels\OptionViewModel.cs" />
     <Compile Include="Views\CameraForm.cs">
