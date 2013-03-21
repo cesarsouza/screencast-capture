@@ -27,6 +27,7 @@
     <CasingExceptions>
       <Acronym>ogg</Acronym>
       <Acronym>webm</Acronym>
+      <Acronym>AAC</Acronym>
     </CasingExceptions>
   </Acronyms>
 </Dictionary>

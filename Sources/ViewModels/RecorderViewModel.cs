@@ -63,14 +63,6 @@ namespace ScreenCapture.ViewModels
         Window
     }
 
-    public class AudioDeviceInfoViewModel : INotifyPropertyChanged
-    {
-        public AudioDeviceInfo DeviceInfo { get; set; }
-        public bool Checked { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-    }
-
     /// <summary>
     ///   Main ViewModel to control the application.
     /// </summary>
@@ -173,7 +165,7 @@ namespace ScreenCapture.ViewModels
         ///   to null, audio capturing will be disabled.
         /// </summary>
         /// 
-        public List<AudioDeviceInfoViewModel> CaptureAudioDevices { get; set; }
+        public BindingList<AudioCaptureDeviceViewModel> AudioCaptureDevices { get; private set; }
 
         /// <summary>
         ///   Gets a list of audio devices available in the system.
@@ -215,18 +207,13 @@ namespace ScreenCapture.ViewModels
             this.cursorCapture = new CaptureCursor();
             this.keyCapture = new CaptureKeyboard();
 
-            this.CaptureAudioDevices = new List<AudioDeviceInfoViewModel>();
-            foreach (AudioDeviceInfo dev in RecorderViewModel.AudioDevices)
-            {
-                var devvm = new AudioDeviceInfoViewModel() { DeviceInfo = dev };
-                this.CaptureAudioDevices.Add(devvm);
-            }
+            this.AudioCaptureDevices = new AudioViewModelCollection(RecorderViewModel.AudioDevices);
 
             if (Settings.Default.CaptureAudio)
             {
+                // Search and mark the default capture audio device as checked (enabled)
                 var def = new AudioDeviceCollection(AudioDeviceCategory.Capture).Default;
-                foreach (var dev in CaptureAudioDevices)
-                    if (dev.DeviceInfo == def) dev.Checked = true;
+                foreach (var dev in AudioCaptureDevices) dev.Checked = dev.DeviceInfo == def;
             }
         }
 
@@ -333,23 +320,24 @@ namespace ScreenCapture.ViewModels
             RecordingStartTime = DateTime.MinValue;
             videoWriter = new VideoFileWriter();
 
-
-            var devices = new List<AudioCaptureDevice>();
-            foreach (var deviceInfo in CaptureAudioDevices)
+            // Create audio devices which have been checked
+            var audioDevices = new List<AudioCaptureDevice>();
+            foreach (var audioViewModel in AudioCaptureDevices)
             {
-                if (!deviceInfo.Checked) continue;
-                var device = new AudioCaptureDevice(deviceInfo.DeviceInfo.Guid);
+                if (!audioViewModel.Checked) continue;
+
+                var device = new AudioCaptureDevice(audioViewModel.DeviceInfo.Guid);
                 device.Format = SampleFormat.Format16Bit;
                 device.SampleRate = Settings.Default.SampleRate;
                 device.DesiredFrameSize = 4096;
                 device.Start();
 
-                devices.Add(device);
+                audioDevices.Add(device);
             }
 
-            if (devices.Count > 0)
+            if (audioDevices.Count > 0) // Check if we need to record audio
             {
-                audioDevice = new AudioSourceMixer(devices.ToArray());
+                audioDevice = new AudioSourceMixer(audioDevices);
                 audioDevice.NewFrame += audioDevice_NewFrame;
                 audioDevice.Start();
 

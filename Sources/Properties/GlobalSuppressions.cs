@@ -8,6 +8,9 @@
 // "In Project Suppression File".
 // You do not need to add suppressions to this file manually.
 
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Scope = "member", Target = "ScreenCapture.Views.MainForm.#bindStatusBar()")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Scope = "member", Target = "ScreenCapture.ViewModels.ConvertViewModel.#worker_DoWork(System.Object,System.ComponentModel.DoWorkEventArgs)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Scope = "member", Target = "ScreenCapture.ViewModels.RecorderViewModel.#StartRecording()")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Scope = "member", Target = "ScreenCapture.Views.ConvertFormatDialog.#OnPaintBackground(System.Windows.Forms.PaintEventArgs)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Scope = "member", Target = "ScreenCapture.Views.KeyboardPreviewForm.#OnPaint(System.Windows.Forms.PaintEventArgs)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Scope = "member", Target = "ScreenCapture.Views.KeyboardPreviewForm.#.ctor()")]

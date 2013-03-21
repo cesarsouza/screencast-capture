@@ -127,13 +127,13 @@ namespace ScreenCapture.Views
 
             btnWebcam.Bind(b => b.Image, viewModel, m => m.IsWebcamEnabled, value => value ? Resources.agt_family : Resources.agt_family_off);
             btnAudio.Bind(b => b.Enabled, viewModel.Recorder, m => m.IsRecording, value => !value);
-            btnAudio.Bind(b => b.Image, viewModel.Recorder, m => m.CaptureAudioDevices,
+            btnAudio.Bind(b => b.Image, viewModel.Recorder, m => m.AudioCaptureDevices,
                 c => c == null ? Resources.kmixdocked_mute : Resources.kmixdocked);
-            btnNoAudio.Bind(b => b.Checked, viewModel.Recorder, m => m.CaptureAudioDevices,
+            btnNoAudio.Bind(b => b.Checked, viewModel.Recorder, m => m.AudioCaptureDevices,
                  value => value == null);
 
             // Create audio menu items for each audio device
-            foreach (var dev in viewModel.Recorder.CaptureAudioDevices)
+            foreach (var dev in viewModel.Recorder.AudioCaptureDevices)
             {
                 var item = new BindableToolStripMenuItem(dev.DeviceInfo.Description);
                 item.Tag = dev; item.Click += btnAudioDevice_Click;
@@ -246,7 +246,7 @@ namespace ScreenCapture.Views
         private void btnAudioDevice_Click(object sender, EventArgs e)
         {
             var item = sender as ToolStripMenuItem;
-            var device = item.Tag as AudioDeviceInfoViewModel;
+            var device = item.Tag as AudioCaptureDeviceViewModel;
             device.Checked = !device.Checked;
         }
 
