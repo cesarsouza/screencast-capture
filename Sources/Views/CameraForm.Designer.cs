@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CameraForm));
             this.videoSourcePlayer = new AForge.Controls.VideoSourcePlayer();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbClickToConfig = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // videoSourcePlayer
@@ -42,17 +42,17 @@
             // 
             // label1
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Name = "label1";
-            this.label1.Click += new System.EventHandler(this.videoSourcePlayer_Click);
+            resources.ApplyResources(this.lbClickToConfig, "label1");
+            this.lbClickToConfig.ForeColor = System.Drawing.Color.White;
+            this.lbClickToConfig.Name = "label1";
+            this.lbClickToConfig.Click += new System.EventHandler(this.videoSourcePlayer_Click);
             // 
             // CameraForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lbClickToConfig);
             this.Controls.Add(this.videoSourcePlayer);
             this.Name = "CameraForm";
             this.ShowInTaskbar = false;
@@ -65,6 +65,6 @@
         #endregion
 
         private AForge.Controls.VideoSourcePlayer videoSourcePlayer;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbClickToConfig;
     }
 }

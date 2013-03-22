@@ -120,8 +120,18 @@
   <data name="About_Version" xml:space="preserve">
     <value>Versão {0}</value>
   </data>
+  <data name="Error_Audio_Source" xml:space="preserve">
+    <value>Um erro ocorreu durante a captura de audio de {0}. Isto pode indicar que o dispositivo já está em uso ou está indisponível. Se múltiplos dispositivos de captura foram selecionados, pode ser possível que seu sistema não suporte a configuração escolhida.
+
+Por favor tente deselecionar o dispositivo para uma nova captura.</value>
+    <comment>{0} is the device name</comment>
+  </data>
   <data name="Error_Missing_Copyright" xml:space="preserve">
     <value>Arquivo de direitos autorais não encontrado.</value>
+  </data>
+  <data name="Error_Video_Source" xml:space="preserve">
+    <value>Um erro ocorreu durante a captura de vídeo de {0}. Isto pode indicar que o dispositivo já está em uso ou está indisponível.</value>
+    <comment>{0} is the device name</comment>
   </data>
   <data name="Greet_Text" xml:space="preserve">
     <value>Talvez você gostaria de saber que este aplicativo se torna muito mais útil se você ativar ícones de notificações sempre visíveis para ele. Por favor, clique no botão em forma de chave inglesa ai em cima e as habilite se desejar!</value>
