@@ -38,6 +38,7 @@ namespace ScreenCapture.ViewModels
     using System.Drawing.Drawing2D;
     using System.IO;
     using System.Windows.Forms;
+    using System.Globalization;
 
     /// <summary>
     ///   Region capturing modes.
@@ -326,7 +327,8 @@ namespace ScreenCapture.ViewModels
             {
                 if (!audioViewModel.Checked) continue;
 
-                var device = new AudioCaptureDevice(audioViewModel.DeviceInfo.Guid);
+                var device = new AudioCaptureDevice(audioViewModel.DeviceInfo);
+                device.AudioSourceError += device_AudioSourceError;
                 device.Format = SampleFormat.Format16Bit;
                 device.SampleRate = Settings.Default.SampleRate;
                 device.DesiredFrameSize = 4096;
@@ -338,6 +340,7 @@ namespace ScreenCapture.ViewModels
             if (audioDevices.Count > 0) // Check if we need to record audio
             {
                 audioDevice = new AudioSourceMixer(audioDevices);
+                audioDevice.AudioSourceError += device_AudioSourceError;
                 audioDevice.NewFrame += audioDevice_NewFrame;
                 audioDevice.Start();
 
@@ -352,6 +355,7 @@ namespace ScreenCapture.ViewModels
             HasRecorded = false;
             IsRecording = true;
         }
+
 
         /// <summary>
         ///   Stops recording.
@@ -526,10 +530,6 @@ namespace ScreenCapture.ViewModels
             }
         }
 
-        private void screenStream_VideoSourceError(object sender, VideoSourceErrorEventArgs eventArgs)
-        {
-            throw new VideoException(eventArgs.Description);
-        }
 
         private Rectangle adjustWindow()
         {
@@ -570,6 +570,44 @@ namespace ScreenCapture.ViewModels
 
             return name;
         }
+
+
+        // Error handling
+        private void device_AudioSourceError(object sender, AudioSourceErrorEventArgs e)
+        {
+            if (videoPlayer.InvokeRequired)
+            {
+                videoPlayer.BeginInvoke((Action)((() => device_AudioSourceError(sender, e))));
+                return;
+            }
+
+            StopRecording();
+
+            IAudioSource source = sender as IAudioSource;
+            source.SignalToStop();
+
+            string msg = String.Format(
+                CultureInfo.CurrentUICulture, Resources.Error_Audio_Source, source.Source);
+            MessageBox.Show(msg, source.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void screenStream_VideoSourceError(object sender, VideoSourceErrorEventArgs e)
+        {
+            if (videoPlayer.InvokeRequired)
+            {
+                videoPlayer.BeginInvoke((Action)((() => screenStream_VideoSourceError(sender, e))));
+                return;
+            }
+
+            IVideoSource source = sender as IVideoSource;
+            source.SignalToStop();
+
+            string msg = String.Format(
+                CultureInfo.CurrentUICulture, Resources.Error_Video_Source, source.Source);
+            MessageBox.Show(msg, "Video Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+
 
 
         #region IDisposable implementation

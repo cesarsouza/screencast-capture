@@ -74,6 +74,7 @@ namespace ScreenCapture.Views
                 {
                     // create video source
                     VideoCaptureDevice videoSource = new VideoCaptureDevice(form.VideoDevice);
+                    videoSource.DesiredFrameSize = new Size(320, 240);
 
                     // set busy cursor
                     this.Cursor = Cursors.WaitCursor;
@@ -85,7 +86,7 @@ namespace ScreenCapture.Views
                     videoSourcePlayer.Start();
 
                     Cursor = Cursors.Default;
-                    label1.Visible = false;
+                    lbClickToConfig.Visible = false;
                     viewModel.IsWebcamEnabled = true;
                 }
             }

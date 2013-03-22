@@ -216,6 +216,7 @@
   </data>
   <data name="About_Version" xml:space="preserve">
     <value>Version {0}</value>
+    <comment>{0} is the version number</comment>
   </data>
   <data name="icon_stop_overlay" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon_stop_overlay.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -249,5 +250,15 @@
   </data>
   <data name="Keyboard_Preview" xml:space="preserve">
     <value>Preview</value>
+  </data>
+  <data name="Error_Audio_Source" xml:space="preserve">
+    <value>An error occurred while trying to capture audio from {0}. This may be an indication that the device is already in use or is unavailable. If you have selected multiple devices, it could be possible your system does not support the selected configuration. 
+
+Please try de-selecting the device from the audio capture options.</value>
+    <comment>{0} is the device name</comment>
+  </data>
+  <data name="Error_Video_Source" xml:space="preserve">
+    <value>An error occurred when trying to capture video from {0}. This may be an indication that the device is already in use or unavailable.</value>
+    <comment>{0} is the device name</comment>
   </data>
 </root>
