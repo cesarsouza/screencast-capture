@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <VSPerformanceSession Version="1.00">
   <Options>
-    <Solution>D:\Projects\Accord.NET\Assembla\Applications\ScreenCapture\ScreenCapture.sln</Solution>
+    <Solution>D:\Projects\Screencast\trunk\Sources\ScreenCapture.sln</Solution>
     <CollectionMethod>Sampling</CollectionMethod>
-    <AllocationMethod>Life</AllocationMethod>
+    <AllocationMethod>None</AllocationMethod>
     <LaunchRuntimeControl>true</LaunchRuntimeControl>
     <AddReport>true</AddReport>
     <ResourceBasedAnalysisSelected>false</ResourceBasedAnalysisSelected>
@@ -15,8 +15,6 @@
     <SysCallCount>10</SysCallCount>
     <SamplingCounter Name="" ReloadValue="00000000000f4240" DisplayName="" />
     <RelocateBinaries>false</RelocateBinaries>
-    <AdditionalArgruments />
-    <TargetCLRVersion>Automatic</TargetCLRVersion>
     <CollectOnHpcCluster>false</CollectOnHpcCluster>
     <HPCSettings>
       <NumberOfProcesses>0</NumberOfProcesses>
@@ -51,36 +49,7 @@
   </PostinstrumentEvent>
   <Binaries>
     <ProjBinary>
-      <Path>D:\Projects\Accord.NET\Assembla\Applications\ScreenCapture\Sources\obj\x86\Release\ScreenCapture.exe</Path>
-      <TargetCLRVersion>Automatic</TargetCLRVersion>
-      <ArgumentTimestamp>12/29/2012 15:07:29</ArgumentTimestamp>
-      <Instrument>true</Instrument>
-      <Sample>true</Sample>
-      <ExternalWebsite>false</ExternalWebsite>
-      <InteractionProfilingEnabled>false</InteractionProfilingEnabled>
-      <IsLocalJavascript>false</IsLocalJavascript>
-      <LaunchProject>true</LaunchProject>
-      <OverrideProjectSettings>false</OverrideProjectSettings>
-      <LaunchMethod>Executable</LaunchMethod>
-      <ExecutablePath>D:\Projects\Accord.NET\Assembla\Applications\ScreenCapture\Sources\bin\Debug\ScreenCapture.exe</ExecutablePath>
-      <StartupDirectory>D:\Projects\Accord.NET\Assembla\Applications\ScreenCapture\Sources\bin\Debug\</StartupDirectory>
-      <Arguments />
-      <NetAppHost>IIS</NetAppHost>
-      <NetBrowser>InternetExplorer</NetBrowser>
-      <ExcludeSmallFuncs>true</ExcludeSmallFuncs>
-      <JScriptProfilingEnabled>false</JScriptProfilingEnabled>
-      <PreinstrumentEvent>
-        <InstrEventExclude>false</InstrEventExclude>
-      </PreinstrumentEvent>
-      <PostinstrumentEvent>
-        <InstrEventExclude>false</InstrEventExclude>
-      </PostinstrumentEvent>
-      <ProjRef>{0CA772AC-01A5-4CD5-B714-332F1FBDF4A1}|ScreenCapture.csproj</ProjRef>
-      <ProjPath>D:\Projects\Accord.NET\Assembla\Applications\ScreenCapture\Sources\ScreenCapture.csproj</ProjPath>
-      <ProjName>ScreenCapture</ProjName>
-    </ProjBinary>
-    <ProjBinary>
-      <Path>D:\Projects\Accord.NET\Assembla\Applications\ScreenCapture\Sources\obj\x86\Release\ScreenCapture.exe</Path>
+      <Path>D:\Projects\Screencast\trunk\Sources\obj\x86\Release\ScreenCapture.exe</Path>
       <ArgumentTimestamp>01/01/0001 00:00:00</ArgumentTimestamp>
       <Instrument>true</Instrument>
       <Sample>true</Sample>
@@ -90,8 +59,8 @@
       <LaunchProject>true</LaunchProject>
       <OverrideProjectSettings>false</OverrideProjectSettings>
       <LaunchMethod>Executable</LaunchMethod>
-      <ExecutablePath>D:\Projects\Accord.NET\Assembla\Applications\ScreenCapture\Sources\bin\Release\ScreenCapture.exe</ExecutablePath>
-      <StartupDirectory>D:\Projects\Accord.NET\Assembla\Applications\ScreenCapture\Sources\bin\Release\</StartupDirectory>
+      <ExecutablePath>D:\Projects\Screencast\trunk\Binaries\ScreenCapture.exe</ExecutablePath>
+      <StartupDirectory>D:\Projects\Screencast\trunk\Binaries\</StartupDirectory>
       <Arguments />
       <NetAppHost>IIS</NetAppHost>
       <NetBrowser>InternetExplorer</NetBrowser>
@@ -104,10 +73,21 @@
         <InstrEventExclude>false</InstrEventExclude>
       </PostinstrumentEvent>
       <ProjRef>{0CA772AC-01A5-4CD5-B714-332F1FBDF4A1}|ScreenCapture.csproj</ProjRef>
-      <ProjPath>D:\Projects\Accord.NET\Assembla\Applications\ScreenCapture\Sources\ScreenCapture.csproj</ProjPath>
+      <ProjPath>D:\Projects\Screencast\trunk\Sources\ScreenCapture.csproj</ProjPath>
       <ProjName>ScreenCapture</ProjName>
     </ProjBinary>
   </Binaries>
+  <Reports>
+    <Report>
+      <Path>D:\Projects\Screencast\trunk\Sources\ScreenCapture130325.vsp</Path>
+    </Report>
+    <Report>
+      <Path>D:\Projects\Screencast\trunk\Sources\ScreenCapture130325(1).vsp</Path>
+    </Report>
+    <Report>
+      <Path>D:\Projects\Screencast\trunk\Sources\ScreenCapture130325(2).vsp</Path>
+    </Report>
+  </Reports>
   <Launches>
     <ProjBinary>
       <Path>:PB:{0CA772AC-01A5-4CD5-B714-332F1FBDF4A1}|ScreenCapture.csproj</Path>

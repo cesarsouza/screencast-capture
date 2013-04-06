@@ -21,6 +21,15 @@
 
 namespace ScreenCapture.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Drawing.Drawing2D;
+    using System.Globalization;
+    using System.IO;
+    using System.Windows.Forms;
     using Accord.Audio;
     using Accord.DirectSound;
     using AForge.Controls;
@@ -30,15 +39,7 @@ namespace ScreenCapture.ViewModels
     using ScreenCapture.Native;
     using ScreenCapture.Processors;
     using ScreenCapture.Properties;
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
-    using System.Drawing;
-    using System.Drawing.Drawing2D;
-    using System.IO;
-    using System.Windows.Forms;
-    using System.Globalization;
+    using System.Collections.Specialized;
 
     /// <summary>
     ///   Region capturing modes.
@@ -210,12 +211,11 @@ namespace ScreenCapture.ViewModels
 
             this.AudioCaptureDevices = new AudioViewModelCollection(RecorderViewModel.AudioDevices);
 
-            if (Settings.Default.CaptureAudio)
-            {
-                // Search and mark the default capture audio device as checked (enabled)
-                var def = new AudioDeviceCollection(AudioDeviceCategory.Capture).Default;
-                foreach (var dev in AudioCaptureDevices) dev.Checked = dev.DeviceInfo == def;
-            }
+
+            // Search and mark last selected devices
+            foreach (var dev in AudioCaptureDevices)
+                dev.Checked = Settings.Default.LastAudioDevices
+                    .Contains(dev.DeviceInfo.Guid.ToString());
         }
 
         static RecorderViewModel()
@@ -314,7 +314,7 @@ namespace ScreenCapture.ViewModels
             int height = area.Height;
             int width = area.Width;
             int framerate = 1000 / screenStream.FrameInterval;
-            int videoBitRate = 10 * 1000 * 1000;
+            int videoBitRate = 1200 * 1000;
             int audioBitRate = 320 * 1000;
 
             OutputPath = Path.Combine(main.CurrentDirectory, fileName);
@@ -331,7 +331,7 @@ namespace ScreenCapture.ViewModels
                 device.AudioSourceError += device_AudioSourceError;
                 device.Format = SampleFormat.Format16Bit;
                 device.SampleRate = Settings.Default.SampleRate;
-                device.DesiredFrameSize = 4096;
+                device.DesiredFrameSize = 2 * 4098;
                 device.Start();
 
                 audioDevices.Add(device);
@@ -367,6 +367,8 @@ namespace ScreenCapture.ViewModels
 
             lock (syncObj)
             {
+                IsRecording = false;
+
                 if (videoWriter != null)
                 {
                     videoWriter.Close();
@@ -381,7 +383,6 @@ namespace ScreenCapture.ViewModels
                     audioDevice = null;
                 }
 
-                IsRecording = false;
                 HasRecorded = true;
             }
         }
@@ -410,6 +411,12 @@ namespace ScreenCapture.ViewModels
         /// 
         public void Close()
         {
+            // Save last selected audio devices
+            Settings.Default.LastAudioDevices.Clear();
+            foreach (var dev in AudioCaptureDevices)
+                if (dev.Checked)
+                    Settings.Default.LastAudioDevices.Add(dev.DeviceInfo.Guid.ToString());
+
             if (videoPlayer != null && videoPlayer.IsRunning)
             {
                 videoPlayer.SignalToStop();
@@ -505,10 +512,9 @@ namespace ScreenCapture.ViewModels
                 }
             }
 
-
-            lock (syncObj) // Save the frame to the video file.
+            if (IsRecording)
             {
-                if (IsRecording)
+                lock (syncObj) // Save the frame to the video file.
                 {
                     if (RecordingStartTime == DateTime.MinValue)
                         RecordingStartTime = DateTime.Now;
@@ -586,13 +592,17 @@ namespace ScreenCapture.ViewModels
             IAudioSource source = sender as IAudioSource;
             source.SignalToStop();
 
-            string msg = String.Format(
+            string msg = String.Format( // TODO: Move the message box code to the view
                 CultureInfo.CurrentUICulture, Resources.Error_Audio_Source, source.Source);
-            MessageBox.Show(msg, source.Source, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(msg, source.Source, MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1,
+                videoPlayer.RightToLeft == RightToLeft.Yes ? MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign : 0);
         }
 
         private void screenStream_VideoSourceError(object sender, VideoSourceErrorEventArgs e)
         {
+            if (!IsRecording)
+                return;
+
             if (videoPlayer.InvokeRequired)
             {
                 videoPlayer.BeginInvoke((Action)((() => screenStream_VideoSourceError(sender, e))));
@@ -602,9 +612,10 @@ namespace ScreenCapture.ViewModels
             IVideoSource source = sender as IVideoSource;
             source.SignalToStop();
 
-            string msg = String.Format(
+            string msg = String.Format( // TODO: Move the message box code to the view
                 CultureInfo.CurrentUICulture, Resources.Error_Video_Source, source.Source);
-            MessageBox.Show(msg, "Video Source", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(msg, source.Source, MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1,
+                videoPlayer.RightToLeft == RightToLeft.Yes ? MessageBoxOptions.RtlReading | MessageBoxOptions.RightAlign : 0);
         }
 
 
