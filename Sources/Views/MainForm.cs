@@ -247,7 +247,16 @@ namespace ScreenCapture.Views
         {
             var item = sender as ToolStripMenuItem;
             var device = item.Tag as AudioCaptureDeviceViewModel;
-            device.Checked = !device.Checked;
+
+            if (device != null)
+                device.Checked = !device.Checked;
+
+            else
+            {
+                var devices = viewModel.Recorder.AudioCaptureDevices;
+                foreach (AudioCaptureDeviceViewModel dev in devices)
+                    dev.Checked = false;
+            }
         }
 
 

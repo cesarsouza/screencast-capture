@@ -38,5 +38,8 @@
     <Setting Name="KeyboardFont" Type="System.Drawing.Font" Scope="User">
       <Value Profile="(Default)">Segoe UI, 30pt</Value>
     </Setting>
+    <Setting Name="LastAudioDevices" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

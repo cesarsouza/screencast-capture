@@ -1,3 +1,191 @@
+Index: Sources/Build All.sln
+===================================================================
+--- Sources/Build All.sln	(revision 1699)
++++ Sources/Build All.sln	(working copy)
+@@ -1,6 +1,6 @@
+ ﻿
+ Microsoft Visual Studio Solution File, Format Version 11.00
+-# Visual C# Express 2010
++# Visual Studio 2010
+ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{631AC093-430F-45F4-BA0C-AF0F0405918A}"
+ EndProject
+ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls", "Controls\Controls.csproj", "{4CCA6844-9102-4A3B-8148-EA3D359B2586}"
+@@ -10,17 +10,6 @@
+ 		{809725DC-6502-4732-A51C-DEB7FEA12975} = {809725DC-6502-4732-A51C-DEB7FEA12975}
+ 	EndProjectSection
+ EndProject
+-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fuzzy", "Fuzzy\Fuzzy.csproj", "{B631038F-E12C-4D0D-8B25-FF7F62FE62D1}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{631AC093-430F-45F4-BA0C-AF0F0405918A} = {631AC093-430F-45F4-BA0C-AF0F0405918A}
+-	EndProjectSection
+-EndProject
+-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genetic", "Genetic\Genetic.csproj", "{2EFAA327-1789-4438-B9F5-E83ACAE12DB2}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{C0FAF524-72E4-46F7-8C1B-A6B74DEC5EBE} = {C0FAF524-72E4-46F7-8C1B-A6B74DEC5EBE}
+-		{631AC093-430F-45F4-BA0C-AF0F0405918A} = {631AC093-430F-45F4-BA0C-AF0F0405918A}
+-	EndProjectSection
+-EndProject
+ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imaging", "Imaging\Imaging.csproj", "{C6A8B9AE-0749-41C7-8FF9-02C156696F45}"
+ 	ProjectSection(ProjectDependencies) = postProject
+ 		{C0FAF524-72E4-46F7-8C1B-A6B74DEC5EBE} = {C0FAF524-72E4-46F7-8C1B-A6B74DEC5EBE}
+@@ -39,59 +28,20 @@
+ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neuro", "Neuro\Neuro.csproj", "{02B5E453-2085-4E41-86D9-C8E8A03FB1B9}"
+ 	ProjectSection(ProjectDependencies) = postProject
+ 		{C0FAF524-72E4-46F7-8C1B-A6B74DEC5EBE} = {C0FAF524-72E4-46F7-8C1B-A6B74DEC5EBE}
+-		{2EFAA327-1789-4438-B9F5-E83ACAE12DB2} = {2EFAA327-1789-4438-B9F5-E83ACAE12DB2}
+ 		{631AC093-430F-45F4-BA0C-AF0F0405918A} = {631AC093-430F-45F4-BA0C-AF0F0405918A}
+ 	EndProjectSection
+ EndProject
+-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lego", "Robotics.Lego\Lego.csproj", "{F56FE364-ABAE-44B3-A939-900EB994FB9B}"
+-EndProject
+ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Video", "Video\Video.csproj", "{809725DC-6502-4732-A51C-DEB7FEA12975}"
+ 	ProjectSection(ProjectDependencies) = postProject
+ 		{631AC093-430F-45F4-BA0C-AF0F0405918A} = {631AC093-430F-45F4-BA0C-AF0F0405918A}
+ 	EndProjectSection
+ EndProject
+-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Video.DirectShow", "Video.DirectShow\Video.DirectShow.csproj", "{26CD2CE7-FF63-4669-83B0-7D9C8F3408EE}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{809725DC-6502-4732-A51C-DEB7FEA12975} = {809725DC-6502-4732-A51C-DEB7FEA12975}
+-	EndProjectSection
+-EndProject
+-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Video.VFW", "Video.VFW\Video.VFW.csproj", "{22E852C0-17FF-4106-9DF6-41EABB8C0613}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{631AC093-430F-45F4-BA0C-AF0F0405918A} = {631AC093-430F-45F4-BA0C-AF0F0405918A}
+-		{26CD2CE7-FF63-4669-83B0-7D9C8F3408EE} = {26CD2CE7-FF63-4669-83B0-7D9C8F3408EE}
+-	EndProjectSection
+-EndProject
+ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vision", "Vision\Vision.csproj", "{B99CBE2E-BAAD-45D5-8A84-CAA6A2286C0B}"
+ 	ProjectSection(ProjectDependencies) = postProject
+ 		{631AC093-430F-45F4-BA0C-AF0F0405918A} = {631AC093-430F-45F4-BA0C-AF0F0405918A}
+ 		{C6A8B9AE-0749-41C7-8FF9-02C156696F45} = {C6A8B9AE-0749-41C7-8FF9-02C156696F45}
+ 	EndProjectSection
+ EndProject
+-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Robotics.Surveyor", "Robotics.Surveyor\Robotics.Surveyor.csproj", "{3D9EFCF7-61CD-49DD-9300-9F9C993FB37B}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{631AC093-430F-45F4-BA0C-AF0F0405918A} = {631AC093-430F-45F4-BA0C-AF0F0405918A}
+-		{809725DC-6502-4732-A51C-DEB7FEA12975} = {809725DC-6502-4732-A51C-DEB7FEA12975}
+-	EndProjectSection
+-EndProject
+-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Robotics.TeRK", "Robotics.TeRK\Robotics.TeRK.csproj", "{CB9BB289-ACC9-4A05-8403-98D453F23728}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{631AC093-430F-45F4-BA0C-AF0F0405918A} = {631AC093-430F-45F4-BA0C-AF0F0405918A}
+-		{809725DC-6502-4732-A51C-DEB7FEA12975} = {809725DC-6502-4732-A51C-DEB7FEA12975}
+-	EndProjectSection
+-EndProject
+-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Video.Kinect", "Video.Kinect\Video.Kinect.csproj", "{9DA8E727-4038-4E6B-90BD-853730FDFA49}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{631AC093-430F-45F4-BA0C-AF0F0405918A} = {631AC093-430F-45F4-BA0C-AF0F0405918A}
+-		{C6A8B9AE-0749-41C7-8FF9-02C156696F45} = {C6A8B9AE-0749-41C7-8FF9-02C156696F45}
+-		{809725DC-6502-4732-A51C-DEB7FEA12975} = {809725DC-6502-4732-A51C-DEB7FEA12975}
+-	EndProjectSection
+-EndProject
+-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Video.Ximea", "Video.Ximea\Video.Ximea.csproj", "{AEDD6CFB-747B-4077-9288-9CD2A86090F1}"
+-	ProjectSection(ProjectDependencies) = postProject
+-		{631AC093-430F-45F4-BA0C-AF0F0405918A} = {631AC093-430F-45F4-BA0C-AF0F0405918A}
+-		{809725DC-6502-4732-A51C-DEB7FEA12975} = {809725DC-6502-4732-A51C-DEB7FEA12975}
+-	EndProjectSection
+-EndProject
+ Global
+ 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+ 		Debug Complete|Any CPU = Debug Complete|Any CPU
+@@ -116,22 +66,6 @@
+ 		{4CCA6844-9102-4A3B-8148-EA3D359B2586}.Release Complete|Any CPU.Build.0 = Release|Any CPU
+ 		{4CCA6844-9102-4A3B-8148-EA3D359B2586}.Release|Any CPU.ActiveCfg = Release|Any CPU
+ 		{4CCA6844-9102-4A3B-8148-EA3D359B2586}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{B631038F-E12C-4D0D-8B25-FF7F62FE62D1}.Debug Complete|Any CPU.ActiveCfg = Debug|Any CPU
+-		{B631038F-E12C-4D0D-8B25-FF7F62FE62D1}.Debug Complete|Any CPU.Build.0 = Debug|Any CPU
+-		{B631038F-E12C-4D0D-8B25-FF7F62FE62D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{B631038F-E12C-4D0D-8B25-FF7F62FE62D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{B631038F-E12C-4D0D-8B25-FF7F62FE62D1}.Release Complete|Any CPU.ActiveCfg = Release|Any CPU
+-		{B631038F-E12C-4D0D-8B25-FF7F62FE62D1}.Release Complete|Any CPU.Build.0 = Release|Any CPU
+-		{B631038F-E12C-4D0D-8B25-FF7F62FE62D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{B631038F-E12C-4D0D-8B25-FF7F62FE62D1}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{2EFAA327-1789-4438-B9F5-E83ACAE12DB2}.Debug Complete|Any CPU.ActiveCfg = Debug|Any CPU
+-		{2EFAA327-1789-4438-B9F5-E83ACAE12DB2}.Debug Complete|Any CPU.Build.0 = Debug|Any CPU
+-		{2EFAA327-1789-4438-B9F5-E83ACAE12DB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{2EFAA327-1789-4438-B9F5-E83ACAE12DB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{2EFAA327-1789-4438-B9F5-E83ACAE12DB2}.Release Complete|Any CPU.ActiveCfg = Release|Any CPU
+-		{2EFAA327-1789-4438-B9F5-E83ACAE12DB2}.Release Complete|Any CPU.Build.0 = Release|Any CPU
+-		{2EFAA327-1789-4438-B9F5-E83ACAE12DB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{2EFAA327-1789-4438-B9F5-E83ACAE12DB2}.Release|Any CPU.Build.0 = Release|Any CPU
+ 		{C6A8B9AE-0749-41C7-8FF9-02C156696F45}.Debug Complete|Any CPU.ActiveCfg = Debug|Any CPU
+ 		{C6A8B9AE-0749-41C7-8FF9-02C156696F45}.Debug Complete|Any CPU.Build.0 = Debug|Any CPU
+ 		{C6A8B9AE-0749-41C7-8FF9-02C156696F45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+@@ -172,14 +106,6 @@
+ 		{02B5E453-2085-4E41-86D9-C8E8A03FB1B9}.Release Complete|Any CPU.Build.0 = Release|Any CPU
+ 		{02B5E453-2085-4E41-86D9-C8E8A03FB1B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+ 		{02B5E453-2085-4E41-86D9-C8E8A03FB1B9}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{F56FE364-ABAE-44B3-A939-900EB994FB9B}.Debug Complete|Any CPU.ActiveCfg = Debug|Any CPU
+-		{F56FE364-ABAE-44B3-A939-900EB994FB9B}.Debug Complete|Any CPU.Build.0 = Debug|Any CPU
+-		{F56FE364-ABAE-44B3-A939-900EB994FB9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{F56FE364-ABAE-44B3-A939-900EB994FB9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{F56FE364-ABAE-44B3-A939-900EB994FB9B}.Release Complete|Any CPU.ActiveCfg = Release|Any CPU
+-		{F56FE364-ABAE-44B3-A939-900EB994FB9B}.Release Complete|Any CPU.Build.0 = Release|Any CPU
+-		{F56FE364-ABAE-44B3-A939-900EB994FB9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{F56FE364-ABAE-44B3-A939-900EB994FB9B}.Release|Any CPU.Build.0 = Release|Any CPU
+ 		{809725DC-6502-4732-A51C-DEB7FEA12975}.Debug Complete|Any CPU.ActiveCfg = Debug|Any CPU
+ 		{809725DC-6502-4732-A51C-DEB7FEA12975}.Debug Complete|Any CPU.Build.0 = Debug|Any CPU
+ 		{809725DC-6502-4732-A51C-DEB7FEA12975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+@@ -188,22 +114,6 @@
+ 		{809725DC-6502-4732-A51C-DEB7FEA12975}.Release Complete|Any CPU.Build.0 = Release|Any CPU
+ 		{809725DC-6502-4732-A51C-DEB7FEA12975}.Release|Any CPU.ActiveCfg = Release|Any CPU
+ 		{809725DC-6502-4732-A51C-DEB7FEA12975}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{26CD2CE7-FF63-4669-83B0-7D9C8F3408EE}.Debug Complete|Any CPU.ActiveCfg = Debug|Any CPU
+-		{26CD2CE7-FF63-4669-83B0-7D9C8F3408EE}.Debug Complete|Any CPU.Build.0 = Debug|Any CPU
+-		{26CD2CE7-FF63-4669-83B0-7D9C8F3408EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{26CD2CE7-FF63-4669-83B0-7D9C8F3408EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{26CD2CE7-FF63-4669-83B0-7D9C8F3408EE}.Release Complete|Any CPU.ActiveCfg = Release|Any CPU
+-		{26CD2CE7-FF63-4669-83B0-7D9C8F3408EE}.Release Complete|Any CPU.Build.0 = Release|Any CPU
+-		{26CD2CE7-FF63-4669-83B0-7D9C8F3408EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{26CD2CE7-FF63-4669-83B0-7D9C8F3408EE}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{22E852C0-17FF-4106-9DF6-41EABB8C0613}.Debug Complete|Any CPU.ActiveCfg = Debug|Any CPU
+-		{22E852C0-17FF-4106-9DF6-41EABB8C0613}.Debug Complete|Any CPU.Build.0 = Debug|Any CPU
+-		{22E852C0-17FF-4106-9DF6-41EABB8C0613}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{22E852C0-17FF-4106-9DF6-41EABB8C0613}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{22E852C0-17FF-4106-9DF6-41EABB8C0613}.Release Complete|Any CPU.ActiveCfg = Release|Any CPU
+-		{22E852C0-17FF-4106-9DF6-41EABB8C0613}.Release Complete|Any CPU.Build.0 = Release|Any CPU
+-		{22E852C0-17FF-4106-9DF6-41EABB8C0613}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{22E852C0-17FF-4106-9DF6-41EABB8C0613}.Release|Any CPU.Build.0 = Release|Any CPU
+ 		{B99CBE2E-BAAD-45D5-8A84-CAA6A2286C0B}.Debug Complete|Any CPU.ActiveCfg = Debug|Any CPU
+ 		{B99CBE2E-BAAD-45D5-8A84-CAA6A2286C0B}.Debug Complete|Any CPU.Build.0 = Debug|Any CPU
+ 		{B99CBE2E-BAAD-45D5-8A84-CAA6A2286C0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+@@ -212,36 +122,6 @@
+ 		{B99CBE2E-BAAD-45D5-8A84-CAA6A2286C0B}.Release Complete|Any CPU.Build.0 = Release|Any CPU
+ 		{B99CBE2E-BAAD-45D5-8A84-CAA6A2286C0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+ 		{B99CBE2E-BAAD-45D5-8A84-CAA6A2286C0B}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{3D9EFCF7-61CD-49DD-9300-9F9C993FB37B}.Debug Complete|Any CPU.ActiveCfg = Debug|Any CPU
+-		{3D9EFCF7-61CD-49DD-9300-9F9C993FB37B}.Debug Complete|Any CPU.Build.0 = Debug|Any CPU
+-		{3D9EFCF7-61CD-49DD-9300-9F9C993FB37B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{3D9EFCF7-61CD-49DD-9300-9F9C993FB37B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{3D9EFCF7-61CD-49DD-9300-9F9C993FB37B}.Release Complete|Any CPU.ActiveCfg = Release|Any CPU
+-		{3D9EFCF7-61CD-49DD-9300-9F9C993FB37B}.Release Complete|Any CPU.Build.0 = Release|Any CPU
+-		{3D9EFCF7-61CD-49DD-9300-9F9C993FB37B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{3D9EFCF7-61CD-49DD-9300-9F9C993FB37B}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{CB9BB289-ACC9-4A05-8403-98D453F23728}.Debug Complete|Any CPU.ActiveCfg = Debug|Any CPU
+-		{CB9BB289-ACC9-4A05-8403-98D453F23728}.Debug Complete|Any CPU.Build.0 = Debug|Any CPU
+-		{CB9BB289-ACC9-4A05-8403-98D453F23728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{CB9BB289-ACC9-4A05-8403-98D453F23728}.Release Complete|Any CPU.ActiveCfg = Release|Any CPU
+-		{CB9BB289-ACC9-4A05-8403-98D453F23728}.Release Complete|Any CPU.Build.0 = Release|Any CPU
+-		{CB9BB289-ACC9-4A05-8403-98D453F23728}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{9DA8E727-4038-4E6B-90BD-853730FDFA49}.Debug Complete|Any CPU.ActiveCfg = Debug|Any CPU
+-		{9DA8E727-4038-4E6B-90BD-853730FDFA49}.Debug Complete|Any CPU.Build.0 = Debug|Any CPU
+-		{9DA8E727-4038-4E6B-90BD-853730FDFA49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{9DA8E727-4038-4E6B-90BD-853730FDFA49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{9DA8E727-4038-4E6B-90BD-853730FDFA49}.Release Complete|Any CPU.ActiveCfg = Release|Any CPU
+-		{9DA8E727-4038-4E6B-90BD-853730FDFA49}.Release Complete|Any CPU.Build.0 = Release|Any CPU
+-		{9DA8E727-4038-4E6B-90BD-853730FDFA49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{9DA8E727-4038-4E6B-90BD-853730FDFA49}.Release|Any CPU.Build.0 = Release|Any CPU
+-		{AEDD6CFB-747B-4077-9288-9CD2A86090F1}.Debug Complete|Any CPU.ActiveCfg = Debug|Any CPU
+-		{AEDD6CFB-747B-4077-9288-9CD2A86090F1}.Debug Complete|Any CPU.Build.0 = Debug|Any CPU
+-		{AEDD6CFB-747B-4077-9288-9CD2A86090F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+-		{AEDD6CFB-747B-4077-9288-9CD2A86090F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+-		{AEDD6CFB-747B-4077-9288-9CD2A86090F1}.Release Complete|Any CPU.ActiveCfg = Release|Any CPU
+-		{AEDD6CFB-747B-4077-9288-9CD2A86090F1}.Release Complete|Any CPU.Build.0 = Release|Any CPU
+-		{AEDD6CFB-747B-4077-9288-9CD2A86090F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+-		{AEDD6CFB-747B-4077-9288-9CD2A86090F1}.Release|Any CPU.Build.0 = Release|Any CPU
+ 	EndGlobalSection
+ 	GlobalSection(SolutionProperties) = preSolution
+ 		HideSolutionNode = FALSE
 Index: Sources/Controls/VideoSourcePlayer.cs
 ===================================================================
 --- Sources/Controls/VideoSourcePlayer.cs	(revision 1699)
@@ -180,6 +368,21 @@ Index: Sources/Video.FFMPEG/AudioCodec.h
 +
 +} } }
 \ No newline at end of file
+Index: Sources/Video.FFMPEG/Video.FFMPEG.opensdf
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: Sources/Video.FFMPEG/Video.FFMPEG.opensdf
+===================================================================
+--- Sources/Video.FFMPEG/Video.FFMPEG.opensdf	(revision 0)
++++ Sources/Video.FFMPEG/Video.FFMPEG.opensdf	(working copy)
+
+Property changes on: Sources/Video.FFMPEG/Video.FFMPEG.opensdf
+___________________________________________________________________
+Added: svn:mime-type
+## -0,0 +1 ##
++application/octet-stream
+\ No newline at end of property
 Index: Sources/Video.FFMPEG/Video.FFMPEG.vcxproj
 ===================================================================
 --- Sources/Video.FFMPEG/Video.FFMPEG.vcxproj	(revision 1705)
@@ -214,6 +417,30 @@ Index: Sources/Video.FFMPEG/Video.FFMPEG.vcxproj
      <ClInclude Include="Stdafx.h" />
      <ClInclude Include="VideoCodec.h" />
      <ClInclude Include="VideoFileReader.h" />
+Index: Sources/Video.FFMPEG/Video.FFMPEG.vcxproj.filters
+===================================================================
+--- Sources/Video.FFMPEG/Video.FFMPEG.vcxproj.filters	(revision 1705)
++++ Sources/Video.FFMPEG/Video.FFMPEG.vcxproj.filters	(working copy)
+@@ -29,6 +29,9 @@
+     <ClCompile Include="VideoFileWriter.cpp">
+       <Filter>Source Files</Filter>
+     </ClCompile>
++    <ClCompile Include="AudioCodec.cpp">
++      <Filter>Source Files</Filter>
++    </ClCompile>
+   </ItemGroup>
+   <ItemGroup>
+     <ClInclude Include="Stdafx.h">
+@@ -46,5 +49,8 @@
+     <ClInclude Include="VideoFileWriter.h">
+       <Filter>Header Files</Filter>
+     </ClInclude>
++    <ClInclude Include="AudioCodec.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
+   </ItemGroup>
+ </Project>
+\ No newline at end of file
 Index: Sources/Video.FFMPEG/VideoCodec.cpp
 ===================================================================
 --- Sources/Video.FFMPEG/VideoCodec.cpp	(revision 1705)
@@ -297,7 +524,7 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  // A structure to encapsulate all FFMPEG related private variable
  ref struct WriterPrivateData
  {
-@@ -44,6 +51,21 @@
+@@ -44,6 +51,19 @@
  	struct libffmpeg::SwsContext*	ConvertContext;
  	struct libffmpeg::SwsContext*	ConvertContextGrayscale;
  
@@ -309,8 +536,6 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
 +	int	AudioInputSampleSize;
 +	int AudioBufferSizeCurrent;
 +	int AudioBufferSize;
-+	int FrameNumber;
-+	bool IsConstantFramerate;
 +	int SampleRate;
 +	int BitRate;
 +	int Channels;
@@ -319,7 +544,7 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  	libffmpeg::uint8_t*	VideoOutputBuffer;
  	int VideoOutputBufferSize;
  
-@@ -55,6 +77,19 @@
+@@ -55,6 +75,17 @@
  		ConvertContext	  = NULL;
  		ConvertContextGrayscale = NULL;
  		VideoOutputBuffer = NULL;
@@ -330,16 +555,14 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
 +		AudioEncodeBufferSize = 0;
 +		AudioInputSampleSize = NULL;
 +
-+		AudioBufferSize = 1024 * 1024 * 4;
++		AudioBufferSize = 1024 * 1024 * 16;
 +		AudioBuffer = new char[AudioBufferSize];
 +		AudioBufferSizeCurrent = 0;
-+		FrameNumber = 0;
-+		IsConstantFramerate = false;
 +		// end audio support
  	}
  };
  #pragma endregion
-@@ -84,6 +119,14 @@
+@@ -84,6 +115,14 @@
  // Creates a video file with the specified name and properties
  void VideoFileWriter::Open( String^ fileName, int width, int height, int frameRate, VideoCodec codec, int bitRate )
  {
@@ -354,7 +577,7 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
      CheckIfDisposed( );
  
  	// close previous file if any open
-@@ -109,6 +152,10 @@
+@@ -109,6 +148,10 @@
  	m_codec  = codec;
  	m_frameRate = frameRate;
  	m_bitRate = bitRate;
@@ -365,7 +588,7 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  	
  	// convert specified managed String to unmanaged string
  	IntPtr ptr = System::Runtime::InteropServices::Marshal::StringToHGlobalUni( fileName );
-@@ -119,12 +166,12 @@
+@@ -119,12 +162,12 @@
  
  	try
  	{
@@ -380,7 +603,7 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  			outputFormat = libffmpeg::av_guess_format( "mpeg", NULL, NULL );
  
  			if ( !outputFormat )
-@@ -144,9 +191,19 @@
+@@ -144,9 +187,19 @@
  
  		// add video stream using the specified video codec
  		add_video_stream( data, width, height, frameRate, bitRate,
@@ -402,7 +625,7 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  		// set the output parameters (must be done even if no parameters)
  		if ( libffmpeg::av_set_parameters( data->FormatContext, NULL ) < 0 )
  		{
-@@ -155,6 +212,11 @@
+@@ -155,6 +208,11 @@
  
  		open_video( data );
  
@@ -414,7 +637,7 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  		// open output file
  		if ( !( outputFormat->flags & AVFMT_NOFILE ) )
  		{
-@@ -185,6 +247,8 @@
+@@ -185,6 +243,8 @@
  {
  	if ( data != nullptr )
  	{
@@ -423,7 +646,7 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  		if ( data->FormatContext )
  		{
  			if ( data->FormatContext->pb != NULL )
-@@ -197,6 +261,13 @@
+@@ -197,6 +257,13 @@
  				libffmpeg::avcodec_close( data->VideoStream->codec );
  			}
  
@@ -437,7 +660,7 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  			if ( data->VideoFrame )
  			{
  				libffmpeg::av_free( data->VideoFrame->data[0] );
-@@ -208,6 +279,14 @@
+@@ -208,6 +275,14 @@
  				libffmpeg::av_free( data->VideoOutputBuffer );
  			}
  
@@ -452,7 +675,7 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  			for ( unsigned int i = 0; i < data->FormatContext->nb_streams; i++ )
  			{
  				libffmpeg::av_freep( &data->FormatContext->streams[i]->codec );
-@@ -239,6 +318,58 @@
+@@ -239,6 +314,58 @@
  	m_height = 0;
  }
  
@@ -511,7 +734,7 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  // Writes new video frame to the opened video file
  void VideoFileWriter::WriteVideoFrame( Bitmap^ frame )
  {
-@@ -301,6 +432,79 @@
+@@ -301,6 +428,78 @@
  	write_video_frame( data );
  }
  
@@ -549,11 +772,11 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
 +
 +	libffmpeg::AVCodecContext* codecContext = data->AudioStream->codec;   
 +
-+	memcpy(data->AudioBuffer + data->AudioBufferSizeCurrent,  soundBuffer, soundBufferSize);
++	memcpy(data->AudioBuffer + data->AudioBufferSizeCurrent, soundBuffer, soundBufferSize);
 +	data->AudioBufferSizeCurrent += soundBufferSize;
 +
 +	BYTE* pSoundBuffer = (BYTE *)data->AudioBuffer;
-+	DWORD nCurrentSize    = data->AudioBufferSizeCurrent;
++	DWORD nCurrentSize = data->AudioBufferSizeCurrent;
 + 
 +	// Size of packet on bytes.
 +	DWORD packSizeInSize = (2 * data->AudioInputSampleSize) * data->Channels;
@@ -565,7 +788,6 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
 +
 +		pkt.size = libffmpeg::avcodec_encode_audio(codecContext, data->AudioEncodeBuffer, 
 +			data->AudioEncodeBufferSize, (const short *)pSoundBuffer);
-+
 +
 +		pkt.flags |= AV_PKT_FLAG_KEY;
 +		pkt.stream_index = data->AudioStream->index;
@@ -591,7 +813,7 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  #pragma region Private methods
  // Writes video frame to opened video file
  void write_video_frame( WriterPrivateData^ data )
-@@ -383,47 +587,81 @@
+@@ -383,47 +582,90 @@
  void add_video_stream( WriterPrivateData^ data,  int width, int height, int frameRate, int bitRate,
  					  enum libffmpeg::CodecID codecId, enum libffmpeg::PixelFormat pixelFormat )
  {
@@ -664,29 +886,38 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
 -		// the motion of the chroma plane does not match the luma plane.
 -		codecContex->mb_decision = 2;
 -	}
-+                codecContex->coder_type = 1; 
-+                codecContex->flags|=CODEC_FLAG_LOOP_FILTER;
-+				codecContex->flags2|=CODEC_FLAG2_BPYRAMID-CODEC_FLAG2_WPRED-CODEC_FLAG2_8X8DCT;
-+                codecContex->profile=FF_PROFILE_H264_BASELINE;
-+                codecContex->scenechange_threshold = 40; 
-+				codecContex->gop_size=250;
-+				codecContex->max_b_frames=0;
-+				codecContex->max_qdiff=4;
-+                codecContex->me_method=10;
-+				codecContex->me_range=16;
-+                codecContex->me_cmp|= 1;
++                codecContex->coder_type        = FF_CODER_TYPE_AC; 
++				codecContex->profile           = FF_PROFILE_H264_BASELINE;
++				codecContex->crf               = 25;
++				codecContex->me_method         = 7;
++				codecContex->me_subpel_quality = 4;
++				codecContex->delay             = 0; 
++				codecContex->max_b_frames      = 0; 
++				codecContex->refs              = 3;
++				/*
++                codecContex->flags            |= CODEC_FLAG_LOOP_FILTER;
++				codecContex->flags2           |= CODEC_FLAG2_WPRED | CODEC_FLAG2_8X8DCT;
++                
++                codecContex->scenechange_threshold = 0; 
++				codecContex->gop_size          = 250;
++				codecContex->max_b_frames      = 0;
++				codecContex->max_qdiff         = 4;
++                codecContex->me_method         = 10;
++				codecContex->me_range          = 16;
++                codecContex->me_cmp            = 1;
 +                codecContex->me_subpel_quality = 6; 
-+				codecContex->qmin=0; 
-+				codecContex->qmax=69;
-+				codecContex->qcompress=0.6f;
-+				codecContex->keyint_min=25;
-+				codecContex->trellis=0;
-+				codecContex->level=13;
-+                codecContex->refs = 16;
-+                codecContex->weighted_p_pred = 2;
-+				codecContex->b_frame_strategy= 1;
-+				codecContex->color_range = libffmpeg::AVCOL_RANGE_JPEG;
-+                codecContex->crf = 0;
++				codecContex->qmin              = 0; 
++				codecContex->qmax              = 69;
++				codecContex->qcompress         = 0.6f;
++				codecContex->keyint_min        = 25;
++				codecContex->trellis           = 0;
++				codecContex->level             = 13;
++                codecContex->refs              = 16;
++                codecContex->weighted_p_pred   = 2;
++				codecContex->b_frame_strategy  = 1;
++				*/
++				codecContex->color_range  = libffmpeg::AVCOL_RANGE_JPEG;
++                
 +        }
  
 -	// some formats want stream headers to be separate
@@ -707,7 +938,15 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
  }
  
  // Open video codec and prepare out buffer and picture
-@@ -473,6 +711,88 @@
+@@ -463,6 +705,7 @@
+ 	data->ConvertContext = libffmpeg::sws_getContext( codecContext->width, codecContext->height, libffmpeg::PIX_FMT_BGR24,
+ 			codecContext->width, codecContext->height, codecContext->pix_fmt,
+ 			SWS_BICUBIC, NULL, NULL, NULL );
++
+ 	// prepare scaling context to convert grayscale image to video format
+ 	data->ConvertContextGrayscale = libffmpeg::sws_getContext( codecContext->width, codecContext->height, libffmpeg::PIX_FMT_GRAY8,
+ 			codecContext->width, codecContext->height, codecContext->pix_fmt,
+@@ -473,6 +716,89 @@
  		throw gcnew VideoException( "Cannot initialize frames conversion context." );
  	}
  }
@@ -728,6 +967,7 @@ Index: Sources/Video.FFMPEG/VideoFileWriter.cpp
 +	  codecContex = data->AudioStream->codec;
 +	  codecContex->codec_id = codec_id;
 +	  codecContex->codec_type = libffmpeg::AVMEDIA_TYPE_AUDIO;
++
 +	  // Set format
 +	  codecContex->bit_rate    = data->BitRate;
 +	  codecContex->sample_rate = data->SampleRate;

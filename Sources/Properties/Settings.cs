@@ -23,6 +23,7 @@ namespace ScreenCapture.Properties
 {
     using System;
     using System.Configuration;
+    using System.Collections.Specialized;
 
     internal sealed partial class Settings
     {
@@ -46,6 +47,9 @@ namespace ScreenCapture.Properties
 
             if (String.IsNullOrWhiteSpace(DefaultFolder))
                 DefaultFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+
+            if (Settings.Default.LastAudioDevices == null)
+                Settings.Default.LastAudioDevices = new StringCollection();
         }
 
         private void Settings_SettingsSaving(object sender, System.ComponentModel.CancelEventArgs e)
