@@ -3,6 +3,15 @@
  =========================================
 
 
+ 23.12.2013, version 1.5
+ -----------------------
+
+  The application can now record multiple audio tracks, including
+  system sounds and microphone sounds. Added enhanced support for
+  converting between output formats.
+
+
+
  20.02.2013, version 1.4
  -----------------------
 
