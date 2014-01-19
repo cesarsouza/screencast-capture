@@ -68,6 +68,12 @@ namespace ScreenCapture.Processors
         public int Radius { get; set; }
 
         /// <summary>
+        ///   Gets or sets the final indicator
+        ///   radius for the click animation.
+        /// </summary>
+        public int Threshold { get; set; }
+
+        /// <summary>
         ///   Gets or sets the step size at which the <see cref="Radius"/>
         ///   is shrinked at each call to <see cref="Draw"/>.
         /// </summary>
@@ -98,11 +104,12 @@ namespace ScreenCapture.Processors
             context.MouseDown += thread_MouseDown;
             context.MouseMove += thread_MouseMove;
 
-            penOuter = new Pen(Brushes.Black, 3);
-            penInner = new Pen(Color.FromArgb(200, Color.White), 5);
+            penOuter = new Pen(Brushes.Black, 2);
+            penInner = new Pen(Color.FromArgb(150, Color.White), 5);
 
             Radius = 50;
             StepSize = 16;
+            Threshold = 12;
         }
 
         /// <summary>
@@ -114,7 +121,7 @@ namespace ScreenCapture.Processors
             if (graphics == null)
                 throw new ArgumentNullException("graphics");
 
-            if (currentRadius <= 0)
+            if (currentRadius <= Threshold)
                 return;
 
             if (!CaptureRegion.Contains(currentLocation))
@@ -128,6 +135,7 @@ namespace ScreenCapture.Processors
             if (!pressed)
             {
                 currentRadius -= StepSize;
+
                 if (currentRadius <= 0)
                     currentRadius = 0;
             }
@@ -142,7 +150,9 @@ namespace ScreenCapture.Processors
 
         private void drawCircle(Graphics graphics, int radius, Pen pen)
         {
-            if (radius <= 0) return;
+            if (radius <= Threshold) 
+                return;
+
             int x = relativeLocation.X - radius;
             int y = relativeLocation.Y - radius;
             int d = radius * 2;

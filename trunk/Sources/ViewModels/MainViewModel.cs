@@ -25,6 +25,7 @@ namespace ScreenCapture.ViewModels
     using System.ComponentModel;
     using AForge.Controls;
     using ScreenCapture.Properties;
+    using Accord.Controls;
 
     /// <summary>
     ///   Main ViewModel to control the application.
@@ -95,7 +96,7 @@ namespace ScreenCapture.ViewModels
         ///   Initializes a new instance of the <see cref="MainViewModel"/> class.
         /// </summary>
         /// 
-        public MainViewModel(VideoSourcePlayer player)
+        public MainViewModel(VideoSourcePlayer2 player)
         {
             if (player == null) throw new ArgumentNullException("player");
 

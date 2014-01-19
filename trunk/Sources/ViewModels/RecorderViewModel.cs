@@ -35,11 +35,12 @@ namespace ScreenCapture.ViewModels
     using AForge.Controls;
     using AForge.Imaging.Filters;
     using AForge.Video;
-    using AForge.Video.FFMPEG;
+    using Accord.Video.FFMPEG;
     using ScreenCapture.Native;
     using ScreenCapture.Processors;
     using ScreenCapture.Properties;
     using System.Collections.Specialized;
+    using Accord.Controls;
 
     /// <summary>
     ///   Region capturing modes.
@@ -77,7 +78,7 @@ namespace ScreenCapture.ViewModels
         private CaptureRegionOption captureMode;
         private ScreenCaptureStream screenStream;
         private VideoFileWriter videoWriter;
-        private VideoSourcePlayer videoPlayer;
+        private VideoSourcePlayer2 videoPlayer;
 
         private IAudioSource audioDevice;
 
@@ -190,7 +191,7 @@ namespace ScreenCapture.ViewModels
         ///   Initializes a new instance of the <see cref="MainViewModel"/> class.
         /// </summary>
         /// 
-        public RecorderViewModel(MainViewModel main, VideoSourcePlayer player)
+        public RecorderViewModel(MainViewModel main, VideoSourcePlayer2 player)
         {
             if (main == null)
                 throw new ArgumentNullException("main");
@@ -233,7 +234,8 @@ namespace ScreenCapture.ViewModels
         /// 
         public void StartPlaying()
         {
-            if (IsPlaying) return;
+            if (IsPlaying) 
+                return;
 
             // Checks if we were already waiting for a window
             // to be selected, in case the user had chosen to 
@@ -306,7 +308,8 @@ namespace ScreenCapture.ViewModels
         /// 
         public void StartRecording()
         {
-            if (IsRecording || !IsPlaying) return;
+            if (IsRecording || !IsPlaying) 
+                return;
 
             Rectangle area = CaptureRegion;
             string fileName = newFileName();
@@ -325,7 +328,8 @@ namespace ScreenCapture.ViewModels
             var audioDevices = new List<AudioCaptureDevice>();
             foreach (var audioViewModel in AudioCaptureDevices)
             {
-                if (!audioViewModel.Checked) continue;
+                if (!audioViewModel.Checked) 
+                    continue;
 
                 var device = new AudioCaptureDevice(audioViewModel.DeviceInfo);
                 device.AudioSourceError += device_AudioSourceError;
