@@ -110,10 +110,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Externals\AForge\AForge.Video.DirectShow.dll</HintPath>
     </Reference>
-    <Reference Include="AForge.Video.FFMPEG, Version=2.2.4.0, Culture=neutral, PublicKeyToken=03563089b1be05dd, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Externals\AForge\AForge.Video.FFMPEG.dll</HintPath>
-    </Reference>
     <Reference Include="AForge.Vision, Version=2.2.4.0, Culture=neutral, PublicKeyToken=b612fa915eefaa06, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Externals\AForge\AForge.Vision.dll</HintPath>
@@ -150,6 +146,9 @@
     </Compile>
     <Compile Include="Controls\ExplorerBrowserCustom.Designer.cs">
       <DependentUpon>ExplorerBrowserCustom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VideoSourcePlayer2.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Native\Context\NativeKeyboardContext.cs" />
     <Compile Include="Native\Context\NativeMouseContext.cs" />
@@ -406,6 +405,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\masters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Externals\Accord\Sources\Accord.Video.FFMPEG\Accord.Video.FFMPEG.vcxproj">
+      <Project>{FF31DD24-127D-4EB1-929C-F5738147E886}</Project>
+      <Name>Accord.Video.FFMPEG %28GPL%29</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">

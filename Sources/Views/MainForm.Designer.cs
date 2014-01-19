@@ -60,7 +60,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSettings = new System.Windows.Forms.ToolStripDropDownButton();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
+            this.videoSourcePlayer1 = new Accord.Controls.VideoSourcePlayer2();
             this.explorerBrowser = new ScreenCapture.Controls.ExplorerBrowserCustom();
             this.iconPlayPause = new ScreenCapture.Controls.BindableNotifyIcon(this.components);
             this.keyPlayPause = new ScreenCapture.Controls.HotKey(this.components);
@@ -379,7 +379,7 @@
         private ScreenCapture.Controls.BindableToolStripButton btnScreenPreview;
         private ScreenCapture.Controls.BindableToolStripButton btnStorageFolder;
         private System.Windows.Forms.Panel panel1;
-        private AForge.Controls.VideoSourcePlayer videoSourcePlayer1;
+        private Accord.Controls.VideoSourcePlayer2 videoSourcePlayer1;
         private ScreenCapture.Controls.BindableToolStripButton btnPausePlaying;
         private Controls.HotKey keyPlayPause;
         private Controls.HotKey keyStartStop;
