@@ -1,0 +1,10 @@
+
+ Screen Capture Lite Contributors
+ =========================================
+
+ This project, besides young and still under development, had
+ received important contributions from the following people:
+
+
+  - Mårten Sjö
+  - Ankur Tripathi
