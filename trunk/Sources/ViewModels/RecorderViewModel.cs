@@ -87,6 +87,7 @@ namespace ScreenCapture.ViewModels
         private CaptureClick clickCapture;
         private CaptureKeyboard keyCapture;
         private Object syncObj = new Object();
+        private TimeSpan lastFrameTime;
 
 
         /// <summary>
@@ -234,8 +235,7 @@ namespace ScreenCapture.ViewModels
         /// 
         public void StartPlaying()
         {
-            if (IsPlaying) 
-                return;
+            if (IsPlaying) return;
 
             // Checks if we were already waiting for a window
             // to be selected, in case the user had chosen to 
@@ -524,7 +524,16 @@ namespace ScreenCapture.ViewModels
                         RecordingStartTime = DateTime.Now;
 
                     RecordingDuration = DateTime.Now - RecordingStartTime;
-                    videoWriter.WriteVideoFrame(image, RecordingDuration);
+
+                    // We can't write too fast to the buffer. A better buffer control
+                    // needs to be implemented in the future so we can drop frames as
+                    // necessary.
+
+                    if (RecordingDuration.Subtract(lastFrameTime).Milliseconds > 10)
+                    {
+                        videoWriter.WriteVideoFrame(image, RecordingDuration);
+                        lastFrameTime = RecordingDuration;
+                    }
                 }
             }
         }
