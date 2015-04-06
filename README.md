@@ -1,4 +1,4 @@
-# Screencast Capture Lite
+# [Screencast Capture Lite](http://cesarsouza.github.io/screencast-capture/)
 
 *Screencast Capture Lite* is a tool for recording the desktop screen and saving it to a video file, preserving quality as much as possible. However, this does not mean it produces gigantic files which take a long time to be uploaded to the web. The application encodes everything using solely H624 in an almost lossless setting.<br />
    
