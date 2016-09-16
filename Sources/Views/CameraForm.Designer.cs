@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CameraForm));
-            this.videoSourcePlayer = new AForge.Controls.VideoSourcePlayer();
+            this.videoSourcePlayer = new Accord.Controls.VideoSourcePlayer();
             this.lbClickToConfig = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -64,7 +64,7 @@
 
         #endregion
 
-        private AForge.Controls.VideoSourcePlayer videoSourcePlayer;
+        private Accord.Controls.VideoSourcePlayer videoSourcePlayer;
         private System.Windows.Forms.Label lbClickToConfig;
     }
 }

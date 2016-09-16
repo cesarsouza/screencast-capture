@@ -1,0 +1,5 @@
+/bin/
+/ipch/
+/obj/
+*.v12.suo
+*.sdf

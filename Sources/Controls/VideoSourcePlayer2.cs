@@ -16,7 +16,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
-using AForge.Video;
+using Accord.Video;
 
 namespace Accord.Controls
 {
@@ -396,7 +396,7 @@ namespace Accord.Controls
         {
             lock (sync)
             {
-                return (currentFrame == null) ? null : AForge.Imaging.Image.Clone(currentFrame);
+                return (currentFrame == null) ? null : Accord.Imaging.Image.Clone(currentFrame);
             }
         }
 
@@ -529,7 +529,7 @@ namespace Accord.Controls
                          (currentFrame.PixelFormat == PixelFormat.Format48bppRgb) ||
                          (currentFrame.PixelFormat == PixelFormat.Format64bppArgb))
                     {
-                        convertedFrame = AForge.Imaging.Image.Convert16bppTo8bpp(currentFrame);
+                        convertedFrame = Accord.Imaging.Image.Convert16bppTo8bpp(currentFrame);
                     }
                 }
 

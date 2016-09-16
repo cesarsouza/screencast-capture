@@ -23,7 +23,7 @@ namespace ScreenCapture.ViewModels
 {
     using System;
     using System.ComponentModel;
-    using AForge.Controls;
+    using Accord.Controls;
     using ScreenCapture.Properties;
     using Accord.Controls;
 

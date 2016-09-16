@@ -32,9 +32,9 @@ namespace ScreenCapture.ViewModels
     using System.Windows.Forms;
     using Accord.Audio;
     using Accord.DirectSound;
-    using AForge.Controls;
-    using AForge.Imaging.Filters;
-    using AForge.Video;
+    using Accord.Controls;
+    using Accord.Imaging.Filters;
+    using Accord.Video;
     using Accord.Video.FFMPEG;
     using ScreenCapture.Native;
     using ScreenCapture.Processors;

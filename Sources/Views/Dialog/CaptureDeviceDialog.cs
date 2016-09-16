@@ -34,7 +34,7 @@ namespace ScreenCapture.Views
     using System.Drawing;
     using System.Text;
     using System.Windows.Forms;
-    using AForge.Video.DirectShow;
+    using Accord.Video.DirectShow;
 
     /// <summary>
     ///   Capture device selection dialog.

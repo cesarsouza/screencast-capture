@@ -25,8 +25,8 @@ namespace ScreenCapture.Views
     using System.Drawing;
     using System.Threading;
     using System.Windows.Forms;
-    using AForge.Video;
-    using AForge.Video.DirectShow;
+    using Accord.Video;
+    using Accord.Video.DirectShow;
     using ScreenCapture.ViewModels;
 
     /// <summary>
