@@ -1,8 +1,8 @@
-# Screencast Capture Lite
+# [Screencast Capture Lite](http://cesarsouza.github.io/screencast-capture/)
 
 *Screencast Capture Lite* is a tool for recording the desktop screen and saving it to a video file, preserving quality as much as possible. However, this does not mean it produces gigantic files which take a long time to be uploaded to the web. The application encodes everything using solely H624 in an almost lossless setting.<br />
    
-[![Screencast capture lite](http://screencast-capture.googlecode.com/svn/wiki/images/screencast-lite.png)](http://www.youtube.com/watch?v=nZp0ngXb_Ro&hd=1)
+[![Screencast capture lite](https://raw.githubusercontent.com/cesarsouza/screencast-capture/gh-pages/images/screencast-lite.png)](http://www.youtube.com/watch?v=nZp0ngXb_Ro&hd=1)
 
 _To check the quality of the encoding, please be sure to leave Youtube quality settings on HD (720p)._
 
@@ -17,7 +17,6 @@ Screencast Capture Lite is also a live demonstration of the [Accord.NET Framewor
 
 ------
 
-Have you found this software useful? Consider donating *US$10* so it can get even better!<br />
-[![Paypal donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MPU4U4NZZSG86)
+Have you found this software useful? Consider donating *US$10* so it can get even better! This software is completely free and will *always stay free*. Enjoy!
 
-This software is completely free and will *always stay free*. Enjoy!
+[![Paypal donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MPU4U4NZZSG86)
