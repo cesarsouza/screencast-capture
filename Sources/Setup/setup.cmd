@@ -12,7 +12,7 @@ echo.
 :: Settings for complete package creation
 :: ---------------------------------------------------------
 
-set version=1.5
+set version=1.6
 set fullname="ScreencastCaptureLite-%version%.zip" 
 set output=..\bin\
 set rar="C:\Program Files\WinRAR\winrar"
