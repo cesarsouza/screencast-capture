@@ -5,3 +5,4 @@
 *.sdf
 /.vs
 *.suo
+/packages/
