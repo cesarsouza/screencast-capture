@@ -17,6 +17,7 @@ using System.Threading;
 using System.Windows.Forms;
 
 using Accord.Video;
+using System.Drawing.Drawing2D;
 
 namespace Accord.Controls
 {
@@ -27,7 +28,7 @@ namespace Accord.Controls
     /// </summary>
     /// 
     /// <remarks><para>The control is aimed to play video sources, which implement
-    /// <see cref="AForge.Video.IVideoSource"/> interface. To start playing a video
+    /// <see cref="Accord.Video.IVideoSource"/> interface. To start playing a video
     /// the <see cref="VideoSource"/> property should be initialized first and then
     /// <see cref="Start"/> method should be called. In the case if user needs to
     /// perform some sort of image processing with video frames before they are displayed,
@@ -166,9 +167,9 @@ namespace Accord.Controls
                 // detach events
                 if (videoSource != null)
                 {
-                    videoSource.NewFrame -= new NewFrameEventHandler(videoSource_NewFrame);
-                    videoSource.VideoSourceError -= new VideoSourceErrorEventHandler(videoSource_VideoSourceError);
-                    videoSource.PlayingFinished -= new PlayingFinishedEventHandler(videoSource_PlayingFinished);
+                    videoSource.NewFrame -= new NewFrameEventHandler(VideoSource_NewFrame);
+                    videoSource.VideoSourceError -= new VideoSourceErrorEventHandler(VideoSource_VideoSourceError);
+                    videoSource.PlayingFinished -= new PlayingFinishedEventHandler(VideoSource_PlayingFinished);
                 }
 
                 lock (sync)
@@ -185,9 +186,9 @@ namespace Accord.Controls
                 // atach events
                 if (videoSource != null)
                 {
-                    videoSource.NewFrame += new NewFrameEventHandler(videoSource_NewFrame);
-                    videoSource.VideoSourceError += new VideoSourceErrorEventHandler(videoSource_VideoSourceError);
-                    videoSource.PlayingFinished += new PlayingFinishedEventHandler(videoSource_PlayingFinished);
+                    videoSource.NewFrame += new NewFrameEventHandler(VideoSource_NewFrame);
+                    videoSource.VideoSourceError += new VideoSourceErrorEventHandler(VideoSource_VideoSourceError);
+                    videoSource.PlayingFinished += new PlayingFinishedEventHandler(VideoSource_PlayingFinished);
                 }
                 else
                 {
@@ -220,15 +221,6 @@ namespace Accord.Controls
         }
 
         /// <summary>
-        /// Delegate to notify about new frame.
-        /// </summary>
-        /// 
-        /// <param name="sender">Event sender.</param>
-        /// <param name="image">New frame.</param>
-        /// 
-        public delegate void NewFrameHandler(object sender, ref Bitmap image);
-
-        /// <summary>
         /// New frame event.
         /// </summary>
         /// 
@@ -241,7 +233,7 @@ namespace Accord.Controls
         /// by the control when it is required.</note></para>
         /// </remarks>
         /// 
-        public event NewFrameHandler NewFrame;
+        public event Accord.Controls.VideoSourcePlayer.NewFrameHandler NewFrame;
 
         /// <summary>
         /// Playing finished event.
@@ -307,7 +299,7 @@ namespace Accord.Controls
         /// Stop video source.
         /// </summary>
         /// 
-        /// <remarks><para>The method stops video source by calling its <see cref="AForge.Video.IVideoSource.Stop"/>
+        /// <remarks><para>The method stops video source by calling its <see cref="Accord.Video.IVideoSource.Stop"/>
         /// method, which abourts internal video source's thread. Use <see cref="SignalToStop"/> and
         /// <see cref="WaitForStop"/> for more polite video source stopping, which gives a chance for
         /// video source to perform proper shut down and clean up.
@@ -346,10 +338,7 @@ namespace Accord.Controls
 
             requestedToStop = true;
 
-            if (videoSource != null)
-            {
-                videoSource.SignalToStop();
-            }
+            videoSource?.SignalToStop();
         }
 
         /// <summary>
@@ -416,57 +405,57 @@ namespace Accord.Controls
             lock (sync)
             {
                 Graphics g = e.Graphics;
+                g.CompositingQuality = CompositingQuality.HighSpeed;
+                g.SmoothingMode = SmoothingMode.HighSpeed;
                 Rectangle rect = this.ClientRectangle;
-                Pen borderPen = new Pen(borderColor, 1);
-
-                // draw rectangle
-                g.DrawRectangle(borderPen, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
-
-                if (videoSource != null)
+                using (Pen borderPen = new Pen(borderColor, 1))
                 {
-                    if ((currentFrame != null) && (lastMessage == null))
+                    // draw rectangle
+                    g.DrawRectangle(borderPen, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+
+                    if (videoSource != null)
                     {
-                        Bitmap frame = (convertedFrame != null) ? convertedFrame : currentFrame;
-
-                        if (keepRatio)
+                        if ((currentFrame != null) && (lastMessage == null))
                         {
-                            double ratio = frame.Width / (double)frame.Height;
+                            Bitmap frame = convertedFrame ?? currentFrame;
 
-                            Rectangle newRect = rect;
+                            if (keepRatio)
+                            {
+                                double ratio = frame.Width / (double)frame.Height;
 
-                            if (rect.Width < rect.Height * ratio)
-                                newRect.Height = (int)(rect.Width / ratio);
+                                Rectangle newRect = rect;
+
+                                if (rect.Width < rect.Height * ratio)
+                                    newRect.Height = (int)(rect.Width / ratio);
+                                else
+                                    newRect.Width = (int)(rect.Height * ratio);
+
+                                newRect.X = rect.Width / 2 - newRect.Width / 2;
+                                newRect.Y = rect.Height / 2 - newRect.Height / 2;
+
+                                g.DrawImage(frame, newRect.X + 1, newRect.Y + 1,
+                                  newRect.Width - 2, newRect.Height - 2);
+                            }
                             else
-                                newRect.Width = (int)(rect.Height * ratio);
+                            {
+                                // draw current frame
+                                g.DrawImage(frame, rect.X + 1, rect.Y + 1,
+                                    rect.Width - 2, rect.Height - 2);
+                            }
 
-                            newRect.X = rect.Width / 2 - newRect.Width / 2;
-                            newRect.Y = rect.Height / 2 - newRect.Height / 2;
-
-                            g.DrawImage(frame, newRect.X + 1, newRect.Y + 1,
-                              newRect.Width - 2, newRect.Height - 2);
+                            firstFrameNotProcessed = false;
                         }
                         else
                         {
-                            // draw current frame
-                            g.DrawImage(frame, rect.X + 1, rect.Y + 1,
-                                rect.Width - 2, rect.Height - 2);
+                            // create font and brush
+                            using (SolidBrush drawBrush = new SolidBrush(this.ForeColor))
+                            {
+                                g.DrawString(lastMessage ?? "Connecting ...",
+                                    this.Font, drawBrush, new PointF(5, 5));
+                            }
                         }
-
-                        firstFrameNotProcessed = false;
-                    }
-                    else
-                    {
-                        // create font and brush
-                        SolidBrush drawBrush = new SolidBrush(this.ForeColor);
-
-                        g.DrawString((lastMessage == null) ? "Connecting ..." : lastMessage,
-                            this.Font, drawBrush, new PointF(5, 5));
-
-                        drawBrush.Dispose();
                     }
                 }
-
-                borderPen.Dispose();
             }
         }
 
@@ -488,17 +477,15 @@ namespace Accord.Controls
         }
 
         // On new frame ready
-        private void videoSource_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        private void VideoSource_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             if (!requestedToStop)
             {
+                Size originalSize = eventArgs.Frame.Size;
                 Bitmap newFrame = (Bitmap)eventArgs.Frame.Clone();
 
                 // let user process the frame first
-                if (NewFrame != null)
-                {
-                    NewFrame(this, ref newFrame);
-                }
+                NewFrame?.Invoke(this, ref newFrame);
 
                 // now update current frame of the control
                 lock (sync)
@@ -506,7 +493,7 @@ namespace Accord.Controls
                     // dispose previous frame
                     if (currentFrame != null)
                     {
-                        if (currentFrame.Size != eventArgs.Frame.Size)
+                        if (currentFrame.Size != originalSize)
                         {
                             needSizeUpdate = true;
                         }
@@ -520,9 +507,9 @@ namespace Accord.Controls
                         convertedFrame = null;
                     }
 
-                    currentFrame = newFrame;
-                    frameSize = currentFrame.Size;
-                    lastMessage = null;
+                    this.currentFrame = newFrame;
+                    this.frameSize = currentFrame.Size;
+                    this.lastMessage = null;
 
                     // check if conversion is required to lower bpp rate
                     if ((currentFrame.PixelFormat == PixelFormat.Format16bppGrayScale) ||
@@ -539,14 +526,14 @@ namespace Accord.Controls
         }
 
         // Error occured in video source
-        private void videoSource_VideoSourceError(object sender, VideoSourceErrorEventArgs eventArgs)
+        private void VideoSource_VideoSourceError(object sender, VideoSourceErrorEventArgs eventArgs)
         {
             lastMessage = eventArgs.Description;
             Invalidate();
         }
 
         // Video source has finished playing video
-        private void videoSource_PlayingFinished(object sender, ReasonToFinishPlaying reason)
+        private void VideoSource_PlayingFinished(object sender, ReasonToFinishPlaying reason)
         {
             switch (reason)
             {
@@ -573,10 +560,7 @@ namespace Accord.Controls
             Invalidate();
 
             // notify users
-            if (PlayingFinished != null)
-            {
-                PlayingFinished(this, reason);
-            }
+            PlayingFinished?.Invoke(this, reason);
         }
 
         // Parent Changed event handler
@@ -584,7 +568,7 @@ namespace Accord.Controls
         {
             if (parent != null)
             {
-                parent.SizeChanged -= new EventHandler(parent_SizeChanged);
+                parent.SizeChanged -= new EventHandler(Parent_SizeChanged);
             }
 
             parent = this.Parent;
@@ -592,12 +576,12 @@ namespace Accord.Controls
             // set handler for Size Changed parent's event
             if (parent != null)
             {
-                parent.SizeChanged += new EventHandler(parent_SizeChanged);
+                parent.SizeChanged += new EventHandler(Parent_SizeChanged);
             }
         }
 
         // Parent control has changed its size
-        private void parent_SizeChanged(object sender, EventArgs e)
+        private void Parent_SizeChanged(object sender, EventArgs e)
         {
             UpdatePosition();
         }

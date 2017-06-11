@@ -139,7 +139,7 @@ namespace ScreenCapture.Native
                 case Keys.Alt: return "Alt";
             }
 
-            string unicode = getCharsFromKeys(key, stateInitial, charBuffer);
+            string unicode = GetCharsFromKeys(key, stateInitial, charBuffer);
 
             return unicode;
         }
@@ -155,7 +155,7 @@ namespace ScreenCapture.Native
             stateCurrent[(int)Keys.ControlKey] = altGraph ? (byte)0xff : (byte)0x00;
             stateCurrent[(int)Keys.Menu] = altGraph ? (byte)0xff : (byte)0x00;
 
-            return getCharsFromKeys(key, stateCurrent, charBuffer);
+            return GetCharsFromKeys(key, stateCurrent, charBuffer);
         }
 
         /// <summary>
@@ -215,14 +215,15 @@ namespace ScreenCapture.Native
                 builder.Append(raw);
 
                 if (raw != mod && !String.IsNullOrWhiteSpace(mod))
-                    builder.AppendFormat(" ({0})", mod);
+                    builder.AppendFormat(CultureInfo.CurrentCulture, " ({0})", mod);
             }
 
             return builder.ToString();
         }
 
 
-        private static string getCharsFromKeys(Keys keys, byte[] state, StringBuilder buffer)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", MessageId = "ScreenCapture.Native.NativeMethods.ToUnicode(System.UInt32,System.UInt32,System.Byte[],System.Text.StringBuilder,System.Int32,System.UInt32)")]
+        private static string GetCharsFromKeys(Keys keys, byte[] state, StringBuilder buffer)
         {
             int ret = NativeMethods.ToUnicode((uint)keys, 0, state, buffer, 256, 0);
 

@@ -28,6 +28,7 @@ namespace ScreenCapture.Views
     using Accord.Video;
     using Accord.Video.DirectShow;
     using ScreenCapture.ViewModels;
+    using System.Linq;
 
     /// <summary>
     ///   Displays a webcam always on top of the screen.
@@ -45,7 +46,7 @@ namespace ScreenCapture.Views
         /// <param name="viewModel">The view model.</param>
         /// 
         public CameraForm(MainViewModel viewModel)
-            :this()
+            : this()
         {
             this.viewModel = viewModel;
         }
@@ -59,7 +60,7 @@ namespace ScreenCapture.Views
             InitializeComponent();
         }
 
-        private void videoSourcePlayer_Click(object sender, EventArgs e)
+        private void VideoSourcePlayer_Click(object sender, EventArgs e)
         {
             if (videoSourcePlayer.IsRunning)
             {
@@ -74,12 +75,13 @@ namespace ScreenCapture.Views
                 {
                     // create video source
                     VideoCaptureDevice videoSource = new VideoCaptureDevice(form.VideoDevice);
-                    videoSource.DesiredFrameSize = new Size(320, 240);
+                    videoSource.VideoResolution = videoSource.VideoCapabilities
+                        .Where(x => x.FrameSize == new Size(320, 240)).First();
 
                     // set busy cursor
                     this.Cursor = Cursors.WaitCursor;
 
-                    stop();
+                    Stop();
 
                     // start new video source
                     videoSourcePlayer.VideoSource = new AsyncVideoSource(videoSource);
@@ -92,7 +94,7 @@ namespace ScreenCapture.Views
             }
         }
 
-        private void stop()
+        private void Stop()
         {
             // set busy cursor
             Cursor = Cursors.WaitCursor;
@@ -114,7 +116,7 @@ namespace ScreenCapture.Views
 
         private void CameraForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            stop();
+            Stop();
         }
     }
 }

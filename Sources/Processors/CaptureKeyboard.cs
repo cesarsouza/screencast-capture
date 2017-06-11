@@ -117,8 +117,10 @@ namespace ScreenCapture.Processors
             backPen = new Pen(Color.White, 4f);
             backBrush = new SolidBrush(Color.DarkBlue);
 
-            matrix = new ColorMatrix();
-            matrix.Matrix33 = currentTransparency;
+            matrix = new ColorMatrix
+            {
+                Matrix33 = currentTransparency
+            };
 
             attributes = new ImageAttributes();
 
@@ -130,7 +132,7 @@ namespace ScreenCapture.Processors
         ///   Draws the keyboard information into a Graphics object.
         /// </summary>
         /// 
-        public void Draw(Graphics graphics)
+        public void Draw(Graphics graphics)//, float widthScale, float heightScale)
         {
             if (graphics == null)
                 throw new ArgumentNullException("graphics");
@@ -138,7 +140,7 @@ namespace ScreenCapture.Processors
             if (preview)
             {
                 currentTransparency = 0.8f;
-                createBitmap(graphics, Resources.Keyboard_Preview);
+                CreateBitmap(graphics, Resources.Keyboard_Preview);
             }
             else
             {
@@ -148,7 +150,7 @@ namespace ScreenCapture.Processors
                 if (!String.IsNullOrEmpty(text))
                 {
                     currentTransparency = 0.8f;
-                    createBitmap(graphics, text);
+                    CreateBitmap(graphics, text);
                     counter = 0;
                 }
                 else
@@ -168,12 +170,25 @@ namespace ScreenCapture.Processors
                 attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
                 graphics.DrawImage((Image)lastBitmap,
-                    new Rectangle(location.X, location.Y, lastBitmap.Width, lastBitmap.Height),
-                    0, 0, lastBitmap.Width, lastBitmap.Height, GraphicsUnit.Pixel, attributes);
+                    new Rectangle(
+                        location.X, location.Y,
+                        lastBitmap.Width, lastBitmap.Height),
+                        0, 0,
+                        lastBitmap.Width,
+                        lastBitmap.Height,
+                        GraphicsUnit.Pixel, attributes);
+                //graphics.DrawImage((Image)lastBitmap,
+                //    new Rectangle(
+                //        (int)(location.X * widthScale), (int)(location.Y * heightScale),
+                //        (int)(lastBitmap.Width * widthScale), (int)(lastBitmap.Height * heightScale)),
+                //        0, 0,
+                //        lastBitmap.Width * widthScale,
+                //        lastBitmap.Height * heightScale,
+                //        GraphicsUnit.Pixel, attributes);
             }
         }
 
-        private void createBitmap(Graphics graphics, string text)
+        private void CreateBitmap(Graphics graphics, string text)
         {
             // Compute size of container
             SizeF size = graphics.MeasureString(text, textFont);

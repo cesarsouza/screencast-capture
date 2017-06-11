@@ -38,14 +38,14 @@
             resources.ApplyResources(this.videoSourcePlayer, "videoSourcePlayer");
             this.videoSourcePlayer.Name = "videoSourcePlayer";
             this.videoSourcePlayer.VideoSource = null;
-            this.videoSourcePlayer.Click += new System.EventHandler(this.videoSourcePlayer_Click);
+            this.videoSourcePlayer.Click += new System.EventHandler(this.VideoSourcePlayer_Click);
             // 
             // label1
             // 
             resources.ApplyResources(this.lbClickToConfig, "label1");
             this.lbClickToConfig.ForeColor = System.Drawing.Color.White;
             this.lbClickToConfig.Name = "label1";
-            this.lbClickToConfig.Click += new System.EventHandler(this.videoSourcePlayer_Click);
+            this.lbClickToConfig.Click += new System.EventHandler(this.VideoSourcePlayer_Click);
             // 
             // CameraForm
             // 

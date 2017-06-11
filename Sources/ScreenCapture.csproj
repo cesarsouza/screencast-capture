@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -10,10 +10,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ScreenCapture</RootNamespace>
     <AssemblyName>ScreenCapture</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,10 +29,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>838cf6b1</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -41,6 +42,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\ScreenCapture.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -53,6 +56,7 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>ScreenCapture.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>..\Binaries\ScreenCapture.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -66,66 +70,54 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>ScreenCapture.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Accord, Version=3.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>packages\Accord.3.3.0\lib\net40\Accord.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord, Version=3.5.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>packages\Accord.3.5.2-alpha\lib\net45\Accord.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Audio, Version=3.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>packages\Accord.Audio.3.3.0\lib\net40\Accord.Audio.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.Audio, Version=3.5.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>packages\Accord.Audio.3.5.2-alpha\lib\net45\Accord.Audio.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Audio.DirectSound, Version=3.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>packages\Accord.DirectSound.3.3.0\lib\net40\Accord.Audio.DirectSound.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.Audio.DirectSound, Version=3.5.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>packages\Accord.DirectSound.3.5.2-alpha\lib\net45\Accord.Audio.DirectSound.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Audition, Version=3.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>packages\Accord.Audio.3.3.0\lib\net40\Accord.Audition.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.Audition, Version=3.5.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>packages\Accord.Audio.3.5.2-alpha\lib\net45\Accord.Audition.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Controls.Imaging, Version=3.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>packages\Accord.Controls.Imaging.3.3.0\lib\net40\Accord.Controls.Imaging.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.Controls.Imaging, Version=3.5.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>packages\Accord.Controls.Imaging.3.5.2-alpha\lib\net45\Accord.Controls.Imaging.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Controls.Vision, Version=3.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>packages\Accord.Controls.Vision.3.3.0\lib\net40\Accord.Controls.Vision.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.Controls.Vision, Version=3.5.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>packages\Accord.Controls.Vision.3.5.2-alpha\lib\net45\Accord.Controls.Vision.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Imaging, Version=3.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>packages\Accord.Imaging.3.3.0\lib\net40\Accord.Imaging.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.Imaging, Version=3.5.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>packages\Accord.Imaging.3.5.2-alpha\lib\net45\Accord.Imaging.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.MachineLearning, Version=3.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>packages\Accord.MachineLearning.3.3.0\lib\net40\Accord.MachineLearning.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.MachineLearning, Version=3.5.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>packages\Accord.MachineLearning.3.5.2-alpha\lib\net45\Accord.MachineLearning.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Math, Version=3.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>packages\Accord.Math.3.3.0\lib\net40\Accord.Math.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.Math, Version=3.5.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>packages\Accord.Math.3.5.2-alpha\lib\net45\Accord.Math.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Math.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>packages\Accord.Math.3.3.0\lib\net40\Accord.Math.Core.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.Math.Core, Version=3.5.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>packages\Accord.Math.3.5.2-alpha\lib\net45\Accord.Math.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Statistics, Version=3.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>packages\Accord.Statistics.3.3.0\lib\net40\Accord.Statistics.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.Statistics, Version=3.5.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>packages\Accord.Statistics.3.5.2-alpha\lib\net45\Accord.Statistics.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Video, Version=3.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>packages\Accord.Video.3.3.0\lib\net40\Accord.Video.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.Video, Version=3.5.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>packages\Accord.Video.3.5.2-alpha\lib\net45\Accord.Video.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Video.DirectShow, Version=3.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>packages\Accord.Video.DirectShow.3.3.0\lib\net40\Accord.Video.DirectShow.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.Video.DirectShow, Version=3.5.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>packages\Accord.Video.DirectShow.3.5.2-alpha\lib\net45\Accord.Video.DirectShow.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Video.FFMPEG, Version=3.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=x86">
-      <HintPath>packages\Accord.Video.FFMPEG.3.3.0\lib\net40\Accord.Video.FFMPEG.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.Video.FFMPEG, Version=3.5.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=x86">
+      <HintPath>packages\Accord.Video.FFMPEG.3.5.2-alpha\lib\net45\Accord.Video.FFMPEG.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Vision, Version=3.3.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <HintPath>packages\Accord.Vision.3.3.0\lib\net40\Accord.Vision.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Accord.Vision, Version=3.5.2.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
+      <HintPath>packages\Accord.Vision.3.5.2-alpha\lib\net45\Accord.Vision.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack">
       <HintPath>Externals\WinAPI\Microsoft.WindowsAPICodePack.dll</HintPath>
@@ -133,11 +125,15 @@
     <Reference Include="Microsoft.WindowsAPICodePack.Shell">
       <HintPath>Externals\WinAPI\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX">
-      <HintPath>$(SharpDXPackageBinDir)\SharpDX.dll</HintPath>
+    <Reference Include="PropertyChanged, Version=2.1.2.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>packages\PropertyChanged.Fody.2.1.2\lib\netstandard1.0\PropertyChanged.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="SharpDX.DirectSound">
-      <HintPath>$(SharpDXPackageBinDir)\SharpDX.DirectSound.dll</HintPath>
+    <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DirectSound, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>packages\SharpDX.DirectSound.4.0.1\lib\net45\SharpDX.DirectSound.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -145,6 +141,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.ValueTuple.4.4.0-preview1-25305-02\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -165,6 +164,7 @@
     <Compile Include="Controls\VideoSourcePlayer2.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Native\Context\NativeKeyboardContext.cs" />
     <Compile Include="Native\Context\NativeMouseContext.cs" />
     <Compile Include="Native\NativeMethods.Dwmapi.cs" />
@@ -331,6 +331,7 @@
       <DependentUpon>KeyboardPreviewForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="app.manifest" />
     <None Include="Diagrams\NativeInterop.cd" />
     <None Include="Diagrams\Application.cd" />
     <None Include="packages.config" />
@@ -396,6 +397,7 @@
     <None Include="Resources\icon_stop_overlay.ico" />
     <None Include="Resources\screencast.ico" />
     <None Include="Resources\icon\screencast-128.png" />
+    <None Include="FodyWeavers.xml" />
     <Content Include="Resources\advancedsettings.png" />
     <None Include="Resources\thumbnail.png" />
     <None Include="Resources\top.png" />
@@ -426,18 +428,16 @@
   <Target Name="AfterBuild">
   </Target>
   <Target Name="AfterCompile">
-    <NotifyPropertyWeaverMsBuildTask.WeavingTask />
   </Target>
-  <UsingTask TaskName="NotifyPropertyWeaverMsBuildTask.WeavingTask" AssemblyFile="$(ProjectDir)Tools\NotifyPropertyWeaverMsBuildTask.dll" />
+  <Import Project="packages\Accord.3.5.2-alpha\build\Accord.targets" Condition="Exists('packages\Accord.3.5.2-alpha\build\Accord.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\SharpDX.2.6.0\build\SharpDX.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SharpDX.2.6.0\build\SharpDX.targets'))" />
-    <Error Condition="!Exists('packages\Accord.3.3.0\build\Accord.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Accord.3.3.0\build\Accord.targets'))" />
-    <Error Condition="!Exists('packages\Accord.Video.FFMPEG.3.3.0\build\Accord.Video.FFMPEG.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Accord.Video.FFMPEG.3.3.0\build\Accord.Video.FFMPEG.targets'))" />
+    <Error Condition="!Exists('packages\Accord.3.5.2-alpha\build\Accord.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Accord.3.5.2-alpha\build\Accord.targets'))" />
+    <Error Condition="!Exists('packages\Accord.Video.FFMPEG.3.5.2-alpha\build\Accord.Video.FFMPEG.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Accord.Video.FFMPEG.3.5.2-alpha\build\Accord.Video.FFMPEG.targets'))" />
+    <Error Condition="!Exists('packages\Fody.2.0.0\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.2.0.0\build\dotnet\Fody.targets'))" />
   </Target>
-  <Import Project="packages\SharpDX.2.6.0\build\SharpDX.targets" Condition="Exists('packages\SharpDX.2.6.0\build\SharpDX.targets')" />
-  <Import Project="packages\Accord.3.3.0\build\Accord.targets" Condition="Exists('packages\Accord.3.3.0\build\Accord.targets')" />
-  <Import Project="packages\Accord.Video.FFMPEG.3.3.0\build\Accord.Video.FFMPEG.targets" Condition="Exists('packages\Accord.Video.FFMPEG.3.3.0\build\Accord.Video.FFMPEG.targets')" />
+  <Import Project="packages\Accord.Video.FFMPEG.3.5.2-alpha\build\Accord.Video.FFMPEG.targets" Condition="Exists('packages\Accord.Video.FFMPEG.3.5.2-alpha\build\Accord.Video.FFMPEG.targets')" />
+  <Import Project="packages\Fody.2.0.0\build\dotnet\Fody.targets" Condition="Exists('packages\Fody.2.0.0\build\dotnet\Fody.targets')" />
 </Project>

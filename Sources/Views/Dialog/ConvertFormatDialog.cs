@@ -72,11 +72,13 @@ namespace ScreenCapture.Views
             // Perform special processing to enable aero
             if (SafeNativeMethods.IsAeroEnabled)
             {
-                margins = new ThemeMargins();
-                margins.TopHeight = panel1.Top + 1;
-                margins.LeftWidth = panel1.Left + 1;
-                margins.RightWidth = ClientRectangle.Right - panel1.Right + 1;
-                margins.BottomHeight = ClientRectangle.Bottom - panel1.Bottom + 1;
+                margins = new ThemeMargins
+                {
+                    TopHeight = panel1.Top + 1,
+                    LeftWidth = panel1.Left + 1,
+                    RightWidth = ClientRectangle.Right - panel1.Right + 1,
+                    BottomHeight = ClientRectangle.Bottom - panel1.Bottom + 1
+                };
 
                 // Extend the Frame into client area
                 SafeNativeMethods.ExtendAeroGlassIntoClientArea(this, margins);
@@ -97,7 +99,7 @@ namespace ScreenCapture.Views
             }
         }
 
-        private void btnOK_Click(object sender, EventArgs e)
+        private void BtnOK_Click(object sender, EventArgs e)
         {
             viewModel.Start();
 

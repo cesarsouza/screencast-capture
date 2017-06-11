@@ -64,7 +64,7 @@ namespace ScreenCapture.Views
             };
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
             capture.Font = new Font(viewModel.FontFamily, viewModel.FontSize);
 
@@ -82,7 +82,7 @@ namespace ScreenCapture.Views
             base.OnPaint(e);
 
             if (capture != null)
-                capture.Draw(e.Graphics);
+                capture.Draw(e.Graphics);//, 1f, 1f);
         }
 
         private void PreviewOnScreeDisplay_Click(object sender, EventArgs e)

@@ -3,3 +3,5 @@
 /obj/
 *.v12.suo
 *.sdf
+/.vs
+*.suo

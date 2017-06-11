@@ -100,9 +100,9 @@ namespace ScreenCapture.Processors
         public CaptureClick()
         {
             context = new NativeMouseContext();
-            context.MouseUp += thread_MouseUp;
-            context.MouseDown += thread_MouseDown;
-            context.MouseMove += thread_MouseMove;
+            context.MouseUp += Thread_MouseUp;
+            context.MouseDown += Thread_MouseDown;
+            context.MouseMove += Thread_MouseMove;
 
             penOuter = new Pen(Brushes.Black, 2);
             penInner = new Pen(Color.FromArgb(150, Color.White), 5);
@@ -116,7 +116,7 @@ namespace ScreenCapture.Processors
         ///   Draws the click animation into a Graphics object.
         /// </summary>
         /// 
-        public void Draw(Graphics graphics)
+        public void Draw(Graphics graphics)//, float scaleWidth, float scaleHeight)
         {
             if (graphics == null)
                 throw new ArgumentNullException("graphics");
@@ -130,7 +130,7 @@ namespace ScreenCapture.Processors
             relativeLocation.X = currentLocation.X - CaptureRegion.X;
             relativeLocation.Y = currentLocation.Y - CaptureRegion.Y;
 
-            drawCircle(graphics);
+            DrawCircle(graphics);//, scaleWidth, scaleHeight);
 
             if (!pressed)
             {
@@ -141,22 +141,23 @@ namespace ScreenCapture.Processors
             }
         }
 
-        private void drawCircle(Graphics graphics)
+        private void DrawCircle(Graphics graphics)//, float scaleWidth, float scaleHeight)
         {
-            drawCircle(graphics, currentRadius, penOuter);
-            drawCircle(graphics, currentRadius - 5, penInner);
-            drawCircle(graphics, currentRadius - 10, penOuter);
+            DrawCircle(graphics, currentRadius, penOuter);//, scaleWidth, scaleHeight);
+            DrawCircle(graphics, currentRadius - 5, penInner);//, scaleWidth, scaleHeight);
+            DrawCircle(graphics, currentRadius - 10, penOuter);//, scaleWidth, scaleHeight);
         }
 
-        private void drawCircle(Graphics graphics, int radius, Pen pen)
+        private void DrawCircle(Graphics graphics, int radius, Pen pen)//, float scaleWidth, float scaleHeight)
         {
-            if (radius <= Threshold) 
+            if (radius <= Threshold)
                 return;
 
             int x = relativeLocation.X - radius;
             int y = relativeLocation.Y - radius;
             int d = radius * 2;
 
+            //graphics.DrawEllipse(pen, x * scaleWidth, y * scaleHeight, d * scaleWidth, d * scaleHeight);
             graphics.DrawEllipse(pen, x, y, d, d);
         }
 
@@ -172,25 +173,25 @@ namespace ScreenCapture.Processors
 
 
 
-        private void thread_MouseUp(object sender, EventArgs e)
+        private void Thread_MouseUp(object sender, EventArgs e)
         {
             this.pressed = false;
         }
 
-        private void thread_MouseMove(object sender, EventArgs e)
+        private void Thread_MouseMove(object sender, EventArgs e)
         {
             if (pressed)
                 this.currentLocation = context.Current;
         }
 
-        private void thread_MouseDown(object sender, EventArgs e)
+        private void Thread_MouseDown(object sender, EventArgs e)
         {
             this.pressed = true;
             this.currentLocation = context.Current;
             this.currentRadius = Radius;
         }
 
-     
+
 
 
 

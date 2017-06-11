@@ -23,7 +23,6 @@ namespace ScreenCapture.ViewModels
 {
     using System;
     using System.ComponentModel;
-    using Accord.Controls;
     using ScreenCapture.Properties;
     using Accord.Controls;
 
@@ -111,7 +110,7 @@ namespace ScreenCapture.ViewModels
 
 
             PropertyChanged += MainViewModel_PropertyChanged;
-            Recorder.PropertyChanged += recorder_PropertyChanged;
+            Recorder.PropertyChanged += Recorder_PropertyChanged;
             Converter.PropertyChanged += Convert_PropertyChanged;
         }
 
@@ -122,33 +121,32 @@ namespace ScreenCapture.ViewModels
             if (e.PropertyName == "CurrentSelection" && !IsPreviewVisible)
                 Converter.InputPath = CurrentSelection;
             else if (e.PropertyName == "IsPreviewVisible")
-                raise("IsConversionVisible");
+                Raise("IsConversionVisible");
         }
 
-        private void recorder_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void Recorder_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "HasRecorded" && Recorder.HasRecorded)
             {
                 Converter.InputPath = Recorder.OutputPath;
                 if (Settings.Default.ShowConversionOnFinish)
-                    raiseShowConversionDialog();
+                    RaiseShowConversionDialog();
             }
             else if (e.PropertyName == "IsPlaying")
-                raise("IsRecordingEnabled");
+                Raise("IsRecordingEnabled");
             else if (e.PropertyName == "IsRecording")
-                raise("IsConversionVisible");
+                Raise("IsConversionVisible");
         }
 
-        private void raiseShowConversionDialog()
+        private void RaiseShowConversionDialog()
         {
-            if (ShowConversionDialog != null)
-                ShowConversionDialog(this, EventArgs.Empty);
+            ShowConversionDialog?.Invoke(this, EventArgs.Empty);
         }
 
         private void Convert_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            raise("IsConversionVisible");
-            raise("IsRecordingEnabled");
+            Raise("IsConversionVisible");
+            Raise("IsRecordingEnabled");
         }
 
 
@@ -193,10 +191,9 @@ namespace ScreenCapture.ViewModels
 
 
 
-        private void raise(string propertyName)
+        private void Raise(string propertyName)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
 
@@ -238,7 +235,11 @@ namespace ScreenCapture.ViewModels
             {
                 // free managed resources
                 Recorder.Dispose();
+                Converter.Dispose();
             }
+
+            //Recorder = null;
+            //Converter = null;
         }
         #endregion
 
