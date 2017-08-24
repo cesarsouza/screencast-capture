@@ -24,6 +24,8 @@ OutputDir=..\bin
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
+Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl
 
 [Components]
 Name: "bin"; Description: "Program executable"; Types: full compact custom; Flags: fixed
