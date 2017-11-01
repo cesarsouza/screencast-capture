@@ -310,7 +310,7 @@
     <None Include="app.manifest" />
     <None Include="Diagrams\NativeInterop.cd" />
     <None Include="Diagrams\Application.cd" />
-    <None Include="packages.config" />
+    <None Include="packages.screen_capture_%28sample%29.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
