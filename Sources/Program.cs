@@ -24,6 +24,7 @@ namespace ScreenCapture
     using ScreenCapture.Properties;
     using ScreenCapture.Views;
     using System;
+    using System.Runtime.InteropServices;
     using System.Windows.Forms;
 
     static class Program
@@ -35,7 +36,7 @@ namespace ScreenCapture
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
-            
+
             Settings.Default.Save();
         }
 

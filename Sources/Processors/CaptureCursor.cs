@@ -162,7 +162,7 @@ namespace ScreenCapture.Processors
         ///   Draws the cursor icon into a graphics object.
         /// </summary>
         /// 
-        public void Draw(Graphics graphics)//, float scaleWidth, float scaleHeight)
+        public void Draw(Graphics graphics, float scaleWidth, float scaleHeight)
         {
             if (graphics == null)
                 throw new ArgumentNullException("graphics");
@@ -171,8 +171,10 @@ namespace ScreenCapture.Processors
 
             if (cursor != null)
             {
-                graphics.DrawImage(cursor, Position);
-                //graphics.DrawImage(cursor, Position.X * scaleWidth, Position.Y * scaleHeight);
+                //graphics.DrawImage(cursor, Position);
+                graphics.DrawImage(cursor, 
+                    Position.X * scaleWidth, Position.Y * scaleHeight,
+                    cursor.Width * scaleWidth, cursor.Height * scaleHeight);
             }
         }
 

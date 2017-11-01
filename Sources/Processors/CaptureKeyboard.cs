@@ -132,7 +132,7 @@ namespace ScreenCapture.Processors
         ///   Draws the keyboard information into a Graphics object.
         /// </summary>
         /// 
-        public void Draw(Graphics graphics)//, float widthScale, float heightScale)
+        public void Draw(Graphics graphics, float widthScale, float heightScale)
         {
             if (graphics == null)
                 throw new ArgumentNullException("graphics");
@@ -169,22 +169,22 @@ namespace ScreenCapture.Processors
                 matrix.Matrix33 = currentTransparency;
                 attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
 
-                graphics.DrawImage((Image)lastBitmap,
-                    new Rectangle(
-                        location.X, location.Y,
-                        lastBitmap.Width, lastBitmap.Height),
-                        0, 0,
-                        lastBitmap.Width,
-                        lastBitmap.Height,
-                        GraphicsUnit.Pixel, attributes);
                 //graphics.DrawImage((Image)lastBitmap,
                 //    new Rectangle(
-                //        (int)(location.X * widthScale), (int)(location.Y * heightScale),
-                //        (int)(lastBitmap.Width * widthScale), (int)(lastBitmap.Height * heightScale)),
+                //        location.X, location.Y,
+                //        lastBitmap.Width, lastBitmap.Height),
                 //        0, 0,
-                //        lastBitmap.Width * widthScale,
-                //        lastBitmap.Height * heightScale,
+                //        lastBitmap.Width,
+                //        lastBitmap.Height,
                 //        GraphicsUnit.Pixel, attributes);
+                graphics.DrawImage((Image)lastBitmap,
+                    new Rectangle(
+                        (int)(location.X * widthScale), (int)(location.Y * heightScale),
+                        (int)(lastBitmap.Width * widthScale), (int)(lastBitmap.Height * heightScale)),
+                        0, 0,
+                        lastBitmap.Width * widthScale,
+                        lastBitmap.Height * heightScale,
+                        GraphicsUnit.Pixel, attributes);
             }
         }
 

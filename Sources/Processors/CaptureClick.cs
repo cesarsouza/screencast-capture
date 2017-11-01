@@ -116,7 +116,7 @@ namespace ScreenCapture.Processors
         ///   Draws the click animation into a Graphics object.
         /// </summary>
         /// 
-        public void Draw(Graphics graphics)//, float scaleWidth, float scaleHeight)
+        public void Draw(Graphics graphics, float scaleWidth, float scaleHeight)
         {
             if (graphics == null)
                 throw new ArgumentNullException("graphics");
@@ -130,7 +130,7 @@ namespace ScreenCapture.Processors
             relativeLocation.X = currentLocation.X - CaptureRegion.X;
             relativeLocation.Y = currentLocation.Y - CaptureRegion.Y;
 
-            DrawCircle(graphics);//, scaleWidth, scaleHeight);
+            DrawCircle(graphics, scaleWidth, scaleHeight);
 
             if (!pressed)
             {
@@ -141,14 +141,14 @@ namespace ScreenCapture.Processors
             }
         }
 
-        private void DrawCircle(Graphics graphics)//, float scaleWidth, float scaleHeight)
+        private void DrawCircle(Graphics graphics, float scaleWidth, float scaleHeight)
         {
-            DrawCircle(graphics, currentRadius, penOuter);//, scaleWidth, scaleHeight);
-            DrawCircle(graphics, currentRadius - 5, penInner);//, scaleWidth, scaleHeight);
-            DrawCircle(graphics, currentRadius - 10, penOuter);//, scaleWidth, scaleHeight);
+            DrawCircle(graphics, currentRadius, penOuter, scaleWidth, scaleHeight);
+            DrawCircle(graphics, currentRadius - 5, penInner, scaleWidth, scaleHeight);
+            DrawCircle(graphics, currentRadius - 10, penOuter, scaleWidth, scaleHeight);
         }
 
-        private void DrawCircle(Graphics graphics, int radius, Pen pen)//, float scaleWidth, float scaleHeight)
+        private void DrawCircle(Graphics graphics, int radius, Pen pen, float scaleWidth, float scaleHeight)
         {
             if (radius <= Threshold)
                 return;
@@ -157,8 +157,8 @@ namespace ScreenCapture.Processors
             int y = relativeLocation.Y - radius;
             int d = radius * 2;
 
-            //graphics.DrawEllipse(pen, x * scaleWidth, y * scaleHeight, d * scaleWidth, d * scaleHeight);
-            graphics.DrawEllipse(pen, x, y, d, d);
+            graphics.DrawEllipse(pen, x * scaleWidth, y * scaleHeight, d * scaleWidth, d * scaleHeight);
+            //graphics.DrawEllipse(pen, x, y, d, d);
         }
 
         private void OnEnabledChanged(bool value)

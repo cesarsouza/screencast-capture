@@ -97,7 +97,7 @@ namespace ScreenCapture.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("avi")]
+        [global::System.Configuration.DefaultSettingValueAttribute("mp4")]
         public string Container {
             get {
                 return ((string)(this["Container"]));
@@ -145,7 +145,7 @@ namespace ScreenCapture.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("22050")]
+        [global::System.Configuration.DefaultSettingValueAttribute("44100")]
         public int SampleRate {
             get {
                 return ((int)(this["SampleRate"]));

@@ -21,7 +21,7 @@
       <Value Profile="(Default)">24</Value>
     </Setting>
     <Setting Name="Container" Type="System.String" Scope="User">
-      <Value Profile="(Default)">avi</Value>
+      <Value Profile="(Default)">mp4</Value>
     </Setting>
     <Setting Name="ShowConversionOnFinish" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -33,7 +33,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="SampleRate" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">22050</Value>
+      <Value Profile="(Default)">44100</Value>
     </Setting>
     <Setting Name="KeyboardFont" Type="System.Drawing.Font" Scope="User">
       <Value Profile="(Default)">Segoe UI, 30pt</Value>

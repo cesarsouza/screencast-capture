@@ -127,10 +127,8 @@ namespace ScreenCapture.Views
 
             btnWebcam.Bind(b => b.Image, viewModel, m => m.IsWebcamEnabled, value => value ? Resources.agt_family : Resources.agt_family_off);
             btnAudio.Bind(b => b.Enabled, viewModel.Recorder, m => m.IsRecording, value => !value);
-            btnAudio.Bind(b => b.Image, viewModel.Recorder, m => m.AudioCaptureDevices,
-                c => c == null ? Resources.kmixdocked_mute : Resources.kmixdocked);
-            btnNoAudio.Bind(b => b.Checked, viewModel.Recorder, m => m.AudioCaptureDevices,
-                 value => value == null);
+            btnAudio.Bind(b => b.Image, viewModel.Recorder, m => m.AudioCaptureDevices, c => c == null ? Resources.kmixdocked_mute : Resources.kmixdocked);
+            btnNoAudio.Bind(b => b.Checked, viewModel.Recorder, m => m.AudioCaptureDevices, value => value == null);
 
             // Create audio menu items for each audio device
             foreach (var dev in viewModel.Recorder.AudioCaptureDevices)
@@ -268,6 +266,11 @@ namespace ScreenCapture.Views
             viewModel.Recorder.Close();
         }
 
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            // this.videoSourcePlayer1.Visible = (WindowState != FormWindowState.Minimized);
+        }
+
 
 
         private ToolStripMenuItem getModeButton(CaptureRegionOption mode)
@@ -293,7 +296,6 @@ namespace ScreenCapture.Views
                 webcamWindow.Show(this);
             }
         }
-
 
     }
 }

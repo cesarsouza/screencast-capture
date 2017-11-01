@@ -95,9 +95,10 @@ namespace ScreenCapture.ViewModels
         ///   Initializes a new instance of the <see cref="MainViewModel"/> class.
         /// </summary>
         /// 
-        public MainViewModel(VideoSourcePlayer2 player)
+        public MainViewModel(VideoSourcePlayer player)
         {
-            if (player == null) throw new ArgumentNullException("player");
+            if (player == null)
+                throw new ArgumentNullException("player");
 
             Recorder = new RecorderViewModel(this, player);
             Notifier = new NotifyViewModel(Recorder);

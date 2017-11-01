@@ -1,0 +1,502 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0CA772AC-01A5-4CD5-B714-332F1FBDF4A1}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ScreenCapture</RootNamespace>
+    <AssemblyName>ScreenCapture</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Binaries\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Binaries\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>ScreenCapture.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\screencast.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>ScreenCapture.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ScreenCapture.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\Binaries\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\Binaries\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ScreenCapture.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.WindowsAPICodePack">
+      <HintPath>Externals\WinAPI\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
+      <HintPath>Externals\WinAPI\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="PropertyChanged, Version=2.1.4.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\Sources\packages\PropertyChanged.Fody.2.1.4\lib\netstandard1.0\PropertyChanged.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX">
+      <HintPath>..\..\..\..\Externals\SharpDX\v401\net45\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DirectSound">
+      <HintPath>..\..\..\..\Externals\SharpDX\v401\net45\SharpDX.DirectSound.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\Sources\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bindings.cs" />
+    <Compile Include="Controls\BindableToolStripTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\BindableToolStripSplitButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ExplorerBrowserCustom.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ExplorerBrowserCustom.Designer.cs">
+      <DependentUpon>ExplorerBrowserCustom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Native\Context\NativeKeyboardContext.cs" />
+    <Compile Include="Native\Context\NativeMouseContext.cs" />
+    <Compile Include="Native\NativeMethods.Dwmapi.cs" />
+    <Compile Include="Native\Handles\BitmapHandle.cs" />
+    <Compile Include="Native\Handles\IconHandle.cs" />
+    <Compile Include="Native\Handles\DeviceHandle.cs" />
+    <Compile Include="Native\Handles\IconHandleInfo.cs" />
+    <Compile Include="Native\Hooks\LowLevelMouse.cs" />
+    <Compile Include="Native\CustomKeysConverter.cs" />
+    <Compile Include="Processors\CaptureClick.cs" />
+    <Compile Include="Processors\CaptureKeyboard.cs" />
+    <Compile Include="Native\Handles\HookHandle.cs" />
+    <Compile Include="Native\Hooks\LowLevelKeyboard.cs" />
+    <Compile Include="Native\NativeMethods.Kernel32.cs" />
+    <Compile Include="Native\Handles\WindowHandle.cs" />
+    <Compile Include="Properties\Resources.pt.Designer.cs">
+      <DependentUpon>Resources.pt.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Settings.cs" />
+    <Compile Include="ViewModels\ConvertViewModel.cs" />
+    <Compile Include="ViewModels\AudioDeviceViewModel.cs" />
+    <Compile Include="ViewModels\RecorderViewModel.cs" />
+    <Compile Include="ViewModels\OptionViewModel.cs" />
+    <Compile Include="Views\CameraForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CameraForm.Designer.cs">
+      <DependentUpon>CameraForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialog\CaptureDeviceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Dialog\CaptureDeviceDialog.Designer.cs">
+      <DependentUpon>CaptureDeviceDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CaptureRegion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CaptureRegion.Designer.cs">
+      <DependentUpon>CaptureRegion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CaptureWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\CaptureWindow.Designer.cs">
+      <DependentUpon>CaptureWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BindableNotifyIcon.cs" />
+    <Compile Include="Controls\BindableToolStripButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\BindableToolStripDropDownButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\BindableToolStripMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\BindableToolStripStatusLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Processors\CaptureCursor.cs" />
+    <Compile Include="Controls\HotKey.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ViewModels\NotifyViewModel.cs" />
+    <Compile Include="Native\SafeNativeMethods.cs" />
+    <Compile Include="Properties\GlobalSuppressions.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Views\Dialog\ConvertFormatDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Dialog\ConvertFormatDialog.Designer.cs">
+      <DependentUpon>ConvertFormatDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Native\NativeMethods.Gdi32.cs" />
+    <Compile Include="Native\NativeMethods.User32.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\OptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\OptionForm.Designer.cs">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialog\KeyboardPreviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Dialog\KeyboardPreviewForm.Designer.cs">
+      <DependentUpon>KeyboardPreviewForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Controls\ExplorerBrowserCustom.pt.resx">
+      <DependentUpon>ExplorerBrowserCustom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ExplorerBrowserCustom.resx">
+      <DependentUpon>ExplorerBrowserCustom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.pt.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.pt.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CameraForm.pt.resx">
+      <DependentUpon>CameraForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CameraForm.resx">
+      <DependentUpon>CameraForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Dialog\CaptureDeviceDialog.pt.resx">
+      <DependentUpon>CaptureDeviceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Dialog\CaptureDeviceDialog.resx">
+      <DependentUpon>CaptureDeviceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CaptureRegion.pt.resx">
+      <DependentUpon>CaptureRegion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CaptureRegion.resx">
+      <DependentUpon>CaptureRegion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CaptureWindow.pt.resx">
+      <DependentUpon>CaptureWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\CaptureWindow.resx">
+      <DependentUpon>CaptureWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Dialog\ConvertFormatDialog.pt.resx">
+      <DependentUpon>ConvertFormatDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Dialog\ConvertFormatDialog.resx">
+      <DependentUpon>ConvertFormatDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainForm.pt.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Views\OptionForm.pt.resx">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\OptionForm.resx">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Dialog\KeyboardPreviewForm.resx">
+      <DependentUpon>KeyboardPreviewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="app.manifest" />
+    <None Include="Diagrams\NativeInterop.cd" />
+    <None Include="Diagrams\Application.cd" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="ScreenCapture.snk" />
+    <None Include="Setup\setup.cmd" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mix_record.png" />
+    <None Include="Resources\player_eject.png" />
+    <None Include="Resources\player_end.png" />
+    <None Include="Resources\player_fwd.png" />
+    <None Include="Resources\player_pause.png" />
+    <None Include="Resources\player_play.png" />
+    <None Include="Resources\player_rew.png" />
+    <None Include="Resources\player_stop.png" />
+    <None Include="Resources\camera.png" />
+    <None Include="Resources\kview.png" />
+    <None Include="Resources\ksnapshot.png" />
+    <None Include="Resources\kpersonalizer.png" />
+    <None Include="Resources\folder_video.png" />
+    <None Include="Resources\desktop.png" />
+    <None Include="Resources\desktop-enhancements.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon_pause_overlay.png" />
+    <None Include="Resources\icon_play_overlay.png" />
+    <None Include="Resources\icon_record_overlay.png" />
+    <None Include="Resources\icon_stop_overlay.png" />
+    <None Include="Resources\icon_pause_overlay.ico" />
+    <None Include="Resources\icon_play_overlay.ico" />
+    <None Include="Resources\icon_record_overlay.ico" />
+    <None Include="Resources\icon_stop_overlay.ico" />
+    <None Include="Resources\screencast.ico" />
+    <None Include="Resources\icon\screencast-128.png" />
+    <None Include="FodyWeavers.xml" />
+    <Content Include="..\..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\avcodec-57.dll">
+      <Link>avcodec-57.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\avdevice-57.dll">
+      <Link>avdevice-57.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\avfilter-6.dll">
+      <Link>avfilter-6.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\avformat-57.dll">
+      <Link>avformat-57.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\avutil-55.dll">
+      <Link>avutil-55.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\postproc-54.dll">
+      <Link>postproc-54.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\swresample-2.dll">
+      <Link>swresample-2.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\..\..\Externals\ffmpeg\ffmpeg-3.2.2-win64-shared\bin\swscale-4.dll">
+      <Link>swscale-4.dll</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\advancedsettings.png" />
+    <None Include="Resources\thumbnail.png" />
+    <None Include="Resources\top.png" />
+    <None Include="Resources\home.png" />
+    <None Include="Resources\agt_family.png" />
+    <Content Include="Resources\agt_family-off.png" />
+    <Content Include="Resources\aktion.png" />
+    <None Include="Resources\mix_video.png" />
+    <None Include="Resources\aktion16.png" />
+    <None Include="Resources\aktion1.png" />
+    <Content Include="Resources\camera.ico" />
+    <Content Include="Resources\camera_unmount.png" />
+    <Content Include="Resources\inline_image.png" />
+    <Content Include="Resources\kmid.png" />
+    <Content Include="Resources\kmixdocked.png" />
+    <Content Include="Resources\kmixdocked_mute.png" />
+    <Content Include="Resources\sharemanager.png" />
+    <None Include="Resources\stop.png" />
+    <Content Include="Setup\setup.iss" />
+    <CodeAnalysisDictionary Include="Properties\Dictionary.xml">
+      <SubType>Designer</SubType>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\masters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Sources\Accord.Audio.DirectSound\Accord.Audio.DirectSound.csproj">
+      <Project>{456db2e8-745a-4f87-a2bd-c43cf8677770}</Project>
+      <Name>Accord.Audio.DirectSound</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Sources\Accord.Audio\Accord.Audio.csproj">
+      <Project>{e7b65f08-82f1-438f-847a-2aac2bec9ac0}</Project>
+      <Name>Accord.Audio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Sources\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
+      <Project>{e1089999-eaed-4e55-ac47-b6a196df84fc}</Project>
+      <Name>Accord.Controls.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Sources\Accord.Controls.Vision\Accord.Controls.Vision.csproj">
+      <Project>{6158e759-fe2b-4308-ba29-11c9e4a07812}</Project>
+      <Name>Accord.Controls.Vision</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Sources\Accord.Core\Accord.Core.csproj">
+      <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
+      <Name>Accord.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Sources\Accord.Imaging\Accord.Imaging.csproj">
+      <Project>{4959a83d-f78f-439e-80a5-41583eceaac6}</Project>
+      <Name>Accord.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Sources\Accord.IO\Accord.IO.csproj">
+      <Project>{63184ebd-6b28-4066-aaee-5b99431e31f4}</Project>
+      <Name>Accord.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Sources\Accord.Math.Core\Accord.Math.Core.csproj">
+      <Project>{ed3a336f-6da2-4f34-87fe-1ccffa029f8c}</Project>
+      <Name>Accord.Math.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Sources\Accord.Math\Accord.Math.csproj">
+      <Project>{f718e9a8-db62-4785-8c49-4333a60d256a}</Project>
+      <Name>Accord.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Sources\Accord.Statistics\Accord.Statistics.csproj">
+      <Project>{fd8101dd-c95d-42d6-ad44-ae01c25f2811}</Project>
+      <Name>Accord.Statistics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Sources\Accord.Video.DirectShow\Accord.Video.DirectShow.csproj">
+      <Project>{26cd2ce7-ff63-4669-83b0-7d9c8f3408ee}</Project>
+      <Name>Accord.Video.DirectShow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Sources\Accord.Video\Accord.Video.csproj">
+      <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
+      <Name>Accord.Video</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Sources\Extras\Accord.Video.FFMPEG.GPL\Video.FFMPEG.vcxproj">
+      <Project>{ff31dd24-127d-4eb1-929c-f5738147e886}</Project>
+      <Name>Accord.Video.FFMPEG %28GPL%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="AfterBuild">
+  </Target>
+  <Target Name="AfterCompile">
+  </Target>
+  <Import Project="packages\Fody.2.0.0\build\dotnet\Fody.targets" Condition="Exists('packages\Fody.2.0.0\build\dotnet\Fody.targets')" />
+  <Import Project="..\..\..\..\Sources\packages\Fody.2.2.0\build\net452\Fody.targets" Condition="Exists('..\..\..\..\Sources\packages\Fody.2.2.0\build\net452\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\..\Sources\packages\Fody.2.2.0\build\net452\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\Sources\packages\Fody.2.2.0\build\net452\Fody.targets'))" />
+  </Target>
+</Project>

@@ -60,7 +60,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnSettings = new System.Windows.Forms.ToolStripDropDownButton();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.videoSourcePlayer1 = new Accord.Controls.VideoSourcePlayer2();
+            this.videoSourcePlayer1 = new Accord.Controls.VideoSourcePlayer();
             this.explorerBrowser = new ScreenCapture.Controls.ExplorerBrowserCustom();
             this.iconPlayPause = new ScreenCapture.Controls.BindableNotifyIcon(this.components);
             this.keyPlayPause = new ScreenCapture.Controls.HotKey(this.components);
@@ -345,6 +345,9 @@
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.MinimumSize = new System.Drawing.Size(640, 480);
+            this.MaximumSize = new System.Drawing.Size(640, 480);
+            this.Size = new System.Drawing.Size(640, 480);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.toolStrip);
             this.Controls.Add(this.statusStrip);
@@ -379,7 +382,7 @@
         private ScreenCapture.Controls.BindableToolStripButton btnScreenPreview;
         private ScreenCapture.Controls.BindableToolStripButton btnStorageFolder;
         private System.Windows.Forms.Panel panel1;
-        private Accord.Controls.VideoSourcePlayer2 videoSourcePlayer1;
+        private Accord.Controls.VideoSourcePlayer videoSourcePlayer1;
         private ScreenCapture.Controls.BindableToolStripButton btnPausePlaying;
         private Controls.HotKey keyPlayPause;
         private Controls.HotKey keyStartStop;

@@ -82,7 +82,7 @@ namespace ScreenCapture.Views
             base.OnPaint(e);
 
             if (capture != null)
-                capture.Draw(e.Graphics);//, 1f, 1f);
+                capture.Draw(e.Graphics, 1f, 1f);
         }
 
         private void PreviewOnScreeDisplay_Click(object sender, EventArgs e)

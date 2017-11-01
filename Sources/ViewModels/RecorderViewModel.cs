@@ -40,6 +40,11 @@ namespace ScreenCapture.ViewModels
     using ScreenCapture.Processors;
     using ScreenCapture.Properties;
     using System.Collections.Specialized;
+    using Accord.Math;
+    using Accord.Imaging;
+    using System.Threading.Tasks;
+
+    // TODO: Disable frame preview window if the window is not visible or is minimized
 
     /// <summary>
     ///   Region capturing modes.
@@ -77,7 +82,7 @@ namespace ScreenCapture.ViewModels
         private CaptureRegionOption captureMode;
         private ScreenCaptureStream screenStream;
         private VideoFileWriter videoWriter;
-        private VideoSourcePlayer2 videoPlayer;
+        private VideoSourcePlayer videoPlayer;
 
         private IAudioSource audioDevice;
 
@@ -87,7 +92,13 @@ namespace ScreenCapture.ViewModels
         private CaptureClick clickCapture;
         private CaptureKeyboard keyCapture;
         private Object syncObj = new Object();
-        private TimeSpan lastFrameTime;
+
+        //Bitmap resizedImage;
+        Bitmap croppedImage;
+        Bitmap lastFrame;
+        DateTime lastFrameTime;
+        Rectangle lastFrameRegion;
+        bool lastFrameEncoded;
 
 
         /// <summary>
@@ -192,11 +203,11 @@ namespace ScreenCapture.ViewModels
         ///   Initializes a new instance of the <see cref="MainViewModel"/> class.
         /// </summary>
         /// 
-        public RecorderViewModel(MainViewModel main, VideoSourcePlayer2 player)
+        public RecorderViewModel(MainViewModel main, VideoSourcePlayer player)
         {
             this.main = main ?? throw new ArgumentNullException("main");
             this.videoPlayer = player ?? throw new ArgumentNullException("player");
-            this.videoPlayer.NewFrame += Player_NewFrame;
+            this.videoPlayer.NewFrameReceived += VideoPlayer_NewFrameReceived;
 
             this.CaptureMode = CaptureRegionOption.Primary;
             this.CaptureRegion = new Rectangle(0, 0, 640, 480);
@@ -209,9 +220,8 @@ namespace ScreenCapture.ViewModels
 
 
             // Search and mark last selected devices
-            foreach (var dev in AudioCaptureDevices)
-                dev.Checked = Settings.Default.LastAudioDevices
-                    .Contains(dev.DeviceInfo.Guid.ToString());
+            foreach (AudioCaptureDeviceViewModel dev in AudioCaptureDevices)
+                dev.Checked = Settings.Default.LastAudioDevices.Contains(dev.DeviceInfo.Guid.ToString());
         }
 
         static RecorderViewModel()
@@ -229,7 +239,8 @@ namespace ScreenCapture.ViewModels
         /// 
         public void StartPlaying()
         {
-            if (IsPlaying) return;
+            if (IsPlaying)
+                return;
 
             // Checks if we were already waiting for a window
             // to be selected, in case the user had chosen to 
@@ -256,12 +267,18 @@ namespace ScreenCapture.ViewModels
                     // when he finishes selecting he should signal back
                     // by calling SelectWindowUnderCursor().
                     IsWaitingForTargetWindow = true;
-                    OnTargetWindowRequested(); return;
+                    OnTargetWindowRequested();
+                    return;
                 }
             }
 
             // All is well. Keep configuring and start
             CaptureRegion = Screen.PrimaryScreen.Bounds;
+
+            if (CaptureRegion.Height > 768)
+            {
+                throw new Exception("Resolutions higher than 768p are not supported.");
+            }
 
             double framerate = Settings.Default.FrameRate;
             int interval = (int)Math.Round(1000 / framerate);
@@ -287,7 +304,8 @@ namespace ScreenCapture.ViewModels
         /// 
         public void PausePlaying()
         {
-            if (!IsPlaying) return;
+            if (!IsPlaying)
+                return;
 
             videoPlayer.SignalToStop();
             IsPlaying = false;
@@ -305,22 +323,26 @@ namespace ScreenCapture.ViewModels
             if (IsRecording || !IsPlaying)
                 return;
 
-            //(float heightScale, float widthScale) = Rescale(CaptureRegion.Size);
-
             Rectangle area = CaptureRegion;
             string fileName = NewFileName();
 
-            //int height = (int)(area.Height / heightScale);
-            //int width = (int)(area.Width / widthScale);
             int height = area.Height;
             int width = area.Width;
-            int framerate = 1000 / screenStream.FrameInterval;
+            Rational framerate = new Rational(1000, screenStream.FrameInterval);
             int videoBitRate = 1200 * 1000;
             int audioBitRate = 320 * 1000;
+            int audioFrameSize = 10 * 4096;
 
             OutputPath = Path.Combine(main.CurrentDirectory, fileName);
             RecordingStartTime = DateTime.MinValue;
             videoWriter = new VideoFileWriter();
+            videoWriter.BitRate = videoBitRate;
+            videoWriter.FrameRate = framerate;
+            videoWriter.Width = width;
+            videoWriter.Height = height;
+            videoWriter.VideoCodec = VideoCodec.H264;
+            videoWriter.VideoOptions["preset"] = "veryfast";
+            videoWriter.VideoOptions["tune"] = "zerolatency";
 
             // Create audio devices which have been checked
             var audioDevices = new List<AudioCaptureDevice>();
@@ -331,9 +353,9 @@ namespace ScreenCapture.ViewModels
 
                 var device = new AudioCaptureDevice(audioViewModel.DeviceInfo);
                 device.AudioSourceError += Device_AudioSourceError;
-                device.Format = SampleFormat.Format16Bit;
+                device.Format = SampleFormat.Format32BitIeeeFloat;
                 device.SampleRate = Settings.Default.SampleRate;
-                device.DesiredFrameSize = 2 * 4098;
+                device.DesiredFrameSize = audioFrameSize;
                 device.Start();
 
                 audioDevices.Add(device);
@@ -346,13 +368,16 @@ namespace ScreenCapture.ViewModels
                 audioDevice.NewFrame += AudioDevice_NewFrame;
                 audioDevice.Start();
 
-                videoWriter.Open(OutputPath, width, height, framerate, VideoCodec.H264, videoBitRate,
-                    AudioCodec.MP3, audioBitRate, audioDevice.SampleRate, audioDevice.Channels);
+                videoWriter.AudioBitRate = audioBitRate;
+                videoWriter.AudioCodec = AudioCodec.AAC;
+                videoWriter.Channels = audioDevice.Channels == 1 ? Channels.Mono : Channels.Stereo;
+                videoWriter.FrameSize = audioFrameSize;
             }
-            else
-            {
-                videoWriter.Open(OutputPath, width, height, framerate, VideoCodec.H264, videoBitRate);
-            }
+
+            this.lastFrameTime = DateTime.MinValue;
+            this.lastFrameEncoded = false;
+
+            videoWriter.Open(OutputPath);
 
             HasRecorded = false;
             IsRecording = true;
@@ -365,7 +390,8 @@ namespace ScreenCapture.ViewModels
         /// 
         public void StopRecording()
         {
-            if (!IsRecording) return;
+            if (!IsRecording)
+                return;
 
             lock (syncObj)
             {
@@ -415,9 +441,16 @@ namespace ScreenCapture.ViewModels
         {
             // Save last selected audio devices
             Settings.Default.LastAudioDevices.Clear();
-            foreach (var dev in AudioCaptureDevices)
+            foreach (AudioCaptureDeviceViewModel dev in AudioCaptureDevices)
+            {
                 if (dev.Checked)
                     Settings.Default.LastAudioDevices.Add(dev.DeviceInfo.Guid.ToString());
+            }
+
+            if (videoWriter != null && videoWriter.IsOpen)
+            {
+                videoWriter.Close();
+            }
 
             if (videoPlayer != null && videoPlayer.IsRunning)
             {
@@ -430,9 +463,6 @@ namespace ScreenCapture.ViewModels
                 audioDevice.SignalToStop();
                 audioDevice.WaitForStop();
             }
-
-            if (videoWriter != null && videoWriter.IsOpen)
-                videoWriter.Close();
         }
 
 
@@ -468,108 +498,84 @@ namespace ScreenCapture.ViewModels
         }
 
 
-        private void Player_NewFrame(object sender, ref Bitmap image)
+        void VideoPlayer_NewFrameReceived(object sender, Accord.Video.NewFrameEventArgs eventArgs)
         {
-            // Adjust the window according to the current capture
-            // mode. Also adjusts to keep even widths and heights.
-            CaptureRegion = AdjustWindow();
+            DateTime currentFrameTime = eventArgs.CaptureFinished;
 
-            //(float heightScale, float widthScale) = Rescale(CaptureRegion.Size);
-
-            //if (heightScale != 1f || widthScale != 1f)
-            //{
-            //    using (Bitmap oldImage = image)
-            //    {
-            //        image = resize.Apply(oldImage);
-            //    }
-            //}
-
-            // Crop the image if the mode requires it
-            if (CaptureMode == CaptureRegionOption.Fixed ||
-                CaptureMode == CaptureRegionOption.Window)
-            {
-                crop.Rectangle = CaptureRegion;
-
-                //if (heightScale != 1f || widthScale != 1f)
-                //{
-                //    crop.Rectangle = new Rectangle(
-                //        (int)(CaptureRegion.X * widthScale),
-                //        (int)(CaptureRegion.Y * heightScale),
-                //        (int)(CaptureRegion.Width * widthScale),
-                //        (int)(CaptureRegion.Height * heightScale));
-                //}
-
-                using (Bitmap oldImage = image)
+            // Encode the last frame at the same time we prepare the new one
+            Task.WaitAll(
+                Task.Run(() =>
                 {
-                    image = crop.Apply(oldImage);
-                }
-            }
-
-            // Draw extra information on the screen
-            bool captureMouse = Settings.Default.CaptureMouse;
-            bool captureClick = Settings.Default.CaptureClick;
-            bool captureKeys = Settings.Default.CaptureKeys;
-
-            if (captureMouse || captureClick || captureKeys)
-            {
-                cursorCapture.CaptureRegion = CaptureRegion;
-                clickCapture.CaptureRegion = CaptureRegion;
-                keyCapture.Font = Settings.Default.KeyboardFont;
-
-                using (Graphics g = Graphics.FromImage(image))
-                {
-                    g.CompositingQuality = CompositingQuality.HighSpeed;
-                    g.SmoothingMode = SmoothingMode.HighSpeed;
-
-                    if (captureMouse)
-                        cursorCapture.Draw(g);//, widthScale, heightScale);
-
-                    if (captureClick)
-                        clickCapture.Draw(g);//, widthScale, heightScale);
-
-                    if (captureKeys)
-                        keyCapture.Draw(g);//, widthScale, heightScale);
-                }
-            }
-
-            if (IsRecording)
-            {
-                lock (syncObj) // Save the frame to the video file.
-                {
-                    if (RecordingStartTime == DateTime.MinValue)
-                        RecordingStartTime = DateTime.Now;
-
-                    RecordingDuration = DateTime.Now - RecordingStartTime;
-
-                    // We can't write too fast to the buffer. A better buffer control
-                    // needs to be implemented in the future so we can drop frames as
-                    // necessary.
-
-                    if (RecordingDuration.Subtract(lastFrameTime).Milliseconds > 100)
+                    lock (syncObj) // Save the frame to the video file.
                     {
-                        videoWriter.WriteVideoFrame(image, RecordingDuration);
-                        lastFrameTime = RecordingDuration;
+                        if (IsRecording)
+                        {
+                            if (RecordingStartTime == DateTime.MinValue)
+                                RecordingStartTime = DateTime.Now;
+
+                            TimeSpan duration = lastFrameTime - currentFrameTime;
+                            videoWriter.WriteVideoFrame(this.lastFrame, duration, this.lastFrameRegion);
+                            lastFrameEncoded = true;
+                        }
                     }
-                }
-            }
+                }),
+
+                Task.Run(() =>
+                {
+                    // Adjust the window according to the current capture
+                    // mode. Also adjusts to keep even widths and heights.
+                    CaptureRegion = AdjustWindow();
+
+                    // Crop the image if the mode requires it
+                    if (CaptureMode == CaptureRegionOption.Fixed ||
+                        CaptureMode == CaptureRegionOption.Window)
+                    {
+                        crop.Rectangle = CaptureRegion;
+
+                        eventArgs.Frame = croppedImage = crop.Apply(eventArgs.Frame, croppedImage);
+                        eventArgs.FrameSize = crop.Rectangle.Size;
+                    }
+
+                    //// Draw extra information on the screen
+                    bool captureMouse = Settings.Default.CaptureMouse;
+                    bool captureClick = Settings.Default.CaptureClick;
+                    bool captureKeys = Settings.Default.CaptureKeys;
+
+                    if (captureMouse || captureClick || captureKeys)
+                    {
+                        cursorCapture.CaptureRegion = CaptureRegion;
+                        clickCapture.CaptureRegion = CaptureRegion;
+                        keyCapture.Font = Settings.Default.KeyboardFont;
+
+                        using (Graphics g = Graphics.FromImage(eventArgs.Frame))
+                        {
+                            g.CompositingQuality = CompositingQuality.HighSpeed;
+                            g.SmoothingMode = SmoothingMode.HighSpeed;
+
+                            float invWidth = 1; // / widthScale;
+                            float invHeight = 1; // / heightScale;
+
+                            if (captureMouse)
+                                cursorCapture.Draw(g, invWidth, invHeight);
+
+                            if (captureClick)
+                                clickCapture.Draw(g, invWidth, invHeight);
+
+                            if (captureKeys)
+                                keyCapture.Draw(g, invWidth, invHeight);
+                        }
+                    }
+                })
+            );
+
+            // Save the just processed frame and mark 
+            // it to be encoded in the next iteration:
+            lastFrame = eventArgs.Frame.Copy(lastFrame);
+            lastFrameTime = currentFrameTime;
+            lastFrameRegion = new Rectangle(0, 0, eventArgs.FrameSize.Width, eventArgs.Frame.Height);
+            lastFrameEncoded = false;
         }
 
-        private (float heigthScale, float widthScale) Rescale(Size size)
-        {
-            // Downscale the image if it is more than we support (720p)
-            int max = 720;
-            if (size.Height <= max)
-                return (1f, 1f);
-
-            float ratio = size.Width / (float)size.Height;
-            resize.NewHeight = max;
-            resize.NewWidth = (int)Math.Ceiling(ratio * max);
-            if (resize.NewWidth % 2 != 0)
-                resize.NewWidth--;
-            float heightScale = size.Height / (float)max;
-            float widthScale = size.Width / (float)resize.NewWidth;
-            return (heightScale, widthScale);
-        }
 
         private void AudioDevice_NewFrame(object sender, Accord.Audio.NewFrameEventArgs e)
         {
@@ -577,7 +583,7 @@ namespace ScreenCapture.ViewModels
             {
                 if (IsRecording)
                 {
-                    videoWriter.WriteAudioFrame(e.Signal.RawData);
+                    videoWriter.WriteAudioFrame(e.Signal);
                 }
             }
         }
