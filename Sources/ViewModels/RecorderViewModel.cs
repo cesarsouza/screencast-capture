@@ -84,7 +84,7 @@ namespace ScreenCapture.ViewModels
         private VideoFileWriter videoWriter;
         private VideoSourcePlayer videoPlayer;
 
-        private IAudioSource audioDevice;
+        private AudioSourceMixer audioMixer;
 
         private Crop crop = new Crop(Rectangle.Empty);
         private ResizeBilinear resize = new ResizeBilinear(800, 600);
@@ -98,7 +98,6 @@ namespace ScreenCapture.ViewModels
         Bitmap lastFrame;
         DateTime lastFrameTime;
         Rectangle lastFrameRegion;
-        bool lastFrameEncoded;
 
 
         /// <summary>
@@ -275,10 +274,10 @@ namespace ScreenCapture.ViewModels
             // All is well. Keep configuring and start
             CaptureRegion = Screen.PrimaryScreen.Bounds;
 
+#if !DEBUG
             if (CaptureRegion.Height > 768)
-            {
                 throw new Exception("Resolutions higher than 768p are not supported.");
-            }
+#endif
 
             double framerate = Settings.Default.FrameRate;
             int interval = (int)Math.Round(1000 / framerate);
@@ -363,19 +362,19 @@ namespace ScreenCapture.ViewModels
 
             if (audioDevices.Count > 0) // Check if we need to record audio
             {
-                audioDevice = new AudioSourceMixer(audioDevices);
-                audioDevice.AudioSourceError += Device_AudioSourceError;
-                audioDevice.NewFrame += AudioDevice_NewFrame;
-                audioDevice.Start();
+                audioMixer = new AudioSourceMixer(audioDevices);
+                audioMixer.AudioSourceError += Device_AudioSourceError;
+                audioMixer.NewFrame += AudioDevice_NewFrame;
+                audioMixer.Start();
 
                 videoWriter.AudioBitRate = audioBitRate;
                 videoWriter.AudioCodec = AudioCodec.AAC;
-                videoWriter.Channels = audioDevice.Channels == 1 ? Channels.Mono : Channels.Stereo;
+                videoWriter.Channels = audioMixer.Channels == 1 ? Channels.Mono : Channels.Stereo;
                 videoWriter.FrameSize = audioFrameSize;
+                videoWriter.SampleRate = audioMixer.SampleRate;
             }
 
             this.lastFrameTime = DateTime.MinValue;
-            this.lastFrameEncoded = false;
 
             videoWriter.Open(OutputPath);
 
@@ -404,11 +403,17 @@ namespace ScreenCapture.ViewModels
                     videoWriter = null;
                 }
 
-                if (audioDevice != null)
+                if (audioMixer != null)
                 {
-                    audioDevice.Stop();
-                    audioDevice.Dispose();
-                    audioDevice = null;
+                    audioMixer.Stop();
+                    foreach (IAudioSource source in audioMixer.Sources)
+                    {
+                        source.Stop();
+                        source.Dispose();
+                    }
+
+                    audioMixer.Dispose();
+                    audioMixer = null;
                 }
 
                 HasRecorded = true;
@@ -458,10 +463,10 @@ namespace ScreenCapture.ViewModels
                 videoPlayer.WaitForStop();
             }
 
-            if (audioDevice != null && audioDevice.IsRunning)
+            if (audioMixer != null && audioMixer.IsRunning)
             {
-                audioDevice.SignalToStop();
-                audioDevice.WaitForStop();
+                audioMixer.SignalToStop();
+                audioMixer.WaitForStop();
             }
         }
 
@@ -513,9 +518,9 @@ namespace ScreenCapture.ViewModels
                             if (RecordingStartTime == DateTime.MinValue)
                                 RecordingStartTime = DateTime.Now;
 
-                            TimeSpan duration = lastFrameTime - currentFrameTime;
-                            videoWriter.WriteVideoFrame(this.lastFrame, duration, this.lastFrameRegion);
-                            lastFrameEncoded = true;
+                            TimeSpan timestamp = currentFrameTime - RecordingStartTime;
+                            if (timestamp > TimeSpan.Zero)
+                                videoWriter.WriteVideoFrame(this.lastFrame, timestamp, this.lastFrameRegion);
                         }
                     }
                 }),
@@ -573,7 +578,6 @@ namespace ScreenCapture.ViewModels
             lastFrame = eventArgs.Frame.Copy(lastFrame);
             lastFrameTime = currentFrameTime;
             lastFrameRegion = new Rectangle(0, 0, eventArgs.FrameSize.Width, eventArgs.Frame.Height);
-            lastFrameEncoded = false;
         }
 
 
@@ -727,10 +731,10 @@ namespace ScreenCapture.ViewModels
                     keyCapture = null;
                 }
 
-                if (audioDevice != null)
+                if (audioMixer != null)
                 {
-                    audioDevice.Dispose();
-                    audioDevice = null;
+                    audioMixer.Dispose();
+                    audioMixer = null;
                 }
 
                 if (videoWriter != null)
