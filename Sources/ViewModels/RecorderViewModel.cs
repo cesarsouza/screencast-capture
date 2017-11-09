@@ -87,16 +87,13 @@ namespace ScreenCapture.ViewModels
         private AudioSourceMixer audioMixer;
 
         private Crop crop = new Crop(Rectangle.Empty);
-        private ResizeBilinear resize = new ResizeBilinear(800, 600);
         private CaptureCursor cursorCapture;
         private CaptureClick clickCapture;
         private CaptureKeyboard keyCapture;
         private Object syncObj = new Object();
 
-        //Bitmap resizedImage;
         Bitmap croppedImage;
         Bitmap lastFrame;
-        DateTime lastFrameTime;
         Rectangle lastFrameRegion;
 
 
@@ -274,11 +271,6 @@ namespace ScreenCapture.ViewModels
             // All is well. Keep configuring and start
             CaptureRegion = Screen.PrimaryScreen.Bounds;
 
-#if !DEBUG
-            if (CaptureRegion.Height > 768)
-                throw new Exception("Resolutions higher than 768p are not supported.");
-#endif
-
             double framerate = Settings.Default.FrameRate;
             int interval = (int)Math.Round(1000 / framerate);
             int height = CaptureRegion.Height;
@@ -340,8 +332,10 @@ namespace ScreenCapture.ViewModels
             videoWriter.Width = width;
             videoWriter.Height = height;
             videoWriter.VideoCodec = VideoCodec.H264;
+            videoWriter.VideoOptions["crf"] = "18"; // visually lossless
             videoWriter.VideoOptions["preset"] = "veryfast";
             videoWriter.VideoOptions["tune"] = "zerolatency";
+            videoWriter.VideoOptions["x264opts"] = "no-mbtree:sliced-threads:sync-lookahead=0";
 
             // Create audio devices which have been checked
             var audioDevices = new List<AudioCaptureDevice>();
@@ -368,13 +362,13 @@ namespace ScreenCapture.ViewModels
                 audioMixer.Start();
 
                 videoWriter.AudioBitRate = audioBitRate;
-                videoWriter.AudioCodec = AudioCodec.AAC;
-                videoWriter.Channels = audioMixer.Channels == 1 ? Channels.Mono : Channels.Stereo;
+                videoWriter.AudioCodec = AudioCodec.Aac;
+                videoWriter.AudioLayout = audioMixer.NumberOfChannels == 1 ? AudioLayout.Mono : AudioLayout.Stereo;
                 videoWriter.FrameSize = audioFrameSize;
                 videoWriter.SampleRate = audioMixer.SampleRate;
             }
 
-            this.lastFrameTime = DateTime.MinValue;
+            //this.lastFrameTime = DateTime.MinValue;
 
             videoWriter.Open(OutputPath);
 
@@ -576,7 +570,7 @@ namespace ScreenCapture.ViewModels
             // Save the just processed frame and mark 
             // it to be encoded in the next iteration:
             lastFrame = eventArgs.Frame.Copy(lastFrame);
-            lastFrameTime = currentFrameTime;
+            //lastFrameTime = currentFrameTime;
             lastFrameRegion = new Rectangle(0, 0, eventArgs.FrameSize.Width, eventArgs.Frame.Height);
         }
 

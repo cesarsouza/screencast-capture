@@ -6,3 +6,4 @@
 /.vs
 *.suo
 /packages/
+*.user
