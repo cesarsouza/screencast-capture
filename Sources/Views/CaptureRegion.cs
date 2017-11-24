@@ -169,10 +169,10 @@ namespace ScreenCapture.Views
                 Rectangle border = this.DesktopBounds;
                 Rectangle area = this.RectangleToScreen(panel1.ClientRectangle);
 
-                area.X += 3;
-                area.Y += 3;
-                area.Width -= 2;
-                area.Height -= 2;
+                area.X += 8;
+                area.Y += 8;
+                area.Width -= 6;
+                area.Height -= 6;
 
                 viewModel.CaptureRegion = area;
             }
