@@ -310,7 +310,6 @@
     <None Include="app.manifest" />
     <None Include="Diagrams\NativeInterop.cd" />
     <None Include="Diagrams\Application.cd" />
-    <None Include="packages.screen_capture_%28sample%29.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -491,12 +490,11 @@
   </Target>
   <Target Name="AfterCompile">
   </Target>
-  <Import Project="packages\Fody.2.0.0\build\dotnet\Fody.targets" Condition="Exists('packages\Fody.2.0.0\build\dotnet\Fody.targets')" />
-  <Import Project="..\..\..\..\Sources\packages\Fody.2.2.0\build\net452\Fody.targets" Condition="Exists('..\..\..\..\Sources\packages\Fody.2.2.0\build\net452\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\..\Sources\packages\Fody.2.2.0\build\net452\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\Sources\packages\Fody.2.2.0\build\net452\Fody.targets'))" />
+    <Error Condition="!Exists('packages\Fody.2.2.1.0\build\net452\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.2.2.1.0\build\net452\Fody.targets'))" />
   </Target>
+  <Import Project="packages\Fody.2.2.1.0\build\net452\Fody.targets" Condition="Exists('packages\Fody.2.2.1.0\build\net452\Fody.targets')" />
 </Project>

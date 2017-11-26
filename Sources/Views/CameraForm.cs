@@ -38,6 +38,7 @@ namespace ScreenCapture.Views
     {
 
         MainViewModel viewModel;
+        VideoCaptureDevice videoSource;
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="CameraForm"/> class.
@@ -73,15 +74,15 @@ namespace ScreenCapture.Views
             {
                 if (form.ShowDialog(this) == DialogResult.OK)
                 {
-                    // create video source
-                    VideoCaptureDevice videoSource = new VideoCaptureDevice(form.VideoDevice);
-                    videoSource.VideoResolution = videoSource.VideoCapabilities
-                        .Where(x => x.FrameSize == new Size(320, 240)).First();
-
                     // set busy cursor
                     this.Cursor = Cursors.WaitCursor;
 
                     Stop();
+
+                    // create video source
+                    videoSource = new VideoCaptureDevice(form.VideoDevice);
+                    videoSource.VideoResolution = videoSource.VideoCapabilities
+                        .Where(x => x.FrameSize == new Size(320, 240)).First();
 
                     // start new video source
                     videoSourcePlayer.VideoSource = new AsyncVideoSource(videoSource);
@@ -103,11 +104,14 @@ namespace ScreenCapture.Views
             videoSourcePlayer.SignalToStop();
 
             // wait 2 seconds until camera stops
-            for (int i = 0; (i < 50) && (videoSourcePlayer.IsRunning); i++)
+            for (int i = 0; i < 50 && videoSourcePlayer.IsRunning; i++)
                 Thread.Sleep(100);
 
             if (videoSourcePlayer.IsRunning)
                 videoSourcePlayer.Stop();
+
+            if (videoSource != null)
+                videoSource.Dispose();
 
             Cursor = Cursors.Default;
             videoSourcePlayer.BorderColor = Color.Black;
